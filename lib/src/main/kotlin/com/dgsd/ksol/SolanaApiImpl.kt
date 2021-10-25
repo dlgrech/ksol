@@ -36,44 +36,57 @@ internal class SolanaApiImpl(
     private val requestJsonAdapter = moshiJson.adapter(RpcRequest::class.java)
 
     override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {
-        val responseBody = executeRequest<RecentBlockhashResponseBody>(
-            RpcRequestFactory.create(
-                SolanaJsonRpcConstants.Methods.GET_RECENT_BLOCKHASH,
-                CommitmentConfigRequestBody(
-                    when (commitment) {
-                        Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
-                        Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
-                        Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
-                    }
-                )
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_RECENT_BLOCKHASH,
+            CommitmentConfigRequestBody(
+                when (commitment) {
+                    Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
+                    Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
+                    Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
+                }
             )
         )
 
+        val response = executeRequest<RecentBlockhashResponseBody>(request)
+
         return RecentBlockhashResult(
-            responseBody.value.blockhash,
-            responseBody.value.feeCalculator.value
+            response.value.blockhash,
+            response.value.feeCalculator.value
         )
+    }
+
+    override suspend fun getBlockTime(blockSlotNumber: Long): Long? {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_BLOCK_TIME,
+            blockSlotNumber
+        )
+
+        return executeRequest(request)
     }
 
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()
-
             val httpResponse = okHttpClient.newCall(httpRequest).await()
-            val responseJson = checkNotNull(httpResponse.body).string()
 
+            val responseJson = checkNotNull(httpResponse.body).string()
             val responseParser = moshiJson.adapter<RpcResponse<T>>(
                 Types.newParameterizedType(RpcResponse::class.java, T::class.java)
             )
 
-            val response = responseParser.fromJson(responseJson)
-            if (response?.error != null) {
-                throw RpcError(response.error.code, response.error.message)
-            } else if (response?.result == null) {
+            val parsedResponse = responseParser.fromJson(responseJson)
+
+            if (parsedResponse?.error != null) {
+                throw RpcError(parsedResponse.error.code, parsedResponse.error.message)
+            } else if (parsedResponse?.result == null && null !is T) {
                 throw RpcException("Missing result body when executing request: ${rpcRequest.methodName}")
             } else {
-                return response.result
+                return parsedResponse?.result as T
             }
+        } catch (e: RpcError) {
+            throw e
+        } catch (e: RpcException) {
+            throw e
         } catch (e: IOException) {
             throw RpcIOException("Error executing request: ${rpcRequest.methodName}", e)
         } catch (e: Throwable) {

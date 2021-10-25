@@ -11,5 +11,6 @@ internal object SolanaJsonRpcConstants {
 
     object Methods {
         const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
+        const val GET_BLOCK_TIME = "getBlockTime"
     }
 }

@@ -27,4 +27,14 @@ interface SolanaApi {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
      */
     suspend fun getRecentBlockhash(commitment: Commitment = Commitment.FINALIZED): RecentBlockhashResult
+
+    /**
+     * Returns the estimated production time of a block.
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getblocktime">json-rpc API</a>
+     *
+     * @return estimated production time, as Unix timestamp (seconds since the Unix epoch), or {@code null} if the
+     * timestamp is not available for this block
+     */
+    suspend fun getBlockTime(blockSlotNumber: Long): Long?
 }
