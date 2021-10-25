@@ -2,12 +2,16 @@ package com.dgsd.ksol
 
 import com.dgsd.ksol.model.Cluster
 import com.dgsd.ksol.model.Commitment
+import com.dgsd.ksol.model.RecentBlockhashResult
+import okhttp3.OkHttpClient
 
 /**
  * Create a default implementation of [SolanaApi] using the given [Cluster]
  */
-fun SolanaApi(cluster: Cluster): SolanaApi {
-    return SolanaApiImpl(cluster)
+fun SolanaApi(
+    cluster: Cluster,
+): SolanaApi {
+    return SolanaApiImpl(cluster, OkHttpClient())
 }
 
 /**
@@ -22,5 +26,5 @@ interface SolanaApi {
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
      */
-    suspend fun getRecentBlockhash(commitment: Commitment = Commitment.FINALIZED): String
+    suspend fun getRecentBlockhash(commitment: Commitment = Commitment.FINALIZED): RecentBlockhashResult
 }
