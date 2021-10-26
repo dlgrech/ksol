@@ -6,13 +6,8 @@ import com.dgsd.ksol.jsonrpc.networking.RpcError
 import com.dgsd.ksol.jsonrpc.networking.RpcException
 import com.dgsd.ksol.jsonrpc.networking.RpcIOException
 import com.dgsd.ksol.jsonrpc.networking.util.await
-import com.dgsd.ksol.jsonrpc.types.CommitmentConfigRequestBody
-import com.dgsd.ksol.jsonrpc.types.RecentBlockhashResponseBody
-import com.dgsd.ksol.jsonrpc.types.RpcRequest
-import com.dgsd.ksol.jsonrpc.types.RpcResponse
-import com.dgsd.ksol.model.Cluster
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.RecentBlockhashResult
+import com.dgsd.ksol.jsonrpc.types.*
+import com.dgsd.ksol.model.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import okhttp3.MediaType.Companion.toMediaType
@@ -67,6 +62,29 @@ internal class SolanaApiImpl(
         return executeRequest(request)
     }
 
+    override suspend fun getLargestAccounts(
+        commitment: Commitment,
+        circulatingStatus: AccountCirculatingStatus?
+    ): List<AccountBalance> {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_LARGEST_ACCOUNTS,
+            GetLargestAccountsRequestBody(
+                commitment.toRpcValue(),
+                when (circulatingStatus) {
+                    null -> null
+                    AccountCirculatingStatus.CIRCULATING -> GetLargestAccountsRequestBody.FILTER_CIRCULATING
+                    AccountCirculatingStatus.NON_CIRCULATING -> GetLargestAccountsRequestBody.FILTER_NON_CIRCULATING
+                }
+            )
+        )
+
+        val response = executeRequest<GetLargestAccountsResponseBody>(request)
+
+        return response.value.map {
+            AccountBalance(it.address, it.lamports)
+        }
+    }
+
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()
@@ -98,13 +116,15 @@ internal class SolanaApiImpl(
     }
 
     private fun Commitment.toRequestBody(): CommitmentConfigRequestBody {
-        return CommitmentConfigRequestBody(
-            when (this) {
-                Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
-                Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
-                Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
-            }
-        )
+        return CommitmentConfigRequestBody(this.toRpcValue())
+    }
+
+    private fun Commitment.toRpcValue(): String {
+        return when (this) {
+            Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
+            Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
+            Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
+        }
     }
 
     private fun RpcRequest.asHttpRequest(): Request {

@@ -1,8 +1,6 @@
 package com.dgsd.ksol
 
-import com.dgsd.ksol.model.Cluster
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.RecentBlockhashResult
+import com.dgsd.ksol.model.*
 import okhttp3.OkHttpClient
 
 /**
@@ -26,7 +24,9 @@ interface SolanaApi {
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
      */
-    suspend fun getRecentBlockhash(commitment: Commitment = Commitment.FINALIZED): RecentBlockhashResult
+    suspend fun getRecentBlockhash(
+        commitment: Commitment = Commitment.FINALIZED
+    ): RecentBlockhashResult
 
     /**
      * Returns the estimated production time of a block.
@@ -36,12 +36,26 @@ interface SolanaApi {
      * @return estimated production time, as Unix timestamp (seconds since the Unix epoch), or {@code null} if the
      * timestamp is not available for this block
      */
-    suspend fun getBlockTime(blockSlotNumber: Long): Long?
+    suspend fun getBlockTime(
+        blockSlotNumber: Long
+    ): Long?
 
     /**
      * Returns the current block height of the node
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getblockheight">json-rpc API</a>
      */
-    suspend fun getBlockHeight(commitment: Commitment = Commitment.FINALIZED): Long
+    suspend fun getBlockHeight(
+        commitment: Commitment = Commitment.FINALIZED
+    ): Long
+
+    /**
+     * Returns the 20 largest accounts, by lamport balance
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getlargestaccounts">json-rpc API</a>
+     */
+    suspend fun getLargestAccounts(
+        commitment: Commitment = Commitment.FINALIZED,
+        circulatingStatus: AccountCirculatingStatus? = null
+    ): List<AccountBalance>
 }

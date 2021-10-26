@@ -7,11 +7,12 @@ package com.dgsd.ksol.jsonrpc
  */
 internal object SolanaJsonRpcConstants {
 
-    val VERSION = "2.0"
+    const val VERSION = "2.0"
 
     object Methods {
         const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
         const val GET_BLOCK_TIME = "getBlockTime"
         const val GET_BLOCK_HEIGHT = "getBlockHeight"
+        const val GET_LARGEST_ACCOUNTS = "getLargestAccounts"
     }
 }
