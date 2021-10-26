@@ -30,6 +30,18 @@ internal class SolanaApiImpl(
 
     private val requestJsonAdapter = moshiJson.adapter(RpcRequest::class.java)
 
+    override suspend fun getBalance(accountHash: String, commitment: Commitment): Long {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_BALANCE,
+            accountHash,
+            commitment.toRequestBody()
+        )
+
+        val response = executeRequest<GetBalanceResponseBody>(request)
+
+        return response.value
+    }
+
     override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_RECENT_BLOCKHASH,
@@ -63,8 +75,8 @@ internal class SolanaApiImpl(
     }
 
     override suspend fun getLargestAccounts(
+        circulatingStatus: AccountCirculatingStatus?,
         commitment: Commitment,
-        circulatingStatus: AccountCirculatingStatus?
     ): List<AccountBalance> {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_LARGEST_ACCOUNTS,

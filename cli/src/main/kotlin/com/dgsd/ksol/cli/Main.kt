@@ -19,6 +19,11 @@ fun main(arguments: Array<String>) {
         )
 
         launch {
+            val balance = api.getBalance("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
+            println("Got balance: $balance")
+        }
+
+        launch {
             val blockTime = api.getBlockTime(103517167)
             println("Got block time: $blockTime")
         }

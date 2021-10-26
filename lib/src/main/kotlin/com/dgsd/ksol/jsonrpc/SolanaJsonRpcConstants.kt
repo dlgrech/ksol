@@ -10,6 +10,7 @@ internal object SolanaJsonRpcConstants {
     const val VERSION = "2.0"
 
     object Methods {
+        const val GET_BALANCE = "getBalance"
         const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
         const val GET_BLOCK_TIME = "getBlockTime"
         const val GET_BLOCK_HEIGHT = "getBlockHeight"

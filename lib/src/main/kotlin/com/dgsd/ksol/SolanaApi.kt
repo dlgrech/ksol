@@ -21,6 +21,18 @@ fun SolanaApi(
 interface SolanaApi {
 
     /**
+     * Returns the balance of the account of provided Pubkey
+     *
+     * @param accountHash Pubkey of account to query, as base-58 encoded string
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getbalance">json-rpc API</a>
+     */
+    suspend fun getBalance(
+        accountHash: String,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Long
+
+    /**
      * Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
@@ -56,7 +68,7 @@ interface SolanaApi {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getlargestaccounts">json-rpc API</a>
      */
     suspend fun getLargestAccounts(
+        circulatingStatus: AccountCirculatingStatus? = null,
         commitment: Commitment = Commitment.FINALIZED,
-        circulatingStatus: AccountCirculatingStatus? = null
     ): List<AccountBalance>
 }
