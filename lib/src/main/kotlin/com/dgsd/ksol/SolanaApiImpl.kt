@@ -124,6 +124,31 @@ internal class SolanaApiImpl(
         )
     }
 
+    override suspend fun getAccountInfo(accountHash: String, commitment: Commitment): AccountInfo? {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_ACCOUNT_INFO,
+            accountHash,
+            GetAccountInfoRequestBody(
+                commitment = commitment.toRpcValue(),
+                encoding = SolanaJsonRpcConstants.Encodings.BASE64
+            )
+        )
+
+        val response = executeRequest<GetAccountInfoResponseBody>(request)
+
+        return if (response.value == null) {
+            null
+        } else {
+            AccountInfo(
+                ownerHash = response.value.ownerHash,
+                lamports = response.value.lamports,
+                isExecutable = response.value.isExecutable,
+                rentEpoch = response.value.rentEpoch,
+                accountData = response.value.dataAndFormat.firstOrNull() ?: ""
+            )
+        }
+    }
+
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()

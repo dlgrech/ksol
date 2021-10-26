@@ -10,6 +10,7 @@ internal object SolanaJsonRpcConstants {
     const val VERSION = "2.0"
 
     object Methods {
+        const val GET_ACCOUNT_INFO = "getAccountInfo"
         const val GET_BALANCE = "getBalance"
         const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
         const val GET_BLOCK_TIME = "getBlockTime"
@@ -17,5 +18,9 @@ internal object SolanaJsonRpcConstants {
         const val GET_TRANSACTION_COUNT = "getTransactionCount"
         const val GET_SUPPLY = "getSupply"
         const val GET_LARGEST_ACCOUNTS = "getLargestAccounts"
+    }
+
+    object Encodings {
+        const val BASE64 = "base64"
     }
 }

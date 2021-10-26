@@ -21,6 +21,18 @@ fun SolanaApi(
 interface SolanaApi {
 
     /**
+     * Returns all information associated with the account of provided Pubkey
+     *
+     * @param accountHash Pubkey of account to query, as base-58 encoded string
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo">json-rpc API</a>
+     */
+    suspend fun getAccountInfo(
+        accountHash: String,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): AccountInfo?
+
+    /**
      * Returns the balance of the account of provided Pubkey
      *
      * @param accountHash Pubkey of account to query, as base-58 encoded string

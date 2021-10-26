@@ -19,6 +19,11 @@ fun main(arguments: Array<String>) {
         )
 
         launch {
+            val accountInfo = api.getAccountInfo("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
+            println("Got account info: $accountInfo")
+        }
+
+        launch {
             val balance = api.getBalance("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
             println("Got balance: $balance")
         }
