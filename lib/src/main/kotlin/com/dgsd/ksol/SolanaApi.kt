@@ -8,8 +8,9 @@ import okhttp3.OkHttpClient
  */
 fun SolanaApi(
     cluster: Cluster,
+    okHttpClient: OkHttpClient = OkHttpClient()
 ): SolanaApi {
-    return SolanaApiImpl(cluster, OkHttpClient())
+    return SolanaApiImpl(cluster, okHttpClient)
 }
 
 /**

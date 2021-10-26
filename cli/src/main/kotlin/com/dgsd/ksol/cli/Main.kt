@@ -6,10 +6,17 @@ import com.dgsd.ksol.model.Cluster
 import com.dgsd.ksol.model.Commitment
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import java.time.Duration
+
+private val NETWORKING_TIMEOUT = Duration.ofSeconds(30L)
 
 fun main(arguments: Array<String>) {
     runBlocking {
-        val api = SolanaApi(Cluster.MAINNET)
+        val api = SolanaApi(
+            Cluster.MAINNET,
+            OkHttpClient.Builder().readTimeout(NETWORKING_TIMEOUT).build()
+        )
 
         launch {
             val blockTime = api.getBlockTime(103517167)

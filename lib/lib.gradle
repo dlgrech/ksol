@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     api libs.kotlin.coroutines.coroutines
-    implementation libs.okhttp
+    api libs.okhttp
     implementation libs.moshi.moshi
     kapt libs.moshi.codegen
 
