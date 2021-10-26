@@ -97,6 +97,15 @@ internal class SolanaApiImpl(
         }
     }
 
+    override suspend fun getTransactionCount(commitment: Commitment): Long {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_TRANSACTION_COUNT,
+            commitment.toRequestBody()
+        )
+
+        return executeRequest(request)
+    }
+
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()

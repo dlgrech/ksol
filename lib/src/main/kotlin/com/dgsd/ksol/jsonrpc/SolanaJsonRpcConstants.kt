@@ -14,6 +14,7 @@ internal object SolanaJsonRpcConstants {
         const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
         const val GET_BLOCK_TIME = "getBlockTime"
         const val GET_BLOCK_HEIGHT = "getBlockHeight"
+        const val GET_TRANSACTION_COUNT = "getTransactionCount"
         const val GET_LARGEST_ACCOUNTS = "getLargestAccounts"
     }
 }

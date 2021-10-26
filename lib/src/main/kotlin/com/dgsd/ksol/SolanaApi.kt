@@ -71,4 +71,13 @@ interface SolanaApi {
         circulatingStatus: AccountCirculatingStatus? = null,
         commitment: Commitment = Commitment.FINALIZED,
     ): List<AccountBalance>
+
+    /**
+     * Returns the current Transaction count from the ledger
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransactioncount">json-rpc API</a>
+     */
+    suspend fun getTransactionCount(
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Long
 }

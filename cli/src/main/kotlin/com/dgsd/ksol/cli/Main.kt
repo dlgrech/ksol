@@ -39,6 +39,11 @@ fun main(arguments: Array<String>) {
         }
 
         launch {
+            val transactionCount = api.getTransactionCount()
+            println("Got transaction count: $transactionCount")
+        }
+
+        launch {
             val largestAccounts = api.getLargestAccounts(
                 commitment = Commitment.CONFIRMED,
                 circulatingStatus = AccountCirculatingStatus.NON_CIRCULATING
