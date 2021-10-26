@@ -45,13 +45,13 @@ interface SolanaApi {
     ): Lamports
 
     /**
-     * Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.
+     * Returns the current block height of the node
      *
-     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getblockheight">json-rpc API</a>
      */
-    suspend fun getRecentBlockhash(
+    suspend fun getBlockHeight(
         commitment: Commitment = Commitment.FINALIZED
-    ): RecentBlockhashResult
+    ): Long
 
     /**
      * Returns the estimated production time of a block.
@@ -64,15 +64,6 @@ interface SolanaApi {
     suspend fun getBlockTime(
         blockSlotNumber: Long
     ): Long?
-
-    /**
-     * Returns the current block height of the node
-     *
-     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getblockheight">json-rpc API</a>
-     */
-    suspend fun getBlockHeight(
-        commitment: Commitment = Commitment.FINALIZED
-    ): Long
 
     /**
      * Returns the 20 largest accounts, by lamport balance
@@ -95,13 +86,23 @@ interface SolanaApi {
     ): Lamports
 
     /**
-     * Returns the current Transaction count from the ledger
+     * Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.
      *
-     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransactioncount">json-rpc API</a>
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
      */
-    suspend fun getTransactionCount(
-        commitment: Commitment = Commitment.FINALIZED,
-    ): Long
+    suspend fun getRecentBlockhash(
+        commitment: Commitment = Commitment.FINALIZED
+    ): RecentBlockhashResult
+
+    /**
+     * Returns all accounts owned by the provided program Pubkey
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts">json-rpc API</a>
+     */
+    suspend fun getProgramAccounts(
+        programHash: String,
+        commitment: Commitment = Commitment.FINALIZED
+    ): List<AccountInfo>
 
     /**
      * Returns information about the current supply.
@@ -112,4 +113,12 @@ interface SolanaApi {
         commitment: Commitment = Commitment.FINALIZED,
     ): SupplySummary
 
+    /**
+     * Returns the current Transaction count from the ledger
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransactioncount">json-rpc API</a>
+     */
+    suspend fun getTransactionCount(
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Long
 }

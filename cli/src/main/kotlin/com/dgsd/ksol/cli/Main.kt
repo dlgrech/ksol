@@ -44,6 +44,11 @@ fun main(arguments: Array<String>) {
         }
 
         launch {
+            val programAccounts = api.getProgramAccounts("Config1111111111111111111111111111111111111")
+            println("Got program accounts: ${programAccounts.size}")
+        }
+
+        launch {
             val transactionCount = api.getTransactionCount()
             println("Got transaction count: $transactionCount")
         }

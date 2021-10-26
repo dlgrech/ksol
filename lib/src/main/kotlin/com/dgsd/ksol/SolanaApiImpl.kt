@@ -30,6 +30,21 @@ internal class SolanaApiImpl(
 
     private val requestJsonAdapter = moshiJson.adapter(RpcRequest::class.java)
 
+    override suspend fun getAccountInfo(accountHash: String, commitment: Commitment): AccountInfo? {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_ACCOUNT_INFO,
+            accountHash,
+            GetAccountInfoRequestBody(
+                commitment = commitment.toRpcValue(),
+                encoding = SolanaJsonRpcConstants.Encodings.BASE64
+            )
+        )
+
+        val response = executeRequest<GetAccountInfoResponseBody>(request)
+
+        return response.value?.toAccountInfo()
+    }
+
     override suspend fun getBalance(accountHash: String, commitment: Commitment): Lamports {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_BALANCE,
@@ -40,20 +55,6 @@ internal class SolanaApiImpl(
         val response = executeRequest<GetBalanceResponseBody>(request)
 
         return response.value
-    }
-
-    override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {
-        val request = RpcRequestFactory.create(
-            SolanaJsonRpcConstants.Methods.GET_RECENT_BLOCKHASH,
-            commitment.toRequestBody()
-        )
-
-        val response = executeRequest<RecentBlockhashResponseBody>(request)
-
-        return RecentBlockhashResult(
-            response.value.blockhash,
-            response.value.feeCalculator.value
-        )
     }
 
     override suspend fun getBlockTime(blockSlotNumber: Long): Long? {
@@ -97,6 +98,35 @@ internal class SolanaApiImpl(
         }
     }
 
+    override suspend fun getMinimumBalanceForRentExemption(
+        accountDataLength: Long,
+        commitment: Commitment
+    ): Lamports {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_MINIMUM_BALANCE_FOR_RENT_EXEMPTION,
+            accountDataLength,
+            commitment.toRequestBody(),
+        )
+
+        return executeRequest(request)
+    }
+
+    override suspend fun getProgramAccounts(programHash: String, commitment: Commitment): List<AccountInfo> {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_PROGRAM_ACCOUNTS,
+            programHash,
+            GetProgramAccountsRequestBody(
+                commitment = commitment.toRpcValue(),
+                encoding = SolanaJsonRpcConstants.Encodings.BASE64,
+                withContext = true
+            )
+        )
+
+        val response = executeRequest<GetProgramAccountsResponseBody>(request)
+
+        return response.values.map { it.account.toAccountInfo() }
+    }
+
     override suspend fun getTransactionCount(commitment: Commitment): Long {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_TRANSACTION_COUNT,
@@ -104,6 +134,20 @@ internal class SolanaApiImpl(
         )
 
         return executeRequest(request)
+    }
+
+    override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_RECENT_BLOCKHASH,
+            commitment.toRequestBody()
+        )
+
+        val response = executeRequest<RecentBlockhashResponseBody>(request)
+
+        return RecentBlockhashResult(
+            response.value.blockhash,
+            response.value.feeCalculator.value
+        )
     }
 
     override suspend fun getSupply(commitment: Commitment): SupplySummary {
@@ -122,44 +166,6 @@ internal class SolanaApiImpl(
             nonCirculating = response.value.nonCirculating,
             total = response.value.total,
         )
-    }
-
-    override suspend fun getAccountInfo(accountHash: String, commitment: Commitment): AccountInfo? {
-        val request = RpcRequestFactory.create(
-            SolanaJsonRpcConstants.Methods.GET_ACCOUNT_INFO,
-            accountHash,
-            GetAccountInfoRequestBody(
-                commitment = commitment.toRpcValue(),
-                encoding = SolanaJsonRpcConstants.Encodings.BASE64
-            )
-        )
-
-        val response = executeRequest<GetAccountInfoResponseBody>(request)
-
-        return if (response.value == null) {
-            null
-        } else {
-            AccountInfo(
-                ownerHash = response.value.ownerHash,
-                lamports = response.value.lamports,
-                isExecutable = response.value.isExecutable,
-                rentEpoch = response.value.rentEpoch,
-                accountData = response.value.dataAndFormat.firstOrNull() ?: ""
-            )
-        }
-    }
-
-    override suspend fun getMinimumBalanceForRentExemption(
-        accountDataLength: Long,
-        commitment: Commitment
-    ): Lamports {
-        val request = RpcRequestFactory.create(
-            SolanaJsonRpcConstants.Methods.GET_MINIMUM_BALANCE_FOR_RENT_EXEMPTION,
-            accountDataLength,
-            commitment.toRequestBody(),
-        )
-
-        return executeRequest(request)
     }
 
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
@@ -190,6 +196,16 @@ internal class SolanaApiImpl(
         } catch (e: Throwable) {
             throw RpcException("Error executing request: ${rpcRequest.methodName}", e)
         }
+    }
+
+    private fun AccountInfoResponse.toAccountInfo(): AccountInfo {
+        return AccountInfo(
+            ownerHash = ownerHash,
+            lamports = lamports,
+            isExecutable = isExecutable,
+            rentEpoch = rentEpoch,
+            accountData = dataAndFormat.firstOrNull() ?: ""
+        )
     }
 
     private fun Commitment.toRequestBody(): CommitmentConfigRequestBody {
