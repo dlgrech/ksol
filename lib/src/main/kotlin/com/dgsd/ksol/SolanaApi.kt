@@ -37,4 +37,11 @@ interface SolanaApi {
      * timestamp is not available for this block
      */
     suspend fun getBlockTime(blockSlotNumber: Long): Long?
+
+    /**
+     * Returns the current block height of the node
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getblockheight">json-rpc API</a>
+     */
+    suspend fun getBlockHeight(commitment: Commitment = Commitment.FINALIZED): Long
 }

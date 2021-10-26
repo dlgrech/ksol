@@ -38,13 +38,7 @@ internal class SolanaApiImpl(
     override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_RECENT_BLOCKHASH,
-            CommitmentConfigRequestBody(
-                when (commitment) {
-                    Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
-                    Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
-                    Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
-                }
-            )
+            commitment.toRequestBody()
         )
 
         val response = executeRequest<RecentBlockhashResponseBody>(request)
@@ -59,6 +53,15 @@ internal class SolanaApiImpl(
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_BLOCK_TIME,
             blockSlotNumber
+        )
+
+        return executeRequest(request)
+    }
+
+    override suspend fun getBlockHeight(commitment: Commitment): Long {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_BLOCK_HEIGHT,
+            commitment.toRequestBody()
         )
 
         return executeRequest(request)
@@ -92,6 +95,16 @@ internal class SolanaApiImpl(
         } catch (e: Throwable) {
             throw RpcException("Error executing request: ${rpcRequest.methodName}", e)
         }
+    }
+
+    private fun Commitment.toRequestBody(): CommitmentConfigRequestBody {
+        return CommitmentConfigRequestBody(
+            when (this) {
+                Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
+                Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
+                Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
+            }
+        )
     }
 
     private fun RpcRequest.asHttpRequest(): Request {

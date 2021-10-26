@@ -15,8 +15,13 @@ fun main(arguments: Array<String>) {
         }
 
         launch {
-            val blockhash = api.getRecentBlockhash()
-            println("Got block hash: $blockhash")
+            val blockHash = api.getRecentBlockhash()
+            println("Got block hash: $blockHash")
+        }
+
+        launch {
+            val blockHeight = api.getBlockHeight()
+            println("Got block height: $blockHeight")
         }
     }
 }
