@@ -80,4 +80,14 @@ interface SolanaApi {
     suspend fun getTransactionCount(
         commitment: Commitment = Commitment.FINALIZED,
     ): Long
+
+    /**
+     * Returns information about the current supply.
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getsupply">json-rpc API</a>
+     */
+    suspend fun getSupply(
+        commitment: Commitment = Commitment.FINALIZED,
+    ): SupplySummary
+
 }

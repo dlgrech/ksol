@@ -106,6 +106,24 @@ internal class SolanaApiImpl(
         return executeRequest(request)
     }
 
+    override suspend fun getSupply(commitment: Commitment): SupplySummary {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_SUPPLY,
+            GetSupplyRequestBody(
+                commitment = commitment.toRpcValue(),
+                excludeNonCirculatingAccountsList = true
+            )
+        )
+
+        val response = executeRequest<GetSupplyResponseBody>(request)
+
+        return SupplySummary(
+            circulating = response.value.circulating,
+            nonCirculating = response.value.nonCirculating,
+            total = response.value.total,
+        )
+    }
+
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()

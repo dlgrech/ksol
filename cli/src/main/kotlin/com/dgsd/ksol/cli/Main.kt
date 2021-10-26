@@ -44,6 +44,11 @@ fun main(arguments: Array<String>) {
         }
 
         launch {
+            val supplySummary = api.getSupply()
+            println("Got supply summary: $supplySummary")
+        }
+
+        launch {
             val largestAccounts = api.getLargestAccounts(
                 commitment = Commitment.CONFIRMED,
                 circulatingStatus = AccountCirculatingStatus.NON_CIRCULATING
