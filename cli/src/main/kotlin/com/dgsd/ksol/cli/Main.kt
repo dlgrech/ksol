@@ -54,6 +54,11 @@ fun main(arguments: Array<String>) {
         }
 
         launch {
+            val minBalance = api.getMinimumBalanceForRentExemption(50)
+            println("Got min balance for rent exemption: $minBalance")
+        }
+
+        launch {
             val largestAccounts = api.getLargestAccounts(
                 commitment = Commitment.CONFIRMED,
                 circulatingStatus = AccountCirculatingStatus.NON_CIRCULATING

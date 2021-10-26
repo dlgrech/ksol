@@ -30,7 +30,7 @@ internal class SolanaApiImpl(
 
     private val requestJsonAdapter = moshiJson.adapter(RpcRequest::class.java)
 
-    override suspend fun getBalance(accountHash: String, commitment: Commitment): Long {
+    override suspend fun getBalance(accountHash: String, commitment: Commitment): Lamports {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_BALANCE,
             accountHash,
@@ -147,6 +147,19 @@ internal class SolanaApiImpl(
                 accountData = response.value.dataAndFormat.firstOrNull() ?: ""
             )
         }
+    }
+
+    override suspend fun getMinimumBalanceForRentExemption(
+        accountDataLength: Long,
+        commitment: Commitment
+    ): Lamports {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_MINIMUM_BALANCE_FOR_RENT_EXEMPTION,
+            accountDataLength,
+            commitment.toRequestBody(),
+        )
+
+        return executeRequest(request)
     }
 
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {

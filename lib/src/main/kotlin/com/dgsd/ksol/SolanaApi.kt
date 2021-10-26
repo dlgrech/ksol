@@ -42,7 +42,7 @@ interface SolanaApi {
     suspend fun getBalance(
         accountHash: String,
         commitment: Commitment = Commitment.FINALIZED,
-    ): Long
+    ): Lamports
 
     /**
      * Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.
@@ -83,6 +83,16 @@ interface SolanaApi {
         circulatingStatus: AccountCirculatingStatus? = null,
         commitment: Commitment = Commitment.FINALIZED,
     ): List<AccountBalance>
+
+    /**
+     * Returns minimum balance required to make account rent exempt.
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getminimumbalanceforrentexemption">json-rpc API</a>
+     */
+    suspend fun getMinimumBalanceForRentExemption(
+        accountDataLength: Long,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Lamports
 
     /**
      * Returns the current Transaction count from the ledger
