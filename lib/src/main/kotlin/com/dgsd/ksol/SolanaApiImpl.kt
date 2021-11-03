@@ -30,10 +30,10 @@ internal class SolanaApiImpl(
 
     private val requestJsonAdapter = moshiJson.adapter(RpcRequest::class.java)
 
-    override suspend fun getAccountInfo(accountHash: String, commitment: Commitment): AccountInfo? {
+    override suspend fun getAccountInfo(accountKey: PublicKey, commitment: Commitment): AccountInfo? {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_ACCOUNT_INFO,
-            accountHash,
+            accountKey.toBase58String(),
             GetAccountInfoRequestBody(
                 commitment = commitment.toRpcValue(),
                 encoding = SolanaJsonRpcConstants.Encodings.BASE64
@@ -45,10 +45,10 @@ internal class SolanaApiImpl(
         return response.value?.toAccountInfo()
     }
 
-    override suspend fun getBalance(accountHash: String, commitment: Commitment): Lamports {
+    override suspend fun getBalance(accountKey: PublicKey, commitment: Commitment): Lamports {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_BALANCE,
-            accountHash,
+            accountKey.toBase58String(),
             commitment.toRequestBody()
         )
 
@@ -94,7 +94,7 @@ internal class SolanaApiImpl(
         val response = executeRequest<GetLargestAccountsResponseBody>(request)
 
         return response.value.map {
-            AccountBalance(PublicKey.fromBase58Hash(it.address), it.lamports)
+            AccountBalance(PublicKey.fromBase58(it.address), it.lamports)
         }
     }
 
@@ -111,10 +111,10 @@ internal class SolanaApiImpl(
         return executeRequest(request)
     }
 
-    override suspend fun getProgramAccounts(programHash: String, commitment: Commitment): List<AccountInfo> {
+    override suspend fun getProgramAccounts(programKey: PublicKey, commitment: Commitment): List<AccountInfo> {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_PROGRAM_ACCOUNTS,
-            programHash,
+            programKey.toBase58String(),
             GetProgramAccountsRequestBody(
                 commitment = commitment.toRpcValue(),
                 encoding = SolanaJsonRpcConstants.Encodings.BASE64,
@@ -200,7 +200,7 @@ internal class SolanaApiImpl(
 
     private fun AccountInfoResponse.toAccountInfo(): AccountInfo {
         return AccountInfo(
-            ownerHash = PublicKey.fromBase58Hash(ownerHash),
+            ownerHash = PublicKey.fromBase58(ownerHash),
             lamports = lamports,
             isExecutable = isExecutable,
             rentEpoch = rentEpoch,

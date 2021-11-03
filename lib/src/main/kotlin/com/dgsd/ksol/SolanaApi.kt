@@ -23,24 +23,24 @@ interface SolanaApi {
     /**
      * Returns all information associated with the account of provided Pubkey
      *
-     * @param accountHash Pubkey of account to query, as base-58 encoded string
+     * @param accountKey Pubkey of account to query, as base-58 encoded string
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo">json-rpc API</a>
      */
     suspend fun getAccountInfo(
-        accountHash: String,
+        accountKey: PublicKey,
         commitment: Commitment = Commitment.FINALIZED,
     ): AccountInfo?
 
     /**
      * Returns the balance of the account of provided Pubkey
      *
-     * @param accountHash Pubkey of account to query, as base-58 encoded string
+     * @param accountKey Pubkey of account to query, as base-58 encoded string
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getbalance">json-rpc API</a>
      */
     suspend fun getBalance(
-        accountHash: String,
+        accountKey: PublicKey,
         commitment: Commitment = Commitment.FINALIZED,
     ): Lamports
 
@@ -100,7 +100,7 @@ interface SolanaApi {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts">json-rpc API</a>
      */
     suspend fun getProgramAccounts(
-        programHash: String,
+        programKey: PublicKey,
         commitment: Commitment = Commitment.FINALIZED
     ): List<AccountInfo>
 

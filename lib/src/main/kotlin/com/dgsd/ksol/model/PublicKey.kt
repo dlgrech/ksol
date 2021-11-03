@@ -17,16 +17,16 @@ data class PublicKey internal constructor(val key: ByteArray) {
     }
 
     override fun toString(): String {
-        return Base58.encode(key)
+        return toBase58String()
     }
 
-    fun toByteString(): String {
-        return "${key.toUByteArray().toList()}"
+    fun toBase58String(): String {
+        return Base58.encode(key)
     }
 
     companion object {
 
-        internal fun fromBase58Hash(hash: String): PublicKey {
+        fun fromBase58(hash: String): PublicKey {
             return PublicKey(Base58.decode(hash))
         }
     }

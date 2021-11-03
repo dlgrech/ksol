@@ -5,6 +5,7 @@ import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.AccountCirculatingStatus
 import com.dgsd.ksol.model.Cluster
 import com.dgsd.ksol.model.Commitment
+import com.dgsd.ksol.model.PublicKey
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
@@ -27,12 +28,16 @@ fun main(arguments: Array<String>) {
         )
 
         launch {
-            val accountInfo = api.getAccountInfo("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
+            val accountInfo = api.getAccountInfo(
+                PublicKey.fromBase58("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
+            )
             println("Got account info: $accountInfo")
         }
 
         launch {
-            val balance = api.getBalance("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
+            val balance = api.getBalance(
+                PublicKey.fromBase58("FbGeZS8LiPCZiFpFwdUUeF2yxXtSsdfJoHTsVMvM8STh")
+            )
             println("Got balance: $balance")
         }
 
@@ -52,7 +57,9 @@ fun main(arguments: Array<String>) {
         }
 
         launch {
-            val programAccounts = api.getProgramAccounts("Config1111111111111111111111111111111111111")
+            val programAccounts = api.getProgramAccounts(
+                PublicKey.fromBase58("Config1111111111111111111111111111111111111")
+            )
             println("Got program accounts: ${programAccounts.size}")
         }
 
