@@ -13,4 +13,8 @@ dependencies {
     implementation libs.moshi.moshi
     kapt libs.moshi.codegen
 
+    implementation libs.bitcoinj
+    implementation libs.tweetnacl
+
+    implementation libs.slf4j.noop
 }

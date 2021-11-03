@@ -3,9 +3,9 @@ package com.dgsd.ksol.model
 data class AccountInfo(
 
     /**
-     * Base-58 encoded Pubkey of the program this account has been assigned to
+     * Pubkey of the program this account has been assigned to
      */
-    val ownerHash: String,
+    val ownerHash: PublicKey,
 
     /**
      * Number of lamports assigned to this account

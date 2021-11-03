@@ -1,6 +1,7 @@
 package com.dgsd.ksol.cli
 
 import com.dgsd.ksol.SolanaApi
+import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.AccountCirculatingStatus
 import com.dgsd.ksol.model.Cluster
 import com.dgsd.ksol.model.Commitment
@@ -13,6 +14,13 @@ private val NETWORKING_TIMEOUT = Duration.ofSeconds(30L)
 
 fun main(arguments: Array<String>) {
     runBlocking {
+        val passPhrase = ""
+        val mnemonic = "sentence ugly section antenna motion bind adapt vault increase milk lawn humor".split(" ")
+
+        for (i in 0..10) {
+            println("account #$i: ${KeyFactory.createKeyPairFromMnemonic(mnemonic, passPhrase, i)}")
+        }
+
         val api = SolanaApi(
             Cluster.MAINNET,
             OkHttpClient.Builder().readTimeout(NETWORKING_TIMEOUT).build()

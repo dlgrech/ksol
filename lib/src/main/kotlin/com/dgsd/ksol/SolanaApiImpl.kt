@@ -94,7 +94,7 @@ internal class SolanaApiImpl(
         val response = executeRequest<GetLargestAccountsResponseBody>(request)
 
         return response.value.map {
-            AccountBalance(it.address, it.lamports)
+            AccountBalance(PublicKey.fromBase58Hash(it.address), it.lamports)
         }
     }
 
@@ -200,7 +200,7 @@ internal class SolanaApiImpl(
 
     private fun AccountInfoResponse.toAccountInfo(): AccountInfo {
         return AccountInfo(
-            ownerHash = ownerHash,
+            ownerHash = PublicKey.fromBase58Hash(ownerHash),
             lamports = lamports,
             isExecutable = isExecutable,
             rentEpoch = rentEpoch,
