@@ -8,7 +8,7 @@ internal sealed class ChildIndex(
 ) {
 
     init {
-        check(index.and(1 shl 31) == 0) {
+        require(index.and(1 shl 31) == 0) {
             "Index is too large. Must be a 31-bit number"
         }
     }

@@ -34,7 +34,7 @@ object KeyFactory {
         return createKeyPair(seed, derivationPath)
     }
 
-    private fun createSeedFromMnemonic(
+    internal fun createSeedFromMnemonic(
         words: List<String>,
         passPhrase: String = "",
     ): ByteArray {

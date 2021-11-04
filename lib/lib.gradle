@@ -1,6 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
+    id 'jacoco'
     id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 repositories {
@@ -10,11 +11,62 @@ repositories {
 dependencies {
     api libs.kotlin.coroutines.coroutines
     api libs.okhttp
-    implementation libs.moshi.moshi
+
     kapt libs.moshi.codegen
+    implementation libs.moshi.moshi
 
     implementation libs.bitcoinj
     implementation libs.tweetnacl
 
     implementation libs.slf4j.noop
+
+    testImplementation libs.junit
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+compileJava {
+    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+compileTestJava {
+    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+        showStandardStreams true
+        events = ["failed"]
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: '**/jsonrpc/types/**')
+        }))
+    }
 }
