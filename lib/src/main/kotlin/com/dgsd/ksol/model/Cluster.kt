@@ -4,9 +4,9 @@ sealed class Cluster(
     val endpoint: String
 ) {
 
-    object DEVNET : Cluster(endpoint = "https://devnet.solana.com")
+    object DEVNET : Cluster(endpoint = "https://api.devnet.solana.com")
 
-    object TESTNET : Cluster(endpoint = "https://testnet.solana.com")
+    object TESTNET : Cluster(endpoint = "https://api.testnet.solana.com")
 
     object MAINNET : Cluster(endpoint = "https://api.mainnet-beta.solana.com")
 
