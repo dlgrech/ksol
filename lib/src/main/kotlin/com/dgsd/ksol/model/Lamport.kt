@@ -17,4 +17,4 @@ val SOL_IN_LAMPORTS = BigDecimal.valueOf(0.000000001)
 /**
  * The number of lamports that make up 1 SOL token
  */
-val LAMPORTS_IN_SOL = BigDecimal.ONE.div(SOL_IN_LAMPORTS)
+val LAMPORTS_IN_SOL = BigDecimal.ONE.div(SOL_IN_LAMPORTS).longValueExact()

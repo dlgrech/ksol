@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
  */
 fun SolanaApi(
     cluster: Cluster,
-    okHttpClient: OkHttpClient = OkHttpClient()
+    okHttpClient: OkHttpClient = OkHttpClient(),
 ): SolanaApi {
     return SolanaApiImpl(cluster, okHttpClient)
 }
@@ -50,7 +50,7 @@ interface SolanaApi {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getblockheight">json-rpc API</a>
      */
     suspend fun getBlockHeight(
-        commitment: Commitment = Commitment.FINALIZED
+        commitment: Commitment = Commitment.FINALIZED,
     ): Long
 
     /**
@@ -62,7 +62,7 @@ interface SolanaApi {
      * timestamp is not available for this block
      */
     suspend fun getBlockTime(
-        blockSlotNumber: Long
+        blockSlotNumber: Long,
     ): Long?
 
     /**
@@ -91,7 +91,7 @@ interface SolanaApi {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
      */
     suspend fun getRecentBlockhash(
-        commitment: Commitment = Commitment.FINALIZED
+        commitment: Commitment = Commitment.FINALIZED,
     ): RecentBlockhashResult
 
     /**
@@ -101,7 +101,7 @@ interface SolanaApi {
      */
     suspend fun getProgramAccounts(
         programKey: PublicKey,
-        commitment: Commitment = Commitment.FINALIZED
+        commitment: Commitment = Commitment.FINALIZED,
     ): List<AccountInfo>
 
     /**
@@ -121,4 +121,15 @@ interface SolanaApi {
     suspend fun getTransactionCount(
         commitment: Commitment = Commitment.FINALIZED,
     ): Long
+
+    /**
+     * Requests an airdrop of lamports to a Pubkey
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#requestairdrop">json-rpc API</a>
+     */
+    suspend fun requestAirdrop(
+        accountKey: PublicKey,
+        amount: Lamports,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): TransactionSignature
 }

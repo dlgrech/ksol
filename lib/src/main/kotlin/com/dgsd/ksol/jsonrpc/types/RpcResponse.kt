@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class RpcResponse<T>(
-    @Json(name = "id") val id: String,
+    @Json(name = "id") val id: String?,
     @Json(name = "jsonrpc") val jsonRpc: String,
     @Json(name = "result") val result: T?,
     @Json(name = "error") val error: Error?,

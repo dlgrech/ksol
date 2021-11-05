@@ -168,6 +168,21 @@ internal class SolanaApiImpl(
         )
     }
 
+    override suspend fun requestAirdrop(
+        accountKey: PublicKey,
+        amount: Lamports,
+        commitment: Commitment,
+    ): TransactionSignature {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.REQUEST_AIRDROP,
+            accountKey.toBase58String(),
+            amount,
+            commitment.toRequestBody(),
+        )
+
+        return executeRequest(request)
+    }
+
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()
