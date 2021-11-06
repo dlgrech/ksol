@@ -114,6 +114,17 @@ interface SolanaApi {
     ): SupplySummary
 
     /**
+     * Returns transaction details, or null if no transaction with the given ID at the specified commitment level
+     * can be found.
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransaction">json-rpc API</a>
+     */
+    suspend fun getTransaction(
+        transactionSignature: TransactionSignature,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Transaction?
+
+    /**
      * Returns the current Transaction count from the ledger
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#gettransactioncount">json-rpc API</a>

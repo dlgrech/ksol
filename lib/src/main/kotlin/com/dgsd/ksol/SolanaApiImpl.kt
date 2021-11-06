@@ -1,5 +1,7 @@
 package com.dgsd.ksol
 
+import com.dgsd.ksol.factory.AccountInfoFactory
+import com.dgsd.ksol.factory.TransactionFactory
 import com.dgsd.ksol.jsonrpc.RpcRequestFactory
 import com.dgsd.ksol.jsonrpc.SolanaJsonRpcConstants
 import com.dgsd.ksol.jsonrpc.networking.RpcError
@@ -42,7 +44,7 @@ internal class SolanaApiImpl(
 
         val response = executeRequest<GetAccountInfoResponseBody>(request)
 
-        return response.value?.toAccountInfo()
+        return AccountInfoFactory.create(response.value)
     }
 
     override suspend fun getBalance(accountKey: PublicKey, commitment: Commitment): Lamports {
@@ -100,7 +102,7 @@ internal class SolanaApiImpl(
 
     override suspend fun getMinimumBalanceForRentExemption(
         accountDataLength: Long,
-        commitment: Commitment
+        commitment: Commitment,
     ): Lamports {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_MINIMUM_BALANCE_FOR_RENT_EXEMPTION,
@@ -124,16 +126,7 @@ internal class SolanaApiImpl(
 
         val response = executeRequest<GetProgramAccountsResponseBody>(request)
 
-        return response.values.map { it.account.toAccountInfo() }
-    }
-
-    override suspend fun getTransactionCount(commitment: Commitment): Long {
-        val request = RpcRequestFactory.create(
-            SolanaJsonRpcConstants.Methods.GET_TRANSACTION_COUNT,
-            commitment.toRequestBody()
-        )
-
-        return executeRequest(request)
+        return response.values.mapNotNull { AccountInfoFactory.create(it.account) }
     }
 
     override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {
@@ -166,6 +159,33 @@ internal class SolanaApiImpl(
             nonCirculating = response.value.nonCirculating,
             total = response.value.total,
         )
+    }
+
+    override suspend fun getTransaction(
+        transactionSignature: TransactionSignature,
+        commitment: Commitment,
+    ): Transaction? {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_TRANSACTION,
+            transactionSignature,
+            GetTransactionRequestBody(
+                commitment = commitment.toRpcValue(),
+                encoding = SolanaJsonRpcConstants.Encodings.JSON
+            )
+        )
+
+        val response = executeRequest<GetTransactionResponseBody?>(request)
+
+        return TransactionFactory.create(response)
+    }
+
+    override suspend fun getTransactionCount(commitment: Commitment): Long {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_TRANSACTION_COUNT,
+            commitment.toRequestBody()
+        )
+
+        return executeRequest(request)
     }
 
     override suspend fun requestAirdrop(
@@ -211,16 +231,6 @@ internal class SolanaApiImpl(
         } catch (e: Throwable) {
             throw RpcException("Error executing request: ${rpcRequest.methodName}", e)
         }
-    }
-
-    private fun AccountInfoResponse.toAccountInfo(): AccountInfo {
-        return AccountInfo(
-            ownerHash = PublicKey.fromBase58(ownerHash),
-            lamports = lamports,
-            isExecutable = isExecutable,
-            rentEpoch = rentEpoch,
-            accountData = dataAndFormat.firstOrNull() ?: ""
-        )
     }
 
     private fun Commitment.toRequestBody(): CommitmentConfigRequestBody {

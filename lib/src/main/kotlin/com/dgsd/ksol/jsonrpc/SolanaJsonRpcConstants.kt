@@ -19,11 +19,13 @@ internal object SolanaJsonRpcConstants {
         const val GET_PROGRAM_ACCOUNTS = "getProgramAccounts"
         const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
         const val GET_SUPPLY = "getSupply"
+        const val GET_TRANSACTION = "getTransaction"
         const val GET_TRANSACTION_COUNT = "getTransactionCount"
         const val REQUEST_AIRDROP = "requestAirdrop"
     }
 
     object Encodings {
         const val BASE64 = "base64"
+        const val JSON = "json"
     }
 }
