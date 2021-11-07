@@ -21,3 +21,5 @@ tweetnacl = "org.purejava:tweetnacl-java:1.1.2"
 slf4j-noop = "org.slf4j:slf4j-nop:1.7.32"
 
 junit = "org.junit.jupiter:junit-jupiter-engine:5.8.1"
+
+clikt = "com.github.ajalt.clikt:clikt:3.3.0"
