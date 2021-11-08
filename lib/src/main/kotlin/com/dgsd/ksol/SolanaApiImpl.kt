@@ -113,6 +113,27 @@ internal class SolanaApiImpl(
         return executeRequest(request)
     }
 
+    override suspend fun getMultipleAccounts(
+        accountKeys: List<PublicKey>,
+        commitment: Commitment,
+    ): Map<PublicKey, AccountInfo?> {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_MULTIPLE_ACCOUNTS,
+            accountKeys.map { it.toBase58String() },
+            GetMultipleAccountsRequestBody(
+                commitment = commitment.toRpcValue(),
+                encoding = SolanaJsonRpcConstants.Encodings.BASE64
+            )
+        )
+
+        val response = executeRequest<GetMultipleAccountsResponseBody>(request)
+        val accountInfos = response.value.map { AccountInfoFactory.create(it) }
+
+        return accountKeys.zip(accountInfos) { key, accountInfo ->
+            key to accountInfo
+        }.toMap()
+    }
+
     override suspend fun getProgramAccounts(programKey: PublicKey, commitment: Commitment): List<AccountInfo> {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_PROGRAM_ACCOUNTS,

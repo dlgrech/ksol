@@ -86,6 +86,18 @@ interface SolanaApi {
     ): Lamports
 
     /**
+     * Returns the account information for a list of Pubkeys
+     *
+     * @param accountKeys Pubkeys of accounts to query, as base-58 encoded string
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo">json-rpc API</a>
+     */
+    suspend fun getMultipleAccounts(
+        accountKeys: List<PublicKey>,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Map<PublicKey, AccountInfo?>
+
+    /**
      * Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>

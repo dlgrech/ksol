@@ -47,6 +47,7 @@ class RpcCommand private constructor() : CliktCommand(
                     GetBlockTimeCommand(),
                     GetLargestAccountsCommand(),
                     GetMinimumBalanceForRentExemptionCommand(),
+                    GetMultipleAccountsCommand(),
                     GetProgramAccountsCommand(),
                     GetRecentBlockhashCommand(),
                     GetSupplyCommand(),
