@@ -19,6 +19,17 @@ object KeyFactory {
     /**
      * @param words list of words that represent a seed phrase
      * @param passPhrase an additional "password" that will be used to generate the seed
+     */
+    fun createSeedFromMnemonic(
+        words: List<String>,
+        passPhrase: String = "",
+    ): ByteArray {
+        return MnemonicCode.toSeed(words, passPhrase)
+    }
+
+    /**
+     * @param words list of words that represent a seed phrase
+     * @param passPhrase an additional "password" that will be used to generate the seed
      * @param accountIndex The index of the account to use in the derivation path
      *
      * @see DerivationPath.account
@@ -34,11 +45,14 @@ object KeyFactory {
         return createKeyPair(seed, derivationPath)
     }
 
-    internal fun createSeedFromMnemonic(
-        words: List<String>,
-        passPhrase: String = "",
-    ): ByteArray {
-        return MnemonicCode.toSeed(words, passPhrase)
+    fun createKeyPairFromSeed(
+        seed: ByteArray,
+    ): KeyPair {
+        val keyPair = TweetNaclFast.Signature.keyPair_fromSeed(seed)
+        return KeyPair(
+            PublicKey(keyPair.publicKey),
+            PrivateKey(keyPair.secretKey),
+        )
     }
 
     private fun createKeyPair(
@@ -51,12 +65,7 @@ object KeyFactory {
         val accountTypeAddress = createChildAddress(coinTypeAddress, derivationPath.account)
         val changeAddress = createChildAddress(accountTypeAddress, derivationPath.change)
 
-        val keyPair = TweetNaclFast.Signature.keyPair_fromSeed(changeAddress.secretKey)
-
-        return KeyPair(
-            PublicKey(keyPair.publicKey),
-            PrivateKey(keyPair.secretKey),
-        )
+        return createKeyPairFromSeed(changeAddress.secretKey)
     }
 
     private fun createAddressFromSeed(seed: ByteArray): DerivationAddress {
