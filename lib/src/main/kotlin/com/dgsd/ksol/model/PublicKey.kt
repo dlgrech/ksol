@@ -1,6 +1,7 @@
 package com.dgsd.ksol.model
 
-import org.bitcoinj.core.Base58
+import com.dgsd.ksol.utils.DecodingUtils
+import com.dgsd.ksol.utils.EncodingUtils
 
 data class PublicKey internal constructor(val key: ByteArray) {
 
@@ -23,13 +24,13 @@ data class PublicKey internal constructor(val key: ByteArray) {
     }
 
     fun toBase58String(): String {
-        return Base58.encode(key)
+        return EncodingUtils.encodeBase58(key)
     }
 
     companion object {
 
         fun fromBase58(hash: String): PublicKey {
-            return PublicKey(Base58.decode(hash))
+            return PublicKey(DecodingUtils.decodeBase58(hash))
         }
     }
 }
