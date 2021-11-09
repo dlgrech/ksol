@@ -13,7 +13,7 @@ fun CliktCommand.passPhraseOption(): OptionDelegate<String> {
     return option("--passphrase").default("")
 }
 
-fun CliktCommand.mnemonicOption(): ArgumentDelegate<List<String>> {
+fun CliktCommand.mnemonicArgument(): ArgumentDelegate<List<String>> {
     return argument(
         name = "MNEMONIC",
         help = "12 or 24 words used to generate a keypair"

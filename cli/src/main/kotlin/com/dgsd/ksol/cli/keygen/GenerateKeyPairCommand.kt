@@ -12,7 +12,7 @@ class GenerateKeyPairCommand : CliktCommand(
 ) {
 
     private val passPhase by passPhraseOption()
-    private val mnemonic by mnemonicOption()
+    private val mnemonic by mnemonicArgument()
 
     private val accountIndex by option(
         "--account"

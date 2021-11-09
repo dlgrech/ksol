@@ -9,7 +9,7 @@ class GenerateAccountsCommand : CliktCommand(
 ) {
 
     private val passPhase by passPhraseOption()
-    private val mnemonic by mnemonicOption()
+    private val mnemonic by mnemonicArgument()
 
     override fun run() {
         for (i in 0..20) {

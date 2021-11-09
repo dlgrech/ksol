@@ -9,7 +9,7 @@ class GenerateSeedCommand : CliktCommand(
 ) {
 
     private val passPhase by passPhraseOption()
-    private val mnemonic by mnemonicOption()
+    private val mnemonic by mnemonicArgument()
 
     override fun run() {
         val seed = KeyFactory.createSeedFromMnemonic(mnemonic, passPhase)
