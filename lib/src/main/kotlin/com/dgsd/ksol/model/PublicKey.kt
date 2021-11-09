@@ -5,10 +5,12 @@ import org.bitcoinj.core.Base58
 data class PublicKey internal constructor(val key: ByteArray) {
 
     override fun equals(other: Any?): Boolean {
-        return when (other) {
-            this -> true
-            !is PublicKey -> false
-            else -> this.key.contentEquals(other.key)
+        return if (this === other) {
+            true
+        } else if (other !is PublicKey) {
+            false
+        } else {
+            this.key.contentEquals(other.key)
         }
     }
 
