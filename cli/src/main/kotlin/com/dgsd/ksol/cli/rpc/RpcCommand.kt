@@ -55,7 +55,8 @@ class RpcCommand private constructor() : CliktCommand(
                     GetSupplyCommand(),
                     GetTransactionCommand(),
                     GetTransactionCountCommand(),
-                    RequestAirdropCommand()
+                    RequestAirdropCommand(),
+                    SendTransactionCommand(),
                 )
         }
     }
