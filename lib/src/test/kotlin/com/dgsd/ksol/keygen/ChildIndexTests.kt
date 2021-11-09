@@ -1,6 +1,5 @@
 package com.dgsd.ksol.keygen
 
-import com.dgsd.ksol.utils.toByteArray
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
