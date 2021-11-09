@@ -17,6 +17,20 @@ private val SOLANA_CURVE_SEED = "ed25519 seed".toByteArray()
 object KeyFactory {
 
     /**
+     * Create a [KeyPair] from a private key
+     */
+    fun createKeyPairFromPrivateKey(
+        privateKey: PrivateKey,
+    ): KeyPair {
+        val keyPair = TweetNaclFast.Signature.keyPair_fromSecretKey(privateKey.key)
+
+        return KeyPair(
+            PublicKey(keyPair.publicKey),
+            PrivateKey(keyPair.secretKey),
+        )
+    }
+
+    /**
      * @param words list of words that represent a seed phrase
      * @param passPhrase an additional "password" that will be used to generate the seed
      */

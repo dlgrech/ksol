@@ -1,5 +1,7 @@
 package com.dgsd.ksol.keygen
 
+import com.dgsd.ksol.model.KeyPair
+import com.dgsd.ksol.model.PrivateKey
 import com.dgsd.ksol.model.PublicKey
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
@@ -22,6 +24,21 @@ private val WORDS = listOf(
 )
 
 class KeyFactoryTests {
+
+    @Test
+    fun createKeyPairFromPrivateKey_returnsExpectedResult() {
+        val privateKey = PrivateKey.fromBase58(
+            "5ysPKzei6U5b1KTRs7XjwUL7335E8L1eta531oQkXP63Wf1jkavEyov1zyNX928hHhNkfEpVptACSfWPZtbzgeoa"
+        )
+
+        val keyPair = KeyFactory.createKeyPairFromPrivateKey(privateKey)
+
+        Assertions.assertEquals(privateKey, keyPair.privateKey)
+        Assertions.assertEquals(
+            PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
+            keyPair.publicKey
+        )
+    }
 
     @Test
     fun createSeedFromMnemonic_withoutPassphrase_returnsExpectedResult() {
