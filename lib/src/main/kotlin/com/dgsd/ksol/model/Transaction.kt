@@ -1,7 +1,7 @@
 package com.dgsd.ksol.model
 
 data class Transaction(
-    val signatures: List<TransactionSignature>,
+    val signatures: List<String>,
     val message: TransactionMessage,
 ) {
 

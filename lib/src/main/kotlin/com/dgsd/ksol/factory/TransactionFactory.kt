@@ -3,6 +3,7 @@ package com.dgsd.ksol.factory
 import com.dgsd.ksol.jsonrpc.types.GetTransactionResponseBody
 import com.dgsd.ksol.jsonrpc.types.TransactionResponse
 import com.dgsd.ksol.model.*
+import com.dgsd.ksol.utils.DecodingUtils
 
 internal object TransactionFactory {
 
@@ -33,7 +34,7 @@ internal object TransactionFactory {
         val instructions = response.instructions.map {
             TransactionInstruction(
                 programAccount = accountKeys[it.programIdIndex],
-                inputData = it.inputData,
+                inputData = DecodingUtils.decodeBase58(it.inputData),
                 inputAccounts = it.accounts.map(accountKeys::get)
             )
         }
