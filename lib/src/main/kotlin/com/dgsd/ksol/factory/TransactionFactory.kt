@@ -11,7 +11,7 @@ internal object TransactionFactory {
         return create(response?.transaction)
     }
 
-    fun create(response: TransactionResponse?): Transaction? {
+    private fun create(response: TransactionResponse?): Transaction? {
         return if (response == null) {
             null
         } else {
