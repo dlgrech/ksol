@@ -3,9 +3,7 @@ package com.dgsd.ksol.cli.rpc
 import com.dgsd.ksol.model.Commitment
 import com.dgsd.ksol.model.PublicKey
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.parameters.arguments.ArgumentDelegate
-import com.github.ajalt.clikt.parameters.arguments.argument
-import com.github.ajalt.clikt.parameters.arguments.transformAll
+import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.OptionDelegate
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
@@ -30,5 +28,19 @@ fun CliktCommand.accountArgument(): ArgumentDelegate<PublicKey> {
         help = "Base58 hash of account"
     ).transformAll {
         PublicKey.fromBase58(it.single())
+    }
+}
+fun CliktCommand.multipleAccounts(): ArgumentDelegate<List<PublicKey>> {
+    return argument(
+        "--accounts",
+        help = "ACCOUNTS"
+    ).multiple(
+        required = true
+    ).transformAll { accountHashes ->
+        accountHashes.map { PublicKey.fromBase58(it) }
+    }.validate {
+        require(it.isNotEmpty()) {
+            "No accounts passed"
+        }
     }
 }

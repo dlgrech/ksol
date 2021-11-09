@@ -1,6 +1,7 @@
 package com.dgsd.ksol
 
 import com.dgsd.ksol.factory.AccountInfoFactory
+import com.dgsd.ksol.factory.CommitmentFactory
 import com.dgsd.ksol.factory.TransactionFactory
 import com.dgsd.ksol.jsonrpc.RpcRequestFactory
 import com.dgsd.ksol.jsonrpc.SolanaJsonRpcConstants
@@ -196,6 +197,32 @@ internal class SolanaApiImpl(
         }
     }
 
+    override suspend fun getSignatureStatuses(
+        transactionSignatures: List<String>,
+        searchTransactionHistory: Boolean
+    ): List<TransactionSignatureStatus> {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_SIGNATURE_STATUSES,
+            transactionSignatures,
+            GetSignatureStatusesRequestBody(searchTransactionHistory)
+        )
+
+        val response = executeRequest<GetSignatureStatusesResponseBody>(request)
+
+        return response.value.zip(transactionSignatures) { responseValue, signature ->
+            if (responseValue == null) {
+                TransactionSignatureStatus.UnknownTransaction(signature)
+            } else {
+                TransactionSignatureStatus.Confirmed(
+                    signature = signature,
+                    slot = responseValue.slot,
+                    errorMessage = responseValue.error?.message,
+                    commitment = CommitmentFactory.fromRpcValue(responseValue.confirmationStatus)
+                )
+            }
+        }
+    }
+
     override suspend fun getSupply(commitment: Commitment): SupplySummary {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_SUPPLY,
@@ -308,11 +335,7 @@ internal class SolanaApiImpl(
     }
 
     private fun Commitment.toRpcValue(): String {
-        return when (this) {
-            Commitment.FINALIZED -> CommitmentConfigRequestBody.FINALIZED
-            Commitment.CONFIRMED -> CommitmentConfigRequestBody.CONFIRMED
-            Commitment.PROCESSED -> CommitmentConfigRequestBody.PROCESSED
-        }
+        return CommitmentFactory.toRpcValue(this)
     }
 
     private fun RpcRequest.asHttpRequest(): Request {

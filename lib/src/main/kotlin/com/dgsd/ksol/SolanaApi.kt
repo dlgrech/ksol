@@ -136,6 +136,19 @@ interface SolanaApi {
     ): List<TransactionSignatureInfo>
 
     /**
+     * Returns the statuses of a list of signatures
+     *
+     * @see searchTransactionHistory if true, a Solana node will search its ledger cache for any signatures not found
+     * in the recent status cache
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getsignaturestatuses">json-rpc API</a>
+     */
+    suspend fun getSignatureStatuses(
+        transactionSignatures: List<String>,
+        searchTransactionHistory: Boolean = true
+    ): List<TransactionSignatureStatus>
+
+    /**
      * Returns information about the current supply.
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getsupply">json-rpc API</a>
