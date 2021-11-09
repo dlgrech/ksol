@@ -10,6 +10,7 @@ import com.dgsd.ksol.jsonrpc.networking.RpcIOException
 import com.dgsd.ksol.jsonrpc.networking.util.await
 import com.dgsd.ksol.jsonrpc.types.*
 import com.dgsd.ksol.model.*
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import okhttp3.MediaType.Companion.toMediaType
@@ -164,6 +165,37 @@ internal class SolanaApiImpl(
         )
     }
 
+    override suspend fun getSignaturesForAddress(
+        accountKey: PublicKey,
+        limit: Int,
+        before: TransactionSignature?,
+        until: TransactionSignature?,
+        commitment: Commitment,
+    ): List<TransactionSignatureInfo> {
+        val request = RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Methods.GET_SIGNATURES_FOR_ADDRESS,
+            accountKey.toBase58String(),
+            GetSignaturesForAddressRequestBody(
+                commitment = commitment.toRpcValue(),
+                limit = limit,
+                beforeTransactionSignature = before,
+                untilTransactionSignature = until,
+            )
+        )
+
+        val response = executeRequestAsList<GetSignaturesForAddressResponseBody>(request)
+
+        return response.map {
+            TransactionSignatureInfo(
+                signature = it.signature,
+                slot = it.slot,
+                memo = it.memo,
+                blockTime = it.blockTime,
+                errorMessage = it.error?.message
+            )
+        }
+    }
+
     override suspend fun getSupply(commitment: Commitment): SupplySummary {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_SUPPLY,
@@ -224,15 +256,32 @@ internal class SolanaApiImpl(
         return executeRequest(request)
     }
 
+    private suspend inline fun <reified T> executeRequestAsList(rpcRequest: RpcRequest): List<T> {
+        val responseParser = moshiJson.adapter<RpcResponse<List<Any>>>(
+            Types.newParameterizedType(RpcResponse::class.java, List::class.java)
+        )
+        val responseItemParser = moshiJson.adapter(T::class.java)
+
+        return executeRequest(rpcRequest, responseParser).mapNotNull(responseItemParser::fromJsonValue)
+    }
+
     private suspend inline fun <reified T> executeRequest(rpcRequest: RpcRequest): T {
+        val responseParser = moshiJson.adapter<RpcResponse<T>>(
+            Types.newParameterizedType(RpcResponse::class.java, T::class.java)
+        )
+
+        return executeRequest(rpcRequest, responseParser)
+    }
+
+    private suspend inline fun <reified T> executeRequest(
+        rpcRequest: RpcRequest,
+        responseParser: JsonAdapter<RpcResponse<T>>
+    ): T {
         try {
             val httpRequest = rpcRequest.asHttpRequest()
             val httpResponse = okHttpClient.newCall(httpRequest).await()
 
             val responseJson = checkNotNull(httpResponse.body).string()
-            val responseParser = moshiJson.adapter<RpcResponse<T>>(
-                Types.newParameterizedType(RpcResponse::class.java, T::class.java)
-            )
 
             val parsedResponse = responseParser.fromJson(responseJson)
 

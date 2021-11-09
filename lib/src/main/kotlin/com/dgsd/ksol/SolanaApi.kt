@@ -98,6 +98,16 @@ interface SolanaApi {
     ): Map<PublicKey, AccountInfo?>
 
     /**
+     * Returns all accounts owned by the provided program Pubkey
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts">json-rpc API</a>
+     */
+    suspend fun getProgramAccounts(
+        programKey: PublicKey,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): List<AccountInfo>
+
+    /**
      * Returns a recent block hash from the ledger, and a fee schedule that can be used to compute the cost of submitting a transaction using it.
      *
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
@@ -107,14 +117,23 @@ interface SolanaApi {
     ): RecentBlockhashResult
 
     /**
-     * Returns all accounts owned by the provided program Pubkey
+     * Returns confirmed signatures for transactions involving an address backwards in time from the provided
+     * signature or most recent confirmed block
      *
-     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts">json-rpc API</a>
+     * @param accountKey Pubkey of account to query, as base-58 encoded string
+     * @param limit maximum transaction signatures to return (Must be in range 1..1000
+     * @param before Start searching backwards from this transaction signature.
+     * @param until Search until this transaction signature, if found before limit reached
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getsignaturesforaddress">json-rpc API</a>
      */
-    suspend fun getProgramAccounts(
-        programKey: PublicKey,
+    suspend fun getSignaturesForAddress(
+        accountKey: PublicKey,
+        limit: Int = 1000,
+        before: TransactionSignature? = null,
+        until: TransactionSignature? = null,
         commitment: Commitment = Commitment.FINALIZED,
-    ): List<AccountInfo>
+    ): List<TransactionSignatureInfo>
 
     /**
      * Returns information about the current supply.
