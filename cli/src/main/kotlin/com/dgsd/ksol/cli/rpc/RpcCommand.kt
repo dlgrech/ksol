@@ -1,12 +1,9 @@
 package com.dgsd.ksol.cli.rpc
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.cli.util.clusterOption
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.option
-import com.github.ajalt.clikt.parameters.types.choice
 import okhttp3.OkHttpClient
 import java.time.Duration
 
@@ -16,16 +13,7 @@ class RpcCommand private constructor() : CliktCommand(
     help = "Execute Solana JSON RPC methods"
 ) {
 
-    private val cluster by option(
-        "--cluster",
-        help = "The cluster to use when running operations",
-    ).choice(
-        "mainnet" to Cluster.MAINNET,
-        "testnet" to Cluster.TESTNET,
-        "devnet" to Cluster.DEVNET,
-    ).default(
-        Cluster.MAINNET
-    )
+    private val cluster by clusterOption()
 
     override fun run() {
         val api = SolanaApi(cluster, OkHttpClient.Builder()
