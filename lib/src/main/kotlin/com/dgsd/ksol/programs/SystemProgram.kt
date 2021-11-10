@@ -9,7 +9,7 @@ import org.bitcoinj.core.Utils
  * @see <a href="https://docs.solana.com/developing/runtime-facilities/programs#system-program#>System Instruction Enum</a>
  */
 object SystemProgram {
-    private val PROGRAM_ID = PublicKey.fromBase58("11111111111111111111111111111111")
+    val PROGRAM_ID = PublicKey.fromBase58("11111111111111111111111111111111")
 
     /**
      * The index of the different instructions available in the SystemProgram
@@ -23,6 +23,14 @@ object SystemProgram {
         recipient: PublicKey,
         lamports: Lamports,
     ): TransactionInstruction {
+        require(sender != recipient) {
+            "Trying to send to same address"
+        }
+
+        require(lamports > 0) {
+            "Lamports must be > 0"
+        }
+
         val spaceForInstructionIndex = 4
         val spaceForLamports = 8
 

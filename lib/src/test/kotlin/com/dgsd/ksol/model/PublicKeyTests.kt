@@ -6,6 +6,36 @@ import org.junit.jupiter.api.Test
 class PublicKeyTests {
 
     @Test
+    fun constructor_whenCalledWithSmallByteArray_throwsException() {
+        Assertions.assertThrows(
+            IllegalArgumentException::class.java,
+        ) {
+            PublicKey(
+                (0 until PublicKey.PUBLIC_KEY_LENGTH - 1)
+                    .toList()
+                    .toIntArray()
+                    .map { it.toByte() }
+                    .toByteArray()
+            )
+        }
+    }
+
+    @Test
+    fun constructor_whenCalledWithLargeByteArray_throwsException() {
+        Assertions.assertThrows(
+            IllegalArgumentException::class.java,
+        ) {
+            PublicKey(
+                (0 until PublicKey.PUBLIC_KEY_LENGTH + 1)
+                    .toList()
+                    .toIntArray()
+                    .map { it.toByte() }
+                    .toByteArray()
+            )
+        }
+    }
+
+    @Test
     fun equals_whenPassedSameInstance_returnsTrue() {
         val first = PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e")
 
@@ -24,7 +54,7 @@ class PublicKeyTests {
     fun equals_whenPassedDifferentContent_returnsFalse() {
         val first = PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e")
         val second =
-            PublicKey.fromBase58("5ysPKzei6U5b1KTRs7XjwUL7335E8L1eta531oQkXP63Wf1jkavEyov1zyNX928hHhNkfEpVptACSfWPZtbzgeoa")
+            PublicKey.fromBase58("4Rf9mGD7FeYknun5JczX5nGLTfQuS1GRjNVfkEMKE92b")
 
         Assertions.assertNotEquals(first, second)
     }
@@ -45,5 +75,4 @@ class PublicKeyTests {
 
         Assertions.assertEquals(key.toBase58String(), base58)
     }
-
 }

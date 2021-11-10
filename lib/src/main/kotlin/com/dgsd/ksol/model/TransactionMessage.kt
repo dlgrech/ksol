@@ -7,5 +7,13 @@ data class TransactionMessage(
     val instructions: List<TransactionInstruction>,
 ) {
 
-    val requiredSigners = accountKeys.take(header.numRequiredSignatures)
+    init {
+        require(accountKeys.isNotEmpty()) {
+            "No account keys passed"
+        }
+
+        require(instructions.isNotEmpty()) {
+            "No instructions passed"
+        }
+    }
 }

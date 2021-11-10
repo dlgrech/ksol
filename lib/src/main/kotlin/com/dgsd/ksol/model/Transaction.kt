@@ -5,5 +5,11 @@ data class Transaction(
     val message: TransactionMessage,
 ) {
 
+    init {
+        require(signatures.isNotEmpty()) {
+            "No signatures found"
+        }
+    }
+
     val id: TransactionSignature = signatures.first()
 }

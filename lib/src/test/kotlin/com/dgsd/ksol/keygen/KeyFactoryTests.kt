@@ -43,7 +43,7 @@ class KeyFactoryTests {
     @Test
     fun createSeedFromMnemonic_withoutPassphrase_returnsExpectedResult() {
         val seed = KeyFactory.createSeedFromMnemonic(WORDS)
-        val expected = PublicKey.fromBase58(
+        val expected = PrivateKey.fromBase58(
             "usDk6nuQLHq8U1DXrhAxmQM1Ra5iazcZ2tdAQs4NoccABGCgDt2mezEYqBGLdziMd44u1bdj7WQ8en7TaoAAsTb"
         ).key
 
@@ -53,7 +53,7 @@ class KeyFactoryTests {
     @Test
     fun createSeedFromMnemonic_withPassphrase_returnsExpectedResult() {
         val seed = KeyFactory.createSeedFromMnemonic(WORDS, "password")
-        val expected = PublicKey.fromBase58(
+        val expected = PrivateKey.fromBase58(
             "65eMnGdwXHBRFu2f89m5cALXYCofdTHBGAaZ8qGA97d8ZwNhjXAy2iwSGZ9RCJnXE5qtDMr49Gnf5fXzUDfN9DeQ"
         ).key
 
