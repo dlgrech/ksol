@@ -1,6 +1,7 @@
 package com.dgsd.ksol.cli.rpc
 
 import com.dgsd.ksol.SolanaApi
+import com.dgsd.ksol.Transactions
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.PrivateKey
 import com.dgsd.ksol.model.PublicKey
@@ -43,6 +44,15 @@ class SendTransactionCommand() : CliktCommand(
     override fun run() = runBlocking {
         val keyPair = KeyFactory.createKeyPairFromPrivateKey(fromAccount)
 
-        // TODO: Send!
+        echo(
+            api.sendTransaction(
+                Transactions.createTransferTransaction(
+                    keyPair,
+                    toAccount,
+                    lamports,
+                    recentBlockhash
+                )
+            )
+        )
     }
 }

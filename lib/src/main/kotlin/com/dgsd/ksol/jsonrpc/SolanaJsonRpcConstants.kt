@@ -25,6 +25,7 @@ internal object SolanaJsonRpcConstants {
         const val GET_TRANSACTION = "getTransaction"
         const val GET_TRANSACTION_COUNT = "getTransactionCount"
         const val REQUEST_AIRDROP = "requestAirdrop"
+        const val SEND_TRANSACTION = "sendTransaction"
     }
 
     object Encodings {

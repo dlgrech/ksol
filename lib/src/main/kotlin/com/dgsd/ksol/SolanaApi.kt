@@ -187,4 +187,13 @@ interface SolanaApi {
         amount: Lamports,
         commitment: Commitment = Commitment.FINALIZED,
     ): TransactionSignature
+
+    /**
+     * Submits a signed transaction to the cluster for processing.
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#sendtransaction">json-rpc API</a>
+     */
+    suspend fun sendTransaction(
+        transaction: Transaction,
+    ): TransactionSignature
 }

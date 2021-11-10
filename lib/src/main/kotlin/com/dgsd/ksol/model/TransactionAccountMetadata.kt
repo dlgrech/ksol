@@ -51,7 +51,7 @@ data class TransactionAccountMetadata(
             return output.sorted()
         }
 
-        private fun indexOf(list: List<TransactionAccountMetadata>, key: PublicKey): Int {
+        internal fun indexOf(list: List<TransactionAccountMetadata>, key: PublicKey): Int {
             list.forEachIndexed { index, metadata ->
                 if (key == metadata.publicKey) {
                     return index
