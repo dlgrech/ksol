@@ -3,7 +3,12 @@ package com.dgsd.ksol.model
 data class AccountInfo(
 
     /**
-     * Pubkey of the program this account has been assigned to
+     * The `PublicKey` of the account
+     */
+    val publicKey: PublicKey,
+
+    /**
+     * `PublicKey` of the program this account has been assigned to
      */
     val ownerHash: PublicKey,
 
@@ -25,5 +30,5 @@ data class AccountInfo(
     /**
      * Base64-encoding of the account data
      */
-    val accountData: String
+    val accountData: String,
 )

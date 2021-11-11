@@ -48,7 +48,7 @@ internal class SolanaApiImpl(
 
         val response = executeRequest<GetAccountInfoResponseBody>(request)
 
-        return AccountInfoFactory.create(response.value)
+        return AccountInfoFactory.create(accountKey, response.value)
     }
 
     override suspend fun getBalance(accountKey: PublicKey, commitment: Commitment): Lamports {
@@ -131,10 +131,9 @@ internal class SolanaApiImpl(
         )
 
         val response = executeRequest<GetMultipleAccountsResponseBody>(request)
-        val accountInfos = response.value.map { AccountInfoFactory.create(it) }
 
-        return accountKeys.zip(accountInfos) { key, accountInfo ->
-            key to accountInfo
+        return accountKeys.zip(response.value) { key, accountInfoResponse ->
+            key to AccountInfoFactory.create(key, accountInfoResponse)
         }.toMap()
     }
 
@@ -151,7 +150,9 @@ internal class SolanaApiImpl(
 
         val response = executeRequest<GetProgramAccountsResponseBody>(request)
 
-        return response.values.mapNotNull { AccountInfoFactory.create(it.account) }
+        return response.values.mapNotNull {
+            AccountInfoFactory.create(PublicKey.fromBase58(it.pubKey), it.account)
+        }
     }
 
     override suspend fun getRecentBlockhash(commitment: Commitment): RecentBlockhashResult {

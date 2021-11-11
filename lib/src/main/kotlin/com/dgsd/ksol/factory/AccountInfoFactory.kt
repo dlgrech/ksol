@@ -6,11 +6,12 @@ import com.dgsd.ksol.model.PublicKey
 
 internal object AccountInfoFactory {
 
-    fun create(response: AccountInfoResponse?): AccountInfo? {
+    fun create(accountKey: PublicKey, response: AccountInfoResponse?): AccountInfo? {
         return if (response == null) {
             null
         } else {
             AccountInfo(
+                publicKey = accountKey,
                 ownerHash = PublicKey.fromBase58(response.ownerHash),
                 lamports = response.lamports,
                 isExecutable = response.isExecutable,
