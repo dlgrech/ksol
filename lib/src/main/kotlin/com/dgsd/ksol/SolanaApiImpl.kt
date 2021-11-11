@@ -21,8 +21,11 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
+import java.time.Duration
 
 private val MEDIA_TYPE_JSON = "application/json; charset=utf-8".toMediaType()
+
+private val SUBSCRIPTION_WEB_SOCKET_PING_INTERVAL = Duration.ofSeconds(30)
 
 /**
  * Internal implementation of [SolanaApi] interface
@@ -35,6 +38,15 @@ internal class SolanaApiImpl(
     private val moshiJson: Moshi = Moshi.Builder().build()
 
     private val requestJsonAdapter = moshiJson.adapter(RpcRequest::class.java)
+
+    override fun createSubscription(): SolanaSubscription {
+        return SolanaSubscriptionImpl(
+            cluster,
+            okHttpClient.newBuilder()
+                .pingInterval(SUBSCRIPTION_WEB_SOCKET_PING_INTERVAL)
+                .build()
+        )
+    }
 
     override suspend fun getAccountInfo(accountKey: PublicKey, commitment: Commitment): AccountInfo? {
         val request = RpcRequestFactory.create(

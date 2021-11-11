@@ -21,6 +21,11 @@ fun SolanaApi(
 interface SolanaApi {
 
     /**
+     * Creates a [SolanaSubscription] instance, which can be used to subscribe to the Subscription Webscoket API
+     */
+    fun createSubscription(): SolanaSubscription
+
+    /**
      * Returns all information associated with the account of provided Pubkey
      *
      * @param accountKey Pubkey of account to query, as base-58 encoded string
@@ -145,7 +150,7 @@ interface SolanaApi {
      */
     suspend fun getSignatureStatuses(
         transactionSignatures: List<String>,
-        searchTransactionHistory: Boolean = true
+        searchTransactionHistory: Boolean = true,
     ): List<TransactionSignatureStatus>
 
     /**

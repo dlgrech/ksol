@@ -28,6 +28,11 @@ internal object SolanaJsonRpcConstants {
         const val SEND_TRANSACTION = "sendTransaction"
     }
 
+    object Subscriptions {
+        const val ACCOUNT_SUBSCRIBE = "accountSubscribe"
+        const val ACCOUNT_UNSUBSCRIBE = "accountUnsubscribe"
+    }
+
     object Encodings {
         const val BASE64 = "base64"
         const val JSON = "json"
