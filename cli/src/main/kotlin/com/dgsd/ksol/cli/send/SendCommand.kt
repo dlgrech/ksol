@@ -68,7 +68,7 @@ class SendCommand : CliktCommand(
 
         var isConfirmed = false
         var attempts = 0
-        while (attempts < 5) {
+        while (attempts < 10) {
             echo("Waiting for confirmation..")
             val status = api.getSignatureStatuses(listOf(transactionSignature)).first()
             if (status is TransactionSignatureStatus.Confirmed) {
@@ -81,6 +81,7 @@ class SendCommand : CliktCommand(
             }
 
             delay(3000)
+            attempts++
         }
 
         if (!isConfirmed) {

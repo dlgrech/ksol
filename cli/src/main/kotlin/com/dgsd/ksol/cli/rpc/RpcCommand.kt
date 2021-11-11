@@ -10,6 +10,7 @@ import java.time.Duration
 private val NETWORKING_TIMEOUT = Duration.ofSeconds(60L)
 
 class RpcCommand private constructor() : CliktCommand(
+    name = "rpc",
     help = "Execute Solana JSON RPC methods"
 ) {
 
@@ -29,6 +30,7 @@ class RpcCommand private constructor() : CliktCommand(
         fun create(): RpcCommand {
             return RpcCommand()
                 .subcommands(
+                    AccountSubscribeCommand(),
                     GetAccountInfoCommand(),
                     GetBalanceCommand(),
                     GetBlockHeightCommand(),
