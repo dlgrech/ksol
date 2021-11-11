@@ -352,7 +352,7 @@ internal class SolanaApiImpl(
 
     private fun RpcRequest.asHttpRequest(): Request {
         return Request.Builder()
-            .url(cluster.endpoint)
+            .url(cluster.rpcUrl)
             .post(requestJsonAdapter.toJson(this).toRequestBody(MEDIA_TYPE_JSON))
             .build()
     }
