@@ -72,13 +72,15 @@ class SendCommand : CliktCommand(
             echo("Waiting for confirmation..")
             val status = api.getSignatureStatuses(listOf(transactionSignature)).first()
             if (status is TransactionSignatureStatus.Confirmed) {
-                echo("Got signature status: $status")
+                echo("Got signature confirmation: ${status.commitment}")
                 isConfirmed =
                     status.commitment == Commitment.CONFIRMED || status.commitment == Commitment.FINALIZED
-                break
-            } else {
-                delay(3000)
+                if (isConfirmed) {
+                    break
+                }
             }
+
+            delay(3000)
         }
 
         if (!isConfirmed) {
