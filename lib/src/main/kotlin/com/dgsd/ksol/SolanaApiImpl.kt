@@ -41,7 +41,7 @@ internal class SolanaApiImpl(
             SolanaJsonRpcConstants.Methods.GET_ACCOUNT_INFO,
             accountKey.toBase58String(),
             GetAccountInfoRequestBody(
-                commitment = commitment.toRpcValue(),
+                commitment = CommitmentFactory.toRpcValue(commitment),
                 encoding = SolanaJsonRpcConstants.Encodings.BASE64
             )
         )
@@ -88,7 +88,7 @@ internal class SolanaApiImpl(
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_LARGEST_ACCOUNTS,
             GetLargestAccountsRequestBody(
-                commitment.toRpcValue(),
+                CommitmentFactory.toRpcValue(commitment),
                 when (circulatingStatus) {
                     null -> null
                     AccountCirculatingStatus.CIRCULATING -> GetLargestAccountsRequestBody.FILTER_CIRCULATING
@@ -125,7 +125,7 @@ internal class SolanaApiImpl(
             SolanaJsonRpcConstants.Methods.GET_MULTIPLE_ACCOUNTS,
             accountKeys.map { it.toBase58String() },
             GetMultipleAccountsRequestBody(
-                commitment = commitment.toRpcValue(),
+                commitment = CommitmentFactory.toRpcValue(commitment),
                 encoding = SolanaJsonRpcConstants.Encodings.BASE64
             )
         )
@@ -143,7 +143,7 @@ internal class SolanaApiImpl(
             SolanaJsonRpcConstants.Methods.GET_PROGRAM_ACCOUNTS,
             programKey.toBase58String(),
             GetProgramAccountsRequestBody(
-                commitment = commitment.toRpcValue(),
+                commitment = CommitmentFactory.toRpcValue(commitment),
                 encoding = SolanaJsonRpcConstants.Encodings.BASE64,
                 withContext = true
             )
@@ -179,7 +179,7 @@ internal class SolanaApiImpl(
             SolanaJsonRpcConstants.Methods.GET_SIGNATURES_FOR_ADDRESS,
             accountKey.toBase58String(),
             GetSignaturesForAddressRequestBody(
-                commitment = commitment.toRpcValue(),
+                commitment = CommitmentFactory.toRpcValue(commitment),
                 limit = limit,
                 beforeTransactionSignature = before,
                 untilTransactionSignature = until,
@@ -229,7 +229,7 @@ internal class SolanaApiImpl(
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.GET_SUPPLY,
             GetSupplyRequestBody(
-                commitment = commitment.toRpcValue(),
+                commitment = CommitmentFactory.toRpcValue(commitment),
                 excludeNonCirculatingAccountsList = true
             )
         )
@@ -251,7 +251,7 @@ internal class SolanaApiImpl(
             SolanaJsonRpcConstants.Methods.GET_TRANSACTION,
             transactionSignature,
             GetTransactionRequestBody(
-                commitment = commitment.toRpcValue(),
+                commitment = CommitmentFactory.toRpcValue(commitment),
                 encoding = SolanaJsonRpcConstants.Encodings.JSON
             )
         )
@@ -343,11 +343,7 @@ internal class SolanaApiImpl(
     }
 
     private fun Commitment.toRequestBody(): CommitmentConfigRequestBody {
-        return CommitmentConfigRequestBody(this.toRpcValue())
-    }
-
-    private fun Commitment.toRpcValue(): String {
-        return CommitmentFactory.toRpcValue(this)
+        return CommitmentConfigRequestBody(CommitmentFactory.toRpcValue(this))
     }
 
     private fun RpcRequest.asHttpRequest(): Request {
