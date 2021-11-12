@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 internal class SubscriptionRegistryTest {
 
     @Test
-    fun testSuccessfulFlow() {
+    fun testSuccessfulAccountSubscribeFlow() {
         val key = PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e")
         val rpcRequestId = "abc123"
         val subscriptionId = 1337L
@@ -19,6 +19,21 @@ internal class SubscriptionRegistryTest {
 
         Assertions.assertEquals(subscriptionId, registry.getSubscriptionIdFromAccount(key))
         Assertions.assertEquals(key, registry.getAccountKeyFromSubscriptionId(subscriptionId))
+    }
+
+    @Test
+    fun testSuccessfulSignatureSubscribeFlow() {
+        val signature = "4nofvj5RZ8VjjBnEF1TDRpLbcYB694WCsfLqn4KppPQSpLUcqGHnYzcCn6QW2J5MrHtd2fsCpX27umtnvFQxcRiU"
+        val rpcRequestId = "abc123"
+        val subscriptionId = 1337L
+
+        val registry = SubscriptionRegistry()
+
+        registry.onSignatureSubscribe(rpcRequestId, signature)
+        registry.onSubscriptionConfirmation(rpcRequestId, subscriptionId)
+
+        Assertions.assertEquals(subscriptionId, registry.getSubscriptionIdFromSignature(signature))
+        Assertions.assertEquals(signature, registry.getSignatureFromSubscriptionId(subscriptionId))
     }
 
     @Test
@@ -39,6 +54,23 @@ internal class SubscriptionRegistryTest {
     }
 
     @Test
+    fun testClearTransactionSignatureSubscription_removesSignature() {
+        val signature = "4nofvj5RZ8VjjBnEF1TDRpLbcYB694WCsfLqn4KppPQSpLUcqGHnYzcCn6QW2J5MrHtd2fsCpX27umtnvFQxcRiU"
+        val rpcRequestId = "abc123"
+        val subscriptionId = 1337L
+
+        val registry = SubscriptionRegistry()
+
+        registry.onSignatureSubscribe(rpcRequestId, signature)
+        registry.onSubscriptionConfirmation(rpcRequestId, subscriptionId)
+
+        registry.clearSignatureSubscription(signature)
+
+        Assertions.assertNull(registry.getSubscriptionIdFromSignature(signature))
+        Assertions.assertNull(registry.getSignatureFromSubscriptionId(subscriptionId))
+    }
+
+    @Test
     fun testClear_removesAccount() {
         val key = PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e")
         val rpcRequestId = "abc123"
@@ -55,6 +87,24 @@ internal class SubscriptionRegistryTest {
         Assertions.assertNull(registry.getAccountKeyFromSubscriptionId(subscriptionId))
     }
 
+
+    @Test
+    fun testClear_removesSignature() {
+        val signature = "4nofvj5RZ8VjjBnEF1TDRpLbcYB694WCsfLqn4KppPQSpLUcqGHnYzcCn6QW2J5MrHtd2fsCpX27umtnvFQxcRiU"
+        val rpcRequestId = "abc123"
+        val subscriptionId = 1337L
+
+        val registry = SubscriptionRegistry()
+
+        registry.onSignatureSubscribe(rpcRequestId, signature)
+        registry.onSubscriptionConfirmation(rpcRequestId, subscriptionId)
+
+        registry.clear()
+
+        Assertions.assertNull(registry.getSubscriptionIdFromSignature(signature))
+        Assertions.assertNull(registry.getSignatureFromSubscriptionId(subscriptionId))
+    }
+
     @Test
     fun getSubscriptionIdFromAccount_forUnknownKey_returnsNull() {
         val registry = SubscriptionRegistry()
@@ -64,10 +114,29 @@ internal class SubscriptionRegistryTest {
     }
 
     @Test
-    fun getAccountKeyFromSubscriptionId_forSubscriptId_returnsNull() {
+    fun getAccountKeyFromSubscriptionId_forSubscriptionId_returnsNull() {
         val registry = SubscriptionRegistry()
         Assertions.assertNull(
             registry.getAccountKeyFromSubscriptionId(123L)
+        )
+    }
+
+
+    @Test
+    fun getSubscriptionIdFromSignature_forUnknownSignature_returnsNull() {
+        val registry = SubscriptionRegistry()
+        Assertions.assertNull(
+            registry.getSubscriptionIdFromSignature(
+                "4nofvj5RZ8VjjBnEF1TDRpLbcYB694WCsfLqn4KppPQSpLUcqGHnYzcCn6QW2J5MrHtd2fsCpX27umtnvFQxcRiU"
+            )
+        )
+    }
+
+    @Test
+    fun getSignatureFromSubscriptionId_forSubscriptionId_returnsNull() {
+        val registry = SubscriptionRegistry()
+        Assertions.assertNull(
+            registry.getSignatureFromSubscriptionId(123L)
         )
     }
 }

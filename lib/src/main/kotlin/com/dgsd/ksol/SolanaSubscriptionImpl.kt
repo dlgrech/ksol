@@ -6,10 +6,7 @@ import com.dgsd.ksol.flow.MutableEventFlow
 import com.dgsd.ksol.jsonrpc.RpcRequestFactory
 import com.dgsd.ksol.jsonrpc.SolanaJsonRpcConstants
 import com.dgsd.ksol.jsonrpc.types.*
-import com.dgsd.ksol.model.AccountInfo
-import com.dgsd.ksol.model.Cluster
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.model.*
 import com.dgsd.ksol.utils.fromJsonOrNull
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -29,7 +26,10 @@ internal class SolanaSubscriptionImpl(
 ) : SolanaSubscription {
 
     private val subscriptionRegistry = SubscriptionRegistry()
-    private val accountKeyToFlowMap = mutableMapOf<PublicKey, MutableEventFlow<AccountInfo>>()
+    private val accountKeyToFlowMap =
+        mutableMapOf<PublicKey, MutableEventFlow<AccountInfo>>()
+    private val transactionSignatureToFlowMap =
+        mutableMapOf<TransactionSignature, MutableEventFlow<TransactionSignatureStatus>>()
 
     private val moshi = Moshi.Builder().build()
     private val requestJsonAdapter = moshi.adapter(RpcRequest::class.java)
@@ -59,7 +59,10 @@ internal class SolanaSubscriptionImpl(
         return socketLock.withLock { activeWebSocket != null }
     }
 
-    override fun accountSubscribe(accountKey: PublicKey, commitment: Commitment): Flow<AccountInfo> {
+    override fun accountSubscribe(
+        accountKey: PublicKey,
+        commitment: Commitment,
+    ): Flow<AccountInfo> {
         val existingSubscriptionId = subscriptionRegistry.getSubscriptionIdFromAccount(accountKey)
         if (existingSubscriptionId == null) {
             val request = createAccountSubscribeRequest(accountKey, commitment)
@@ -81,6 +84,31 @@ internal class SolanaSubscriptionImpl(
         accountKeyToFlowMap.remove(accountKey)
     }
 
+    override fun signatureSubscribe(
+        signature: TransactionSignature,
+        commitment: Commitment,
+    ): Flow<TransactionSignatureStatus> {
+        val existingSubscriptionId = subscriptionRegistry.getSubscriptionIdFromSignature(signature)
+        if (existingSubscriptionId == null) {
+            val request = createTransactionSubscribeRequest(signature, commitment)
+            subscriptionRegistry.onSignatureSubscribe(request.id, signature)
+            sendRequest(request)
+        }
+
+        return transactionSignatureToFlowMap.getOrPut(signature) { MutableEventFlow() }
+    }
+
+    override fun signatureUnsubscribe(signature: TransactionSignature) {
+        val existingSubscriptionId = subscriptionRegistry.getSubscriptionIdFromSignature(signature)
+        if (existingSubscriptionId != null) {
+            val request = createTransactionUnsubscribeRequest(existingSubscriptionId)
+            sendRequest(request)
+            subscriptionRegistry.clearSignatureSubscription(signature)
+        }
+
+        transactionSignatureToFlowMap.remove(signature)
+    }
+
     private fun createAccountSubscribeRequest(accountKey: PublicKey, commitment: Commitment): RpcRequest {
         return RpcRequestFactory.create(
             SolanaJsonRpcConstants.Subscriptions.ACCOUNT_SUBSCRIBE,
@@ -95,6 +123,24 @@ internal class SolanaSubscriptionImpl(
     private fun createAccountUnsubscribeRequest(subscriptionId: Long): RpcRequest {
         return RpcRequestFactory.create(
             SolanaJsonRpcConstants.Subscriptions.ACCOUNT_UNSUBSCRIBE,
+            subscriptionId
+        )
+    }
+
+    private fun createTransactionSubscribeRequest(
+        transactionSignature: TransactionSignature,
+        commitment: Commitment,
+    ): RpcRequest {
+        return RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Subscriptions.SIGNATURE_SUBSCRIBE,
+            transactionSignature,
+            CommitmentConfigRequestBody(CommitmentFactory.toRpcValue(commitment))
+        )
+    }
+
+    private fun createTransactionUnsubscribeRequest(subscriptionId: Long): RpcRequest {
+        return RpcRequestFactory.create(
+            SolanaJsonRpcConstants.Subscriptions.SIGNATURE_UNSUBSCRIBE,
             subscriptionId
         )
     }
@@ -129,12 +175,34 @@ internal class SolanaSubscriptionImpl(
         }
     }
 
+    private fun onSignatureNotification(notification: RpcSubscriptionNotification<SignatureNotificationResponseBody>) {
+        val transactionSignature =
+            subscriptionRegistry.getSignatureFromSubscriptionId(notification.params.subscriptionId)
+        if (transactionSignature != null) {
+            val transactionSignatureStatus = TransactionSignatureStatus.Confirmed(
+                signature = transactionSignature,
+                slot = notification.params.result.context.slot,
+                errorMessage = notification.params.result.value.error?.message,
+                commitment = null
+            )
+
+            transactionSignatureToFlowMap[transactionSignature]?.tryEmit(transactionSignatureStatus)
+        }
+    }
+
     private inner class SubscriptionWebSocketListener : WebSocketListener() {
 
         private val subscriptionConfirmationJsonAdapter = moshi.adapter(RpcSubscriptionConfirmation::class.java)
         private val accountNotificationJsonAdapter = moshi.adapter<RpcSubscriptionNotification<AccountInfoResponse>>(
             Types.newParameterizedType(RpcSubscriptionNotification::class.java, AccountInfoResponse::class.java)
         )
+        private val signatureNotificationJsonAdapter =
+            moshi.adapter<RpcSubscriptionNotification<SignatureNotificationResponseBody>>(
+                Types.newParameterizedType(
+                    RpcSubscriptionNotification::class.java,
+                    SignatureNotificationResponseBody::class.java
+                )
+            )
 
         override fun onMessage(webSocket: WebSocket, text: String) {
             val confirmation = subscriptionConfirmationJsonAdapter.fromJsonOrNull(text)
@@ -146,6 +214,12 @@ internal class SolanaSubscriptionImpl(
             val accountNotification = accountNotificationJsonAdapter.fromJsonOrNull(text)
             if (accountNotification != null) {
                 onAccountNotification(accountNotification)
+                return
+            }
+
+            val signatureNotification = signatureNotificationJsonAdapter.fromJsonOrNull(text)
+            if (signatureNotification != null) {
+                onSignatureNotification(signatureNotification)
                 return
             }
         }

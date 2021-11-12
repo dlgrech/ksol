@@ -1,8 +1,6 @@
 package com.dgsd.ksol
 
-import com.dgsd.ksol.model.AccountInfo
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.model.*
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -36,7 +34,7 @@ interface SolanaSubscription {
      */
     fun accountSubscribe(
         accountKey: PublicKey,
-        commitment: Commitment = Commitment.PROCESSED,
+        commitment: Commitment = Commitment.FINALIZED,
     ): Flow<AccountInfo>
 
     /**
@@ -45,4 +43,23 @@ interface SolanaSubscription {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#accountunsubscribe">Subscription Websocket API</a>
      */
     fun accountUnsubscribe(accountKey: PublicKey)
+
+    /**
+     * Subscribe to a transaction signature to receive notification when the transaction is confirmed.
+     *
+     * On signatureNotification, the subscription is automatically cancelled
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#signaturesubscribe">Subscription Websocket API</a>
+     */
+    fun signatureSubscribe(
+        signature: TransactionSignature,
+        commitment: Commitment = Commitment.FINALIZED,
+    ): Flow<TransactionSignatureStatus>
+
+    /**
+     * Unsubscribe from signature confirmation notification
+     *
+     * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#signatureunsubscribe">Subscription Websocket API</a>
+     */
+    fun signatureUnsubscribe(signature: TransactionSignature)
 }

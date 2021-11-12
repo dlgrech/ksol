@@ -16,7 +16,13 @@ internal data class RpcSubscriptionNotification<T>(
     ) {
         @JsonClass(generateAdapter = true)
         internal data class Result<T>(
+            @Json(name = "context") val context: Context,
             @Json(name = "value") val value: T,
-        )
+        ) {
+            @JsonClass(generateAdapter = true)
+            internal data class Context(
+                @Json(name = "slot") val slot: Long,
+            )
+        }
     }
 }

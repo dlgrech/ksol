@@ -31,6 +31,8 @@ internal object SolanaJsonRpcConstants {
     object Subscriptions {
         const val ACCOUNT_SUBSCRIBE = "accountSubscribe"
         const val ACCOUNT_UNSUBSCRIBE = "accountUnsubscribe"
+        const val SIGNATURE_SUBSCRIBE = "signatureSubscribe"
+        const val SIGNATURE_UNSUBSCRIBE = "signatureUnsubscribe"
     }
 
     object Encodings {
