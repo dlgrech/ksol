@@ -5,6 +5,7 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.int
+import kotlinx.coroutines.runBlocking
 
 class GenerateKeyPairCommand : CliktCommand(
     name = "keypair",
@@ -18,7 +19,7 @@ class GenerateKeyPairCommand : CliktCommand(
         "--account"
     ).int().default(0)
 
-    override fun run() {
+    override fun run() = runBlocking {
         val keyPair = KeyFactory.createKeyPairFromMnemonic(mnemonic, passPhase, accountIndex)
         echo(keyPair)
     }

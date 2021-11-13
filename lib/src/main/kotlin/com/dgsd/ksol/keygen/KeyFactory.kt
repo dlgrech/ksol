@@ -6,6 +6,8 @@ import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.utils.reverseBytes
 import com.dgsd.ksol.utils.toByteArray
 import com.iwebpp.crypto.TweetNaclFast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.bitcoinj.crypto.HDUtils
 import org.bitcoinj.crypto.MnemonicCode
 
@@ -19,12 +21,12 @@ object KeyFactory {
     /**
      * Create a [KeyPair] from a private key
      */
-    fun createKeyPairFromPrivateKey(
+    suspend fun createKeyPairFromPrivateKey(
         privateKey: PrivateKey,
-    ): KeyPair {
+    ): KeyPair = withContext(Dispatchers.IO) {
         val keyPair = TweetNaclFast.Signature.keyPair_fromSecretKey(privateKey.key)
 
-        return KeyPair(
+        KeyPair(
             PublicKey(keyPair.publicKey),
             PrivateKey(keyPair.secretKey),
         )
@@ -34,11 +36,11 @@ object KeyFactory {
      * @param words list of words that represent a seed phrase
      * @param passPhrase an additional "password" that will be used to generate the seed
      */
-    fun createSeedFromMnemonic(
+    suspend fun createSeedFromMnemonic(
         words: List<String>,
         passPhrase: String = "",
-    ): ByteArray {
-        return MnemonicCode.toSeed(words, passPhrase)
+    ): ByteArray = withContext(Dispatchers.IO) {
+        MnemonicCode.toSeed(words, passPhrase)
     }
 
     /**
@@ -48,28 +50,28 @@ object KeyFactory {
      *
      * @see DerivationPath.account
      */
-    fun createKeyPairFromMnemonic(
+    suspend fun createKeyPairFromMnemonic(
         words: List<String>,
         passPhrase: String = "",
         accountIndex: Int = 0,
-    ): KeyPair {
+    ): KeyPair = withContext(Dispatchers.IO) {
         val seed = createSeedFromMnemonic(words, passPhrase)
         val derivationPath = DerivationPath.solanaBip44(accountIndex)
 
-        return createKeyPair(seed, derivationPath)
+        createKeyPair(seed, derivationPath)
     }
 
-    fun createKeyPairFromSeed(
+    suspend fun createKeyPairFromSeed(
         seed: ByteArray,
-    ): KeyPair {
+    ): KeyPair = withContext(Dispatchers.IO) {
         val keyPair = TweetNaclFast.Signature.keyPair_fromSeed(seed)
-        return KeyPair(
+        KeyPair(
             PublicKey(keyPair.publicKey),
             PrivateKey(keyPair.secretKey),
         )
     }
 
-    private fun createKeyPair(
+    private suspend fun createKeyPair(
         seed: ByteArray,
         derivationPath: DerivationPath,
     ): KeyPair {

@@ -3,6 +3,7 @@ package com.dgsd.ksol.keygen
 import com.dgsd.ksol.model.KeyPair
 import com.dgsd.ksol.model.PrivateKey
 import com.dgsd.ksol.model.PublicKey
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test
@@ -26,7 +27,7 @@ private val WORDS = listOf(
 class KeyFactoryTests {
 
     @Test
-    fun createKeyPairFromPrivateKey_returnsExpectedResult() {
+    fun createKeyPairFromPrivateKey_returnsExpectedResult() = runBlocking {
         val privateKey = PrivateKey.fromBase58(
             "5ysPKzei6U5b1KTRs7XjwUL7335E8L1eta531oQkXP63Wf1jkavEyov1zyNX928hHhNkfEpVptACSfWPZtbzgeoa"
         )
@@ -41,7 +42,7 @@ class KeyFactoryTests {
     }
 
     @Test
-    fun createSeedFromMnemonic_withoutPassphrase_returnsExpectedResult() {
+    fun createSeedFromMnemonic_withoutPassphrase_returnsExpectedResult() = runBlocking {
         val seed = KeyFactory.createSeedFromMnemonic(WORDS)
         val expected = PrivateKey.fromBase58(
             "usDk6nuQLHq8U1DXrhAxmQM1Ra5iazcZ2tdAQs4NoccABGCgDt2mezEYqBGLdziMd44u1bdj7WQ8en7TaoAAsTb"
@@ -51,7 +52,7 @@ class KeyFactoryTests {
     }
 
     @Test
-    fun createSeedFromMnemonic_withPassphrase_returnsExpectedResult() {
+    fun createSeedFromMnemonic_withPassphrase_returnsExpectedResult() = runBlocking {
         val seed = KeyFactory.createSeedFromMnemonic(WORDS, "password")
         val expected = PrivateKey.fromBase58(
             "65eMnGdwXHBRFu2f89m5cALXYCofdTHBGAaZ8qGA97d8ZwNhjXAy2iwSGZ9RCJnXE5qtDMr49Gnf5fXzUDfN9DeQ"
@@ -97,10 +98,12 @@ class KeyFactoryTests {
             "4s69nsCdwTKWFWrrriLkc3cptfH8niYh7axq3r5odKK9rayd8A64Zie2JfVcg8QHAm7XHN5WwdzHYEnZKxWQcxyN"),
     ).map { (accountIndex, publicKey, privateKey) ->
         DynamicTest.dynamicTest("Create key pair for account #$accountIndex") {
-            val keyPair = KeyFactory.createKeyPairFromMnemonic(WORDS, "password", accountIndex)
+            runBlocking {
+                val keyPair = KeyFactory.createKeyPairFromMnemonic(WORDS, "password", accountIndex)
 
-            Assertions.assertEquals(publicKey, keyPair.publicKey.toBase58String())
-            Assertions.assertEquals(privateKey, keyPair.privateKey.toBase58String())
+                Assertions.assertEquals(publicKey, keyPair.publicKey.toBase58String())
+                Assertions.assertEquals(privateKey, keyPair.privateKey.toBase58String())
+            }
         }
     }
 }

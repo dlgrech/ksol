@@ -2,6 +2,7 @@ package com.dgsd.ksol.cli.keygen
 
 import com.dgsd.ksol.keygen.KeyFactory
 import com.github.ajalt.clikt.core.CliktCommand
+import kotlinx.coroutines.runBlocking
 
 class GenerateAccountsCommand : CliktCommand(
     name = "accounts",
@@ -11,7 +12,7 @@ class GenerateAccountsCommand : CliktCommand(
     private val passPhase by passPhraseOption()
     private val mnemonic by mnemonicArgument()
 
-    override fun run() {
+    override fun run() = runBlocking {
         for (i in 0..20) {
             val keyPair = KeyFactory.createKeyPairFromMnemonic(mnemonic, passPhase, i)
             echo("account index #$i: $keyPair")
