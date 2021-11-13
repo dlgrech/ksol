@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.bitcoinj.crypto.HDUtils
 import org.bitcoinj.crypto.MnemonicCode
+import java.security.SecureRandom
 
 private val SOLANA_CURVE_SEED = "ed25519 seed".toByteArray()
 
@@ -69,6 +70,19 @@ object KeyFactory {
             PublicKey(keyPair.publicKey),
             PrivateKey(keyPair.secretKey),
         )
+    }
+
+    /**
+     * Create a new mnemonic word list, which can be used to generate a public/private key pair
+     *
+     * @see createSeedFromMnemonic
+     */
+    suspend fun createMnemonic(
+        phraseLength: MnemonicPhraseLength = MnemonicPhraseLength.TWENTY_FOUR,
+    ): List<String> {
+        val entropy = ByteArray(phraseLength.byteLength)
+        SecureRandom().nextBytes(entropy)
+        return MnemonicCode.INSTANCE.toMnemonic(entropy)
     }
 
     private suspend fun createKeyPair(

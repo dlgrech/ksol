@@ -7,8 +7,7 @@ class KeygenCommand private constructor() : CliktCommand(
     help = "Operations relating to Solana public/private keys"
 ) {
 
-    override fun run() {
-    }
+    override fun run() = Unit
 
     companion object {
 
@@ -17,6 +16,7 @@ class KeygenCommand private constructor() : CliktCommand(
                 .subcommands(
                     GenerateAccountsCommand(),
                     GenerateKeyPairCommand(),
+                    GenerateMnemonicCommand(),
                     GenerateSeedCommand(),
                 )
         }
