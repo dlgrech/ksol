@@ -13,7 +13,7 @@ typealias MutableEventFlow<T> = MutableSharedFlow<T>
 /**
  * Factory for creating [MutableEventFlow] instances
  */
-fun <T> MutableEventFlow(): MutableEventFlow<T> {
+internal fun <T> MutableEventFlow(): MutableEventFlow<T> {
     return MutableSharedFlow(
         replay = 0,
         extraBufferCapacity = 1,

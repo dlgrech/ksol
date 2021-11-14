@@ -5,7 +5,7 @@ import org.bitcoinj.core.Utils
 /**
  * @see https://github.com/solana-labs/solana/blob/master/sdk/program/src/short_vec.rs
  */
-object ShortVecEncoding {
+internal object ShortVecEncoding {
 
     /**
      * Return the serialized length in compact-short format.

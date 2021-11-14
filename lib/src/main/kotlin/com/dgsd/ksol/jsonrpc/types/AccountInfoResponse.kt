@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class AccountInfoResponse(
+internal data class AccountInfoResponse(
     @Json(name = "executable") val isExecutable: Boolean,
     @Json(name = "lamports") val lamports: Long,
     @Json(name = "owner") val ownerHash: String,

@@ -3,7 +3,7 @@ package com.dgsd.ksol.collections
 /**
  * Map-like data structure to hold key/value pairs that have a 1:1 correspondence
  */
-class BidirectionalMap<K, V> {
+internal class BidirectionalMap<K, V> {
     private val keysToValue = mutableMapOf<K, V>()
     private val valuesToKeys = mutableMapOf<V, K>()
 
