@@ -8,6 +8,8 @@ moshi = "1.12.0"
 
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
+kotlin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin"}
+
 kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0"
 kotlin-coroutines-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
