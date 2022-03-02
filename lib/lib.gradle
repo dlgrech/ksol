@@ -1,8 +1,8 @@
 plugins {
     id 'jacoco'
-    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jetbrains.dokka'
+    id 'kotlin-kapt'
 }
 
 repositories {

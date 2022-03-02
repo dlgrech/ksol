@@ -1,16 +1,19 @@
 buildscript {
     repositories {
+        google()
         mavenCentral()
     }
 
     dependencies {
         classpath libs.gradle.kotlin
         classpath libs.kotlin.dokka
+        classpath libs.android.tools
     }
 }
 
 allprojects {
     repositories {
+        google()
         mavenCentral()
     }
 }

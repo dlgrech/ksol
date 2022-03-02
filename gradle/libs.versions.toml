@@ -1,8 +1,9 @@
 [versions]
 
-kotlin = "1.5.31"
-coroutines = "1.5.2"
-moshi = "1.12.0"
+kotlin = "1.6.10"
+coroutines = "1.6.0"
+moshi = "1.13.0"
+compose = "1.1.1"
 
 [libraries]
 
@@ -25,3 +26,11 @@ slf4j-noop = "org.slf4j:slf4j-nop:1.7.32"
 junit = "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 
 clikt = "com.github.ajalt.clikt:clikt:3.3.0"
+
+android-tools = "com.android.tools.build:gradle:7.1.1"
+
+appcompat = "androidx.appcompat:appcompat:1.4.1"
+compose-activity = "androidx.activity:activity-compose:1.4.0"
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+compose-material3 = "androidx.compose.material3:material3:1.0.0-alpha06"
