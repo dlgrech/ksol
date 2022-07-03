@@ -41,7 +41,7 @@ Use `--help` on child commands to get more information
 
 ## Common commands
 
-- Generate a seed phrase:
+### Generate a seed phrase:
 
 ```
 ~/ksol: ./ksol.sh keygen mnemonic
@@ -49,7 +49,7 @@ Use `--help` on child commands to get more information
 [notice, day, enhance, use, engage, disagree, above, caught, walnut, fury, awake, gesture, welcome, hurdle, critic, toward, cost, trick, forum, differ, develop, easy, hobby, project]
 ```
 
-- Generate a public/private key pair from mnemonic
+### Generate a public/private key pair from mnemonic
 
 ```
 # Using seed phrase from above
@@ -58,9 +58,10 @@ Use `--help` on child commands to get more information
 KeyPair(publicKey=4eUAao5VfPbR7mcytqRuLeZNQNJFTo8Tmf56joZRt6sd, privateKey=5gBjQfeUyr16zuSx2DvFfwjosWK6pd6Y1TzCCaBZsDTLtphawQirbVPRMSSyWCzRAvXDfmrtV6gJHB6jrGfz4fk7)
 ```
 
-- Generate account keypairs from a seed phrase:
+### Generate account keypairs from a seed phrase:
 
 ```
+# Using seed phrase from above
 ~/ksol: ./ksol.sh keygen accounts notice, day, enhance, use, engage, disagree, above, caught, walnut, fury, awake, gesture, welcome, hurdle, critic, toward, cost, trick, forum, differ, develop, easy, hobby, project
 
 account index #0: KeyPair(publicKey=9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ, privateKey=4w6ayE5hLKt2hVKaJaE7fKGri75HBWdYxcX8kTwkpnX89M46NkzLXKd6yWCX6qkJLcABBJR52qDT9KzZ9x1Haf9o)
@@ -86,21 +87,23 @@ account index #19: KeyPair(publicKey=CD21S9vCA6mq3g3YnEe2USdNHENh5ghkcQynBwubVxE
 account index #20: KeyPair(publicKey=2SqxrWGSeErDUxktJCYB4e2W4PkvYjbuKxMUWLqVfdt8, privateKey=2TcpbX7pqt3ZTnQ4o3AQQSYzGLfMYJ2mWqCqYM3JXx2BQ275xHJ9BDekpBxb79q3Lm3gvbjQMvj7jDbHsHcP4g2g)
 ```
 
-- Request airdrop of 1 lamport on devnet:
+### Request airdrop of 1 lamport on devnet:
 
 ```
 ~/ksol: ./ksol.sh rpc --cluster devnet requestAirdrop 9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ 1000000000
+
 4v8Kg7AhkbsxACqgs9EjwD6h97DNNhrACopUYkXnzyNJWBomN2jc8A7gbUFCx8aHMw7zVwVLJhpbL6oKAk3Qiz8V
 ```
 
-- Get transaction info:
+### Get transaction info:
 
 ```
 ~/ksol:  ./ksol.sh rpc --cluster devnet getTransaction 4v8Kg7AhkbsxACqgs9EjwD6h97DNNhrACopUYkXnzyNJWBomN2jc8A7gbUFCx8aHMw7zVwVLJhpbL6oKAk3Qiz8V
 
 Transaction(signatures=[4v8Kg7AhkbsxACqgs9EjwD6h97DNNhrACopUYkXnzyNJWBomN2jc8A7gbUFCx8aHMw7zVwVLJhpbL6oKAk3Qiz8V], message=TransactionMessage(header=TransactionHeader(numRequiredSignatures=1, numReadonlySignedAccounts=0, numReadonlyUnsignedAccounts=1), accountKeys=[TransactionAccountMetadata(publicKey=4ETf86tK7b4W72f27kNLJLgRWi9UfJjgH4koHGUXMFtn, isSigner=true, isWritable=true), TransactionAccountMetadata(publicKey=9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ, isSigner=false, isWritable=true), TransactionAccountMetadata(publicKey=11111111111111111111111111111111, isSigner=false, isWritable=false)], recentBlockhash=F2ijUhMJkCnMuG7TzE3Xg4C9xhxvXQbxVQq3rkJRF6G2, instructions=[TransactionInstruction(programAccount=11111111111111111111111111111111, inputData=[2, 0, 0, 0, -24, 3, 0, 0, 0, 0, 0, 0], inputAccounts=[4ETf86tK7b4W72f27kNLJLgRWi9UfJjgH4koHGUXMFtn, 9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ])]))
+```
 
-- Get Balance
+### Get Balance
 
 ```
 ~/ksol: ./ksol.sh rpc --cluster devnet  getBalance 9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ
@@ -108,7 +111,7 @@ Transaction(signatures=[4v8Kg7AhkbsxACqgs9EjwD6h97DNNhrACopUYkXnzyNJWBomN2jc8A7g
 1000000000
 ```
 
-- Send transaction
+### Send transaction
 
 ```
 ~/ksol: ./ksol.sh send --cluster devnet  4w6ayE5hLKt2hVKaJaE7fKGri75HBWdYxcX8kTwkpnX89M46NkzLXKd6yWCX6qkJLcABBJR52qDT9KzZ9x1Haf9o  4s9GDoCWBveJGiNEf1GruCfAmiwJpBoAVXtp7eMZTjDp  10000000
