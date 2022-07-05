@@ -27,10 +27,12 @@ junit = "org.junit.jupiter:junit-jupiter-engine:5.8.1"
 
 clikt = "com.github.ajalt.clikt:clikt:3.3.0"
 
-android-tools = "com.android.tools.build:gradle:7.1.1"
+android-tools = "com.android.tools.build:gradle:7.2.1"
 
 appcompat = "androidx.appcompat:appcompat:1.4.1"
 compose-activity = "androidx.activity:activity-compose:1.4.0"
 compose-animation = { module = "androidx.compose.animation:animation", version.ref = "compose" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-material3 = "androidx.compose.material3:material3:1.0.0-alpha06"
+
+androidx-security = "androidx.security:security-crypto:1.0.0"
