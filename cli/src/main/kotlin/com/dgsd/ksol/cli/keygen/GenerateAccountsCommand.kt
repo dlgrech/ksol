@@ -15,7 +15,9 @@ class GenerateAccountsCommand : CliktCommand(
     override fun run() = runBlocking {
         for (i in 0..20) {
             val keyPair = KeyFactory.createKeyPairFromMnemonic(mnemonic, passPhase, i)
-            echo("account index #$i: $keyPair")
+            echo("account index #$i: " +
+                    "public = ${keyPair.publicKey.toBase58String()} / " +
+                    "private = ${keyPair.privateKey.toBase58String()}")
         }
     }
 

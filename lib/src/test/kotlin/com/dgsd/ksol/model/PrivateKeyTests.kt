@@ -45,5 +45,14 @@ class PrivateKeyTests {
 
         Assertions.assertEquals(key.toBase58String(), base58)
     }
+
+    @Test
+    fun toString_doesNotReturnPrivateKey() {
+        val base58 = "HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"
+
+        val key = PrivateKey.fromBase58(base58)
+
+        Assertions.assertNotEquals(key.toString(), base58)
+    }
     
 }

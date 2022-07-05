@@ -20,7 +20,7 @@ data class PrivateKey internal constructor(val key: ByteArray) {
     }
 
     override fun toString(): String {
-        return toBase58String()
+        return "[redacted]"
     }
 
     fun toBase58String(): String {
