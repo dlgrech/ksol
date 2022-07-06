@@ -1,7 +1,7 @@
 package com.dgsd.android.solar.session.manager
 
+import android.content.SharedPreferences
 import androidx.core.content.edit
-import androidx.security.crypto.EncryptedSharedPreferences
 import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.NoActiveWalletSession
 import com.dgsd.android.solar.session.model.PublicKeySession
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 private const val PREF_KEY_ACTIVE_WALLET_PUBLIC_KEY_HASH = "active_wallet_public_key"
 
 class SessionManagerImpl(
-    private val sharedPreferences: EncryptedSharedPreferences,
+    private val sharedPreferences: SharedPreferences,
 ) : SessionManager {
 
     private val _activeSession = MutableStateFlow<Session>(NoActiveWalletSession)

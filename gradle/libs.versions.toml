@@ -36,3 +36,5 @@ compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "co
 compose-material3 = "androidx.compose.material3:material3:1.0.0-alpha06"
 
 androidx-security = "androidx.security:security-crypto:1.0.0"
+
+koin-android = "io.insert-koin:koin-android:3.2.0"
