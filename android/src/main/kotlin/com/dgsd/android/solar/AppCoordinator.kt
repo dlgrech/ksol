@@ -7,20 +7,17 @@ import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.NoActiveWalletSession
 import com.dgsd.android.solar.session.model.PublicKeySession
 import com.dgsd.android.solar.session.model.Session
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.distinctUntilChangedBy
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 
 class AppCoordinator(
     private val sessionManager: SessionManager,
 ) : ViewModel() {
 
     private val _destination = MutableStateFlow<Destination?>(null)
-    val destination = _destination.value
+    val destination = _destination.filterNotNull().distinctUntilChanged()
 
     sealed interface Destination {
-        object NoActiveWallet : Destination
+        object Onboarding : Destination
         object Home : Destination
     }
 
@@ -34,7 +31,7 @@ class AppCoordinator(
     private fun onSessionChanged(session: Session) {
         when (session) {
             NoActiveWalletSession -> {
-                _destination.value = Destination.NoActiveWallet
+                _destination.value = Destination.Onboarding
             }
 
             is KeyPairSession,
