@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        // We explicitly dont restore our state here, so that we're always starting afresh
+        super.onCreate(null)
+
         setContentView(R.layout.act_main)
 
         appCoordinator.destination
