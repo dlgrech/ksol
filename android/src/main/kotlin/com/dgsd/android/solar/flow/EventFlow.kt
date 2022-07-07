@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.SharedFlow
 typealias EventFlow<T> = SharedFlow<T>
 typealias MutableEventFlow<T> = MutableSharedFlow<T>
 
+@Suppress("FunctionName")
 fun <T> MutableEventFlow(): MutableEventFlow<T> {
     return MutableSharedFlow(
         replay = 1,

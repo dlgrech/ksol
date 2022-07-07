@@ -11,7 +11,7 @@ sealed interface Resource<T> {
 
     data class Success<T>(val data: T) : Resource<T>
 
-    fun getDataOrNull(): T? {
+    fun dataOrNull(): T? {
         return when (this) {
             is Error -> null
             is Loading -> this.data
