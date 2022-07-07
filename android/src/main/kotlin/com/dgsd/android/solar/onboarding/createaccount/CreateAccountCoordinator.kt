@@ -17,8 +17,11 @@ class CreateAccountCoordinator : ViewModel() {
     private val _destination = MutableEventFlow<Destination>()
     val destination = _destination.asEventFlow()
 
-    private var passphrase: SensitiveString? = null
-    private var seedPhrase: SensitiveList<String>? = null
+    var passphrase: SensitiveString? = null
+        private set
+
+    var seedPhrase: SensitiveList<String>? = null
+        private set
 
     fun onCreate() {
         _destination.tryEmit(Destination.EnterPassphrase)

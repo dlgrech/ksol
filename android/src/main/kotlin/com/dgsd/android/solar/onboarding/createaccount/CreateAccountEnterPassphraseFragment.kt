@@ -22,8 +22,8 @@ import kotlinx.coroutines.flow.onEach
 
 class CreateAccountEnterPassphraseFragment : Fragment() {
 
-    private val viewModel: CreateAccountEnterPassphraseViewModel by viewModels()
     private val createNewAccountCoordinator: CreateAccountCoordinator by parentViewModel()
+    private val viewModel: CreateAccountEnterPassphraseViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
