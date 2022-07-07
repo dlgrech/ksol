@@ -10,8 +10,9 @@ typealias MutableEventFlow<T> = MutableSharedFlow<T>
 @Suppress("FunctionName")
 fun <T> MutableEventFlow(): MutableEventFlow<T> {
     return MutableSharedFlow(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+        replay = 0,
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.SUSPEND
     )
 }
 

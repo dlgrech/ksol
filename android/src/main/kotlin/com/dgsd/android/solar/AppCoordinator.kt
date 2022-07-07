@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class AppCoordinator(
-    sessionManager: SessionManager,
+    private val sessionManager: SessionManager,
 ) : ViewModel() {
 
     sealed interface Destination {
@@ -25,7 +25,7 @@ class AppCoordinator(
     private val _destination = MutableEventFlow<Destination>()
     val destination = _destination.asEventFlow()
 
-    init {
+    fun onCreate() {
         sessionManager.activeSession
             .distinctUntilChangedBy { it.sessionId }
             .onEach { onSessionChanged(it) }

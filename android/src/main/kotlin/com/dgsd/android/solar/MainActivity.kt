@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         appCoordinator.destination
             .onEach(::onDestinationChanged)
             .launchIn(lifecycleScope)
+
+        lifecycleScope.launchWhenStarted {
+            appCoordinator.onCreate()
+        }
     }
 
     private fun onDestinationChanged(destination: Destination) {

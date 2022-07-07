@@ -20,7 +20,7 @@ class CreateAccountCoordinator : ViewModel() {
     private var passphrase: SensitiveString? = null
     private var seedPhrase: SensitiveList<String>? = null
 
-    init {
+    fun onCreate() {
         _destination.tryEmit(Destination.EnterPassphrase)
     }
 

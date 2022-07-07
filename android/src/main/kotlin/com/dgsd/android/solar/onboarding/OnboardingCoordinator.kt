@@ -17,7 +17,7 @@ class OnboardingCoordinator : ViewModel() {
     private val _destination = MutableEventFlow<Destination>()
     val destination = _destination.asEventFlow()
 
-    init {
+    fun onCreate() {
         _destination.tryEmit(Destination.Welcome)
     }
 

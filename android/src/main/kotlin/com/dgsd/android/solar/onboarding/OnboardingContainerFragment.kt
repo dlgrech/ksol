@@ -22,6 +22,10 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
         coordinator.destination
             .onEach(::onDestinationChanged)
             .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            coordinator.onCreate()
+        }
     }
 
     private fun onDestinationChanged(destination: Destination) {
