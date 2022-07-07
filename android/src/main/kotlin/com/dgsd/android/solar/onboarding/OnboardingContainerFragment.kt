@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator.Destination
+import com.dgsd.android.solar.onboarding.createaccount.CreateAccountContainerFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -25,7 +26,7 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
 
     private fun onDestinationChanged(destination: Destination) {
         val fragment = when (destination) {
-            Destination.CreateNewWalletFlow -> CreateNewAccountFragment()
+            Destination.CreateNewWalletFlow -> CreateAccountContainerFragment.newInstance()
             Destination.Explainer -> OnboardingExplainerFragment()
             Destination.RestorePrivateKeyFlow -> AddAccountFromPrivateKeyFragment()
             Destination.RestoreSeedPhraseFlow -> AddAccountFromSeedPhraseFragment()

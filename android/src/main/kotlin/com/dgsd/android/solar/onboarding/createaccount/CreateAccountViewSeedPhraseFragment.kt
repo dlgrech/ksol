@@ -1,7 +1,8 @@
-package com.dgsd.android.solar.onboarding
+package com.dgsd.android.solar.onboarding.createaccount
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -13,13 +14,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.common.util.collectAsStateLifecycleAware
+import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.setContent
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateNewAccountFragment : Fragment() {
+class CreateAccountViewSeedPhraseFragment : Fragment() {
 
-    private val viewModel by viewModel<CreateNewAccountViewModel>()
+    private val createAccountCoordinator: CreateAccountCoordinator by parentViewModel()
+    private val viewModel: CreateAccountViewSeedPhraseViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,5 +61,12 @@ class CreateNewAccountFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.continueWithSeedPhrase.onEach { seedPhrase ->
+            createAccountCoordinator.onSeedPhraseConfirmed(seedPhrase)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
