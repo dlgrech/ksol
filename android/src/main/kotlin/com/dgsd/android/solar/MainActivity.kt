@@ -1,14 +1,12 @@
 package com.dgsd.android.solar
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
+import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.AppCoordinator.Destination
-import com.dgsd.android.solar.extensions.findActiveFragmentById
+import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -18,15 +16,11 @@ class MainActivity : AppCompatActivity() {
 
     private val appCoordinator: AppCoordinator by viewModel()
 
-    private val fragmentContainerView by lazy(LazyThreadSafetyMode.NONE) {
-        findViewById<View>(R.id.fragment_container)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         // We explicitly dont restore our state here, so that we're always starting afresh
         super.onCreate(null)
 
-        setContentView(R.layout.act_main)
+        setContentView(R.layout.view_fragment_container)
 
         appCoordinator.destination
             .onEach(::onDestinationChanged)
@@ -59,30 +53,8 @@ class MainActivity : AppCompatActivity() {
         resetBackStack: Boolean,
     ) {
         if (resetBackStack) {
-            supportFragmentManager.popBackStackImmediate(
-                null,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
-            )
+            supportFragmentManager.popBackStackImmediate(null, POP_BACK_STACK_INCLUSIVE)
         }
-
-        supportFragmentManager.commit(allowStateLoss = true) {
-            if (getCurrentFragment() != null) {
-                setCustomAnimations(
-                    R.anim.default_fragment_entry,
-                    R.anim.fade_out,
-                    R.anim.fade_in,
-                    R.anim.fade_out,
-                )
-
-                addToBackStack(null)
-            }
-
-            replace(fragmentContainerView.id, fragment)
-        }
+        supportFragmentManager.navigate(R.id.fragment_container, fragment)
     }
-
-    private fun getCurrentFragment(): Fragment? {
-        return supportFragmentManager.findActiveFragmentById(fragmentContainerView.id)
-    }
-
 }

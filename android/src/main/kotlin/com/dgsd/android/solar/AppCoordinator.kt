@@ -2,24 +2,28 @@ package com.dgsd.android.solar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.NoActiveWalletSession
 import com.dgsd.android.solar.session.model.PublicKeySession
 import com.dgsd.android.solar.session.model.Session
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 class AppCoordinator(
-    private val sessionManager: SessionManager,
+    sessionManager: SessionManager,
 ) : ViewModel() {
-
-    private val _destination = MutableStateFlow<Destination?>(null)
-    val destination = _destination.filterNotNull().distinctUntilChanged()
 
     sealed interface Destination {
         object Onboarding : Destination
         object Home : Destination
     }
+
+    private val _destination = MutableEventFlow<Destination>()
+    val destination = _destination.asEventFlow()
 
     init {
         sessionManager.activeSession
@@ -31,7 +35,7 @@ class AppCoordinator(
     private fun onSessionChanged(session: Session) {
         when (session) {
             NoActiveWalletSession -> {
-                _destination.value = Destination.Onboarding
+                _destination.tryEmit(Destination.Onboarding)
             }
 
             is KeyPairSession,
