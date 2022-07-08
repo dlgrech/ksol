@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.AppCoordinator.Destination
 import com.dgsd.android.solar.extensions.navigate
+import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getFragmentForDestination(destination: Destination): Fragment {
         return when (destination) {
-            Destination.Home -> TODO("Not implemented yet")
+            Destination.Home -> HomeFragment.newInstance()
             Destination.Onboarding -> OnboardingContainerFragment.newInstance()
         }
     }
