@@ -3,7 +3,6 @@ package com.dgsd.android.solar
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.AppCoordinator.Destination
 import com.dgsd.android.solar.extensions.navigate
@@ -18,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private val appCoordinator: AppCoordinator by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // We explicitly dont restore our state here, so that we're always starting afresh
+        // We explicitly don't restore our state here, so that we're always starting afresh
         super.onCreate(null)
 
         setContentView(R.layout.view_fragment_container)
@@ -57,9 +56,10 @@ class MainActivity : AppCompatActivity() {
         fragment: Fragment,
         resetBackStack: Boolean,
     ) {
-        if (resetBackStack) {
-            supportFragmentManager.popBackStackImmediate(null, POP_BACK_STACK_INCLUSIVE)
-        }
-        supportFragmentManager.navigate(R.id.fragment_container, fragment)
+        supportFragmentManager.navigate(
+            containerId = R.id.fragment_container,
+            fragment = fragment,
+            resetBackStack = resetBackStack
+        )
     }
 }

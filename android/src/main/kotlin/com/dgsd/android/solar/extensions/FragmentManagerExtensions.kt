@@ -20,9 +20,13 @@ fun FragmentManager.findActiveFragmentById(id: Int): Fragment? {
 fun FragmentManager.navigate(
     @IdRes containerId: Int,
     fragment: Fragment,
+    resetBackStack: Boolean = false
 ) {
     commit(allowStateLoss = true) {
-        if (findActiveFragmentById(containerId) != null) {
+        if (resetBackStack) {
+            fragments.forEach { remove(it) }
+            setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
+        } else if (findActiveFragmentById(containerId) != null) {
             setCustomAnimations(
                 R.anim.default_fragment_entry,
                 R.anim.fade_out,
