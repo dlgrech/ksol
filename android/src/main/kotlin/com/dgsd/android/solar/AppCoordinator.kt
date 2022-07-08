@@ -39,7 +39,9 @@ class AppCoordinator(
             }
 
             is KeyPairSession,
-            is PublicKeySession -> Destination.Home
+            is PublicKeySession -> {
+                _destination.tryEmit(Destination.Home)
+            }
         }
     }
 }

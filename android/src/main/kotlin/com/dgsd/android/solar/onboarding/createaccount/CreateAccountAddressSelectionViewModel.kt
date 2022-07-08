@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
+import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.KeyPair
-import kotlinx.coroutines.flow.filterNotNull
+import com.dgsd.ksol.model.PublicKey
 import kotlinx.coroutines.flow.mapNotNull
 
 private const val NUMBER_OF_ADDRESSES_TO_GENERATE = 20
@@ -19,17 +21,20 @@ class CreateAccountAddressSelectionViewModel(
 
     private val addressesResourceConsumer = ResourceFlowConsumer<List<KeyPair>>(viewModelScope)
 
-    private val keyPairs = addressesResourceConsumer.data.filterNotNull()
+    private val keyPairs = addressesResourceConsumer.data
 
     val generatedAddress = keyPairs.mapNotNull { keyPairs ->
-        keyPairs.firstOrNull()?.publicKey
+        keyPairs?.firstOrNull()?.publicKey
     }
 
     val alternativeAddresses = keyPairs.mapNotNull { keyPairs ->
-        keyPairs.drop(1).map { it.publicKey }
+        keyPairs?.drop(1)?.map { it.publicKey }
     }
 
     val isLoading = addressesResourceConsumer.isLoading
+
+    private val _continueWithGeneratedKeyPair = MutableEventFlow<KeyPair>()
+    val continueWithGeneratedKeyPair = _continueWithGeneratedKeyPair.asEventFlow()
 
     init {
         addressesResourceConsumer.collectFlow {
@@ -42,6 +47,11 @@ class CreateAccountAddressSelectionViewModel(
                     )
                 }
         }
+    }
+
+    fun onAddressSelected(key: PublicKey) {
+        val selectedKeyPair = keyPairs.value.orEmpty().single { it.publicKey == key }
+        _continueWithGeneratedKeyPair.tryEmit(selectedKeyPair)
     }
 
 }
