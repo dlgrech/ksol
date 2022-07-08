@@ -2,9 +2,11 @@ package com.dgsd.android.solar.di
 
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -29,6 +31,8 @@ internal object AppModule {
             single<SessionManager> {
                 SessionManagerImpl(get(named(SHARED_PREFS_KEY_ACTIVE_SESSION)))
             }
+
+            singleOf(::ErrorMessageFactory)
         }
     }
 }
