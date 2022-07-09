@@ -1,11 +1,14 @@
 package com.dgsd.ksol.model
 
 sealed class Cluster(
-    url: String,
+    val rpcUrl: String,
+    val webSocketUrl: String,
 ) {
-    val rpcUrl = "https://$url"
 
-    val webSocketUrl = "ws://$url"
+    constructor(url: String) : this(
+        rpcUrl = "https://$url",
+        webSocketUrl = "ws://$url"
+    )
 
     object DEVNET : Cluster(url = "api.devnet.solana.com")
 
@@ -13,5 +16,5 @@ sealed class Cluster(
 
     object MAINNET : Cluster(url = "api.mainnet-beta.solana.com")
 
-    class Custom(endpoint: String) : Cluster(endpoint)
+    class Custom(rpcUrl: String, webSocketUrl: String) : Cluster(rpcUrl, webSocketUrl)
 }
