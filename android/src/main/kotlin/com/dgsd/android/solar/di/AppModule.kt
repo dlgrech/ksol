@@ -3,11 +3,13 @@ package com.dgsd.android.solar.di
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.dgsd.android.solar.BuildConfig
 import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.cluster.manager.ClusterManagerImpl
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
+import com.dgsd.ksol.model.Cluster
 import okhttp3.OkHttpClient
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -27,7 +29,7 @@ internal object AppModule {
                 createSharedPreferences(SHARED_PREFS_KEY_ACTIVE_SESSION)
             }
 
-            single {
+            single(named(SHARED_PREFS_KEY_APP_SETTINGS)) {
                 createSharedPreferences(SHARED_PREFS_KEY_APP_SETTINGS)
             }
 
@@ -36,7 +38,14 @@ internal object AppModule {
             }
 
             single<ClusterManager> {
-                ClusterManagerImpl(get(named(SHARED_PREFS_KEY_APP_SETTINGS)))
+                ClusterManagerImpl(
+                    get(named(SHARED_PREFS_KEY_APP_SETTINGS)),
+                    if (BuildConfig.DEBUG) {
+                        Cluster.DEVNET
+                    } else {
+                        Cluster.MAINNET
+                    }
+                )
             }
 
             singleOf(::OkHttpClient)

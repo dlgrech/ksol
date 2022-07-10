@@ -3,6 +3,7 @@ package com.dgsd.android.solar
 import android.app.Application
 import android.os.StrictMode
 import com.dgsd.android.solar.di.AppModule
+import com.dgsd.android.solar.di.SessionScopedModule
 import com.dgsd.android.solar.di.ViewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -22,6 +23,7 @@ class SolarApplication : Application() {
 
             modules(
                 AppModule.create(),
+                SessionScopedModule.create(),
                 ViewModelModule.create(),
             )
         }

@@ -10,10 +10,11 @@ private const val PREF_KEY_CLUSTER_RPC_URL = "active_cluster_rpc_url"
 private const val PREF_KEY_CLUSTER_WS_URL = "active_cluster_ws_url"
 
 class ClusterManagerImpl(
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    defaultCluster: Cluster
 ) : ClusterManager {
 
-    private val _activeCluster = MutableStateFlow<Cluster>(Cluster.MAINNET)
+    private val _activeCluster = MutableStateFlow(defaultCluster)
     override val activeCluster = _activeCluster.asStateFlow()
 
     init {
