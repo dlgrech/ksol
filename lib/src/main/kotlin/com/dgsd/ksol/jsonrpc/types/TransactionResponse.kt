@@ -25,7 +25,7 @@ internal data class TransactionResponse(
     internal data class Message(
 
         /**
-         * ist of base-58 encoded public keys used by the transaction, including by the instructions and for signatures
+         * List of base-58 encoded public keys used by the transaction, including by the instructions and for signatures
          */
         @Json(name = "accountKeys") val accountKeys: List<String>,
 
