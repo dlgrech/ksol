@@ -35,20 +35,20 @@ class TransactionTest {
     @Test
     fun constructor_whenSignaturesIsEmpty_throwsException() {
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            Transaction(emptyList(), message)
+            Transaction(emptyList(), message, metadata = null)
         }
     }
 
     @Test
     fun id_withMultipleSignatures_returnsFirst() {
-        val id = Transaction(listOf("a", "b", "c"), message).id
+        val id = Transaction(listOf("a", "b", "c"), message, metadata = null).id
 
         Assertions.assertEquals("a", id)
     }
 
     @Test
     fun id_withSingleSignatures_returnsFirst() {
-        val id = Transaction(listOf("a"), message).id
+        val id = Transaction(listOf("a"), message, metadata = null).id
 
         Assertions.assertEquals("a", id)
     }

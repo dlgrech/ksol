@@ -45,6 +45,6 @@ object Transactions {
         val signatureBytes = SigningUtils.sign(serializedMessage, sender.privateKey)
         val signatures = listOf(EncodingUtils.encodeBase58(signatureBytes))
 
-        return Transaction(signatures, message)
+        return Transaction(signatures, message, metadata = null)
     }
 }

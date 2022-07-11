@@ -1,6 +1,7 @@
 package com.dgsd.ksol.factory
 
 import com.dgsd.ksol.jsonrpc.types.GetTransactionResponseBody
+import com.dgsd.ksol.jsonrpc.types.TransactionMetaResponse
 import com.dgsd.ksol.jsonrpc.types.TransactionResponse
 import com.dgsd.ksol.model.*
 import com.dgsd.ksol.utils.DecodingUtils
@@ -8,16 +9,16 @@ import com.dgsd.ksol.utils.DecodingUtils
 internal object TransactionFactory {
 
     fun create(response: GetTransactionResponseBody?): Transaction? {
-        return create(response?.transaction)
-    }
-
-    private fun create(response: TransactionResponse?): Transaction? {
-        return if (response == null) {
+        val transactionResponse = response?.transaction
+        val metaResponse = response?.meta
+        return if (transactionResponse == null || metaResponse == null) {
             null
         } else {
+            val message = create(transactionResponse.message)
             Transaction(
-                signatures = response.signatures,
-                message = create(response.message)
+                signatures = transactionResponse.signatures,
+                message = message,
+                metadata = create(message, metaResponse),
             )
         }
     }
@@ -65,6 +66,23 @@ internal object TransactionFactory {
             accountKeys = accountKeys,
             recentBlockhash = response.recentBlockhash,
             instructions = instructions
+        )
+    }
+
+    private fun create(
+        message: TransactionMessage,
+        response: TransactionMetaResponse,
+    ): TransactionMetadata {
+        return TransactionMetadata(
+            fee = response.fee,
+            logMessages = response.logMessages,
+            accountBalances = message.accountKeys.mapIndexed { index, account ->
+                TransactionMetadata.Balance(
+                    account.publicKey,
+                    response.preBalances[index],
+                    response.postBalances[index],
+                )
+            }
         )
     }
 }
