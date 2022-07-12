@@ -24,6 +24,18 @@ fun <T> resourceFlowOf(
     }.flowOn(context)
 }
 
+fun <T, R> Flow<Resource<T>>.flatMapSuccess(
+    action: suspend (T) -> Flow<Resource<R>>
+): Flow<Resource<R>> {
+    return this.flatMapLatest { resource ->
+        when (resource) {
+            is Resource.Error -> flowOf(Resource.Error(resource.error))
+            is Resource.Loading -> flowOf(Resource.Loading(data = null))
+            is Resource.Success -> action.invoke(resource.data)
+        }
+    }
+}
+
 /**
  * Emits [true] if any of the given flows have a value of [true], [false] otherwise
  */
