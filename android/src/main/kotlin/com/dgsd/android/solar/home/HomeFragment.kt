@@ -50,12 +50,12 @@ class HomeFragment : Fragment() {
                 Text(text = "Loading Transactions")
             } else {
                 Column {
-                    Text(text = "Signatures:")
+                    Text(text = "Transactions:")
                     if (transactions.isNullOrEmpty()) {
                         Text(text = "None")
                     } else {
-                        for (signature in transactions.orEmpty()) {
-                            Text(text = signature.toString())
+                        for (transaction in transactions.orEmpty()) {
+                            Text(text = transaction.toString())
                         }
                     }
                 }
