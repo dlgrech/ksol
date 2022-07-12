@@ -1,30 +1,27 @@
 package com.dgsd.android.solar.common.util
 
 import com.dgsd.android.solar.common.model.Resource
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 /**
  * Converts a `suspend` method into a `Flow<Resource>`
  */
-fun <T> CoroutineScope.asResourceFlow(
+fun <T> resourceFlowOf(
+    context: CoroutineContext = Dispatchers.IO,
     action: suspend () -> T,
-    context: CoroutineContext = coroutineContext
 ): Flow<Resource<T>> {
-    val result = MutableStateFlow<Resource<T>>(Resource.Loading())
-    launch(context) {
+    return flow<Resource<T>> {
+        emit(Resource.Loading())
         runCatching {
             action.invoke()
         }.onSuccess {
-            result.value = Resource.Success(it)
+            emit(Resource.Success(it))
         }.onFailure {
-            result.value = Resource.Error(it)
+            emit(Resource.Error(it))
         }
-    }
-
-    return result
+    }.flowOn(context)
 }
 
 /**

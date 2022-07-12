@@ -2,9 +2,11 @@ package com.dgsd.android.solar.common.util
 
 import com.dgsd.android.solar.common.model.Resource
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -23,11 +25,7 @@ class ResourceFlowConsumer<T>(private val scope: CoroutineScope) {
 
     private var existingJob: Job? = null
 
-    fun collectFlow(action: (suspend () -> T)) {
-        collectFlow(scope.asResourceFlow(action, Dispatchers.IO))
-    }
-
-    private fun collectFlow(flow: Flow<Resource<T>>) {
+    fun collectFlow(flow: Flow<Resource<T>>) {
         existingJob?.cancel()
         existingJob = scope.launch {
             flow.collectLatest { resource ->

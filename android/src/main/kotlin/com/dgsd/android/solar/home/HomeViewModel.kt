@@ -3,8 +3,7 @@ package com.dgsd.android.solar.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
-import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.SolanaApi
+import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.Transaction
 import kotlinx.coroutines.flow.map
@@ -12,8 +11,7 @@ import kotlinx.coroutines.flow.map
 private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
 class HomeViewModel(
-    private val solanaApi: SolanaApi,
-    private val currentSession: WalletSession,
+    private val solanaApiRepository: SolanaApiRepository,
 ) : ViewModel() {
 
     private val balanceResourceConsumer = ResourceFlowConsumer<Lamports>(viewModelScope)
@@ -25,17 +23,17 @@ class HomeViewModel(
     val transactions = transactionsResourceConsumer.data
 
     fun onCreate() {
-        balanceResourceConsumer.collectFlow {
-            solanaApi.getBalance(currentSession.publicKey)
-        }
+        balanceResourceConsumer.collectFlow(
+            solanaApiRepository.getBalance()
+        )
 
-        transactionsResourceConsumer.collectFlow {
-            solanaApi.getSignaturesForAddress(
-                accountKey = currentSession.publicKey,
-                limit = NUM_TRANSACTIONS_TO_DISPLAY
-            ).map {
-                checkNotNull(solanaApi.getTransaction(it.signature))
-            }
-        }
+//        transactionsResourceConsumer.collectFlow {
+//            solanaApi.getSignaturesForAddress(
+//                accountKey = currentSession.publicKey,
+//                limit = NUM_TRANSACTIONS_TO_DISPLAY
+//            ).map {
+//                checkNotNull(solanaApi.getTransaction(it.signature))
+//            }
+//        }
     }
 }

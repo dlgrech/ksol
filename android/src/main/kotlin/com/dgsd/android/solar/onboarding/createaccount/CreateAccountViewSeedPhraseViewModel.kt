@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
+import com.dgsd.android.solar.common.util.resourceFlowOf
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.keygen.KeyFactory
@@ -31,9 +32,11 @@ class CreateAccountViewSeedPhraseViewModel(
     val continueWithSeedPhrase = _continueWithSeedPhrase.asEventFlow()
 
     init {
-        generateMnemonicConsumer.collectFlow {
-            SensitiveList(KeyFactory.createMnemonic())
-        }
+        generateMnemonicConsumer.collectFlow(
+            resourceFlowOf {
+                SensitiveList(KeyFactory.createMnemonic())
+            }
+        )
     }
 
     fun onNextButtonClicked() {

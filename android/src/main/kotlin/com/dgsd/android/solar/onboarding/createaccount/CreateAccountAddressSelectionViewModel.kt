@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
+import com.dgsd.android.solar.common.util.resourceFlowOf
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.keygen.KeyFactory
@@ -37,16 +38,18 @@ class CreateAccountAddressSelectionViewModel(
     val continueWithGeneratedKeyPair = _continueWithGeneratedKeyPair.asEventFlow()
 
     init {
-        addressesResourceConsumer.collectFlow {
-            0.rangeTo(NUMBER_OF_ADDRESSES_TO_GENERATE)
-                .map { accountIndex ->
-                    KeyFactory.createKeyPairFromMnemonic(
-                        seedPhrase,
-                        passphrase.sensitiveValue,
-                        accountIndex
-                    )
-                }
-        }
+        addressesResourceConsumer.collectFlow(
+            resourceFlowOf {
+                0.rangeTo(NUMBER_OF_ADDRESSES_TO_GENERATE)
+                    .map { accountIndex ->
+                        KeyFactory.createKeyPairFromMnemonic(
+                            seedPhrase,
+                            passphrase.sensitiveValue,
+                            accountIndex
+                        )
+                    }
+            }
+        )
     }
 
     fun onAddressSelected(key: PublicKey) {

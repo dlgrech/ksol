@@ -16,8 +16,7 @@ internal object ViewModelModule {
             viewModelOf(::AppCoordinator)
             viewModel {
                 HomeViewModel(
-                    solanaApi = getScoped(),
-                    currentSession = getScoped(),
+                    solanaApiRepository = getScoped(),
                 )
             }
 
