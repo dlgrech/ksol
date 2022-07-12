@@ -6,15 +6,15 @@ import com.dgsd.ksol.utils.ShortVecEncoding
 import java.nio.ByteBuffer
 
 /**
- * Helper methods for serializing `Transaction` objects in the format expected by the Solana json-rpc
+ * Helper methods for serializing [LocalTransaction] objects in the format expected by the Solana json-rpc
  */
-internal object TransactionSerializer {
+internal object LocalTransactionSerializer {
 
     private const val TRANSACTION_SIGNATURE_LENGTH = 64
     private const val MESSAGE_HEADER_LENGTH = 3
     private const val RECENT_BLOCKHASH_LENGTH = 32
 
-    fun serialize(transaction: Transaction): ByteArray {
+    fun serialize(transaction: LocalTransaction): ByteArray {
         val serializedMessage = serialize(transaction.message)
 
         val signaturesSize = transaction.signatures.size

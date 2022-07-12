@@ -1,13 +1,11 @@
 package com.dgsd.ksol.model
 
-import java.time.OffsetDateTime
-
-data class Transaction(
-    val slot: Long,
-    val blockTime: OffsetDateTime?,
+/**
+ * Like a [Transaction], but used for constructing on the local machine
+ */
+data class LocalTransaction(
     val signatures: List<String>,
     val message: TransactionMessage,
-    val metadata: TransactionMetadata,
 ) {
 
     init {

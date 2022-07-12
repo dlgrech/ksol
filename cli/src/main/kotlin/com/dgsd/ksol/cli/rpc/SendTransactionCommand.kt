@@ -1,7 +1,7 @@
 package com.dgsd.ksol.cli.rpc
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.Transactions
+import com.dgsd.ksol.LocalTransactions
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.PrivateKey
 import com.dgsd.ksol.model.PublicKey
@@ -46,7 +46,7 @@ class SendTransactionCommand() : CliktCommand(
 
         echo(
             api.sendTransaction(
-                Transactions.createTransferTransaction(
+                LocalTransactions.createTransferTransaction(
                     keyPair,
                     toAccount,
                     lamports,

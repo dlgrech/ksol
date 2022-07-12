@@ -2,24 +2,24 @@ package com.dgsd.ksol
 
 import com.dgsd.ksol.model.*
 import com.dgsd.ksol.programs.SystemProgram
-import com.dgsd.ksol.serialization.TransactionSerializer
+import com.dgsd.ksol.serialization.LocalTransactionSerializer
 import com.dgsd.ksol.utils.EncodingUtils
 import com.dgsd.ksol.utils.SigningUtils
 
 /**
  * Helper methods for creating [Transaction] objects
  */
-object Transactions {
+object LocalTransactions {
 
     /**
-     * Creates a [Transactions] that will transfer `lamports` from `sender` to `recipient`
+     * Creates a [LocalTransactions] that will transfer `lamports` from `sender` to `recipient`
      */
     fun createTransferTransaction(
         sender: KeyPair,
         recipient: PublicKey,
         lamports: Lamports,
         recentBlockhash: String,
-    ): Transaction {
+    ): LocalTransaction {
         val transferInstruction = SystemProgram.transfer(
             sender.publicKey,
             recipient,
@@ -41,10 +41,10 @@ object Transactions {
             listOf(transferInstruction)
         )
 
-        val serializedMessage = TransactionSerializer.serialize(message)
+        val serializedMessage = LocalTransactionSerializer.serialize(message)
         val signatureBytes = SigningUtils.sign(serializedMessage, sender.privateKey)
         val signatures = listOf(EncodingUtils.encodeBase58(signatureBytes))
 
-        return Transaction(signatures, message, metadata = null)
+        return LocalTransaction(signatures, message)
     }
 }

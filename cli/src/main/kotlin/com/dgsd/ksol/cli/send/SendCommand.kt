@@ -1,7 +1,7 @@
 package com.dgsd.ksol.cli.send
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.Transactions
+import com.dgsd.ksol.LocalTransactions
 import com.dgsd.ksol.cli.util.clusterOption
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.Commitment
@@ -56,7 +56,7 @@ class SendCommand : CliktCommand(
         echo("Sending from: ${keyPair.publicKey}")
 
         val transactionSignature = api.sendTransaction(
-            Transactions.createTransferTransaction(
+            LocalTransactions.createTransferTransaction(
                 keyPair,
                 toAccount,
                 lamports,

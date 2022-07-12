@@ -199,6 +199,6 @@ interface SolanaApi {
      * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#sendtransaction">json-rpc API</a>
      */
     suspend fun sendTransaction(
-        transaction: Transaction,
+        transaction: LocalTransaction,
     ): TransactionSignature
 }

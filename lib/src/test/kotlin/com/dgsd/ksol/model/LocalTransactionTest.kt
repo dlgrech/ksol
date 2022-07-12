@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class TransactionTest {
+class LocalTransactionTest {
 
     private lateinit var message: TransactionMessage
 
@@ -18,6 +18,7 @@ class TransactionTest {
                 isWritable = true
             )
         )
+
         message = TransactionMessage(
             header = TransactionHeader.createFrom(keys),
             accountKeys = keys,
@@ -35,38 +36,20 @@ class TransactionTest {
     @Test
     fun constructor_whenSignaturesIsEmpty_throwsException() {
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            Transaction(
-                slot = 1,
-                blockTime = null,
-                signatures = emptyList(),
-                message = message,
-                metadata = TransactionMetadata(1, emptyList(), emptyList()),
-            )
+            LocalTransaction(emptyList(), message)
         }
     }
 
     @Test
     fun id_withMultipleSignatures_returnsFirst() {
-        val id = Transaction(
-            slot = 1,
-            blockTime = null,
-            signatures = listOf("a", "b", "c"),
-            message = message,
-            metadata = TransactionMetadata(1, emptyList(), emptyList()),
-        ).id
+        val id = LocalTransaction(listOf("a", "b", "c"), message).id
 
         Assertions.assertEquals("a", id)
     }
 
     @Test
     fun id_withSingleSignatures_returnsFirst() {
-        val id = Transaction(
-            slot = 1,
-            blockTime = null,
-            signatures = listOf("a"),
-            message = message,
-            metadata = TransactionMetadata(1, emptyList(), emptyList()),
-        ).id
+        val id = LocalTransaction(listOf("a"), message).id
 
         Assertions.assertEquals("a", id)
     }

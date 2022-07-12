@@ -5,6 +5,7 @@ import com.dgsd.ksol.jsonrpc.types.TransactionMetaResponse
 import com.dgsd.ksol.jsonrpc.types.TransactionResponse
 import com.dgsd.ksol.model.*
 import com.dgsd.ksol.utils.DecodingUtils
+import com.dgsd.ksol.utils.toOffsetDateTime
 
 internal object TransactionFactory {
 
@@ -15,7 +16,10 @@ internal object TransactionFactory {
             null
         } else {
             val message = create(transactionResponse.message)
+            val blockTime = response.blockTime?.toOffsetDateTime()
             Transaction(
+                slot = response.slot,
+                blockTime = blockTime,
                 signatures = transactionResponse.signatures,
                 message = message,
                 metadata = create(message, metaResponse),
