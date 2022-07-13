@@ -17,77 +17,75 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.common.util.collectAsStateLifecycleAware
 import com.dgsd.android.solar.di.util.parentViewModel
+import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.extensions.setContent
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class CreateAccountAddressSelectionFragment : Fragment() {
 
-    private val createNewAccountCoordinator: CreateAccountCoordinator by parentViewModel()
-    private val viewModel: CreateAccountAddressSelectionViewModel by viewModel {
-        parametersOf(
-            checkNotNull(createNewAccountCoordinator.passphrase),
-            checkNotNull(createNewAccountCoordinator.seedPhrase)
-        )
-    }
+  private val createNewAccountCoordinator: CreateAccountCoordinator by parentViewModel()
+  private val viewModel: CreateAccountAddressSelectionViewModel by viewModel {
+    parametersOf(
+      checkNotNull(createNewAccountCoordinator.passphrase),
+      checkNotNull(createNewAccountCoordinator.seedPhrase)
+    )
+  }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ) = setContent {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?,
+  ) = setContent {
 
-        val isLoading: Boolean by viewModel.isLoading.collectAsStateLifecycleAware(initial = false)
-        val generatedAddress by viewModel.generatedAddress.collectAsStateLifecycleAware(initial = null)
-        val alternativeAddresses by viewModel.alternativeAddresses.collectAsStateLifecycleAware(initial = null)
+    val isLoading: Boolean by viewModel.isLoading.collectAsStateLifecycleAware(initial = false)
+    val generatedAddress by viewModel.generatedAddress.collectAsStateLifecycleAware(initial = null)
+    val alternativeAddresses by viewModel.alternativeAddresses.collectAsStateLifecycleAware(initial = null)
 
-        if (isLoading) {
-            Text(
-                text = "Loading!",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .wrapContentSize(Alignment.Center)
+    if (isLoading) {
+      Text(
+        text = "Loading!",
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .wrapContentSize(Alignment.Center)
+      )
+    } else {
+      LazyColumn {
+        if (generatedAddress != null) {
+          item {
+            ClickableText(
+              text = AnnotatedString("Generated Address = ${generatedAddress?.toBase58String()}"),
+              onClick = {
+                viewModel.onAddressSelected(checkNotNull(generatedAddress))
+              }
             )
-        } else {
-            LazyColumn {
-                if (generatedAddress != null) {
-                    item {
-                        ClickableText(
-                            text = AnnotatedString("Generated Address = ${generatedAddress?.toBase58String()}"),
-                            onClick = {
-                                viewModel.onAddressSelected(checkNotNull(generatedAddress))
-                            }
-                        )
-                    }
-                }
-
-                item {
-                    Text(
-                        text = "Alternatives:",
-                        modifier = Modifier.padding(vertical = 10.dp)
-                    )
-                }
-
-                alternativeAddresses?.forEach { address ->
-                    item {
-                        Text("Address = ${address.toBase58String()}")
-                    }
-                }
-            }
+          }
         }
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        item {
+          Text(
+            text = "Alternatives:",
+            modifier = Modifier.padding(vertical = 10.dp)
+          )
+        }
 
-        viewModel.continueWithGeneratedKeyPair.onEach { keyPair ->
-            createNewAccountCoordinator.onKeyPairGenerated(keyPair)
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        alternativeAddresses?.forEach { address ->
+          item {
+            Text("Address = ${address.toBase58String()}")
+          }
+        }
+      }
     }
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    onEach(viewModel.continueWithGeneratedKeyPair) { keyPair ->
+      createNewAccountCoordinator.onKeyPairGenerated(keyPair)
+    }
+  }
 }

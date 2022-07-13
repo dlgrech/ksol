@@ -6,10 +6,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.navigate
+import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator.Destination
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountContainerFragment
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
@@ -19,9 +18,7 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        coordinator.destination
-            .onEach(::onDestinationChanged)
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        onEach(coordinator.destination, ::onDestinationChanged)
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             coordinator.onCreate()

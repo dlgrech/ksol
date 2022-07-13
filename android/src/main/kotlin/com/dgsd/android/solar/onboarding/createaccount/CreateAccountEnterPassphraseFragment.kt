@@ -5,14 +5,12 @@ import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModal
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
 import com.dgsd.android.solar.di.util.parentViewModel
+import com.dgsd.android.solar.extensions.onEach
 import com.google.android.material.appbar.MaterialToolbar
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 class CreateAccountEnterPassphraseFragment :
   Fragment(R.layout.frag_create_account_enter_passphrase) {
@@ -38,11 +36,11 @@ class CreateAccountEnterPassphraseFragment :
       viewModel.onContinueClicked(password)
     }
 
-    viewModel.continueWithPassphrase.onEach {
+    onEach(viewModel.continueWithPassphrase) {
       createNewAccountCoordinator.onPassphraseConfirmed(it)
-    }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
 
-    viewModel.showContinueWithoutPassphraseWarning.onEach {
+    onEach(viewModel.showContinueWithoutPassphraseWarning) {
       showModal(
         ModalInfo(
           title = getString(R.string.are_you_sure),
@@ -57,6 +55,6 @@ class CreateAccountEnterPassphraseFragment :
           ),
         )
       )
-    }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
   }
 }
