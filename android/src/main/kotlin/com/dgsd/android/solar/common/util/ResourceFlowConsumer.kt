@@ -26,7 +26,7 @@ class ResourceFlowConsumer<T>(
 
     private var existingJob: Job? = null
 
-    val coroutineScope = (scope + dispatcher)
+    private val coroutineScope = (scope + dispatcher)
 
     fun collectFlow(flow: Flow<Resource<T>>) {
         existingJob?.cancel()
