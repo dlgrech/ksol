@@ -1,18 +1,19 @@
 package com.dgsd.android.solar.common.util
 
 import com.dgsd.android.solar.common.model.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 /**
  * Helper class for mapping a [Flow<Resource>] to something more useful at the UI level
  */
-class ResourceFlowConsumer<T>(private val scope: CoroutineScope) {
+class ResourceFlowConsumer<T>(
+    scope: CoroutineScope,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -25,9 +26,11 @@ class ResourceFlowConsumer<T>(private val scope: CoroutineScope) {
 
     private var existingJob: Job? = null
 
+    val coroutineScope = (scope + dispatcher)
+
     fun collectFlow(flow: Flow<Resource<T>>) {
         existingJob?.cancel()
-        existingJob = scope.launch {
+        existingJob = coroutineScope.launch {
             flow.collectLatest { resource ->
                 _isLoading.value = resource is Resource.Loading
                 _data.value = resource.dataOrNull()
