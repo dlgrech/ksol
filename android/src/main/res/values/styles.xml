@@ -3,10 +3,18 @@
 
     <style name="TextAppearance.Link" parent="TextAppearance.Material3.LabelMedium">
         <item name="android:textColor">?colorPrimary</item>
-        <item name="android:minHeight">40dp</item>
+        <item name="android:minHeight">@dimen/clickable_element_min_height</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.PageInstruction" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginHorizontal">@dimen/padding_xlarge</item>
+        <item name="android:layout_marginBottom">@dimen/padding_xlarge</item>
     </style>
 
 </resources>

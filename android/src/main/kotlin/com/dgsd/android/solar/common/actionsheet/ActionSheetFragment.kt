@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
-import com.dgsd.android.solar.extensions.enableBackgroundBlur
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.dgsd.android.solar.common.bottomsheet.BaseBottomSheetFragment
 
-class ActionSheetFragment : BottomSheetDialogFragment() {
+class ActionSheetFragment : BaseBottomSheetFragment() {
 
   var actionSheetItems: List<ActionSheetItem> = emptyList()
     set(value) {
@@ -28,7 +27,6 @@ class ActionSheetFragment : BottomSheetDialogFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    dialog?.window?.enableBackgroundBlur()
 
     view.findViewById<RecyclerView>(R.id.recycler_view).apply {
       adapter = ActionSheetAdapter()

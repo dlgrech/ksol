@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.flow
 
+import com.dgsd.ksol.flow.MutableEventFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -9,6 +10,17 @@ import kotlinx.coroutines.launch
 
 typealias EventFlow<T> = SharedFlow<T>
 typealias MutableEventFlow<T> = MutableSharedFlow<T>
+
+typealias SimpleEventFlow = EventFlow<Unit>
+typealias SimpleMutableEventFlow = MutableEventFlow<Unit>
+
+fun SimpleMutableEventFlow(): SimpleMutableEventFlow {
+    return MutableEventFlow()
+}
+
+fun SimpleMutableEventFlow.call() {
+    tryEmit(Unit)
+}
 
 @Suppress("FunctionName")
 fun <T> MutableEventFlow(): MutableEventFlow<T> {

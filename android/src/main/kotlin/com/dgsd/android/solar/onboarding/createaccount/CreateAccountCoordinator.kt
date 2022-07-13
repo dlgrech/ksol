@@ -31,7 +31,7 @@ class CreateAccountCoordinator(
         _destination.tryEmit(Destination.EnterPassphrase)
     }
 
-    fun onPassphraseConfirmed(passphrase: SensitiveString) {
+    fun onPassphraseConfirmed(passphrase: SensitiveString?) {
         this.passphrase = passphrase
         _destination.tryEmit(Destination.ViewSeedPhrase)
     }
