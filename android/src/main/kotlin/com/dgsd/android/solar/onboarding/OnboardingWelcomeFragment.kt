@@ -1,54 +1,27 @@
 package com.dgsd.android.solar.onboarding
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import android.view.View
 import androidx.fragment.app.Fragment
+import com.dgsd.android.solar.R
 import com.dgsd.android.solar.di.util.parentViewModel
-import com.dgsd.android.solar.extensions.setContent
 
-class OnboardingWelcomeFragment : Fragment() {
+class OnboardingWelcomeFragment : Fragment(R.layout.frag_onboarding_welcome) {
 
     private val onboardingCoordinator: OnboardingCoordinator by parentViewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ) = setContent {
-        Column(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Text(
-                text = "Welcome!",
-            )
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<View>(R.id.already_have_account).setOnClickListener {
+            onboardingCoordinator.navigateToCreateNewAccount()
+        }
 
-            Button(onClick = { onboardingCoordinator.navigateToAddFromPrivateKey() }) {
-                Text("Add account from private key")
-            }
+        view.findViewById<View>(R.id.create_new_wallet).setOnClickListener {
+            onboardingCoordinator.navigateToCreateNewAccount()
+        }
 
-            Button(onClick = { onboardingCoordinator.navigateToAddFromSeedPhrase() }) {
-                Text("Add account from seed phrase")
-            }
-
-            Button(onClick = { onboardingCoordinator.navigateToCreateNewAccount() }) {
-                Text("Create new account")
-            }
-
-            Button(onClick = { onboardingCoordinator.navigateToExplainer() }) {
-                Text("Help me")
-            }
+        view.findViewById<View>(R.id.help).setOnClickListener {
+            onboardingCoordinator.navigateToExplainer()
         }
     }
 }

@@ -2,4 +2,9 @@
     <string name="app_name">Solar Wallet</string>
 
     <string name="error_message_generic">Looks like something went wrong. Please try again</string>
+    <string name="onboarding_welcome_already_have_account">I already have a wallet</string>
+    <string name="onboarding_welcome_create_new_account">Create new wallet</string>
+    <string name="onboarding_welcome_screen_title_welcome">Welcome to</string>
+    <string name="onboarding_welcome_screen_title_app_name">Solar Wallet</string>
+    <string name="onboarding_welcome_help">I need help</string>
 </resources>

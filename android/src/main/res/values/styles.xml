@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.Link" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>
