@@ -50,6 +50,7 @@ dependencies {
     implementation libs.compose.material3
     implementation libs.compose.tooling
     implementation libs.koin.android
+    implementation libs.google.material
 
     testImplementation libs.android.junit
 }
