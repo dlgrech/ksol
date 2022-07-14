@@ -11,7 +11,6 @@ class OnboardingCoordinator : ViewModel() {
         object RestorePrivateKeyFlow : Destination
         object RestoreSeedPhraseFlow : Destination
         object CreateNewWalletFlow : Destination
-        object Explainer : Destination
     }
 
     private val _destination = MutableEventFlow<Destination>()
@@ -31,9 +30,5 @@ class OnboardingCoordinator : ViewModel() {
 
     fun navigateToCreateNewAccount() {
         _destination.tryEmit(Destination.CreateNewWalletFlow)
-    }
-
-    fun navigateToExplainer() {
-        _destination.tryEmit(Destination.Explainer)
     }
 }

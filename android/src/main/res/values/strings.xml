@@ -6,7 +6,6 @@
     <string name="onboarding_welcome_create_new_account">Create new wallet</string>
     <string name="onboarding_welcome_screen_title_welcome">Welcome to</string>
     <string name="onboarding_welcome_screen_title_app_name">Solar Wallet</string>
-    <string name="onboarding_welcome_help">I need help</string>
     <string name="onboarding_welcome_action_sheet_restore_from_private_key">I have a private key</string>
     <string name="onboarding_welcome_action_sheet_restore_from_seed_phrase">I have a seed phrase</string>
     <string name="next">Next</string>

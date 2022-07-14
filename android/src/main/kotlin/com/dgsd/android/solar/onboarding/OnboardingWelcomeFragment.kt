@@ -33,9 +33,5 @@ class OnboardingWelcomeFragment : Fragment(R.layout.frag_onboarding_welcome) {
     view.findViewById<View>(R.id.create_new_wallet).setOnClickListener {
       onboardingCoordinator.navigateToCreateNewAccount()
     }
-
-    view.findViewById<View>(R.id.help).setOnClickListener {
-      onboardingCoordinator.navigateToExplainer()
-    }
   }
 }

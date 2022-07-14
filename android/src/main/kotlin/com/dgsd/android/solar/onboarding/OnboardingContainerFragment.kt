@@ -28,7 +28,6 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
     private fun onDestinationChanged(destination: Destination) {
         val fragment = when (destination) {
             Destination.CreateNewWalletFlow -> CreateAccountContainerFragment.newInstance()
-            Destination.Explainer -> OnboardingExplainerFragment()
             Destination.RestorePrivateKeyFlow -> AddAccountFromPrivateKeyFragment()
             Destination.RestoreSeedPhraseFlow -> AddAccountFromSeedPhraseFragment()
             Destination.Welcome -> OnboardingWelcomeFragment()
