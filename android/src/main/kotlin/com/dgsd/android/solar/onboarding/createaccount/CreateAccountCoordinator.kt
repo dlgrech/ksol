@@ -15,7 +15,7 @@ class CreateAccountCoordinator(
     sealed interface Destination {
         object EnterPassphrase : Destination
         object ViewSeedPhrase : Destination
-        object AddressSelection : Destination
+        object Confirmation : Destination
     }
 
     private val _destination = MutableEventFlow<Destination>()
@@ -38,7 +38,7 @@ class CreateAccountCoordinator(
 
     fun onSeedPhraseConfirmed(seedPhrase: SensitiveList<String>) {
         this.seedPhrase = seedPhrase
-        _destination.tryEmit(Destination.AddressSelection)
+        _destination.tryEmit(Destination.Confirmation)
     }
 
     fun onKeyPairGenerated(keyPair: KeyPair) {

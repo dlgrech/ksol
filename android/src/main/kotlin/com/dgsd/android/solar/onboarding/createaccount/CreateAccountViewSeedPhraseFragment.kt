@@ -17,6 +17,7 @@ import com.dgsd.android.solar.common.modalsheet.extensions.showModal
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
+import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateAccountViewSeedPhraseFragment :
@@ -28,17 +29,35 @@ class CreateAccountViewSeedPhraseFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val seedPhraseContainer = requireView().findViewById<ConstraintLayout>(R.id.seed_phrase_container)
+    val seedPhraseContainer =
+      requireView().findViewById<ConstraintLayout>(R.id.seed_phrase_container)
     val explainerMessage = requireView().findViewById<TextView>(R.id.explainer_message)
     val loadingIndicator = requireView().findViewById<View>(R.id.loading_indicator)
     val nextButton = requireView().findViewById<View>(R.id.next)
+
+    view.findViewById<MaterialToolbar>(R.id.toolbar).apply {
+      setNavigationOnClickListener {
+        requireActivity().onBackPressed()
+      }
+    }
+
+    explainerMessage.text = TextUtils.expandTemplate(
+      getString(R.string.create_account_seed_phrase_explanation_template),
+      SpannableStringBuilder().bold {
+        append(getString(R.string.create_account_seed_phrase_explanation_bold_text))
+      }.toString()
+    )
+
+    nextButton.setOnClickListener {
+      viewModel.onNextButtonClicked()
+    }
 
     onEach(viewModel.continueWithSeedPhrase) { seedPhrase ->
       showModal(
         ModalInfo(
           title = getString(R.string.create_account_seed_phrase_confirmation_title),
           message = getString(R.string.create_account_seed_phrase_confirmation_message),
-          positiveButton = ModalInfo.ButtonInfo(getString(R.string.confirmed)) {
+          positiveButton = ModalInfo.ButtonInfo(getString(R.string.create_account_seed_phrase_confirmation_positive_button)) {
             createAccountCoordinator.onSeedPhraseConfirmed(seedPhrase)
           },
         )
@@ -53,17 +72,6 @@ class CreateAccountViewSeedPhraseFragment :
       loadingIndicator.isVisible = it
       seedPhraseContainer.isVisible = !it
       explainerMessage.isVisible = !it
-    }
-
-    explainerMessage.text = TextUtils.expandTemplate(
-      getString(R.string.create_account_seed_phrase_explanation_template),
-      SpannableStringBuilder().bold {
-        append(getString(R.string.create_account_seed_phrase_explanation_bold_text))
-      }.toString()
-    )
-
-    nextButton.setOnClickListener {
-      viewModel.onNextButtonClicked()
     }
   }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.onboarding.createaccount.CreateAccountCoordinator.Destination
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateAccountContainerFragment : Fragment(R.layout.view_fragment_container) {
@@ -23,11 +24,11 @@ class CreateAccountContainerFragment : Fragment(R.layout.view_fragment_container
         }
     }
 
-    private fun onDestinationChanged(destination: CreateAccountCoordinator.Destination) {
+    private fun onDestinationChanged(destination: Destination) {
         val fragment = when (destination) {
-            CreateAccountCoordinator.Destination.AddressSelection -> CreateAccountAddressSelectionFragment()
-            CreateAccountCoordinator.Destination.EnterPassphrase -> CreateAccountEnterPassphraseFragment()
-            CreateAccountCoordinator.Destination.ViewSeedPhrase -> CreateAccountViewSeedPhraseFragment()
+            Destination.EnterPassphrase -> CreateAccountEnterPassphraseFragment()
+            Destination.ViewSeedPhrase -> CreateAccountViewSeedPhraseFragment()
+            Destination.Confirmation -> CreateAccountConfirmationFragment()
         }
 
         childFragmentManager.navigate(R.id.fragment_container, fragment)

@@ -1,7 +1,7 @@
 package com.dgsd.android.solar.onboarding.di
 
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator
-import com.dgsd.android.solar.onboarding.createaccount.CreateAccountAddressSelectionViewModel
+import com.dgsd.android.solar.onboarding.createaccount.CreateAccountConfirmationViewModel
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountCoordinator
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountEnterPassphraseViewModel
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountViewSeedPhraseViewModel
@@ -18,7 +18,7 @@ object OnboardingViewModelModule {
             viewModelOf(::CreateAccountCoordinator)
             viewModelOf(::CreateAccountEnterPassphraseViewModel)
             viewModelOf(::CreateAccountViewSeedPhraseViewModel)
-            viewModelOf(::CreateAccountAddressSelectionViewModel)
+            viewModelOf(::CreateAccountConfirmationViewModel)
         }
     }
 }
