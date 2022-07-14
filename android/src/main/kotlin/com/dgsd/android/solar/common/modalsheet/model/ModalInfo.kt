@@ -4,7 +4,7 @@ data class ModalInfo(
   val title: CharSequence?,
   val message: CharSequence?,
   val positiveButton: ButtonInfo,
-  val negativeButton: ButtonInfo?,
+  val negativeButton: ButtonInfo? = null,
 ) {
 
   data class ButtonInfo(

@@ -19,4 +19,10 @@
     <string name="create_account_enter_passphrase_skip_warning_positive_button">Yes, continue</string>
     <string name="go_back">Go back</string>
     <string name="create_account_enter_seed_phrase_screen_title">Your backup phrase</string>
+    <string name="create_account_seed_phrase_explanation_template">This list of words are the ^1. Please store them somewhere safe and secure.</string>
+    <string name="create_account_seed_phrase_explanation_bold_text">only way you will be able to recover your account</string>
+    <string name="create_account_seed_phrase_continue_button">I have saved these words</string>
+    <string name="create_account_seed_phrase_confirmation_title">Just checking…</string>
+    <string name="create_account_seed_phrase_confirmation_message">…one last time. Please be sure that you have recorded these words down somewhere safe and secure.</string>
+    <string name="confirmed">Confirmed</string>
 </resources>

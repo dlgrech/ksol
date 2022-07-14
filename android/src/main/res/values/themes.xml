@@ -1,7 +1,6 @@
 
 <resources>
     <style name="Base.Theme.Solar" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="fontFamily">@font/rubik</item>
     </style>
 
     <style name="Theme.Solar" parent="Base.Theme.Solar">

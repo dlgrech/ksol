@@ -19,7 +19,8 @@
     <View
         android:layout_width="1dp"
         android:layout_height="16dp"
-        android:layout_marginHorizontal="@dimen/padding_xsmall"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="@dimen/padding_small "
         android:background="?android:textColorSecondary" />
 
     <TextView

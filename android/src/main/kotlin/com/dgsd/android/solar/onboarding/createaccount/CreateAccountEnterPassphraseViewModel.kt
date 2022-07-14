@@ -9,7 +9,7 @@ import com.dgsd.android.solar.flow.call
 
 class CreateAccountEnterPassphraseViewModel : ViewModel() {
 
-  private val _continueWithPassphrase = MutableEventFlow<SensitiveString?>()
+  private val _continueWithPassphrase = MutableEventFlow<SensitiveString>()
   val continueWithPassphrase = _continueWithPassphrase.asEventFlow()
 
   private val _showContinueWithoutPassphraseWarning = SimpleMutableEventFlow()
@@ -28,6 +28,6 @@ class CreateAccountEnterPassphraseViewModel : ViewModel() {
   }
 
   fun onSkipConfirmed() {
-    _continueWithPassphrase.tryEmit(null)
+    _continueWithPassphrase.tryEmit(SensitiveString(""))
   }
 }

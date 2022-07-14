@@ -9,8 +9,11 @@ import com.dgsd.android.solar.common.util.resourceFlowOf
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.keygen.KeyFactory
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+
+private const val GENERATE_MNEMONIC_ARTIFICIAL_DELAY_MS = 500L
 
 class CreateAccountViewSeedPhraseViewModel(
     errorMessageFactory: ErrorMessageFactory,
@@ -34,6 +37,7 @@ class CreateAccountViewSeedPhraseViewModel(
     init {
         generateMnemonicConsumer.collectFlow(
             resourceFlowOf {
+                delay(GENERATE_MNEMONIC_ARTIFICIAL_DELAY_MS)
                 SensitiveList(KeyFactory.createMnemonic())
             }
         )

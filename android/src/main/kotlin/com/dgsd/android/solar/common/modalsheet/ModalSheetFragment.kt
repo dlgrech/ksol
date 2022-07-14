@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.bottomsheet.BaseBottomSheetFragment
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
@@ -57,6 +60,18 @@ class ModalSheetFragment : BaseBottomSheetFragment() {
     negativeButton.setOnClickListener {
       modalInfo?.negativeButton?.onClick?.invoke()
       dismissAllowingStateLoss()
+    }
+
+    positiveButton.updateLayoutParams<ConstraintLayout.LayoutParams> {
+      if (negativeButton.isVisible) {
+        startToEnd = R.id.button_horizontal_guideline
+        startToStart = ConstraintSet.UNSET
+        horizontalBias = 0.25f
+      } else {
+        startToEnd = ConstraintSet.UNSET
+        startToStart = ConstraintSet.PARENT_ID
+        horizontalBias = 0.5f
+      }
     }
   }
 }

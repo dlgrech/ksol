@@ -44,7 +44,7 @@ class CreateAccountAddressSelectionViewModel(
                     .map { accountIndex ->
                         KeyFactory.createKeyPairFromMnemonic(
                             seedPhrase,
-                            passphrase.sensitiveValue,
+                            passphrase?.sensitiveValue,
                             accountIndex
                         )
                     }
