@@ -18,4 +18,5 @@
     <string name="create_account_enter_passphrase_skip_warning">Creating an account without a password is less secure and not recommended</string>
     <string name="create_account_enter_passphrase_skip_warning_positive_button">Yes, continue</string>
     <string name="go_back">Go back</string>
+    <string name="create_account_enter_seed_phrase_screen_title">Your backup phrase</string>
 </resources>

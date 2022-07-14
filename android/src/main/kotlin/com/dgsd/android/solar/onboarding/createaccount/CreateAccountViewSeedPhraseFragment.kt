@@ -4,69 +4,75 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import android.widget.TextView
+import androidx.constraintlayout.helper.widget.Flow
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import com.dgsd.android.solar.common.util.collectAsStateLifecycleAware
+import com.dgsd.android.solar.R
 import com.dgsd.android.solar.di.util.parentViewModel
-import com.dgsd.android.solar.extensions.setContent
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.dgsd.android.solar.extensions.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CreateAccountViewSeedPhraseFragment : Fragment() {
+class CreateAccountViewSeedPhraseFragment :
+  Fragment(R.layout.frag_create_account_view_seed_phrase) {
 
-    private val createAccountCoordinator: CreateAccountCoordinator by parentViewModel()
-    private val viewModel: CreateAccountViewSeedPhraseViewModel by viewModel()
+  private val createAccountCoordinator: CreateAccountCoordinator by parentViewModel()
+  private val viewModel: CreateAccountViewSeedPhraseViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ) = setContent {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
-        val isLoading: Boolean by viewModel.isLoading.collectAsStateLifecycleAware(initial = false)
-        val seedPhraseWords by viewModel.seedPhrase.collectAsStateLifecycleAware(initial = emptyList())
+    val seedPhraseContainer = requireView().findViewById<ConstraintLayout>(R.id.seed_phrase_container)
+    val loadingIndicator = requireView().findViewById<View>(R.id.loading_indicator)
 
-        Column(
-            Modifier
-                .fillMaxHeight()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            if (isLoading) {
-                Text(
-                    text = "Loading!",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
-                )
-            } else {
-                Text(
-                    text = "Your seed phrase: ${seedPhraseWords.orEmpty().joinToString(",")}",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentSize(Alignment.Center)
-                )
-
-                Button(onClick = { viewModel.onNextButtonClicked() }) {
-                    Text(text = "Continue")
-                }
-            }
-        }
+    onEach(viewModel.continueWithSeedPhrase) { seedPhrase ->
+      createAccountCoordinator.onSeedPhraseConfirmed(seedPhrase)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.continueWithSeedPhrase.onEach { seedPhrase ->
-            createAccountCoordinator.onSeedPhraseConfirmed(seedPhrase)
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    onEach(viewModel.seedPhrase) { seedPhrase ->
+      seedPhraseContainer.populate(seedPhrase.orEmpty())
     }
+
+    onEach(viewModel.isLoading) {
+      loadingIndicator.isVisible = it
+      seedPhraseContainer.isVisible = !it
+    }
+  }
+
+  private fun ConstraintLayout.populate(seedPhrase: List<String>) {
+    removeAllViews()
+
+    val flow = Flow(requireContext()).apply {
+      id = View.generateViewId()
+      setWrapMode(Flow.WRAP_CHAIN)
+      setHorizontalStyle(Flow.CHAIN_PACKED)
+      setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
+      setOrientation(Flow.HORIZONTAL)
+      setVerticalGap(resources.getDimensionPixelSize(R.dimen.padding_small))
+      setHorizontalGap(resources.getDimensionPixelSize(R.dimen.padding_small))
+      layoutParams = ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+      )
+    }
+
+    addView(flow)
+
+    val referencedIds = IntArray(seedPhrase.size)
+    seedPhrase.forEachIndexed { index, word ->
+      val wordContainer = LayoutInflater.from(requireContext())
+        .inflate(R.layout.view_seed_phrase_word, this, false) as ViewGroup
+      wordContainer.id = View.generateViewId()
+
+      wordContainer.findViewById<TextView>(R.id.index).text = index.plus(1).toString()
+      wordContainer.findViewById<TextView>(R.id.word).text = word
+
+      addView(wordContainer)
+
+      referencedIds[index] = wordContainer.id
+    }
+
+    flow.referencedIds = referencedIds
+  }
 }

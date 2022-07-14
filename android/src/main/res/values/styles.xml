@@ -9,7 +9,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.PageInstruction" parent="TextAppearance.Material3.BodyMedium">
+    <style name="TextAppearance.PageInstruction" parent="TextAppearance.Material3.LabelLarge">
         <item name="android:textColor">?android:textColorSecondary</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:gravity">center</item>
