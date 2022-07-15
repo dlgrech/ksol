@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/welcome_header"
-        android:textAppearance="@style/TextAppearance.Solar.Title3"
+        style="@style/TextAppearance.Solar.Title3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/app_name"
-        android:textAppearance="@style/TextAppearance.Solar.Hero"
+        style="@style/TextAppearance.Solar.Hero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

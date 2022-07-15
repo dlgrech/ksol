@@ -44,4 +44,12 @@
         <item name="fontFamily">@font/saira_semicondensed_700</item>
     </style>
 
+    <style name="TextAppearance.Solar.Label4" parent="Base.TextAppearance.Solar">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Solar.Label5" parent="Base.TextAppearance.Solar">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

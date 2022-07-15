@@ -4,31 +4,32 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/create_account_seed_phrase_word_background"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingHorizontal="@dimen/padding_small"
     android:paddingVertical="@dimen/padding_xsmall">
 
     <TextView
         android:id="@+id/index"
+        style="@style/TextAppearance.Solar.Label5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Solar.Label2"
-        android:textColor="?android:textColorSecondary"
-        android:textStyle="bold" />
+        android:alpha="0.75"
+        android:textColor="?colorOnSurfaceVariant" />
 
     <View
         android:layout_width="1dp"
         android:layout_height="16dp"
         android:layout_gravity="center_vertical"
         android:layout_marginHorizontal="@dimen/padding_small"
-        android:background="?android:textColorSecondary" />
+        android:alpha="0.75"
+        android:background="?colorOnSurfaceVariant" />
 
     <TextView
         android:id="@+id/word"
+        style="@style/TextAppearance.Solar.Label2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Solar.Label2"
-        android:textColor="?colorOnSecondaryContainer"
-        android:textStyle="bold" />
+        android:textColor="?colorOnSurfaceVariant" />
 
 </LinearLayout>

@@ -42,7 +42,7 @@
             android:hint="@string/create_account_enter_passphrase_input_hint"
             android:inputType="textPassword"
             android:minHeight="@dimen/clickable_element_min_height"
-            android:textAppearance="@style/TextAppearance.Solar.Title3" />
+            style="@style/TextAppearance.Solar.Title3" />
 
         <TextView
             android:id="@+id/skip"
