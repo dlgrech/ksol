@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_baseline_close_24"
+            app:navigationIconTint="?colorOnBackground"
             app:title="@string/create_account_enter_passphrase_screen_title"
             app:titleCentered="true" />
 

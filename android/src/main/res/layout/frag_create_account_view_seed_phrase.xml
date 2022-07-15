@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:navigationIconTint="?colorOnBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
         app:title="@string/create_account_enter_seed_phrase_screen_title"
@@ -69,7 +70,7 @@
         android:layout_marginHorizontal="@dimen/padding_default"
         android:layout_marginBottom="@dimen/padding_default"
         android:drawableEnd="@drawable/ic_baseline_check_24"
-        android:drawableTint="@android:color/white"
+        android:drawableTint="?colorOnPrimary"
         android:text="@string/create_account_seed_phrase_continue_button" />
 
 </LinearLayout>
