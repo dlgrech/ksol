@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModal
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
+import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import com.google.android.material.appbar.MaterialToolbar
@@ -41,11 +42,17 @@ class CreateAccountViewSeedPhraseFragment :
       }
     }
 
-    explainerMessage.text = TextUtils.expandTemplate(
-      getString(R.string.create_account_seed_phrase_explanation_template),
-      SpannableStringBuilder().bold {
-        append(getString(R.string.create_account_seed_phrase_explanation_bold_text))
-      }.toString()
+    explainerMessage.text = RichTextFormatter.expandTemplate(
+      requireContext(),
+      R.string.create_account_seed_phrase_explanation_template,
+      RichTextFormatter.coloredTextAttr(
+        requireContext(),
+        R.attr.colorPrimary,
+        RichTextFormatter.bold(
+          requireContext(),
+          R.string.create_account_seed_phrase_explanation_bold_text
+        )
+      )
     )
 
     nextButton.setOnClickListener {

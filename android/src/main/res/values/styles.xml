@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="TextAppearance.Link" parent="TextAppearance.Material3.LabelMedium">
+    <style name="TextAppearance.Link" parent="TextAppearance.Solar.Label2">
         <item name="android:textColor">?colorPrimary</item>
-        <item name="android:minHeight">@dimen/clickable_element_min_height</item>
-        <item name="android:includeFontPadding">false</item>
         <item name="android:gravity">center</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">@dimen/clickable_element_min_height</item>
     </style>
 
-    <style name="TextAppearance.PageInstruction" parent="TextAppearance.Material3.LabelLarge">
+    <style name="TextAppearance.PageInstruction" parent="TextAppearance.Solar.Label1">
         <item name="android:textColor">?android:textColorSecondary</item>
-        <item name="android:includeFontPadding">false</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginHorizontal">@dimen/padding_xlarge</item>
-        <item name="android:layout_marginBottom">@dimen/padding_xlarge</item>
+        <item name="android:layout_marginBottom">@dimen/padding_large</item>
     </style>
 
 </resources>
