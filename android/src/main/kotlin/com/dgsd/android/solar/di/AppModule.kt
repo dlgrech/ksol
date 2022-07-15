@@ -6,6 +6,7 @@ import androidx.security.crypto.MasterKeys
 import com.dgsd.android.solar.BuildConfig
 import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.cluster.manager.ClusterManagerImpl
+import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
@@ -50,6 +51,7 @@ internal object AppModule {
 
             singleOf(::OkHttpClient)
             singleOf(::ErrorMessageFactory)
+            singleOf(::SystemClipboard)
         }
     }
 
