@@ -1,6 +1,7 @@
 
 <resources>
     <style name="Base.Theme.Solar" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:font">@font/saira_semicondensed</item>
     </style>
 
     <style name="Theme.Solar" parent="Base.Theme.Solar">
