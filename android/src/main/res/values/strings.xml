@@ -25,4 +25,6 @@
     <string name="create_account_seed_phrase_confirmation_title">Just checking…</string>
     <string name="create_account_seed_phrase_confirmation_message">…one last time. Please be sure that you have recorded these words down somewhere safe and secure.</string>
     <string name="create_account_seed_phrase_confirmation_positive_button">Got it, continue</string>
+    <string name="copy_to_clipboard">Copy to Clipboard</string>
+    <string name="seed_phrase_copied_to_clipboard_success_message">Copied!</string>
 </resources>

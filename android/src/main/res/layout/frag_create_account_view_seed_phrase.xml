@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:navigationIconTint="?colorOnBackground"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:navigationIconTint="?colorOnBackground"
         app:title="@string/create_account_enter_seed_phrase_screen_title"
         app:titleCentered="true" />
 
@@ -27,7 +27,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/padding_default">
 
             <Space
                 android:layout_width="match_parent"
@@ -53,6 +54,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/padding_default"
                 android:padding="@dimen/padding_small" />
+
+            <TextView
+                android:id="@+id/copy"
+                style="@style/TextAppearance.Link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/copy_to_clipboard" />
 
             <Space
                 android:layout_width="match_parent"

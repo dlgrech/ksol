@@ -1,15 +1,12 @@
 package com.dgsd.android.solar.onboarding.createaccount
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
@@ -19,6 +16,7 @@ import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateAccountViewSeedPhraseFragment :
@@ -35,6 +33,7 @@ class CreateAccountViewSeedPhraseFragment :
     val explainerMessage = requireView().findViewById<TextView>(R.id.explainer_message)
     val loadingIndicator = requireView().findViewById<View>(R.id.loading_indicator)
     val nextButton = requireView().findViewById<View>(R.id.next)
+    val copyButton = requireView().findViewById<TextView>(R.id.copy)
 
     view.findViewById<MaterialToolbar>(R.id.toolbar).apply {
       setNavigationOnClickListener {
@@ -59,6 +58,10 @@ class CreateAccountViewSeedPhraseFragment :
       viewModel.onNextButtonClicked()
     }
 
+    copyButton.setOnClickListener {
+      viewModel.onCopyButtonClicked()
+    }
+
     onEach(viewModel.continueWithSeedPhrase) { seedPhrase ->
       showModal(
         ModalInfo(
@@ -79,6 +82,15 @@ class CreateAccountViewSeedPhraseFragment :
       loadingIndicator.isVisible = it
       seedPhraseContainer.isVisible = !it
       explainerMessage.isVisible = !it
+      copyButton.isVisible = !it
+    }
+
+    onEach(viewModel.showSeedPhraseCopiedSuccess) {
+      Snackbar.make(
+        view,
+        R.string.seed_phrase_copied_to_clipboard_success_message,
+        Snackbar.LENGTH_SHORT
+      ).show()
     }
   }
 
