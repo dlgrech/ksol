@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="PrimaryButton" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/clickable_element_min_height</item>
+        <item name="android:textAppearance">@style/TextAppearance.Solar.Label2</item>
+    </style>
+
     <style name="TextAppearance.Link" parent="TextAppearance.Solar.Label2">
         <item name="android:textColor">?colorPrimary</item>
         <item name="android:gravity">center</item>

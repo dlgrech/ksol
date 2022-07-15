@@ -24,5 +24,5 @@
     <string name="create_account_seed_phrase_continue_button">I have saved these words</string>
     <string name="create_account_seed_phrase_confirmation_title">Just checking…</string>
     <string name="create_account_seed_phrase_confirmation_message">…one last time. Please be sure that you have recorded these words down somewhere safe and secure.</string>
-    <string name="create_account_seed_phrase_confirmation_positive_button">Yep, keep going</string>
+    <string name="create_account_seed_phrase_confirmation_positive_button">Got it, continue</string>
 </resources>

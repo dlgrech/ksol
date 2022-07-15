@@ -62,13 +62,14 @@
 
     <Button
         android:id="@+id/next"
+        style="@style/PrimaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginHorizontal="@dimen/padding_default"
         android:layout_marginBottom="@dimen/padding_default"
-        android:drawableTint="@android:color/white"
         android:drawableEnd="@drawable/ic_baseline_check_24"
+        android:drawableTint="@android:color/white"
         android:text="@string/create_account_seed_phrase_continue_button" />
 
 </LinearLayout>
