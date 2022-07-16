@@ -1,6 +1,8 @@
 
 <resources>
     <style name="Theme.Solar" parent="Base.Theme.Solar">
+        <item name="android:windowBackground">@color/md_theme_dark_background</item>
+
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>

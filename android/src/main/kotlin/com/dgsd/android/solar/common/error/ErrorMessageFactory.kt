@@ -2,6 +2,7 @@ package com.dgsd.android.solar.common.error
 
 import android.content.Context
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.model.UserFacingException
 
 /**
  * For creating common error messages shown throughout the app
@@ -11,7 +12,10 @@ class ErrorMessageFactory(
 ) {
 
     fun create(error: Throwable): CharSequence {
-        return createDefault()
+        return when(error) {
+            is UserFacingException -> error.userVisibleMessage.ifEmpty { createDefault() }
+            else -> createDefault()
+        }
     }
 
     fun createDefault(): CharSequence {

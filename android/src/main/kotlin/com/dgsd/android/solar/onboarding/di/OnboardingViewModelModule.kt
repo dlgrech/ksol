@@ -5,6 +5,7 @@ import com.dgsd.android.solar.onboarding.createaccount.CreateAccountConfirmation
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountCoordinator
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountEnterPassphraseViewModel
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountViewSeedPhraseViewModel
+import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountViewSeedPhraseViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -19,6 +20,8 @@ object OnboardingViewModelModule {
             viewModelOf(::CreateAccountEnterPassphraseViewModel)
             viewModelOf(::CreateAccountViewSeedPhraseViewModel)
             viewModelOf(::CreateAccountConfirmationViewModel)
+
+            viewModelOf(::RestoreAccountViewSeedPhraseViewModel)
         }
     }
 }

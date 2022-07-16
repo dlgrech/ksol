@@ -1,8 +1,11 @@
 package com.dgsd.ksol.keygen
 
-enum class MnemonicPhraseLength(val byteLength: Int) {
+enum class MnemonicPhraseLength(
+    val byteLength: Int,
+    val wordCount: Int,
+) {
 
-    TWELVE(16),
+    TWELVE(byteLength = 16, wordCount = 12),
 
-    TWENTY_FOUR(32)
+    TWENTY_FOUR(byteLength = 32, wordCount = 24)
 }

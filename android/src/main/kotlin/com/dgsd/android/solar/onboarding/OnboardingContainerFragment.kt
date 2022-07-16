@@ -9,6 +9,7 @@ import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator.Destination
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountContainerFragment
+import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountFromSeedPhraseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
@@ -28,7 +29,7 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
     private fun onDestinationChanged(destination: Destination) {
         val fragment = when (destination) {
             Destination.CreateNewWalletFlow -> CreateAccountContainerFragment.newInstance()
-            Destination.RestoreSeedPhraseFlow -> AddAccountFromSeedPhraseFragment()
+            Destination.RestoreSeedPhraseFlow -> RestoreAccountFromSeedPhraseFragment()
             Destination.Welcome -> OnboardingWelcomeFragment()
         }
 
