@@ -60,6 +60,15 @@
                 android:padding="@dimen/padding_small" />
 
             <TextView
+                android:id="@+id/error_message"
+                style="@style/TextAppearance.Solar.Label1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="?colorError"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/add_passphrase"
                 style="@style/TextAppearance.Link"
                 android:layout_width="wrap_content"

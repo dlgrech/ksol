@@ -9,6 +9,7 @@ import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.UserFacingException
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.resourceFlowOf
+import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.keygen.KeyFactory
@@ -29,10 +30,12 @@ class RestoreAccountViewSeedPhraseViewModel(
 
   val isLoading = generateSeedKeyPairResourceConsumer.isLoading
 
-  val errorMessage = generateSeedKeyPairResourceConsumer.error
+  private val error = generateSeedKeyPairResourceConsumer.error
     .filterNotNull()
     .map { errorMessageFactory.create(it) }
-    .asEventFlow(viewModelScope)
+
+  private val _errorMessage = MutableStateFlow<CharSequence>("")
+  val errorMessage = _errorMessage.asStateFlow()
 
   private val rawInput = MutableStateFlow("")
   private val words = rawInput
@@ -52,8 +55,15 @@ class RestoreAccountViewSeedPhraseViewModel(
   private val _inputtedPassword = MutableStateFlow("")
   val inputtedPassword = _inputtedPassword.asStateFlow()
 
+  init {
+    onEach(error) {
+      _errorMessage.value = it
+    }
+  }
+
   fun onInputChanged(text: String) {
     rawInput.value = text
+    _errorMessage.value = ""
   }
 
   fun onNextButtonClicked() {
@@ -65,8 +75,20 @@ class RestoreAccountViewSeedPhraseViewModel(
         if (seedPhrase.size !in validPhraseLengths) {
           throw UserFacingException(application.getString(R.string.error_invalid_seed_phrase_length))
         } else {
-          val seed = KeyFactory.createSeedFromMnemonic(seedPhrase, inputtedPassword.value)
-          SensitiveList(seedPhrase) to KeyFactory.createKeyPairFromSeed(seed)
+          val validWords = KeyFactory.getValidMnemonicWords().toSet()
+          val invalidWords = seedPhrase.filter { it !in  validWords}
+
+          if (invalidWords.isEmpty()) {
+            val seed = KeyFactory.createSeedFromMnemonic(seedPhrase, inputtedPassword.value)
+            SensitiveList(seedPhrase) to KeyFactory.createKeyPairFromSeed(seed)
+          } else {
+            throw UserFacingException(
+              application.getString(
+                R.string.error_invalid_seed_phrase_words_template,
+                invalidWords.joinToString(", ")
+              )
+            )
+          }
         }
       }
     )

@@ -35,4 +35,5 @@
     <string name="onboarding_restore_account_from_seed_passphrase_dialog_title">Enter password</string>
     <string name="onboarding_restore_account_from_seed_passphrase_dialog_input_hint">(Optional) Password</string>
     <string name="save">Save</string>
+    <string name="error_invalid_seed_phrase_words_template">Invalid words: %s</string>
 </resources>

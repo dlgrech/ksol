@@ -85,6 +85,13 @@ object KeyFactory {
         return MnemonicCode.INSTANCE.toMnemonic(entropy)
     }
 
+    /**
+     * Get the complete list of words that are used as the basis for mnenmonic code generation
+     */
+    suspend fun getValidMnemonicWords(): List<String> {
+        return MnemonicCode.INSTANCE.wordList
+    }
+
     private suspend fun createKeyPair(
         seed: ByteArray,
         derivationPath: DerivationPath,

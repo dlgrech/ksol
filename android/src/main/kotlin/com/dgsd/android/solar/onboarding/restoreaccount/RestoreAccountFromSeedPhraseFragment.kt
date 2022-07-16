@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.onboarding.restoreaccount
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -11,13 +12,14 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.transition.TransitionManager
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
+import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RestoreAccountFromSeedPhraseFragment :
@@ -35,6 +37,7 @@ class RestoreAccountFromSeedPhraseFragment :
     val nextButton = view.findViewById<View>(R.id.next)
     val addPassphrase = view.findViewById<View>(R.id.add_passphrase)
     val passphraseValue = view.findViewById<TextView>(R.id.passphrase_value)
+    val errorMessage = view.findViewById<TextView>(R.id.error_message)
 
     toolbar.apply {
       setNavigationOnClickListener {
@@ -59,12 +62,26 @@ class RestoreAccountFromSeedPhraseFragment :
     }
 
     onEach(viewModel.isLoading) {
+      TransitionManager.beginDelayedTransition(view as ViewGroup)
       loadingIndicator.isVisible = it
       nextButton.isVisible = !it
     }
 
     onEach(viewModel.errorMessage) {
-      Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+      TransitionManager.beginDelayedTransition(view as ViewGroup)
+      errorMessage.text = it
+
+      if (it.isEmpty()) {
+        errorMessage.isVisible = false
+        seedPhraseInput.backgroundTintList = null
+        seedPhraseInput.setTextColor(requireContext().getColorAttr(android.R.attr.textColorPrimary))
+      } else {
+        errorMessage.isVisible = true
+        seedPhraseInput.backgroundTintList = ColorStateList.valueOf(
+          requireContext().getColorAttr(R.attr.colorError)
+        )
+        seedPhraseInput.setTextColor(requireContext().getColorAttr(R.attr.colorError))
+      }
     }
 
     onEach(viewModel.continueWithSeed) { (seedPhrase, keyPair) ->
