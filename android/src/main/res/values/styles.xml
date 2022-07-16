@@ -2,7 +2,7 @@
 <resources>
 
     <style name="PrimaryButton" parent="Widget.Material3.Button">
-        <item name="android:minHeight">@dimen/clickable_element_min_height</item>
+        <item name="android:minHeight">56dp</item>
         <item name="android:textAppearance">@style/TextAppearance.Solar.Label2</item>
         <item name="fontFamily">@font/saira_semicondensed_600</item>
     </style>
