@@ -8,7 +8,6 @@ class OnboardingCoordinator : ViewModel() {
 
     sealed interface Destination {
         object Welcome : Destination
-        object RestorePrivateKeyFlow : Destination
         object RestoreSeedPhraseFlow : Destination
         object CreateNewWalletFlow : Destination
     }
@@ -18,10 +17,6 @@ class OnboardingCoordinator : ViewModel() {
 
     fun onCreate() {
         _destination.tryEmit(Destination.Welcome)
-    }
-
-    fun navigateToAddFromPrivateKey() {
-        _destination.tryEmit(Destination.RestorePrivateKeyFlow)
     }
 
     fun navigateToAddFromSeedPhrase() {

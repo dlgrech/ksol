@@ -55,6 +55,7 @@
         style="@style/TextAppearance.Link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_small"
         android:text="@string/onboarding_welcome_already_have_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

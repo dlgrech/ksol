@@ -7,7 +7,6 @@
     <string name="onboarding_welcome_screen_title_welcome">Welcome to</string>
     <string name="onboarding_welcome_screen_title_app_name_template">^1 Wallet</string>
     <string name="onboarding_welcome_screen_title_app_name">Solar</string>
-    <string name="onboarding_welcome_action_sheet_restore_from_private_key">I have a private key</string>
     <string name="onboarding_welcome_action_sheet_restore_from_seed_phrase">I have a seed phrase</string>
     <string name="next">Next</string>
     <string name="create_account_enter_passphrase_explanation">You will need to remember this password to use this wallet on another device</string>
