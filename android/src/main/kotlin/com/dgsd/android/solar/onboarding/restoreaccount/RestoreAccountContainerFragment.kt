@@ -1,4 +1,4 @@
-package com.dgsd.android.solar.onboarding
+package com.dgsd.android.solar.onboarding.restoreaccount
 
 import android.os.Bundle
 import android.view.View
@@ -7,14 +7,12 @@ import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
-import com.dgsd.android.solar.onboarding.OnboardingCoordinator.Destination
-import com.dgsd.android.solar.onboarding.createaccount.CreateAccountContainerFragment
-import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountContainerFragment
+import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountCoordinator.Destination
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
+class RestoreAccountContainerFragment : Fragment(R.layout.view_fragment_container) {
 
-    private val coordinator: OnboardingCoordinator by viewModel()
+    private val coordinator by viewModel<RestoreAccountCoordinator>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,9 +26,8 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
 
     private fun onDestinationChanged(destination: Destination) {
         val fragment = when (destination) {
-            Destination.CreateNewWalletFlow -> CreateAccountContainerFragment.newInstance()
-            Destination.RestoreSeedPhraseFlow -> RestoreAccountContainerFragment.newInstance()
-            Destination.Welcome -> OnboardingWelcomeFragment()
+            Destination.EnterSeedPhrase -> RestoreAccountFromSeedPhraseFragment()
+            Destination.SelectAccount -> RestoreAccountSelectAddressFragment()
         }
 
         childFragmentManager.navigate(R.id.fragment_container, fragment)
@@ -38,8 +35,8 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
 
     companion object {
 
-        fun newInstance(): OnboardingContainerFragment {
-            return OnboardingContainerFragment()
+        fun newInstance(): RestoreAccountContainerFragment {
+            return RestoreAccountContainerFragment()
         }
     }
 }

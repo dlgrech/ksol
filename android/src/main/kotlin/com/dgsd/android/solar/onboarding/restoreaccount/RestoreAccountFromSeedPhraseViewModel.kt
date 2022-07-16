@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
+import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.UserFacingException
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.resourceFlowOf
@@ -21,7 +22,7 @@ class RestoreAccountViewSeedPhraseViewModel(
 ) : ViewModel() {
 
   private val generateSeedKeyPairResourceConsumer =
-    ResourceFlowConsumer<KeyPair>(viewModelScope)
+    ResourceFlowConsumer<Pair<SensitiveList<String>, KeyPair>>(viewModelScope)
 
   val continueWithSeed =
     generateSeedKeyPairResourceConsumer.data.filterNotNull().asEventFlow(viewModelScope)
@@ -65,7 +66,7 @@ class RestoreAccountViewSeedPhraseViewModel(
           throw UserFacingException(application.getString(R.string.error_invalid_seed_phrase_length))
         } else {
           val seed = KeyFactory.createSeedFromMnemonic(seedPhrase, inputtedPassword.value)
-          KeyFactory.createKeyPairFromSeed(seed)
+          SensitiveList(seedPhrase) to KeyFactory.createKeyPairFromSeed(seed)
         }
       }
     )

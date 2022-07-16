@@ -15,7 +15,6 @@ import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
-import com.dgsd.android.solar.onboarding.OnboardingCoordinator
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class RestoreAccountFromSeedPhraseFragment :
   Fragment(R.layout.frag_onboarding_restore_account_from_seed) {
 
+  private val restoreAccountCoordinator: RestoreAccountCoordinator by parentViewModel()
   private val viewModel: RestoreAccountViewSeedPhraseViewModel by viewModel()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +67,8 @@ class RestoreAccountFromSeedPhraseFragment :
       Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
     }
 
-    onEach(viewModel.continueWithSeed) {
+    onEach(viewModel.continueWithSeed) { (seedPhrase, keyPair) ->
+      restoreAccountCoordinator.onSeedGenerated(seedPhrase, keyPair)
     }
 
     onEach(viewModel.inputtedPassword) { password ->
