@@ -16,15 +16,17 @@ internal object SessionScopedModule {
     fun create(): Module {
         return module {
             scope<Session> {
-                scoped<SolanaApiRepository> {
-                    val solanaApi = SolanaApi(
+                scoped<SolanaApi> {
+                    SolanaApi(
                         cluster = get<ClusterManager>().activeCluster.value,
                         okHttpClient = get()
                     )
+                }
 
+                scoped<SolanaApiRepository> {
                     SolanaApiRepositoryImpl(
                         session = getScoped(),
-                        solanaApi = solanaApi,
+                        solanaApi = getScoped(),
                     )
                 }
 

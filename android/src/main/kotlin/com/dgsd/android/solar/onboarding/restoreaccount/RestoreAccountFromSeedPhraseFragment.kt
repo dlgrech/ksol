@@ -39,10 +39,8 @@ class RestoreAccountFromSeedPhraseFragment :
     val passphraseValue = view.findViewById<TextView>(R.id.passphrase_value)
     val errorMessage = view.findViewById<TextView>(R.id.error_message)
 
-    toolbar.apply {
-      setNavigationOnClickListener {
-        requireActivity().onBackPressed()
-      }
+    toolbar.setNavigationOnClickListener {
+      requireActivity().onBackPressed()
     }
 
     seedPhraseInput.doAfterTextChanged { text ->
