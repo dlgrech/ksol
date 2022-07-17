@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.model.SensitiveList
+import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.common.model.UserFacingException
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.resourceFlowOf
@@ -23,7 +24,7 @@ class RestoreAccountViewSeedPhraseViewModel(
 ) : ViewModel() {
 
   private val generateSeedKeyPairResourceConsumer =
-    ResourceFlowConsumer<Pair<SensitiveList<String>, KeyPair>>(viewModelScope)
+    ResourceFlowConsumer<Pair<SensitiveList<String>, SensitiveString>>(viewModelScope)
 
   val continueWithSeed =
     generateSeedKeyPairResourceConsumer.data.filterNotNull().asEventFlow(viewModelScope)
@@ -79,8 +80,14 @@ class RestoreAccountViewSeedPhraseViewModel(
           val invalidWords = seedPhrase.filter { it !in  validWords}
 
           if (invalidWords.isEmpty()) {
-            val seed = KeyFactory.createSeedFromMnemonic(seedPhrase, inputtedPassword.value)
-            SensitiveList(seedPhrase) to KeyFactory.createKeyPairFromSeed(seed)
+            val passPhrase = inputtedPassword.value
+
+            // Make sure that keypair can be generated..
+            KeyFactory.createKeyPairFromSeed(
+              KeyFactory.createSeedFromMnemonic(seedPhrase, passPhrase)
+            )
+
+            SensitiveList(seedPhrase) to SensitiveString(passPhrase)
           } else {
             throw UserFacingException(
               application.getString(

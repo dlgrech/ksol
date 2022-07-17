@@ -32,6 +32,7 @@ object OnboardingViewModelModule {
                     errorMessageFactory = get(),
                     solanaApi = getScoped(),
                     seedPhrase = get(),
+                    passPhrase = get(),
                 )
             }
         }
