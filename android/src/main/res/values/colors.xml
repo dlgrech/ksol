@@ -1,6 +1,5 @@
 
 <resources>
-    <color name="seed">#FFC56D</color>
     <color name="md_theme_light_primary">#805600</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFDDB0</color>
@@ -59,4 +58,6 @@
     <color name="md_theme_dark_shadow">#000000</color>
     <color name="md_theme_dark_surfaceTint">#FEBA4B</color>
     <color name="md_theme_dark_surfaceTintColor">#FEBA4B</color>
+
+    <color name="shimmer_background_color">#C3C5C8</color>
 </resources>

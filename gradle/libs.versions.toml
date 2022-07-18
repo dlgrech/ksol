@@ -42,3 +42,5 @@ androidx-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.0"
 google-material = "com.google.android.material:material:1.6.1"
 
 koin-android = "io.insert-koin:koin-android:3.2.0"
+
+shimmer-android = "com.facebook.shimmer:shimmer:0.5.0"
