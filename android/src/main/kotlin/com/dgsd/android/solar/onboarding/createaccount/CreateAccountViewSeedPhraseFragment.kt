@@ -7,14 +7,17 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModal
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
+import com.dgsd.android.solar.common.shimmer.ShimmerView
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
+import com.dgsd.android.solar.extensions.dpToPx
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.ksol.keygen.MnemonicPhraseLength
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,9 +33,11 @@ class CreateAccountViewSeedPhraseFragment :
 
     val seedPhraseContainer =
       requireView().findViewById<ConstraintLayout>(R.id.seed_phrase_container)
+    val shimmerSeedPhraseContainer =
+      requireView().findViewById<ConstraintLayout>(R.id.shimmer_seed_phrase_container)
     val explainerMessage = requireView().findViewById<TextView>(R.id.explainer_message)
-    val loadingIndicator = requireView().findViewById<View>(R.id.loading_indicator)
     val nextButton = requireView().findViewById<View>(R.id.next)
+    val shimmerNextButton = requireView().findViewById<View>(R.id.shimmer_next)
     val copyButton = requireView().findViewById<TextView>(R.id.copy)
 
     view.findViewById<MaterialToolbar>(R.id.toolbar).apply {
@@ -78,11 +83,14 @@ class CreateAccountViewSeedPhraseFragment :
       seedPhraseContainer.populate(seedPhrase.orEmpty())
     }
 
+    shimmerSeedPhraseContainer.populateShimmer(MnemonicPhraseLength.TWENTY_FOUR.wordCount)
+
     onEach(viewModel.isLoading) {
-      loadingIndicator.isVisible = it
-      seedPhraseContainer.isVisible = !it
-      explainerMessage.isVisible = !it
-      copyButton.isVisible = !it
+      shimmerNextButton.isInvisible = !it
+      shimmerSeedPhraseContainer.isInvisible = !it
+      seedPhraseContainer.isInvisible = it
+      copyButton.isInvisible = it
+      nextButton.isInvisible = it
     }
 
     onEach(viewModel.showSeedPhraseCopiedSuccess) {
@@ -94,23 +102,30 @@ class CreateAccountViewSeedPhraseFragment :
     }
   }
 
-  private fun ConstraintLayout.populate(seedPhrase: List<String>) {
+  private fun ConstraintLayout.populateShimmer(numberOfViews: Int) {
     removeAllViews()
+    val flow = createGridFlow()
+    addView(flow)
 
-    val flow = Flow(requireContext()).apply {
-      id = View.generateViewId()
-      setWrapMode(Flow.WRAP_CHAIN)
-      setHorizontalStyle(Flow.CHAIN_PACKED)
-      setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
-      setOrientation(Flow.HORIZONTAL)
-      setVerticalGap(resources.getDimensionPixelSize(R.dimen.padding_small))
-      setHorizontalGap(resources.getDimensionPixelSize(R.dimen.padding_small))
-      layoutParams = ViewGroup.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT,
-        ViewGroup.LayoutParams.WRAP_CONTENT
+    val referencedIds = IntArray(numberOfViews)
+    (0 until numberOfViews).forEach { index ->
+      val shimmer = ShimmerView(requireContext())
+      shimmer.id = View.generateViewId()
+      shimmer.layoutParams = ViewGroup.LayoutParams(
+        requireContext().dpToPx((66..94).random()).toInt(),
+        requireContext().dpToPx(33).toInt()
       )
+
+      addView(shimmer)
+      referencedIds[index] = shimmer.id
     }
 
+    flow.referencedIds = referencedIds
+  }
+
+  private fun ConstraintLayout.populate(seedPhrase: List<String>) {
+    removeAllViews()
+    val flow = createGridFlow()
     addView(flow)
 
     val referencedIds = IntArray(seedPhrase.size)
@@ -128,5 +143,21 @@ class CreateAccountViewSeedPhraseFragment :
     }
 
     flow.referencedIds = referencedIds
+  }
+
+  private fun createGridFlow(): Flow {
+    return Flow(requireContext()).apply {
+      id = View.generateViewId()
+      setWrapMode(Flow.WRAP_CHAIN)
+      setHorizontalStyle(Flow.CHAIN_PACKED)
+      setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
+      setOrientation(Flow.HORIZONTAL)
+      setVerticalGap(resources.getDimensionPixelSize(R.dimen.padding_small))
+      setHorizontalGap(resources.getDimensionPixelSize(R.dimen.padding_small))
+      layoutParams = ViewGroup.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+      )
+    }
   }
 }
