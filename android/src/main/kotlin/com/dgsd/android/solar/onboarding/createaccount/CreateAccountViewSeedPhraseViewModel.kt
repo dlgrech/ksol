@@ -16,7 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 
-private const val GENERATE_MNEMONIC_ARTIFICIAL_DELAY_MS = 500L
+private const val GENERATE_MNEMONIC_ARTIFICIAL_DELAY_MS = 1500L
 
 class CreateAccountViewSeedPhraseViewModel(
   errorMessageFactory: ErrorMessageFactory,
