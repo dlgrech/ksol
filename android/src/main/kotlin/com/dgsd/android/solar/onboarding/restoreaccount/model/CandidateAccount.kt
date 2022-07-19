@@ -27,4 +27,13 @@ sealed interface CandidateAccount {
     val keyPair: KeyPair,
     val lamports: Lamports
   ) : CandidateAccount
+
+  fun keyPairOrNull(): KeyPair? {
+    return when (this) {
+      is AccountWithBalance -> keyPair
+      is Empty -> null
+      is Error -> keyPair
+      is Loading -> keyPair
+    }
+  }
 }

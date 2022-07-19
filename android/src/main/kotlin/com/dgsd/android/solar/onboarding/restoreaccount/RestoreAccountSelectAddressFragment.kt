@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.ui.SolTokenFormatter
+import com.dgsd.android.solar.common.util.getTextColorForLamports
 import com.dgsd.android.solar.di.util.parentViewModel
+import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.onboarding.restoreaccount.model.CandidateAccount
 import com.google.android.material.appbar.MaterialToolbar
@@ -35,13 +38,16 @@ class RestoreAccountSelectAddressFragment :
 
     val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
     val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-    val loadingIndicator = view.findViewById<ProgressBar>(R.id.loading_indicator)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()
     }
 
-    val adapter = CandidateAccountAdapter()
+    val adapter = CandidateAccountAdapter(
+      onClickListener = { candidateAccount ->
+        viewModel.onCandidateAccountClicked(candidateAccount)
+      }
+    )
     recyclerView.layoutManager = LinearLayoutManager(requireContext())
     recyclerView.adapter = adapter
 
@@ -49,55 +55,96 @@ class RestoreAccountSelectAddressFragment :
       adapter.items = it
     }
 
-    onEach(viewModel.isLoading) {
-      loadingIndicator.isVisible = it
-      recyclerView.isVisible = !it
-    }
-
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       viewModel.onCreate()
     }
   }
 
-  private class HeroAccountViewModel(view: View) : RecyclerView.ViewHolder(view) {
+  private class HeroAccountViewHolder(
+    view: View,
+    private val onClickListener: (CandidateAccount) -> Unit,
+  ) : RecyclerView.ViewHolder(view) {
 
     fun bind(candidateAccount: CandidateAccount) {
       itemView.findViewById<TextView>(R.id.text).text = candidateAccount.toString()
+      itemView.setOnClickListener {
+        onClickListener.invoke(candidateAccount)
+      }
     }
 
     companion object {
-      fun create(parent: ViewGroup): HeroAccountViewModel {
+      fun create(
+        parent: ViewGroup,
+        onClickListener: (CandidateAccount) -> Unit,
+      ): HeroAccountViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
           R.layout.view_restore_account_candidate_address_hero,
           parent,
           false
         )
 
-        return HeroAccountViewModel(view)
+        return HeroAccountViewHolder(view, onClickListener)
       }
     }
   }
 
-  private class OtherAccountViewModel(view: View) : RecyclerView.ViewHolder(view) {
+  private class OtherAccountViewHolder(
+    view: View,
+    private val onClickListener: (CandidateAccount) -> Unit,
+  ) : RecyclerView.ViewHolder(view) {
+
+    private val shimmerAccountKey = view.findViewById<View>(R.id.shimmer_account_key)
+    private val shimmerAmount = view.findViewById<View>(R.id.shimmer_amount)
+
+    private val accountKey = view.findViewById<TextView>(R.id.account_key)
+    private val amount = view.findViewById<TextView>(R.id.amount)
 
     fun bind(candidateAccount: CandidateAccount) {
-      itemView.findViewById<TextView>(R.id.text).text = candidateAccount.toString()
+      shimmerAccountKey.isInvisible = candidateAccount !is CandidateAccount.Empty
+      shimmerAmount.isInvisible =
+        !(candidateAccount is CandidateAccount.Empty || candidateAccount is CandidateAccount.Loading)
+
+      accountKey.text = candidateAccount.keyPairOrNull()?.publicKey?.toBase58String()
+      amount.text = if (candidateAccount is CandidateAccount.AccountWithBalance) {
+        SolTokenFormatter.format(candidateAccount.lamports)
+      } else {
+        null
+      }
+
+      if (candidateAccount is CandidateAccount.AccountWithBalance) {
+        amount.setTextColor(getTextColorForLamports(itemView.context, candidateAccount.lamports))
+      } else if (candidateAccount is CandidateAccount.Error) {
+        amount.setTextColor(itemView.context.getColorAttr(R.attr.colorError))
+        amount.setText(R.string.sol_amount_error_loading)
+      }
+
+      accountKey.isVisible = !shimmerAccountKey.isVisible
+      amount.isVisible = !shimmerAmount.isVisible
+
+      itemView.setOnClickListener {
+        onClickListener.invoke(candidateAccount)
+      }
     }
 
     companion object {
-      fun create(parent: ViewGroup): OtherAccountViewModel {
+      fun create(
+        parent: ViewGroup,
+        onClickListener: (CandidateAccount) -> Unit,
+      ): OtherAccountViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
           R.layout.view_restore_account_candidate_address_other,
           parent,
           false
         )
 
-        return OtherAccountViewModel(view)
+        return OtherAccountViewHolder(view, onClickListener)
       }
     }
   }
 
-  private class CandidateAccountAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+  private class CandidateAccountAdapter(
+    private val onClickListener: (CandidateAccount) -> Unit,
+  ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var items: List<CandidateAccount> = emptyList()
       set(value) {
@@ -107,16 +154,24 @@ class RestoreAccountSelectAddressFragment :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
       return when (viewType) {
-        VIEW_TYPE_HERO_ACCOUNT -> HeroAccountViewModel.create(parent)
-        VIEW_TYPE_OTHER_ACCOUNT -> OtherAccountViewModel.create(parent)
+        VIEW_TYPE_HERO_ACCOUNT -> HeroAccountViewHolder.create(parent, onClickListener)
+        VIEW_TYPE_OTHER_ACCOUNT -> OtherAccountViewHolder.create(parent, onClickListener)
         else -> error("Unknown view type: $viewType")
       }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+      val candidateAccount = items[position]
       when (holder) {
-        is HeroAccountViewModel -> holder.bind(items[position])
-        is OtherAccountViewModel -> holder.bind(items[position])
+        is HeroAccountViewHolder -> holder.bind(candidateAccount)
+        is OtherAccountViewHolder -> holder.bind(candidateAccount)
+      }
+
+      holder.itemView.isEnabled = when (candidateAccount) {
+        is CandidateAccount.AccountWithBalance -> true
+        is CandidateAccount.Empty -> false
+        is CandidateAccount.Error -> true
+        is CandidateAccount.Loading -> true
       }
     }
 

@@ -37,4 +37,5 @@
     <string name="save">Save</string>
     <string name="error_invalid_seed_phrase_words_template">Invalid words: %s</string>
     <string name="restore_account_select_address_screen_title">Choose your wallet</string>
+    <string name="sol_amount_error_loading">!</string>
 </resources>

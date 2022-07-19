@@ -1,11 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:minHeight="?listPreferredItemHeight"
+    android:paddingHorizontal="@dimen/padding_default">
 
     <TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/account_key"
+        style="@style/TextAppearance.Solar.Label3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_default"
+        android:ellipsize="middle"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/amount_barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/amount"
+        style="@style/TextAppearance.Solar.Label2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/account_key"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/account_key"
+        app:layout_constraintTop_toTopOf="@id/account_key" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/amount_barrier"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="shimmer_amount,amount"
+        app:layout_constraintStart_toStartOf="@id/shimmer_amount"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.dgsd.android.solar.common.shimmer.ShimmerView
+        android:id="@+id/shimmer_account_key"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="@dimen/padding_default"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/amount_barrier"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.dgsd.android.solar.common.shimmer.ShimmerView
+        android:id="@+id/shimmer_amount"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/shimmer_account_key"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/shimmer_account_key"
+        app:layout_constraintTop_toTopOf="@id/shimmer_account_key" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,10 +28,6 @@ class RestoreAccountSelectAddressViewModel(
 
   private val generateKeysResourceConsumer = ResourceFlowConsumer<List<KeyPair>>(viewModelScope)
 
-  private val isKeyPairCandidatesLoading = generateKeysResourceConsumer.isLoading
-
-  val isLoading = isKeyPairCandidatesLoading
-
   private val candidateAccountList = (0 until NUMBER_OF_ACCOUNTS).map { accountIndex ->
     MutableStateFlow<CandidateAccount>(CandidateAccount.Empty(accountIndex))
   }
@@ -76,5 +72,9 @@ class RestoreAccountSelectAddressViewModel(
       }
     )
 
+  }
+
+  fun onCandidateAccountClicked(candidateAccount: CandidateAccount) {
+    // Coming soon: Select account!
   }
 }
