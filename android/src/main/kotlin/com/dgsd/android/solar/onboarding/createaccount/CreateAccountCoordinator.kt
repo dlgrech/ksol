@@ -5,36 +5,58 @@ import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.ksol.model.KeyPair
 
-class CreateAccountCoordinator: ViewModel() {
+class CreateAccountCoordinator : ViewModel() {
 
-    sealed interface Destination {
-        object EnterPassphrase : Destination
-        object ViewSeedPhrase : Destination
-        object Confirmation : Destination
+  sealed interface Destination {
+    object EnterPassphrase : Destination
+    object ViewSeedPhrase : Destination
+    object Confirmation : Destination
+  }
+
+  private val _destination = MutableEventFlow<Destination>()
+  val destination = _destination.asEventFlow()
+
+  private val _continueWithFlow = MutableEventFlow<Pair<AccountSeedInfo, KeyPair>>()
+  val continueWithFlow = _continueWithFlow.asEventFlow()
+
+  var passphrase: SensitiveString? = null
+    private set
+
+  var seedPhrase: SensitiveList<String>? = null
+    private set
+
+  var createdWallet: KeyPair? = null
+    private set
+
+  val seedInfo: AccountSeedInfo?
+    get() {
+      return if (passphrase == null || seedPhrase == null) {
+        null
+      } else {
+        AccountSeedInfo(checkNotNull(seedPhrase), checkNotNull(passphrase))
+      }
     }
 
-    private val _destination = MutableEventFlow<Destination>()
-    val destination = _destination.asEventFlow()
+  fun onCreate() {
+    _destination.tryEmit(Destination.EnterPassphrase)
+  }
 
-    var passphrase: SensitiveString? = null
-        private set
+  fun onPassphraseConfirmed(passphrase: SensitiveString?) {
+    this.passphrase = passphrase
+    _destination.tryEmit(Destination.ViewSeedPhrase)
+  }
 
-    var seedPhrase: SensitiveList<String>? = null
-        private set
+  fun onSeedPhraseConfirmed(seedPhrase: SensitiveList<String>) {
+    this.seedPhrase = seedPhrase
+    _destination.tryEmit(Destination.Confirmation)
+  }
 
-    fun onCreate() {
-        _destination.tryEmit(Destination.EnterPassphrase)
-    }
+  fun onWalletAccountCreated(keyPair: KeyPair) {
+    createdWallet = keyPair
 
-    fun onPassphraseConfirmed(passphrase: SensitiveString?) {
-        this.passphrase = passphrase
-        _destination.tryEmit(Destination.ViewSeedPhrase)
-    }
-
-    fun onSeedPhraseConfirmed(seedPhrase: SensitiveList<String>) {
-        this.seedPhrase = seedPhrase
-        _destination.tryEmit(Destination.Confirmation)
-    }
+    _continueWithFlow.tryEmit(checkNotNull(seedInfo) to keyPair)
+  }
 }

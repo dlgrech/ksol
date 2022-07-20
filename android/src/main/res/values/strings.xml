@@ -9,6 +9,7 @@
     <string name="onboarding_welcome_screen_title_app_name">Solar</string>
     <string name="onboarding_welcome_action_sheet_restore_from_seed_phrase">I have a seed phrase</string>
     <string name="next">Next</string>
+    <string name="continue_label">Continue</string>
     <string name="create_account_enter_passphrase_explanation">You will need to remember this password to use this wallet on another device</string>
     <string name="create_account_enter_passphrase_skip">"I don't want a password for this wallet"</string>
     <string name="create_account_enter_passphrase_input_hint">(Optional) Password</string>
@@ -42,4 +43,7 @@
     <string name="restore_account_select_address_use_account_button">Use this wallet</string>
     <string name="restore_account_select_address_suggested_wallet">Suggested Wallet</string>
     <string name="restore_account_select_address_alternate_wallets">Alternate wallets:</string>
+    <string name="create_account_confirmation_success_title">Success!</string>
+    <string name="create_account_confirmation_explainer">This is your public wallet address you can share with others</string>
+    <string name="create_account_confirmation_copied_to_clipboard_success_message">Copied!</string>
 </resources>
