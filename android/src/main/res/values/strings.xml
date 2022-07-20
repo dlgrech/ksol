@@ -41,4 +41,5 @@
     <string name="lamport_amount_with_sol_suffix">%1$s SOL</string>
     <string name="restore_account_select_address_use_account_button">Use this wallet</string>
     <string name="restore_account_select_address_suggested_wallet">Suggested Wallet</string>
+    <string name="restore_account_select_address_alternate_wallets">Alternate wallets:</string>
 </resources>

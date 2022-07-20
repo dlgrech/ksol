@@ -180,6 +180,32 @@ class RestoreAccountSelectAddressFragment :
     }
   }
 
+  private class AlternateWalletsHeader(view: View) : RecyclerView.ViewHolder(view) {
+
+    private val title = view.findViewById<View>(R.id.title)
+    private val shimmerTitle = view.findViewById<View>(R.id.shimmer_title)
+
+    fun bind(showLoadingState: Boolean) {
+      title.isInvisible = showLoadingState
+      shimmerTitle.isInvisible = !showLoadingState
+    }
+
+    companion object {
+
+      fun create(
+        parent: ViewGroup,
+      ): AlternateWalletsHeader {
+        val view = LayoutInflater.from(parent.context).inflate(
+          R.layout.view_restore_account_alternate_wallet_header,
+          parent,
+          false
+        )
+
+        return AlternateWalletsHeader(view)
+      }
+    }
+  }
+
   private class CandidateAccountAdapter(
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -194,15 +220,20 @@ class RestoreAccountSelectAddressFragment :
       return when (viewType) {
         VIEW_TYPE_HERO_ACCOUNT -> HeroAccountViewHolder.create(parent, onClickListener)
         VIEW_TYPE_OTHER_ACCOUNT -> OtherAccountViewHolder.create(parent, onClickListener)
+        VIEW_TYPE_ALTERNATE_WALLETS_HEADER -> AlternateWalletsHeader.create(parent)
         else -> error("Unknown view type: $viewType")
       }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-      val candidateAccount = items[position]
+      val candidateAccount = if (position == 0) items.first() else items[position - 1]
+
       when (holder) {
         is HeroAccountViewHolder -> holder.bind(candidateAccount)
         is OtherAccountViewHolder -> holder.bind(candidateAccount)
+        is AlternateWalletsHeader -> holder.bind(
+          items.any { it is CandidateAccount.Empty }
+        )
       }
 
       holder.itemView.isEnabled = when (candidateAccount) {
@@ -214,20 +245,21 @@ class RestoreAccountSelectAddressFragment :
     }
 
     override fun getItemCount(): Int {
-      return items.size
+      return items.size + 1 // +1 for "alternative addresses" header
     }
 
     override fun getItemViewType(position: Int): Int {
-      return if (position == 0) {
-        VIEW_TYPE_HERO_ACCOUNT
-      } else {
-        VIEW_TYPE_OTHER_ACCOUNT
+      return when (position) {
+        0 -> VIEW_TYPE_HERO_ACCOUNT
+        1 -> VIEW_TYPE_ALTERNATE_WALLETS_HEADER
+        else -> VIEW_TYPE_OTHER_ACCOUNT
       }
     }
 
     companion object {
       const val VIEW_TYPE_HERO_ACCOUNT = 0
-      const val VIEW_TYPE_OTHER_ACCOUNT = 1
+      const val VIEW_TYPE_ALTERNATE_WALLETS_HEADER = 1
+      const val VIEW_TYPE_OTHER_ACCOUNT = 2
     }
   }
 }
