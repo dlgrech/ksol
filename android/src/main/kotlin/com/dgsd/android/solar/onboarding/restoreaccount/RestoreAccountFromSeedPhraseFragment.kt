@@ -82,8 +82,8 @@ class RestoreAccountFromSeedPhraseFragment :
       }
     }
 
-    onEach(viewModel.continueWithSeed) { (seedPhrase, passPhrase) ->
-      restoreAccountCoordinator.onSeedGenerated(seedPhrase, passPhrase)
+    onEach(viewModel.continueWithSeed) { seedInfo ->
+      restoreAccountCoordinator.onSeedGenerated(seedInfo)
     }
 
     onEach(viewModel.inputtedPassword) { password ->

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
  *
  * That is, they should only be handled [exactly once] by what ever subscriber is active at the time of emission.
  */
-typealias MutableEventFlow<T> = MutableSharedFlow<T>
+internal typealias MutableEventFlow<T> = MutableSharedFlow<T>
 
 /**
  * Factory for creating [MutableEventFlow] instances

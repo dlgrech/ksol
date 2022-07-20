@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.applock.setup.SetupAppLockContainerFragment
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator.Destination
@@ -31,6 +32,7 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
             Destination.CreateNewWalletFlow -> CreateAccountContainerFragment.newInstance()
             Destination.RestoreSeedPhraseFlow -> RestoreAccountContainerFragment.newInstance()
             Destination.Welcome -> OnboardingWelcomeFragment()
+            Destination.SetupAppLock -> SetupAppLockContainerFragment.newInstance()
         }
 
         childFragmentManager.navigate(R.id.fragment_container, fragment)

@@ -1,38 +1,42 @@
 package com.dgsd.android.solar.onboarding.restoreaccount
 
 import androidx.lifecycle.ViewModel
-import com.dgsd.android.solar.common.model.SensitiveList
-import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
-import com.dgsd.android.solar.session.manager.SessionManager
+import com.dgsd.android.solar.model.AccountSeedInfo
+import com.dgsd.ksol.model.KeyPair
 
-class RestoreAccountCoordinator(
-    private val sessionManager: SessionManager,
-) : ViewModel() {
+class RestoreAccountCoordinator : ViewModel() {
 
-    sealed interface Destination {
-        object EnterSeedPhrase : Destination
-        object SelectAccount : Destination
-    }
+  sealed interface Destination {
+    object EnterSeedPhrase : Destination
+    object SelectAccount : Destination
+  }
 
-    private val _destination = MutableEventFlow<Destination>()
-    val destination = _destination.asEventFlow()
+  private val _destination = MutableEventFlow<Destination>()
+  val destination = _destination.asEventFlow()
 
-    var passPhrase: SensitiveString? = null
-        private set
+  private val _continueWithFlow = MutableEventFlow<Pair<AccountSeedInfo, KeyPair>>()
+  val continueWithFlow = _continueWithFlow.asEventFlow()
 
-    var seedPhrase: SensitiveList<String>? = null
-        private set
+  var seedInfo: AccountSeedInfo? = null
+    private set
 
-    fun onCreate() {
-        _destination.tryEmit(Destination.EnterSeedPhrase)
-    }
+  var selectedWallet: KeyPair? = null
+    private set
 
-    fun onSeedGenerated(seedPhrase: SensitiveList<String>, passPhrase: SensitiveString) {
-        this.passPhrase = passPhrase
-        this.seedPhrase = seedPhrase
+  fun onCreate() {
+    _destination.tryEmit(Destination.EnterSeedPhrase)
+  }
 
-        _destination.tryEmit(Destination.SelectAccount)
-    }
+  fun onSeedGenerated(seedInfo: AccountSeedInfo) {
+    this.seedInfo = seedInfo
+
+    _destination.tryEmit(Destination.SelectAccount)
+  }
+
+  fun onWalletSelected(keyPair: KeyPair) {
+    selectedWallet = keyPair
+    _continueWithFlow.tryEmit(checkNotNull(seedInfo) to checkNotNull(selectedWallet))
+  }
 }

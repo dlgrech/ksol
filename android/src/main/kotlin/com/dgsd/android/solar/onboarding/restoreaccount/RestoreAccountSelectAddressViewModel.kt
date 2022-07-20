@@ -3,17 +3,21 @@ package com.dgsd.android.solar.onboarding.restoreaccount
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
-import com.dgsd.android.solar.common.model.SensitiveList
-import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.resourceFlowOf
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.onboarding.restoreaccount.model.CandidateAccount
 import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.KeyPair
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 
@@ -22,9 +26,11 @@ private const val NUMBER_OF_ACCOUNTS = 20
 class RestoreAccountSelectAddressViewModel(
   private val errorMessageFactory: ErrorMessageFactory,
   private val solanaApi: SolanaApi,
-  private val seedPhrase: SensitiveList<String>,
-  private val passPhrase: SensitiveString,
+  private val seedInfo: AccountSeedInfo,
 ) : ViewModel() {
+
+  private val _continueWithResult = MutableEventFlow<KeyPair>()
+  val continueWithResult = _continueWithResult.asEventFlow()
 
   private val generateKeysResourceConsumer = ResourceFlowConsumer<List<KeyPair>>(viewModelScope)
 
@@ -67,7 +73,11 @@ class RestoreAccountSelectAddressViewModel(
     generateKeysResourceConsumer.collectFlow(
       resourceFlowOf {
         (0 until NUMBER_OF_ACCOUNTS).map { accountIndex ->
-          KeyFactory.createKeyPairFromMnemonic(seedPhrase, passPhrase.sensitiveValue, accountIndex)
+          KeyFactory.createKeyPairFromMnemonic(
+            seedInfo.seedPhrase,
+            seedInfo.passPhrase.sensitiveValue,
+            accountIndex
+          )
         }
       }
     )
@@ -75,6 +85,9 @@ class RestoreAccountSelectAddressViewModel(
   }
 
   fun onCandidateAccountClicked(candidateAccount: CandidateAccount) {
-    // Coming soon: Select account!
+    val keyPair = candidateAccount.keyPairOrNull()
+    if (keyPair != null) {
+      _continueWithResult.tryEmit(keyPair)
+    }
   }
 }

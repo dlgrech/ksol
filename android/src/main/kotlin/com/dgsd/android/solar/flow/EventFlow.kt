@@ -1,6 +1,5 @@
 package com.dgsd.android.solar.flow
 
-import com.dgsd.ksol.flow.MutableEventFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

@@ -31,8 +31,7 @@ object OnboardingViewModelModule {
                 RestoreAccountSelectAddressViewModel(
                     errorMessageFactory = get(),
                     solanaApi = getScoped(),
-                    seedPhrase = get(),
-                    passPhrase = get(),
+                    seedInfo = get(),
                 )
             }
         }

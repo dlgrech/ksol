@@ -13,9 +13,9 @@ import com.dgsd.android.solar.common.util.resourceFlowOf
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.keygen.MnemonicPhraseLength
-import com.dgsd.ksol.model.KeyPair
 import kotlinx.coroutines.flow.*
 
 class RestoreAccountViewSeedPhraseViewModel(
@@ -24,7 +24,7 @@ class RestoreAccountViewSeedPhraseViewModel(
 ) : ViewModel() {
 
   private val generateSeedKeyPairResourceConsumer =
-    ResourceFlowConsumer<Pair<SensitiveList<String>, SensitiveString>>(viewModelScope)
+    ResourceFlowConsumer<AccountSeedInfo>(viewModelScope)
 
   val continueWithSeed =
     generateSeedKeyPairResourceConsumer.data.filterNotNull().asEventFlow(viewModelScope)
@@ -87,7 +87,7 @@ class RestoreAccountViewSeedPhraseViewModel(
               KeyFactory.createSeedFromMnemonic(seedPhrase, passPhrase)
             )
 
-            SensitiveList(seedPhrase) to SensitiveString(passPhrase)
+            AccountSeedInfo(SensitiveList(seedPhrase), SensitiveString(passPhrase))
           } else {
             throw UserFacingException(
               application.getString(

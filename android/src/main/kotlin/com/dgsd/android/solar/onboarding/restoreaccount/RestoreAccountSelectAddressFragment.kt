@@ -27,10 +27,7 @@ class RestoreAccountSelectAddressFragment :
 
   private val coordinator: RestoreAccountCoordinator by parentViewModel()
   private val viewModel: RestoreAccountSelectAddressViewModel by viewModel {
-    parametersOf(
-      checkNotNull(coordinator.seedPhrase),
-      checkNotNull(coordinator.passPhrase)
-    )
+    parametersOf(checkNotNull(coordinator.seedInfo))
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,6 +50,10 @@ class RestoreAccountSelectAddressFragment :
 
     onEach(viewModel.accountData) {
       adapter.items = it
+    }
+
+    onEach(viewModel.continueWithResult) { keyPair ->
+      coordinator.onWalletSelected(keyPair)
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

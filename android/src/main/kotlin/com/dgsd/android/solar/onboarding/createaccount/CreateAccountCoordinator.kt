@@ -5,12 +5,9 @@ import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
-import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.ksol.model.KeyPair
 
-class CreateAccountCoordinator(
-    private val sessionManager: SessionManager,
-) : ViewModel() {
+class CreateAccountCoordinator: ViewModel() {
 
     sealed interface Destination {
         object EnterPassphrase : Destination
@@ -39,10 +36,5 @@ class CreateAccountCoordinator(
     fun onSeedPhraseConfirmed(seedPhrase: SensitiveList<String>) {
         this.seedPhrase = seedPhrase
         _destination.tryEmit(Destination.Confirmation)
-    }
-
-    fun onKeyPairGenerated(keyPair: KeyPair) {
-        // TODO: Store private key
-        sessionManager.setActiveSession(keyPair.publicKey)
     }
 }
