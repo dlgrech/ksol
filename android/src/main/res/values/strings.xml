@@ -38,4 +38,7 @@
     <string name="error_invalid_seed_phrase_words_template">Invalid words: %s</string>
     <string name="restore_account_select_address_screen_title">Choose your wallet</string>
     <string name="sol_amount_error_loading">!</string>
+    <string name="lamport_amount_with_sol_suffix">%1$s SOL</string>
+    <string name="restore_account_select_address_use_account_button">Use this wallet</string>
+    <string name="restore_account_select_address_suggested_wallet">Suggested Wallet</string>
 </resources>

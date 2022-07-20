@@ -65,9 +65,47 @@ class RestoreAccountSelectAddressFragment :
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.ViewHolder(view) {
 
+    private val shimmerSuggestedWalletTitle = view.findViewById<View>(R.id.shimmer_suggested_wallet)
+    private val shimmerAccountKey = view.findViewById<View>(R.id.shimmer_account_key)
+    private val shimmerAmount = view.findViewById<View>(R.id.shimmer_amount)
+    private val shimmerUseThisAccountButton = view.findViewById<View>(R.id.shimmer_use_this_account)
+
+    private val suggestedWalletTitle = view.findViewById<View>(R.id.suggested_wallet)
+    private val accountKey = view.findViewById<TextView>(R.id.account_key)
+    private val amount = view.findViewById<TextView>(R.id.amount)
+    private val useThisAccountButton = view.findViewById<View>(R.id.use_this_account)
+
+
     fun bind(candidateAccount: CandidateAccount) {
-      itemView.findViewById<TextView>(R.id.text).text = candidateAccount.toString()
-      itemView.setOnClickListener {
+      shimmerSuggestedWalletTitle.isInvisible = candidateAccount !is CandidateAccount.Empty
+      shimmerAccountKey.isInvisible = candidateAccount !is CandidateAccount.Empty
+      shimmerUseThisAccountButton.isInvisible = candidateAccount !is CandidateAccount.Empty
+      shimmerAmount.isInvisible =
+        !(candidateAccount is CandidateAccount.Empty || candidateAccount is CandidateAccount.Loading)
+
+      accountKey.text = candidateAccount.keyPairOrNull()?.publicKey?.toBase58String()
+      amount.text = if (candidateAccount is CandidateAccount.AccountWithBalance) {
+        itemView.context.getString(
+          R.string.lamport_amount_with_sol_suffix,
+          SolTokenFormatter.format(candidateAccount.lamports)
+        )
+      } else {
+        null
+      }
+
+      if (candidateAccount is CandidateAccount.AccountWithBalance) {
+        amount.setTextColor(getTextColorForLamports(itemView.context, candidateAccount.lamports))
+      } else if (candidateAccount is CandidateAccount.Error) {
+        amount.setTextColor(itemView.context.getColorAttr(R.attr.colorError))
+        amount.setText(R.string.sol_amount_error_loading)
+      }
+
+      suggestedWalletTitle.isInvisible = shimmerSuggestedWalletTitle.isVisible
+      accountKey.isInvisible = shimmerAccountKey.isVisible
+      amount.isInvisible = shimmerAmount.isVisible
+      useThisAccountButton.isInvisible = shimmerUseThisAccountButton.isVisible
+
+      useThisAccountButton.setOnClickListener {
         onClickListener.invoke(candidateAccount)
       }
     }

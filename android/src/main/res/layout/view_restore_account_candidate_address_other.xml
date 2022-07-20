@@ -55,6 +55,7 @@
         android:id="@+id/shimmer_amount"
         android:layout_width="60dp"
         android:layout_height="20dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/shimmer_account_key"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"

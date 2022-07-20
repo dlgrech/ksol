@@ -8,9 +8,9 @@ import com.dgsd.ksol.model.Lamports
 
 @ColorInt
 fun getTextColorForLamports(context: Context, lamports: Lamports): Int {
-  return if (lamports == 0L) {
-    context.getColorAttr(android.R.attr.textColorSecondary)
-  } else {
-    context.getColorAttr(R.attr.colorTertiary)
+  return when {
+    lamports == 0L -> context.getColorAttr(android.R.attr.textColorSecondary)
+    lamports < 0L -> context.getColorAttr(android.R.attr.colorError)
+    else -> context.getColorAttr(R.attr.colorTertiary)
   }
 }
