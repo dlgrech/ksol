@@ -8,5 +8,5 @@ fun AndroidViewModel.getString(
   @StringRes resId: Int,
   vararg args: Any
 ): String {
-  return getApplication<Application>().getString(resId, args)
+  return getApplication<Application>().getString(resId, *args)
 }
