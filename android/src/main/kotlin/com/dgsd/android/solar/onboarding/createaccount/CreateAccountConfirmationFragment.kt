@@ -31,12 +31,9 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
 
     val successTitle = view.findViewById<View>(R.id.success_title)
     val explainerMessage = view.findViewById<View>(R.id.explainer_message)
-
     val walletAddress = view.findViewById<TextView>(R.id.wallet_address)
-    val shimmerWalletAddress = view.findViewById<View>(R.id.shimmer_wallet_address)
-
     val continueButton = view.findViewById<Button>(R.id.continue_button)
-    val shimmerContinueButton = view.findViewById<View>(R.id.shimmer_continue_button)
+    val loadingIndicator = view.findViewById<View>(R.id.loading_indicator)
 
     continueButton.setOnClickListener {
       viewModel.onContinueClicked()
@@ -59,8 +56,7 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
     }
 
     onEach(viewModel.isLoading) {
-      shimmerWalletAddress.isVisible = it
-      shimmerContinueButton.isVisible = it
+      loadingIndicator.isVisible = it
       successTitle.isInvisible = it
       explainerMessage.isInvisible = it
       walletAddress.isInvisible = it
