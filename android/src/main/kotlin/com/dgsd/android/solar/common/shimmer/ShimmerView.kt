@@ -22,9 +22,9 @@ private annotation class ShapeType {
 }
 
 /**
- * Uses a [ShimmerDrawable] to show a shimering loading state.
+ * Uses a [ShimmerDrawable] to show a shimmering loading state.
  *
- * This is handy compared to `ShimmerFrameLayout` as we dont need to wrap child views in a
+ * This is handy compared to `ShimmerFrameLayout` as we don't need to wrap child views in a
  * parent layout
  */
 @SuppressLint("CustomViewStyleable")
@@ -42,8 +42,8 @@ class ShimmerView @JvmOverloads constructor(
     shimmerDrawable.setShimmer(
       Shimmer.AlphaHighlightBuilder()
         .consumeAttributes(context, attrs)
-        .setDuration(1500)
-        .setHighlightAlpha(0.5f)
+        .setDuration(resources.getInteger(R.integer.shimmer_duration_ms).toLong())
+        .setHighlightAlpha(resources.getFloat(R.dimen.shimmer_alpha))
         .build()
     )
     setLayerType(LAYER_TYPE_HARDWARE, Paint())

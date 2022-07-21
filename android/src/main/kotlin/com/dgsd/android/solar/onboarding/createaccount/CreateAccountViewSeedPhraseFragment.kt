@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +35,9 @@ class CreateAccountViewSeedPhraseFragment :
     val seedPhraseContainer =
       requireView().findViewById<ConstraintLayout>(R.id.seed_phrase_container)
     val shimmerSeedPhraseContainer =
-      requireView().findViewById<ConstraintLayout>(R.id.shimmer_seed_phrase_container)
+      requireView().findViewById<FrameLayout>(R.id.shimmer_seed_phrase_container)
+    val shimmerSeedPhraseFlowLayout =
+      requireView().findViewById<ConstraintLayout>(R.id.shimmer_seed_phrase_flow_layout)
     val explainerMessage = requireView().findViewById<TextView>(R.id.explainer_message)
     val nextButton = requireView().findViewById<View>(R.id.next)
     val shimmerNextButton = requireView().findViewById<View>(R.id.shimmer_next)
@@ -83,7 +86,7 @@ class CreateAccountViewSeedPhraseFragment :
       seedPhraseContainer.populate(seedPhrase.orEmpty())
     }
 
-    shimmerSeedPhraseContainer.populateShimmer(MnemonicPhraseLength.TWENTY_FOUR.wordCount)
+    shimmerSeedPhraseFlowLayout.populateShimmer(MnemonicPhraseLength.TWENTY_FOUR.wordCount)
 
     onEach(viewModel.isLoading) {
       shimmerNextButton.isInvisible = !it
@@ -109,7 +112,8 @@ class CreateAccountViewSeedPhraseFragment :
 
     val referencedIds = IntArray(numberOfViews)
     (0 until numberOfViews).forEach { index ->
-      val shimmer = ShimmerView(requireContext())
+      val shimmer = View(requireContext())
+      shimmer.setBackgroundResource(R.drawable.shimmer_background_rounded)
       shimmer.id = View.generateViewId()
       shimmer.layoutParams = ViewGroup.LayoutParams(
         requireContext().dpToPx((66..94).random()).toInt(),

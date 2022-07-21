@@ -78,7 +78,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/explainer_message" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_seed_phrase_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +87,18 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explainer_message" />
+                app:layout_constraintTop_toBottomOf="@id/explainer_message"
+                app:shimmer_duration="@integer/shimmer_duration_ms"
+                app:shimmer_highlight_alpha="@dimen/shimmer_alpha">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/shimmer_seed_phrase_flow_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/padding_default"
+                    android:layout_marginTop="@dimen/padding_small" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <TextView
                 android:id="@+id/copy"
