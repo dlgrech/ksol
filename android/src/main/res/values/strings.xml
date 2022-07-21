@@ -59,4 +59,9 @@
     <string name="numeric_keyboard_7">7</string>
     <string name="numeric_keyboard_8">8</string>
     <string name="numeric_keyboard_9">9</string>
+    <string name="setup_app_lock_confirm_pin_screen_title">Confirm pin</string>
+    <string name="setup_app_lock_confirm_pin_explainer">Enter the same pin again.</string>
+    <string name="setup_app_lock_error_too_short">Please enter at least %1$s digits</string>
+    <string name="setup_app_lock_error_not_matching">The code you entered does not match</string>
+    <string name="confirm">Confirm</string>
 </resources>

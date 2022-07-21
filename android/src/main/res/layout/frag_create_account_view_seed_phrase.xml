@@ -29,7 +29,8 @@
         android:text="@string/create_account_seed_phrase_continue_button"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.dgsd.android.solar.common.shimmer.ShimmerView
         android:id="@+id/shimmer_next"

@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.util.SwallowBackpressLifecycleObserver
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import com.google.android.material.snackbar.Snackbar
@@ -22,8 +22,9 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
     parametersOf(createAccountCoordinator.seedInfo)
   }
 
-  private val swallowBackPressHandler = object : OnBackPressedCallback(true) {
-    override fun handleOnBackPressed() = Unit
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    SwallowBackpressLifecycleObserver.attach(this)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,15 +67,5 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
     onEach(viewModel.continueWithFlow) { keyPair ->
       createAccountCoordinator.onWalletAccountCreated(keyPair)
     }
-  }
-
-  override fun onStart() {
-    super.onStart()
-    requireActivity().onBackPressedDispatcher.addCallback(swallowBackPressHandler)
-  }
-
-  override fun onStop() {
-    swallowBackPressHandler.remove()
-    super.onStop()
   }
 }

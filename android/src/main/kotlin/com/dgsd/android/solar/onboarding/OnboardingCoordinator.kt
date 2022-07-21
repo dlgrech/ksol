@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.model.AccountSeedInfo
+import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.ksol.model.KeyPair
 
-class OnboardingCoordinator : ViewModel() {
+class OnboardingCoordinator(
+  private val sessionManager: SessionManager,
+) : ViewModel() {
 
   sealed interface Destination {
     object Welcome : Destination
@@ -42,5 +45,14 @@ class OnboardingCoordinator : ViewModel() {
     this.keyPair = keyPair
 
     _destination.tryEmit(Destination.SetupAppLock)
+  }
+
+  fun navigateFromAppLockSetup() {
+    val seed = checkNotNull(seedInfo)
+    val walletAccount = checkNotNull(keyPair)
+
+    // TODO: Persist keypair + seed info
+
+    sessionManager.setActiveSession(walletAccount.publicKey)
   }
 }
