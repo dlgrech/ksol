@@ -20,4 +20,26 @@
         <item name="android:layout_marginBottom">@dimen/padding_large</item>
     </style>
 
+    <style name="NumericKeyboardElement">
+        <item name="android:layout_width">96dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:hapticFeedbackEnabled">true</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
+    <style name="NumericKeyboardDigit" parent="NumericKeyboardElement">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="maxLines">1</item>
+        <item name="android:textIsSelectable">false</item>
+    </style>
+
+    <style name="NumericKeyboardBackspace" parent="NumericKeyboardElement">
+        <item name="android:src">@drawable/ic_baseline_backspace_24</item>
+        <item name="tint">?android:textColorPrimary</item>
+        <item name="android:padding">20dp</item>
+    </style>
+
+
 </resources>

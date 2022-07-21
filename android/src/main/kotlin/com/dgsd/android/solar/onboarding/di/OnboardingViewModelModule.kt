@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.onboarding.di
 
+import com.dgsd.android.solar.applock.setup.SetupAppLockCoordinator
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountConfirmationViewModel
@@ -34,6 +35,8 @@ object OnboardingViewModelModule {
                     seedInfo = get(),
                 )
             }
+
+            viewModelOf(::SetupAppLockCoordinator)
         }
     }
 }

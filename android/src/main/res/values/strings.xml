@@ -46,4 +46,17 @@
     <string name="create_account_confirmation_success_title">Success!</string>
     <string name="create_account_confirmation_explainer">This is your public wallet address you can share with others</string>
     <string name="create_account_confirmation_copied_to_clipboard_success_message">Copied!</string>
+    <string name="setup_app_lock_enter_pin_screen_title">Create a pin</string>
+    <string name="setup_app_lock_enter_pin_explainer">Enter a pin code to help protect access to your wallet. You will need to enter this pin each time you open the app</string>
+
+    <string name="numeric_keyboard_0">0</string>
+    <string name="numeric_keyboard_1">1</string>
+    <string name="numeric_keyboard_2">2</string>
+    <string name="numeric_keyboard_3">3</string>
+    <string name="numeric_keyboard_4">4</string>
+    <string name="numeric_keyboard_5">5</string>
+    <string name="numeric_keyboard_6">6</string>
+    <string name="numeric_keyboard_7">7</string>
+    <string name="numeric_keyboard_8">8</string>
+    <string name="numeric_keyboard_9">9</string>
 </resources>
