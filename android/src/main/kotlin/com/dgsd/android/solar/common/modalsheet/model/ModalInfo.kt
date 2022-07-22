@@ -5,6 +5,7 @@ data class ModalInfo(
   val message: CharSequence?,
   val positiveButton: ButtonInfo,
   val negativeButton: ButtonInfo? = null,
+  val onDismiss: (() -> Unit)? = null
 ) {
 
   data class ButtonInfo(

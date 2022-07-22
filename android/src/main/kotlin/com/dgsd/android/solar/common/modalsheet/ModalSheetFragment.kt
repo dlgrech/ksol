@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.common.modalsheet
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +36,16 @@ class ModalSheetFragment : BaseBottomSheetFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     rebind()
+  }
+
+  override fun onDestroyView() {
+    modalInfo = null
+    super.onDestroyView()
+  }
+
+  override fun onDismiss(dialog: DialogInterface) {
+    modalInfo?.onDismiss?.invoke()
+    super.onDismiss(dialog)
   }
 
   private fun rebind() {
