@@ -24,12 +24,6 @@ android {
             versionNameSuffix "-debug"
         }
     }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.compose.get()
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -50,10 +44,6 @@ dependencies {
     implementation libs.androidx.fragment.ktx
     implementation libs.androidx.security
     implementation libs.androidx.biometrics
-    implementation libs.compose.activity
-    implementation libs.compose.animation
-    implementation libs.compose.material3
-    implementation libs.compose.tooling
     implementation libs.koin.android
     implementation libs.google.material
     implementation libs.shimmer.android
