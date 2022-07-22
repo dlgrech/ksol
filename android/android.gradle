@@ -58,5 +58,7 @@ dependencies {
     implementation libs.google.material
     implementation libs.shimmer.android
 
+    debugImplementation libs.leakcanary
+
     testImplementation libs.android.junit
 }
