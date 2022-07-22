@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.session.model
 
+import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.ksol.model.KeyPair
 import com.dgsd.ksol.model.PrivateKey
 import com.dgsd.ksol.model.PublicKey
@@ -47,7 +48,10 @@ data class PublicKeySession(override val publicKey: PublicKey) : WalletSession()
  * A [WalletSession] with both a [PublicKey] and a [PrivateKey]. This is the [Session] used when a
  * user has given access to the [PrivateKey] of the underlying wallet
  */
-data class KeyPairSession(val keyPair: KeyPair) : WalletSession() {
+data class KeyPairSession(
+    val seedInfo: AccountSeedInfo,
+    val keyPair: KeyPair,
+) : WalletSession() {
 
     override val publicKey = keyPair.publicKey
 }

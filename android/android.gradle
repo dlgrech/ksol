@@ -49,6 +49,7 @@ dependencies {
     implementation libs.appcompat
     implementation libs.androidx.fragment.ktx
     implementation libs.androidx.security
+    implementation libs.androidx.biometrics
     implementation libs.compose.activity
     implementation libs.compose.animation
     implementation libs.compose.material3

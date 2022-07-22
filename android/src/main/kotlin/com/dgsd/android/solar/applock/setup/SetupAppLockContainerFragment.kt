@@ -21,7 +21,7 @@ class SetupAppLockContainerFragment : Fragment(R.layout.view_fragment_container)
 
     onEach(coordinator.destination, ::onDestinationChanged)
 
-    onEach(coordinator.continueWithPin) {
+    onEach(coordinator.continueAfterPinSetup) {
       onboardingCoordinator.navigateFromAppLockSetup()
     }
 

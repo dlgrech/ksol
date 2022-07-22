@@ -1,9 +1,14 @@
 package com.dgsd.android.solar.di
 
 import android.content.SharedPreferences
+import android.security.keystore.KeyGenParameterSpec
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.dgsd.android.solar.BuildConfig
+import com.dgsd.android.solar.applock.biometrics.AppLockBiometricManager
+import com.dgsd.android.solar.applock.biometrics.AppLockBiometricManagerImpl
+import com.dgsd.android.solar.applock.manager.AppLockManager
+import com.dgsd.android.solar.applock.manager.AppLockManagerImpl
 import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.cluster.manager.ClusterManagerImpl
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
@@ -19,49 +24,75 @@ import org.koin.core.scope.Scope
 import org.koin.dsl.module
 
 private const val SHARED_PREFS_KEY_ACTIVE_SESSION = "session_manager_active_wallet"
+private const val SHARED_PREFS_KEY_WALLET_SECRETS = "wallet_secrets"
 private const val SHARED_PREFS_KEY_APP_SETTINGS = "app_settings"
 
 internal object AppModule {
 
-    fun create(): Module {
-        return module {
+  fun create(): Module {
+    return module {
 
-            single(named(SHARED_PREFS_KEY_ACTIVE_SESSION)) {
-                createSharedPreferences(SHARED_PREFS_KEY_ACTIVE_SESSION)
-            }
+      single(named(SHARED_PREFS_KEY_ACTIVE_SESSION)) {
+        createSharedPreferences(SHARED_PREFS_KEY_ACTIVE_SESSION, MasterKeys.AES256_GCM_SPEC)
+      }
 
-            single(named(SHARED_PREFS_KEY_APP_SETTINGS)) {
-                createSharedPreferences(SHARED_PREFS_KEY_APP_SETTINGS)
-            }
+      single(named(SHARED_PREFS_KEY_APP_SETTINGS)) {
+        createSharedPreferences(SHARED_PREFS_KEY_APP_SETTINGS, MasterKeys.AES256_GCM_SPEC)
+      }
 
-            single<SessionManager> {
-                SessionManagerImpl(get(named(SHARED_PREFS_KEY_ACTIVE_SESSION)))
-            }
-
-            single<ClusterManager> {
-                ClusterManagerImpl(
-                    get(named(SHARED_PREFS_KEY_APP_SETTINGS)),
-                    if (BuildConfig.DEBUG) {
-                        Cluster.DEVNET
-                    } else {
-                        Cluster.MAINNET
-                    }
-                )
-            }
-
-            singleOf(::OkHttpClient)
-            singleOf(::ErrorMessageFactory)
-            singleOf(::SystemClipboard)
+      single(named(SHARED_PREFS_KEY_WALLET_SECRETS)) {
+        val biometricManager = get<AppLockBiometricManager>()
+        val keySpec = if (biometricManager.isAvailableOnDevice()) {
+          biometricManager.createKeySpec()
+        } else {
+          MasterKeys.AES256_GCM_SPEC
         }
-    }
 
-    private fun Scope.createSharedPreferences(fileName: String): SharedPreferences {
-        return EncryptedSharedPreferences.create(
-            fileName,
-            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
-            get(),
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        createSharedPreferences(SHARED_PREFS_KEY_WALLET_SECRETS, keySpec)
+      }
+
+      single<SessionManager> {
+        SessionManagerImpl(
+          activeSessionSharedPreferences = get(named(SHARED_PREFS_KEY_ACTIVE_SESSION)),
+          secretsSharedPreferences = lazy { get(named(SHARED_PREFS_KEY_WALLET_SECRETS)) }
         )
+      }
+
+      single<ClusterManager> {
+        ClusterManagerImpl(
+          get(named(SHARED_PREFS_KEY_APP_SETTINGS)),
+          if (BuildConfig.DEBUG) {
+            Cluster.DEVNET
+          } else {
+            Cluster.MAINNET
+          }
+        )
+      }
+
+      single<AppLockManager> {
+        AppLockManagerImpl(get(named(SHARED_PREFS_KEY_APP_SETTINGS)))
+      }
+
+      single<AppLockBiometricManager> {
+        AppLockBiometricManagerImpl(get())
+      }
+
+      singleOf(::OkHttpClient)
+      singleOf(::ErrorMessageFactory)
+      singleOf(::SystemClipboard)
     }
+  }
+
+  private fun Scope.createSharedPreferences(
+    fileName: String,
+    keyGenParameterSpec: KeyGenParameterSpec,
+  ): SharedPreferences {
+    return EncryptedSharedPreferences.create(
+      fileName,
+      MasterKeys.getOrCreate(keyGenParameterSpec),
+      get(),
+      EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+      EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
+  }
 }

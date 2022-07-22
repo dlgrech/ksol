@@ -37,6 +37,7 @@ compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "co
 compose-material3 = "androidx.compose.material3:material3:1.0.0-alpha06"
 
 androidx-security = "androidx.security:security-crypto:1.0.0"
+androidx-biometrics = "androidx.biometric:biometric:1.2.0-alpha04"
 androidx-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.0"
 
 google-material = "com.google.android.material:material:1.6.1"

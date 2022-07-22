@@ -1,15 +1,25 @@
 package com.dgsd.android.solar.onboarding
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.biometric.BiometricPrompt
+import androidx.lifecycle.AndroidViewModel
+import com.dgsd.android.solar.R
+import com.dgsd.android.solar.applock.biometrics.AppLockBiometricManager
+import com.dgsd.android.solar.applock.biometrics.BiometricPromptResult
+import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.ksol.model.KeyPair
 
 class OnboardingCoordinator(
+  application: Application,
   private val sessionManager: SessionManager,
-) : ViewModel() {
+  private val biometricManager: AppLockBiometricManager,
+) : AndroidViewModel(application) {
 
   sealed interface Destination {
     object Welcome : Destination
@@ -20,6 +30,12 @@ class OnboardingCoordinator(
 
   private val _destination = MutableEventFlow<Destination>()
   val destination = _destination.asEventFlow()
+
+  private val _showBiometricAuthenticationPrompt = MutableEventFlow<BiometricPrompt.PromptInfo>()
+  val showBiometricAuthenticationPrompt = _showBiometricAuthenticationPrompt.asEventFlow()
+
+  private val _showErrorPersistingSecrets = SimpleMutableEventFlow()
+  val showErrorPersistingSecrets = _showErrorPersistingSecrets.asEventFlow()
 
   private var seedInfo: AccountSeedInfo? = null
 
@@ -48,11 +64,36 @@ class OnboardingCoordinator(
   }
 
   fun navigateFromAppLockSetup() {
+    if (!biometricManager.isAvailableOnDevice()) {
+      setActiveSessionWithSecrets()
+    } else {
+      _showBiometricAuthenticationPrompt.tryEmit(
+        biometricManager.createPrompt(
+          title = getString(R.string.onboarding_biometric_prompt_title),
+          description = getString(R.string.onboarding_biometric_prompt_message),
+        )
+      )
+    }
+  }
+
+  fun onBiometricPromptResult(result: BiometricPromptResult) {
+    when (result) {
+      BiometricPromptResult.SUCCESS -> setActiveSessionWithSecrets()
+      BiometricPromptResult.FAIL -> _showErrorPersistingSecrets.call()
+      BiometricPromptResult.CANCELLED -> {
+        // No-op
+      }
+    }
+  }
+
+  fun onErrorPersistingSecretsModalDismissed() {
+    sessionManager.setActiveSession(checkNotNull(keyPair).publicKey)
+  }
+
+  private fun setActiveSessionWithSecrets() {
     val seed = checkNotNull(seedInfo)
     val walletAccount = checkNotNull(keyPair)
 
-    // TODO: Persist keypair + seed info
-
-    sessionManager.setActiveSession(walletAccount.publicKey)
+    sessionManager.setActiveSession(seed, walletAccount)
   }
 }

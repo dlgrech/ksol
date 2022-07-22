@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.session.manager
 
+import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.session.model.Session
 import com.dgsd.ksol.model.KeyPair
 import com.dgsd.ksol.model.PublicKey
@@ -27,5 +28,8 @@ interface SessionManager {
      *
      * This should be used when the user has granted access to their private key
      */
-    fun setActiveSession(keyPair: KeyPair)
+    fun setActiveSession(
+        seedInfo: AccountSeedInfo,
+        keyPair: KeyPair,
+    )
 }

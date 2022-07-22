@@ -64,4 +64,8 @@
     <string name="setup_app_lock_error_too_short">Please enter at least %1$s digits</string>
     <string name="setup_app_lock_error_not_matching">The code you entered does not match</string>
     <string name="confirm">Confirm</string>
+    <string name="onboarding_error_persisting_secrets_title">We\'ve hit a problem</string>
+    <string name="onboarding_error_persisting_secrets_message">There was a problem saving your secret wallet details. You can use the app, but you\'ll need your secret recovery phrase to transact with others</string>
+    <string name="onboarding_biometric_prompt_title">Verify that it\'s you</string>
+    <string name="onboarding_biometric_prompt_message">We\'ll securely store your wallet secrets so only you have access</string>
 </resources>

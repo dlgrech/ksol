@@ -17,8 +17,8 @@ class SetupAppLockCoordinator : ViewModel() {
   private val _destination = MutableEventFlow<Destination>()
   val destination = _destination.asEventFlow()
 
-  private val _continueWithPin = SimpleMutableEventFlow()
-  val continueWithPin = _continueWithPin.asEventFlow()
+  private val _continueAfterPinSetup = SimpleMutableEventFlow()
+  val continueAfterPinSetup = _continueAfterPinSetup.asEventFlow()
 
   var enteredPin: SensitiveString? = null
     private set
@@ -33,6 +33,6 @@ class SetupAppLockCoordinator : ViewModel() {
   }
 
   fun navigateFromConfirmPin() {
-    _continueWithPin.call()
+    _continueAfterPinSetup.call()
   }
 }
