@@ -9,6 +9,8 @@
 
     <style name="TextAppearance.Solar.Hero" parent="Base.TextAppearance.Solar">
         <item name="android:textSize">64sp</item>
+        <item name="android:lastBaselineToBottomHeight">0dp</item>
+        <item name="android:firstBaselineToTopHeight">0dp</item>
         <item name="fontFamily">@font/saira_semicondensed_700</item>
     </style>
 

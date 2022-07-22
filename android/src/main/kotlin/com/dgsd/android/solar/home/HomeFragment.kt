@@ -3,6 +3,7 @@ package com.dgsd.android.solar.home
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
@@ -22,6 +23,9 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val sendButton = view.findViewById<View>(R.id.send)
     val receiveButton = view.findViewById<View>(R.id.receive)
     val balanceText = view.findViewById<TextView>(R.id.balance)
+    val solLabel = view.findViewById<TextView>(R.id.sol_label)
+    val shimmerBalanceText = view.findViewById<View>(R.id.shimmer_balance)
+    val shimmerSolLabel = view.findViewById<View>(R.id.shimmer_sol_label)
 
     settingsIcon.setOnClickListener {
       viewModel.onSettingsClicked()
@@ -33,6 +37,13 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     receiveButton.setOnClickListener {
       viewModel.onReceiveButtonClicked()
+    }
+
+    onEach(viewModel.isLoadingBalance) {
+      shimmerBalanceText.isInvisible = !it
+      shimmerSolLabel.isInvisible = !it
+      balanceText.isInvisible = it
+      solLabel.isInvisible = it
     }
 
     onEach(viewModel.balanceText) {
