@@ -46,10 +46,11 @@ class HomeViewModel(
   val showSendActionSheet = _showSendActionSheet.asEventFlow()
 
   fun onCreate() {
-    balanceResourceConsumer.collectFlow(solanaApiRepository.getBalance())
-    transactionsResourceConsumer.collectFlow(
-      solanaApiRepository.getTransactions(NUM_TRANSACTIONS_TO_DISPLAY)
-    )
+    reloadData()
+  }
+
+  fun onSwipeToRefresh() {
+    reloadData()
   }
 
   fun onSettingsClicked() {
@@ -98,5 +99,12 @@ class HomeViewModel(
 
   fun onReceiveButtonClicked() {
     _navigateToReceiveFlow.call()
+  }
+
+  private fun reloadData() {
+    balanceResourceConsumer.collectFlow(solanaApiRepository.getBalance())
+    transactionsResourceConsumer.collectFlow(
+      solanaApiRepository.getTransactions(NUM_TRANSACTIONS_TO_DISPLAY)
+    )
   }
 }

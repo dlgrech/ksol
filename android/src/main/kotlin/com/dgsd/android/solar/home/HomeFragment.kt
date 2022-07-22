@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.actionsheet.extensions.showActionSheet
 import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
@@ -19,6 +20,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
     val settingsIcon = view.findViewById<View>(R.id.settings)
     val sendButton = view.findViewById<View>(R.id.send)
     val receiveButton = view.findViewById<View>(R.id.receive)
@@ -39,11 +41,19 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       viewModel.onReceiveButtonClicked()
     }
 
+    swipeRefresh.setOnRefreshListener {
+      viewModel.onSwipeToRefresh()
+    }
+
     onEach(viewModel.isLoadingBalance) {
       shimmerBalanceText.isInvisible = !it
       shimmerSolLabel.isInvisible = !it
       balanceText.isInvisible = it
       solLabel.isInvisible = it
+
+      if (!it) {
+        swipeRefresh.isRefreshing = false
+      }
     }
 
     onEach(viewModel.balanceText) {
