@@ -46,6 +46,28 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/balance_as_at_label"
+                    style="@style/TextAppearance.Solar.Label4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_xlarge"
+                    android:gravity="center_horizontal"
+                    android:textColor="?android:textColorSecondary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.dgsd.android.solar.common.shimmer.ShimmerView
+                    android:id="@+id/shimmer_balance_as_at_label"
+                    android:layout_width="80dp"
+                    android:layout_height="16dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/balance_as_at_label"
+                    app:layout_constraintEnd_toEndOf="@id/balance_as_at_label"
+                    app:layout_constraintStart_toStartOf="@id/balance_as_at_label"
+                    app:layout_constraintTop_toTopOf="@id/balance_as_at_label" />
+
+                <TextView
                     android:id="@+id/balance"
                     style="@style/TextAppearance.Solar.Hero"
                     android:layout_width="wrap_content"
@@ -71,7 +93,7 @@
 
                 <TextView
                     android:id="@+id/sol_label"
-                    style="@style/TextAppearance.Solar.Label4"
+                    style="@style/TextAppearance.Solar.Label3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80sp"

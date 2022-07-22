@@ -76,4 +76,5 @@
     <string name="home_send_action_sheet_item_enter_address">Enter a wallet address</string>
     <string name="home_send_action_sheet_item_send_to_previous">Send to a previous address</string>
     <string name="home_balance_sol_label">SOL</string>
+    <string name="home_balance_last_fetch_template">Balance as at %1$s</string>
 </resources>

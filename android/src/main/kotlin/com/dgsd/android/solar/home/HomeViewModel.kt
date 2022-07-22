@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.extensions.getString
@@ -17,6 +18,7 @@ import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.Lamports
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import java.time.OffsetDateTime
 
 private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
@@ -30,7 +32,16 @@ class HomeViewModel(
   val isLoadingBalance = balanceResourceConsumer.isLoading
   val balanceText =
     balanceResourceConsumer.data.filterNotNull().map { SolTokenFormatter.format(it) }
-
+  val balanceLoadTimeText =
+    balanceResourceConsumer.data.filterNotNull().map {
+      getString(
+        R.string.home_balance_last_fetch_template,
+        DateTimeFormatter.formatRelativeDateAndTime(
+          application,
+          OffsetDateTime.now()
+        )
+      )
+    }
   private val transactionsResourceConsumer =
     ResourceFlowConsumer<List<TransactionInfo>>(viewModelScope)
   val isLoadingTransactionSignatures = balanceResourceConsumer.isLoading

@@ -24,10 +24,12 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val settingsIcon = view.findViewById<View>(R.id.settings)
     val sendButton = view.findViewById<View>(R.id.send)
     val receiveButton = view.findViewById<View>(R.id.receive)
+    val balanceAsAtText = view.findViewById<TextView>(R.id.balance_as_at_label)
     val balanceText = view.findViewById<TextView>(R.id.balance)
     val solLabel = view.findViewById<TextView>(R.id.sol_label)
     val shimmerBalanceText = view.findViewById<View>(R.id.shimmer_balance)
     val shimmerSolLabel = view.findViewById<View>(R.id.shimmer_sol_label)
+    val shimmerBalanceAsAtText = view.findViewById<View>(R.id.shimmer_balance_as_at_label)
 
     settingsIcon.setOnClickListener {
       viewModel.onSettingsClicked()
@@ -48,12 +50,18 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     onEach(viewModel.isLoadingBalance) {
       shimmerBalanceText.isInvisible = !it
       shimmerSolLabel.isInvisible = !it
+      shimmerBalanceAsAtText.isInvisible = !it
+      balanceAsAtText.isInvisible = it
       balanceText.isInvisible = it
       solLabel.isInvisible = it
 
       if (!it) {
         swipeRefresh.isRefreshing = false
       }
+    }
+
+    onEach(viewModel.balanceLoadTimeText) {
+      balanceAsAtText.text = it
     }
 
     onEach(viewModel.balanceText) {
