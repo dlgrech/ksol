@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
@@ -13,15 +14,31 @@ import com.dgsd.android.solar.common.bottomsheet.BaseBottomSheetFragment
 
 class ActionSheetFragment : BaseBottomSheetFragment() {
 
+  var sheetTitle: CharSequence? = null
+    set(value) {
+      field = value
+
+      val titleView = view?.findViewById<TextView>(R.id.title)
+      if (titleView != null) {
+        titleView.text = value
+        titleView.isVisible = !value.isNullOrEmpty()
+      }
+    }
+
   var actionSheetItems: List<ActionSheetItem> = emptyList()
     set(value) {
       field = value
 
-      val adapter = view?.findViewById<RecyclerView>(R.id.recycler_view)?.adapter as? ActionSheetAdapter
+      val adapter =
+        view?.findViewById<RecyclerView>(R.id.recycler_view)?.adapter as? ActionSheetAdapter
       adapter?.notifyDataSetChanged()
     }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
     return inflater.inflate(R.layout.frag_action_sheet, container, false)
   }
 
@@ -32,14 +49,19 @@ class ActionSheetFragment : BaseBottomSheetFragment() {
       adapter = ActionSheetAdapter()
       layoutManager = LinearLayoutManager(requireContext())
     }
+
+    view.findViewById<TextView>(R.id.title).apply {
+      text = sheetTitle
+      isVisible = !sheetTitle.isNullOrEmpty()
+    }
   }
 
   private inner class ActionSheetAdapter : RecyclerView.Adapter<ActionSheetViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionSheetViewHolder {
       val view = LayoutInflater.from(parent.context).inflate(
-          R.layout.view_action_sheet_row,
-          parent,
-          false
+        R.layout.view_action_sheet_row,
+        parent,
+        false
       ) as TextView
       return ActionSheetViewHolder(view)
     }
@@ -53,10 +75,14 @@ class ActionSheetFragment : BaseBottomSheetFragment() {
     }
   }
 
-  private inner class ActionSheetViewHolder(itemView: TextView) : RecyclerView.ViewHolder(itemView) {
+  private inner class ActionSheetViewHolder(itemView: TextView) :
+    RecyclerView.ViewHolder(itemView) {
 
     fun bind(actionSheetItem: ActionSheetItem) {
-      (itemView as TextView).text = actionSheetItem.title
+      (itemView as TextView).apply {
+        text = actionSheetItem.title
+        setCompoundDrawablesRelativeWithIntrinsicBounds(actionSheetItem.icon, null, null, null)
+      }
       itemView.setOnClickListener {
         actionSheetItem.onClick.invoke()
         dismissAllowingStateLoss()

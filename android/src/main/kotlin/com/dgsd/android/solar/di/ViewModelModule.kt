@@ -16,7 +16,9 @@ internal object ViewModelModule {
             viewModelOf(::AppCoordinator)
             viewModel {
                 HomeViewModel(
+                    application = get(),
                     solanaApiRepository = getScoped(),
+                    nfcManager = get(),
                 )
             }
 

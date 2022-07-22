@@ -13,6 +13,8 @@ import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.cluster.manager.ClusterManagerImpl
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
+import com.dgsd.android.solar.nfc.NfcManager
+import com.dgsd.android.solar.nfc.NfcManagerImpl
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
 import com.dgsd.ksol.model.Cluster
@@ -75,6 +77,10 @@ internal object AppModule {
 
       single<AppLockBiometricManager> {
         AppLockBiometricManagerImpl(get())
+      }
+
+      single<NfcManager> {
+        NfcManagerImpl(get())
       }
 
       singleOf(::OkHttpClient)
