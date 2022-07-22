@@ -2,11 +2,13 @@ package com.dgsd.android.solar.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.blur
+import com.dgsd.android.solar.extensions.onEach
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,6 +36,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val receiveButton = view.findViewById<View>(R.id.send)
     val sendButton = view.findViewById<View>(R.id.receive)
     val sendReceiveBottomSheet = BottomSheetBehavior.from(sendReceiveBottomSheetContainer)
+    val balanceText = view.findViewById<TextView>(R.id.balance)
 
     sendReceiveBottomSheetContainer.setOnClickListener {
       if (sendReceiveBottomSheet.state != BottomSheetBehavior.STATE_COLLAPSED) {
@@ -83,6 +86,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     )
     sendReceiveBottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
     sendReceiveBottomSheet.isDraggable = false
+
+    onEach(viewModel.balanceText) {
+      balanceText.text = it
+    }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       viewModel.onCreate()
