@@ -32,16 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <com.dgsd.android.solar.common.shimmer.ShimmerView
-        android:id="@+id/shimmer_next"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/next"
-        app:layout_constraintEnd_toEndOf="@id/next"
-        app:layout_constraintStart_toStartOf="@id/next"
-        app:layout_constraintTop_toTopOf="@id/next" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -78,28 +68,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/explainer_message" />
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_seed_phrase_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/padding_default"
-                android:layout_marginTop="@dimen/padding_small"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/explainer_message"
-                app:shimmer_duration="@integer/shimmer_duration_ms"
-                app:shimmer_highlight_alpha="@dimen/shimmer_alpha">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/shimmer_seed_phrase_flow_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/padding_default"
-                    android:layout_marginTop="@dimen/padding_small" />
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
             <TextView
                 android:id="@+id/copy"
                 style="@style/TextAppearance.Link"
@@ -114,5 +82,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
