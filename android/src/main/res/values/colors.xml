@@ -1,5 +1,7 @@
 
 <resources>
+    <color name="black">#000000</color>
+
     <color name="md_theme_light_primary">#805600</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
     <color name="md_theme_light_primaryContainer">#FFDDB0</color>

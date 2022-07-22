@@ -7,6 +7,10 @@
         <item name="fontFamily">@font/saira_semicondensed_600</item>
     </style>
 
+    <style name="PrimaryButton.HomeSendReceive">
+        <item name="android:textAppearance">@style/TextAppearance.Solar.Title3</item>
+    </style>
+
     <style name="TextAppearance.Link" parent="TextAppearance.Solar.Label2">
         <item name="android:textColor">?colorPrimary</item>
         <item name="android:gravity">center</item>

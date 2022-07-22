@@ -68,4 +68,6 @@
     <string name="onboarding_error_persisting_secrets_message">There was a problem saving your secret wallet details. You can use the app, but you\'ll need your secret recovery phrase to transact with others</string>
     <string name="onboarding_biometric_prompt_title">Verify that it\'s you</string>
     <string name="onboarding_biometric_prompt_message">We\'ll securely store your wallet secrets so only you have access</string>
+    <string name="send">Send</string>
+    <string name="receive">Receive</string>
 </resources>
