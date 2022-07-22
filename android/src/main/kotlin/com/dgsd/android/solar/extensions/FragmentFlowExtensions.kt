@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-fun <T> Fragment.onEach(flow: Flow<T>, action: (T) -> Unit) {
+fun <T> Fragment.onEach(flow: Flow<T>, action: suspend (T) -> Unit) {
   flow.onEach(action).launchIn(viewLifecycleOwner.lifecycleScope)
 }
