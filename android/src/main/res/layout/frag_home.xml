@@ -1,117 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/home_send_receive_peek_size">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:contentInsetEnd="@dimen/padding_default"
-            app:contentInsetStart="@dimen/padding_default"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/settings"
-                android:layout_width="@dimen/clickable_element_min_height"
-                android:layout_height="@dimen/clickable_element_min_height"
-                android:layout_gravity="end|center_vertical"
-                android:padding="@dimen/padding_small"
-                android:src="@drawable/ic_baseline_settings_24"
-                app:tint="?android:textColorPrimary" />
-        </com.google.android.material.appbar.MaterialToolbar>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/balance"
-                    style="@style/TextAppearance.Solar.Hero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_xlarge"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
-
-        <View
-            android:id="@+id/content_scrim"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.0"
-            android:background="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.dgsd.android.solar.home.BottomSheetConstraintLayout
-        android:id="@+id/send_receive_bottom_sheet"
-        style="?attr/bottomSheetStyle"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/home_send_receive_peek_size"
-        app:behavior_peekHeight="@dimen/home_send_receive_peek_size"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:contentInsetEnd="@dimen/padding_default"
+        app:contentInsetStart="@dimen/padding_default"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/send"
-            style="@style/PrimaryButton.HomeSendReceive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_default"
-            android:layout_marginTop="@dimen/padding_xlarge"
-            android:text="@string/send"
-            app:layout_constraintEnd_toStartOf="@id/receive"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.4" />
+        <ImageView
+            android:id="@+id/settings"
+            android:layout_width="@dimen/clickable_element_min_height"
+            android:layout_height="@dimen/clickable_element_min_height"
+            android:layout_gravity="end|center_vertical"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_baseline_settings_24"
+            app:tint="?android:textColorPrimary" />
+    </com.google.android.material.appbar.MaterialToolbar>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/receive"
-            style="@style/PrimaryButton.HomeSendReceive"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/padding_default"
-            android:text="@string/receive"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/send"
-            app:layout_constraintTop_toTopOf="@id/send"
-            app:layout_constraintWidth_percent="0.4" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/home_send_receive_peek_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical">
 
-    </com.dgsd.android.solar.home.BottomSheetConstraintLayout>
+            <TextView
+                android:id="@+id/balance"
+                style="@style/TextAppearance.Solar.Hero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_xlarge"
+                android:gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/send"
+        style="@style/PrimaryButton.HomeSendReceive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_default"
+        android:layout_marginBottom="@dimen/padding_large"
+        android:text="@string/send"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/receive"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintWidth_percent="0.4" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/receive"
+        style="@style/PrimaryButton.HomeSendReceive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/padding_default"
+        android:text="@string/receive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/send"
+        app:layout_constraintTop_toTopOf="@id/send"
+        app:layout_constraintWidth_percent="0.4" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

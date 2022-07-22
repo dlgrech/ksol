@@ -8,5 +8,4 @@
     <dimen name="padding_small">8dp</dimen>
     <dimen name="padding_xsmall">4dp</dimen>
     <dimen name="clickable_element_min_height">48dp</dimen>
-    <dimen name="home_send_receive_peek_size">120dp</dimen>
 </resources>
