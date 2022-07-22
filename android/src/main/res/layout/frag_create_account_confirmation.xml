@@ -30,6 +30,7 @@
             android:layout_marginTop="@dimen/padding_default"
             android:autoSizeTextType="uniform"
             android:gravity="center"
+            android:maxLines="2"
             android:paddingHorizontal="@dimen/padding_default"
             android:textColor="?colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
