@@ -39,6 +39,9 @@ class HomeViewModel(
   private val _navigateToReceiveFlow = SimpleMutableEventFlow()
   val navigateToReceiveFlow = _navigateToReceiveFlow.asEventFlow()
 
+  private val _navigateToSettings = SimpleMutableEventFlow()
+  val navigateToSettings = _navigateToSettings.asEventFlow()
+
   private val _showSendActionSheet = MutableEventFlow<List<SendActionSheetItem>>()
   val showSendActionSheet = _showSendActionSheet.asEventFlow()
 
@@ -47,6 +50,10 @@ class HomeViewModel(
     transactionsResourceConsumer.collectFlow(
       solanaApiRepository.getTransactions(NUM_TRANSACTIONS_TO_DISPLAY)
     )
+  }
+
+  fun onSettingsClicked() {
+    _navigateToSettings.call()
   }
 
   fun onSendButtonClicked() {
@@ -81,7 +88,12 @@ class HomeViewModel(
   }
 
   fun onSendActionSheetItemClicked(type: SendActionSheetItem.Type) {
-    // Coming soon
+    when (type) {
+      SendActionSheetItem.Type.SCAN_QR -> Unit
+      SendActionSheetItem.Type.ENTER_PUBLIC_ADDRESS -> Unit
+      SendActionSheetItem.Type.HISTORICAL_ADDRESS -> Unit
+      SendActionSheetItem.Type.NFC -> Unit
+    }
   }
 
   fun onReceiveButtonClicked() {

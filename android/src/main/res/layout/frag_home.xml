@@ -8,6 +8,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipChildren="false"
         app:contentInsetEnd="@dimen/padding_default"
         app:contentInsetStart="@dimen/padding_default"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,6 +20,7 @@
             android:layout_width="@dimen/clickable_element_min_height"
             android:layout_height="@dimen/clickable_element_min_height"
             android:layout_gravity="end|center_vertical"
+            android:background="?selectableItemBackgroundBorderless"
             android:padding="@dimen/padding_small"
             android:src="@drawable/ic_baseline_settings_24"
             app:tint="?android:textColorPrimary" />

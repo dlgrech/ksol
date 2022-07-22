@@ -18,9 +18,14 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    val settingsIcon = view.findViewById<View>(R.id.settings)
     val sendButton = view.findViewById<View>(R.id.send)
     val receiveButton = view.findViewById<View>(R.id.receive)
     val balanceText = view.findViewById<TextView>(R.id.balance)
+
+    settingsIcon.setOnClickListener {
+      viewModel.onSettingsClicked()
+    }
 
     sendButton.setOnClickListener {
       viewModel.onSendButtonClicked()
@@ -36,6 +41,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     onEach(viewModel.navigateToReceiveFlow) {
       // Coming soon
+    }
+
+    onEach(viewModel.navigateToSettings) {
+      // Coming soon..
     }
 
     onEach(viewModel.showSendActionSheet) { items ->
