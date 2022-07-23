@@ -7,3 +7,7 @@ import androidx.lifecycle.ViewModel
 inline fun <reified T: ViewModel> Fragment.parentViewModel(): Lazy<T> {
     return viewModels(ownerProducer = { requireParentFragment()} )
 }
+
+inline fun <reified T: ViewModel> Fragment.activityViewModel(): Lazy<T> {
+    return viewModels(ownerProducer = { requireActivity()} )
+}

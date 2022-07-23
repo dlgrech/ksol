@@ -8,6 +8,7 @@ import com.dgsd.android.solar.AppCoordinator.Destination
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
+import com.dgsd.android.solar.settings.SettingsFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         return when (destination) {
             Destination.Home -> HomeFragment.newInstance()
             Destination.Onboarding -> OnboardingContainerFragment.newInstance()
+            Destination.Settings -> SettingsFragment.newInstance()
+            Destination.Receive -> TODO()
+            is Destination.TransactionDetails -> TODO()
         }
     }
 
@@ -49,6 +53,10 @@ class MainActivity : AppCompatActivity() {
         return when (destination) {
             Destination.Home,
             Destination.Onboarding -> true
+
+            Destination.Receive,
+            Destination.Settings,
+            is Destination.TransactionDetails -> false
         }
     }
 

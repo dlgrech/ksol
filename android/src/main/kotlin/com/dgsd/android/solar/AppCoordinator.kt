@@ -9,6 +9,7 @@ import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.NoActiveWalletSession
 import com.dgsd.android.solar.session.model.PublicKeySession
 import com.dgsd.android.solar.session.model.Session
+import com.dgsd.ksol.model.TransactionSignature
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -20,6 +21,10 @@ class AppCoordinator(
     sealed interface Destination {
         object Onboarding : Destination
         object Home : Destination
+        object Settings : Destination
+        object Receive : Destination
+
+        data class TransactionDetails(val signature: TransactionSignature): Destination
     }
 
     private val _destination = MutableEventFlow<Destination>()
@@ -30,6 +35,18 @@ class AppCoordinator(
             .distinctUntilChangedBy { it.sessionId }
             .onEach { onSessionChanged(it) }
             .launchIn(viewModelScope)
+    }
+
+    fun navigateToSettings() {
+        _destination.tryEmit(Destination.Settings)
+    }
+
+    fun navigateToTransactionDetails(signature: TransactionSignature) {
+        _destination.tryEmit(Destination.TransactionDetails(signature))
+    }
+
+    fun navigateToReceiveDetails() {
+        _destination.tryEmit(Destination.Receive)
     }
 
     private fun onSessionChanged(session: Session) {

@@ -13,11 +13,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.actionsheet.extensions.showActionSheet
 import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
 import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.util.anyTrue
+import com.dgsd.android.solar.di.util.activityViewModel
 import com.dgsd.android.solar.extensions.ensureViewCount
 import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
@@ -26,6 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(R.layout.frag_home) {
 
+  private val appCoordinator: AppCoordinator by activityViewModel()
   private val viewModel: HomeViewModel by viewModel()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,15 +102,15 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     }
 
     onEach(viewModel.navigateToReceiveFlow) {
-      // Coming soon..
+      appCoordinator.navigateToReceiveDetails()
     }
 
     onEach(viewModel.navigateToSettings) {
-      // Coming soon..
+      appCoordinator.navigateToSettings()
     }
 
     onEach(viewModel.navigateToTransactionDetails) { transaction ->
-      // Coming soon..
+      appCoordinator.navigateToTransactionDetails(transaction.signature)
     }
 
     onEach(viewModel.showSendActionSheet) { items ->
