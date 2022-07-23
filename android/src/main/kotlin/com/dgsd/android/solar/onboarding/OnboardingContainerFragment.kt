@@ -9,6 +9,7 @@ import com.dgsd.android.solar.applock.biometrics.showBiometricPrompt
 import com.dgsd.android.solar.applock.setup.SetupAppLockContainerFragment
 import com.dgsd.android.solar.common.modalsheet.extensions.showModal
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
+import com.dgsd.android.solar.common.model.ScreenTransitionType
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.onboarding.OnboardingCoordinator.Destination
@@ -58,7 +59,13 @@ class OnboardingContainerFragment : Fragment(R.layout.view_fragment_container) {
       Destination.SetupAppLock -> SetupAppLockContainerFragment.newInstance()
     }
 
-    childFragmentManager.navigate(R.id.fragment_container, fragment)
+    val screenTransitionType = when (destination) {
+      Destination.CreateNewWalletFlow,
+      Destination.RestoreSeedPhraseFlow -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      else -> ScreenTransitionType.DEFAULT
+    }
+
+    childFragmentManager.navigate(R.id.fragment_container, fragment, screenTransitionType)
   }
 
   companion object {
