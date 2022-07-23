@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
+import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.resourceFlowOf
 import com.dgsd.android.solar.flow.MutableEventFlow
@@ -22,6 +23,7 @@ private const val GENERATE_KEYPAIR_ARTIFICIAL_DELAY_MS = 1500L
 
 class CreateAccountConfirmationViewModel(
   errorMessageFactory: ErrorMessageFactory,
+  private val publicKeyFormatter: PublicKeyFormatter,
   private val systemClipboard: SystemClipboard,
   private val accountSeedInfo: AccountSeedInfo,
 ) : ViewModel() {
@@ -31,7 +33,7 @@ class CreateAccountConfirmationViewModel(
   val isLoading = generateKeyPairConsumer.isLoading
 
   val publicKeyText =
-    generateKeyPairConsumer.data.mapNotNull { it?.publicKey?.toBase58String() }
+    generateKeyPairConsumer.data.mapNotNull { it?.publicKey?.let(publicKeyFormatter::format) }
 
   val errorMessage = generateKeyPairConsumer.error
     .filterNotNull()

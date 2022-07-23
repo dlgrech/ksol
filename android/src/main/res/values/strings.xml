@@ -79,4 +79,11 @@
     <string name="home_balance_last_fetch_template">Balance as at %1$s</string>
     <string name="settings_screen_title">Settings</string>
     <string name="receive_screen_title">Receive SOL</string>
+    <string name="key_display_system_program">System Program</string>
+    <string name="key_display_config_program">Config Program</string>
+    <string name="key_display_ed25519_program">Ed25519 Program</string>
+    <string name="key_display_secp256k1_program">Secp256k1 Program</string>
+    <string name="key_display_stake_program">Stake Program</string>
+    <string name="key_display_vote_program">Vote Program</string>
+    <string name="key_display_bpf_loader_program">BPF Loader Program</string>
 </resources>

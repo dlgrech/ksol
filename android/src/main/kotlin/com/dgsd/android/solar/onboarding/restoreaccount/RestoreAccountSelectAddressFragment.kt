@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.util.getTextColorForLamports
 import com.dgsd.android.solar.di.util.parentViewModel
@@ -19,6 +20,7 @@ import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.onboarding.restoreaccount.model.CandidateAccount
 import com.google.android.material.appbar.MaterialToolbar
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -29,6 +31,8 @@ class RestoreAccountSelectAddressFragment :
   private val viewModel: RestoreAccountSelectAddressViewModel by viewModel {
     parametersOf(checkNotNull(coordinator.seedInfo))
   }
+
+  private val publicKeyFormatter by inject<PublicKeyFormatter>()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -41,6 +45,7 @@ class RestoreAccountSelectAddressFragment :
     }
 
     val adapter = CandidateAccountAdapter(
+      publicKeyFormatter,
       onClickListener = { candidateAccount ->
         viewModel.onCandidateAccountClicked(candidateAccount)
       }
@@ -63,6 +68,7 @@ class RestoreAccountSelectAddressFragment :
 
   private class HeroAccountViewHolder(
     view: View,
+    private val publicKeyFormatter: PublicKeyFormatter,
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.ViewHolder(view) {
 
@@ -84,7 +90,7 @@ class RestoreAccountSelectAddressFragment :
       shimmerAmount.isInvisible =
         !(candidateAccount is CandidateAccount.Empty || candidateAccount is CandidateAccount.Loading)
 
-      accountKey.text = candidateAccount.keyPairOrNull()?.publicKey?.toBase58String()
+      accountKey.text = candidateAccount.keyPairOrNull()?.publicKey?.let(publicKeyFormatter::format)
       amount.text = if (candidateAccount is CandidateAccount.AccountWithBalance) {
         itemView.context.getString(
           R.string.lamport_amount_with_sol_suffix,
@@ -114,6 +120,7 @@ class RestoreAccountSelectAddressFragment :
     companion object {
       fun create(
         parent: ViewGroup,
+        publicKeyFormatter: PublicKeyFormatter,
         onClickListener: (CandidateAccount) -> Unit,
       ): HeroAccountViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -122,13 +129,14 @@ class RestoreAccountSelectAddressFragment :
           false
         )
 
-        return HeroAccountViewHolder(view, onClickListener)
+        return HeroAccountViewHolder(view, publicKeyFormatter, onClickListener)
       }
     }
   }
 
   private class OtherAccountViewHolder(
     view: View,
+    private val publicKeyFormatter: PublicKeyFormatter,
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.ViewHolder(view) {
 
@@ -143,7 +151,7 @@ class RestoreAccountSelectAddressFragment :
       shimmerAmount.isInvisible =
         !(candidateAccount is CandidateAccount.Empty || candidateAccount is CandidateAccount.Loading)
 
-      accountKey.text = candidateAccount.keyPairOrNull()?.publicKey?.toBase58String()
+      accountKey.text = candidateAccount.keyPairOrNull()?.publicKey?.let(publicKeyFormatter::format)
       amount.text = if (candidateAccount is CandidateAccount.AccountWithBalance) {
         SolTokenFormatter.format(candidateAccount.lamports)
       } else {
@@ -168,6 +176,7 @@ class RestoreAccountSelectAddressFragment :
     companion object {
       fun create(
         parent: ViewGroup,
+        publicKeyFormatter: PublicKeyFormatter,
         onClickListener: (CandidateAccount) -> Unit,
       ): OtherAccountViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
@@ -176,7 +185,7 @@ class RestoreAccountSelectAddressFragment :
           false
         )
 
-        return OtherAccountViewHolder(view, onClickListener)
+        return OtherAccountViewHolder(view, publicKeyFormatter, onClickListener)
       }
     }
   }
@@ -208,6 +217,7 @@ class RestoreAccountSelectAddressFragment :
   }
 
   private class CandidateAccountAdapter(
+    private val publicKeyFormatter: PublicKeyFormatter,
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -219,8 +229,16 @@ class RestoreAccountSelectAddressFragment :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
       return when (viewType) {
-        VIEW_TYPE_HERO_ACCOUNT -> HeroAccountViewHolder.create(parent, onClickListener)
-        VIEW_TYPE_OTHER_ACCOUNT -> OtherAccountViewHolder.create(parent, onClickListener)
+        VIEW_TYPE_HERO_ACCOUNT -> HeroAccountViewHolder.create(
+          parent,
+          publicKeyFormatter,
+          onClickListener
+        )
+        VIEW_TYPE_OTHER_ACCOUNT -> OtherAccountViewHolder.create(
+          parent,
+          publicKeyFormatter,
+          onClickListener
+        )
         VIEW_TYPE_ALTERNATE_WALLETS_HEADER -> AlternateWalletsHeader.create(parent)
         else -> error("Unknown view type: $viewType")
       }

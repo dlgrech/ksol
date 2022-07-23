@@ -13,6 +13,7 @@ import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.cluster.manager.ClusterManagerImpl
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
+import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.nfc.NfcManagerImpl
 import com.dgsd.android.solar.session.manager.SessionManager
@@ -83,6 +84,7 @@ internal object AppModule {
         NfcManagerImpl(get())
       }
 
+      singleOf(::PublicKeyFormatter)
       singleOf(::OkHttpClient)
       singleOf(::ErrorMessageFactory)
       singleOf(::SystemClipboard)
