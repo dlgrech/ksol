@@ -1,6 +1,6 @@
 package com.dgsd.ksol.model
 
-import com.dgsd.ksol.programs.SystemProgram
+import com.dgsd.ksol.programs.system.SystemProgram
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

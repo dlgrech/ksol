@@ -1,7 +1,7 @@
 package com.dgsd.ksol
 
 import com.dgsd.ksol.model.*
-import com.dgsd.ksol.programs.SystemProgram
+import com.dgsd.ksol.programs.system.SystemProgram
 import com.dgsd.ksol.serialization.LocalTransactionSerializer
 import com.dgsd.ksol.utils.EncodingUtils
 import com.dgsd.ksol.utils.SigningUtils

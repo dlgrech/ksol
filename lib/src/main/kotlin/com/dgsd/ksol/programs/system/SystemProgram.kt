@@ -1,4 +1,4 @@
-package com.dgsd.ksol.programs
+package com.dgsd.ksol.programs.system
 
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.PublicKey
@@ -10,13 +10,6 @@ import org.bitcoinj.core.Utils
  */
 object SystemProgram {
     val PROGRAM_ID = PublicKey.fromBase58("11111111111111111111111111111111")
-
-    /**
-     * The index of the different instructions available in the SystemProgram
-     *
-     * @see <a href="https://docs.rs/solana-sdk/1.8.2/solana_sdk/system_instruction/enum.SystemInstruction.html#>System Instruction Enum</a>
-     */
-    private const val PROGRAM_INDEX_TRANSFER = 2
 
     fun transfer(
         sender: PublicKey,
@@ -35,7 +28,7 @@ object SystemProgram {
         val spaceForLamports = 8
 
         val inputData = ByteArray(spaceForInstructionIndex + spaceForLamports).apply {
-            Utils.uint32ToByteArrayLE(PROGRAM_INDEX_TRANSFER.toLong(), this, 0)
+            Utils.uint32ToByteArrayLE(SystemProgramInstruction.TRANSFER.ordinal.toLong(), this, 0)
             Utils.int64ToByteArrayLE(lamports, this, spaceForInstructionIndex)
         }
 
@@ -44,5 +37,19 @@ object SystemProgram {
             inputAccounts = listOf(sender, recipient),
             inputData = inputData
         )
+    }
+
+    fun decodeInstruction(byteArray: ByteArray): SystemProgramInstructionData {
+        return try {
+            val programIndex = Utils.readUint32(byteArray, 0).toInt()
+            val lamports = Utils.readInt64(byteArray, 4)
+
+            SystemProgramInstructionData(
+                SystemProgramInstruction.values()[programIndex],
+                lamports
+            )
+        } catch (t: Throwable) {
+            throw IllegalArgumentException("Invalid input data", t)
+        }
     }
 }
