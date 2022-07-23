@@ -6,14 +6,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipChildren="false"
-        app:contentInsetEnd="@dimen/padding_default"
-        app:contentInsetStart="@dimen/padding_default"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        style="@style/SolarToolbar">
 
         <ImageView
             android:id="@+id/settings"
@@ -130,7 +123,8 @@
 
                         <FrameLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/padding_default">
 
                             <LinearLayout
                                 android:id="@+id/transactions_container"

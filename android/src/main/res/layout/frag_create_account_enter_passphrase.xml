@@ -14,12 +14,9 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/SolarToolbar"
             app:navigationIcon="@drawable/ic_baseline_close_24"
-            app:navigationIconTint="?colorOnBackground"
-            app:title="@string/create_account_enter_passphrase_screen_title"
-            app:titleCentered="true" />
+            app:title="@string/create_account_enter_passphrase_screen_title"/>
 
         <Space
             android:layout_width="match_parent"

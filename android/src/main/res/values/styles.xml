@@ -4,6 +4,9 @@
     <style name="SolarToolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:clipChildren">false</item>
+        <item name="contentInsetEnd">@dimen/padding_default</item>
+        <item name="contentInsetStart">@dimen/padding_default</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>

@@ -6,15 +6,9 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/SolarToolbar"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-        app:navigationIconTint="?colorOnBackground"
-        app:title="@string/restore_account_select_address_screen_title"
-        app:titleCentered="true" />
+        app:title="@string/restore_account_select_address_screen_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

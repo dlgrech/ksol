@@ -8,15 +8,9 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/SolarToolbar"
         app:navigationIcon="@drawable/ic_baseline_close_24"
-        app:navigationIconTint="?colorOnBackground"
-        app:title="@string/onboarding_restore_account_from_seed_screen_title"
-        app:titleCentered="true" />
+        app:title="@string/onboarding_restore_account_from_seed_screen_title" />
 
     <ScrollView
         android:layout_width="match_parent"
