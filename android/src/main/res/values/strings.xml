@@ -78,4 +78,5 @@
     <string name="home_balance_sol_label">SOL</string>
     <string name="home_balance_last_fetch_template">Balance as at %1$s</string>
     <string name="settings_screen_title">Settings</string>
+    <string name="receive_screen_title">Receive SOL</string>
 </resources>

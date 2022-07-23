@@ -4,6 +4,7 @@ import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.home.HomeViewModel
 import com.dgsd.android.solar.onboarding.di.OnboardingViewModelModule
+import com.dgsd.android.solar.receive.ReceiveViewModel
 import com.dgsd.android.solar.settings.SettingsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -16,6 +17,7 @@ internal object ViewModelModule {
         return module {
             viewModelOf(::AppCoordinator)
             viewModelOf(::SettingsViewModel)
+            viewModelOf(::ReceiveViewModel)
             viewModel {
                 HomeViewModel(
                     application = get(),
