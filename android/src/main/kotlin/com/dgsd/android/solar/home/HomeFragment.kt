@@ -9,12 +9,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.children
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.actionsheet.extensions.showActionSheet
 import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
+import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.util.anyTrue
 import com.dgsd.android.solar.extensions.ensureViewCount
 import com.dgsd.android.solar.extensions.getColorAttr
@@ -137,15 +139,24 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       layoutInflater.inflate(R.layout.view_transaction_content, this, true)
     }
 
-    children.toList().zip(transactions) { view, transaction ->
+    children.toList().zip(transactions) { view, transactionInfo ->
       val publicKeyView = view.findViewById<TextView>(R.id.public_key)
       val dateTimeView = view.findViewById<TextView>(R.id.date_time)
       val amountView = view.findViewById<TextView>(R.id.amount)
       val iconView = view.findViewById<ImageView>(R.id.icon)
 
       publicKeyView.text = "public key"
-      dateTimeView.text = "Today, 10:12am"
       amountView.text = "123.45"
+
+      if (transactionInfo.transaction.blockTime == null) {
+        dateTimeView.isVisible = false
+      } else {
+        dateTimeView.isVisible = true
+        dateTimeView.text = DateTimeFormatter.formatRelativeDateAndTime(
+          context,
+          checkNotNull(transactionInfo.transaction.blockTime)
+        )
+      }
 
       if (true) {
         iconView.setImageResource(R.drawable.ic_baseline_call_made_24)
@@ -160,7 +171,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       }
 
       view.setOnClickListener {
-        viewModel.onTransactionClicked(transaction)
+        viewModel.onTransactionClicked(transactionInfo)
       }
     }
   }
