@@ -12,6 +12,6 @@ data class SendActionSheetItem(
     SCAN_QR,
     ENTER_PUBLIC_ADDRESS,
     HISTORICAL_ADDRESS,
-    NFC,
+    NEARBY,
   }
 }

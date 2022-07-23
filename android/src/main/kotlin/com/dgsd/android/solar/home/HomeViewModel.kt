@@ -16,6 +16,7 @@ import com.dgsd.android.solar.model.TransactionInfo
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.Lamports
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.time.OffsetDateTime
@@ -44,14 +45,19 @@ class HomeViewModel(
     }
   private val transactionsResourceConsumer =
     ResourceFlowConsumer<List<TransactionInfo>>(viewModelScope)
-  val isLoadingTransactionSignatures = balanceResourceConsumer.isLoading
-  val transactions = transactionsResourceConsumer.data
+  val isLoadingTransactions = transactionsResourceConsumer.isLoading
+  val transactions = transactionsResourceConsumer.data.map {
+    it?.filterIsInstance<TransactionInfo.FullTransaction>()
+  }
 
   private val _navigateToReceiveFlow = SimpleMutableEventFlow()
   val navigateToReceiveFlow = _navigateToReceiveFlow.asEventFlow()
 
   private val _navigateToSettings = SimpleMutableEventFlow()
   val navigateToSettings = _navigateToSettings.asEventFlow()
+
+  private val _navigateToTransactionDetails = MutableEventFlow<TransactionInfo.FullTransaction>()
+  val navigateToTransactionDetails = _navigateToTransactionDetails.asEventFlow()
 
   private val _showSendActionSheet = MutableEventFlow<List<SendActionSheetItem>>()
   val showSendActionSheet = _showSendActionSheet.asEventFlow()
@@ -88,9 +94,9 @@ class HomeViewModel(
         ),
         if (nfcManager.isNfAvailable()) {
           SendActionSheetItem(
-            getString(R.string.home_send_action_sheet_item_tap_other_user),
+            getString(R.string.home_send_action_sheet_item_nearby),
             R.drawable.ic_baseline_tap_and_play_24,
-            SendActionSheetItem.Type.NFC
+            SendActionSheetItem.Type.NEARBY
           )
         } else {
           null
@@ -104,7 +110,7 @@ class HomeViewModel(
       SendActionSheetItem.Type.SCAN_QR -> Unit
       SendActionSheetItem.Type.ENTER_PUBLIC_ADDRESS -> Unit
       SendActionSheetItem.Type.HISTORICAL_ADDRESS -> Unit
-      SendActionSheetItem.Type.NFC -> Unit
+      SendActionSheetItem.Type.NEARBY -> Unit
     }
   }
 
@@ -117,5 +123,9 @@ class HomeViewModel(
     transactionsResourceConsumer.collectFlow(
       solanaApiRepository.getTransactions(NUM_TRANSACTIONS_TO_DISPLAY)
     )
+  }
+
+  fun onTransactionClicked(transaction: TransactionInfo.FullTransaction) {
+    _navigateToTransactionDetails.tryEmit(transaction)
   }
 }

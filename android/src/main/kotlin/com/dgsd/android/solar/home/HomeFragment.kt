@@ -1,8 +1,13 @@
 package com.dgsd.android.solar.home
 
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.children
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -10,7 +15,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.actionsheet.extensions.showActionSheet
 import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
+import com.dgsd.android.solar.common.util.anyTrue
+import com.dgsd.android.solar.extensions.ensureViewCount
+import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.model.TransactionInfo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(R.layout.frag_home) {
@@ -27,9 +36,11 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val balanceAsAtText = view.findViewById<TextView>(R.id.balance_as_at_label)
     val balanceText = view.findViewById<TextView>(R.id.balance)
     val solLabel = view.findViewById<TextView>(R.id.sol_label)
+    val transactionsContainer = view.findViewById<LinearLayout>(R.id.transactions_container)
     val shimmerBalanceText = view.findViewById<View>(R.id.shimmer_balance)
     val shimmerSolLabel = view.findViewById<View>(R.id.shimmer_sol_label)
     val shimmerBalanceAsAtText = view.findViewById<View>(R.id.shimmer_balance_as_at_label)
+    val shimmerTransactionsContainer = view.findViewById<View>(R.id.shimmer_transactions_container)
 
     settingsIcon.setOnClickListener {
       viewModel.onSettingsClicked()
@@ -54,8 +65,17 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       balanceAsAtText.isInvisible = it
       balanceText.isInvisible = it
       solLabel.isInvisible = it
+    }
 
-      if (!it) {
+    onEach(viewModel.isLoadingTransactions) {
+      shimmerTransactionsContainer.isInvisible = !it
+      transactionsContainer.isInvisible = it
+    }
+
+    onEach(
+      anyTrue(viewModel.isLoadingBalance, viewModel.isLoadingTransactions)
+    ) { isLoadingData ->
+      if (!isLoadingData) {
         swipeRefresh.isRefreshing = false
       }
     }
@@ -68,11 +88,23 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       balanceText.text = it
     }
 
+    onEach(viewModel.transactions) { transactions ->
+      if (transactions.isNullOrEmpty()) {
+        // Coming soon: Empty state
+      } else {
+        transactionsContainer.bindTransactions(transactions)
+      }
+    }
+
     onEach(viewModel.navigateToReceiveFlow) {
-      // Coming soon
+      // Coming soon..
     }
 
     onEach(viewModel.navigateToSettings) {
+      // Coming soon..
+    }
+
+    onEach(viewModel.navigateToTransactionDetails) { transaction ->
       // Coming soon..
     }
 
@@ -97,6 +129,40 @@ class HomeFragment : Fragment(R.layout.frag_home) {
         }
       }.toTypedArray()
     )
+  }
+
+  private fun LinearLayout.bindTransactions(transactions: List<TransactionInfo.FullTransaction>) {
+    val layoutInflater = LayoutInflater.from(context)
+    ensureViewCount(transactions.size) {
+      layoutInflater.inflate(R.layout.view_transaction_content, this, true)
+    }
+
+    children.toList().zip(transactions) { view, transaction ->
+      val publicKeyView = view.findViewById<TextView>(R.id.public_key)
+      val dateTimeView = view.findViewById<TextView>(R.id.date_time)
+      val amountView = view.findViewById<TextView>(R.id.amount)
+      val iconView = view.findViewById<ImageView>(R.id.icon)
+
+      publicKeyView.text = "public key"
+      dateTimeView.text = "Today, 10:12am"
+      amountView.text = "123.45"
+
+      if (true) {
+        iconView.setImageResource(R.drawable.ic_baseline_call_made_24)
+        iconView.imageTintList = ColorStateList.valueOf(
+          context.getColorAttr(R.attr.colorTertiary)
+        )
+      } else {
+        iconView.setImageResource(R.drawable.ic_baseline_call_received_24)
+        iconView.imageTintList = ColorStateList.valueOf(
+          context.getColorAttr(R.attr.colorError)
+        )
+      }
+
+      view.setOnClickListener {
+        viewModel.onTransactionClicked(transaction)
+      }
+    }
   }
 
   companion object {
