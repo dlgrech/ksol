@@ -53,7 +53,7 @@ Use `--help` on child commands to get more information
 
 ```
 # Using seed phrase from above
-~/ksol: ./ksol.sh keygen seed notice, day, enhance, use, engage, disagree, above, caught, walnut, fury, awake, gesture, welcome, hurdle, critic, toward, cost, trick, forum, differ, develop, easy, hobby, project
+~/ksol: ./ksol.sh keygen seed notice day enhance use engage disagree above caught walnut fury awake gesture welcome hurdle critic toward cost trick forum differ develop easy hobby project
 
 KeyPair(publicKey=4eUAao5VfPbR7mcytqRuLeZNQNJFTo8Tmf56joZRt6sd, privateKey=5gBjQfeUyr16zuSx2DvFfwjosWK6pd6Y1TzCCaBZsDTLtphawQirbVPRMSSyWCzRAvXDfmrtV6gJHB6jrGfz4fk7)
 ```
@@ -62,7 +62,7 @@ KeyPair(publicKey=4eUAao5VfPbR7mcytqRuLeZNQNJFTo8Tmf56joZRt6sd, privateKey=5gBjQ
 
 ```
 # Using seed phrase from above
-~/ksol: ./ksol.sh keygen accounts notice, day, enhance, use, engage, disagree, above, caught, walnut, fury, awake, gesture, welcome, hurdle, critic, toward, cost, trick, forum, differ, develop, easy, hobby, project
+~/ksol: ./ksol.sh keygen accounts notice day enhance use engage disagree above caught walnut fury awake gesture welcome hurdle critic toward cost trick forum differ develop easy hobby project
 
 account index #0: KeyPair(publicKey=9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ, privateKey=4w6ayE5hLKt2hVKaJaE7fKGri75HBWdYxcX8kTwkpnX89M46NkzLXKd6yWCX6qkJLcABBJR52qDT9KzZ9x1Haf9o)
 account index #1: KeyPair(publicKey=4s9GDoCWBveJGiNEf1GruCfAmiwJpBoAVXtp7eMZTjDp, privateKey=3KQ7ycafpPq54on2VQGe8yGK5rFEUtVZJd2Er1PcN2EewynWjpHHgMw3VgKEfaW43VQZMGiQTugiBrhH5EECwiiJ)
