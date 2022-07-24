@@ -121,9 +121,10 @@
                         android:layout_height="wrap_content"
                         android:fillViewport="true">
 
-                        <FrameLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="vertical"
                             android:paddingBottom="@dimen/padding_default">
 
                             <LinearLayout
@@ -132,11 +133,19 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical" />
 
+                            <TextView
+                                android:id="@+id/view_more_transactions"
+                                style="@style/TextAppearance.Link"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/home_view_more_transactions" />
+
                             <com.facebook.shimmer.ShimmerFrameLayout
                                 android:id="@+id/shimmer_transactions_container"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:visibility="invisible"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
                                 app:shimmer_duration="@integer/shimmer_duration_ms"
                                 app:shimmer_highlight_alpha="@dimen/shimmer_alpha">
 
@@ -166,7 +175,7 @@
 
                             </com.facebook.shimmer.ShimmerFrameLayout>
 
-                        </FrameLayout>
+                        </LinearLayout>
 
                     </androidx.core.widget.NestedScrollView>
 

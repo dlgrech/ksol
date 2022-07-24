@@ -23,6 +23,7 @@ class AppCoordinator(
         object Home : Destination
         object Settings : Destination
         object Receive : Destination
+        object TransactionList : Destination
 
         data class TransactionDetails(val signature: TransactionSignature): Destination
     }
@@ -47,6 +48,10 @@ class AppCoordinator(
 
     fun navigateToReceiveDetails() {
         _destination.tryEmit(Destination.Receive)
+    }
+
+    fun navigateToTransactionList() {
+        _destination.tryEmit(Destination.TransactionList)
     }
 
     private fun onSessionChanged(session: Session) {

@@ -1,4 +1,4 @@
-package com.dgsd.android.solar.transaction
+package com.dgsd.android.solar.transaction.details
 
 import android.os.Bundle
 import android.view.View

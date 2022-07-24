@@ -89,4 +89,5 @@
     <string name="unknown">Unknown</string>
     <string name="sent">Sent</string>
     <string name="received">Received</string>
+    <string name="home_view_more_transactions">View more transactions</string>
 </resources>

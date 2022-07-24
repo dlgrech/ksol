@@ -11,7 +11,8 @@ import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import com.dgsd.android.solar.receive.ReceiveFragment
 import com.dgsd.android.solar.settings.SettingsFragment
-import com.dgsd.android.solar.transaction.TransactionDetailsFragment
+import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
+import com.dgsd.android.solar.transaction.list.TransactionListFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
       Destination.Onboarding -> ScreenTransitionType.FADE
       Destination.Receive -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.Settings -> ScreenTransitionType.DEFAULT
+      Destination.TransactionList -> ScreenTransitionType.DEFAULT
       is Destination.TransactionDetails -> ScreenTransitionType.DEFAULT
     }
   }
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity() {
       Destination.Onboarding -> OnboardingContainerFragment.newInstance()
       Destination.Settings -> SettingsFragment.newInstance()
       Destination.Receive -> ReceiveFragment.newInstance()
+      Destination.TransactionList -> TransactionListFragment.newInstance()
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
     }
@@ -75,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
       Destination.Receive,
       Destination.Settings,
+      Destination.TransactionList,
       is Destination.TransactionDetails -> false
     }
   }

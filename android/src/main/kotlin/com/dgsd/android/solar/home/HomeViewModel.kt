@@ -58,6 +58,9 @@ class HomeViewModel(
   private val _navigateToReceiveFlow = SimpleMutableEventFlow()
   val navigateToReceiveFlow = _navigateToReceiveFlow.asEventFlow()
 
+  private val _navigateToTransactionsList = SimpleMutableEventFlow()
+  val navigateToTransactionsList = _navigateToTransactionsList.asEventFlow()
+
   private val _navigateToSettings = SimpleMutableEventFlow()
   val navigateToSettings = _navigateToSettings.asEventFlow()
 
@@ -121,6 +124,10 @@ class HomeViewModel(
 
   fun onReceiveButtonClicked() {
     _navigateToReceiveFlow.call()
+  }
+
+  fun onViewMoreTransactionsClicked() {
+    _navigateToTransactionsList.call()
   }
 
   private fun reloadData() {

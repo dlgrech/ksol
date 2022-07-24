@@ -39,6 +39,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val balanceText = view.findViewById<TextView>(R.id.balance)
     val solLabel = view.findViewById<TextView>(R.id.sol_label)
     val transactionsContainer = view.findViewById<LinearLayout>(R.id.transactions_container)
+    val viewMoreTransactionsButton = view.findViewById<View>(R.id.view_more_transactions)
     val shimmerBalanceText = view.findViewById<View>(R.id.shimmer_balance)
     val shimmerSolLabel = view.findViewById<View>(R.id.shimmer_sol_label)
     val shimmerBalanceAsAtText = view.findViewById<View>(R.id.shimmer_balance_as_at_label)
@@ -56,6 +57,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       viewModel.onReceiveButtonClicked()
     }
 
+    viewMoreTransactionsButton.setOnClickListener {
+      viewModel.onViewMoreTransactionsClicked()
+    }
+
     swipeRefresh.setOnRefreshListener {
       viewModel.onSwipeToRefresh()
     }
@@ -70,8 +75,9 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     }
 
     onEach(viewModel.isLoadingTransactions) {
-      shimmerTransactionsContainer.isInvisible = !it
-      transactionsContainer.isInvisible = it
+      shimmerTransactionsContainer.isVisible = it
+      viewMoreTransactionsButton.isVisible = !it
+      transactionsContainer.isVisible = !it
     }
 
     onEach(
@@ -100,6 +106,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     onEach(viewModel.navigateToReceiveFlow) {
       appCoordinator.navigateToReceiveDetails()
+    }
+
+    onEach(viewModel.navigateToTransactionsList) {
+      appCoordinator.navigateToTransactionList()
     }
 
     onEach(viewModel.navigateToSettings) {
