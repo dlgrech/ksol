@@ -11,6 +11,7 @@ import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import com.dgsd.android.solar.receive.ReceiveFragment
 import com.dgsd.android.solar.settings.SettingsFragment
+import com.dgsd.android.solar.transaction.TransactionDetailsFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -62,7 +63,8 @@ class MainActivity : AppCompatActivity() {
       Destination.Onboarding -> OnboardingContainerFragment.newInstance()
       Destination.Settings -> SettingsFragment.newInstance()
       Destination.Receive -> ReceiveFragment.newInstance()
-      is Destination.TransactionDetails -> TODO()
+      is Destination.TransactionDetails ->
+        TransactionDetailsFragment.newInstance(destination.signature)
     }
   }
 
