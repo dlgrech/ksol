@@ -86,4 +86,5 @@
     <string name="key_display_stake_program">Stake Program</string>
     <string name="key_display_vote_program">Vote Program</string>
     <string name="key_display_bpf_loader_program">BPF Loader Program</string>
+    <string name="unknown">Unknown</string>
 </resources>

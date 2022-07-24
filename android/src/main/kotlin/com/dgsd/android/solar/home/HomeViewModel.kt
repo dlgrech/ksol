@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
+import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
@@ -16,7 +17,7 @@ import com.dgsd.android.solar.model.TransactionInfo
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.Lamports
-import kotlinx.coroutines.flow.filterIsInstance
+import com.dgsd.ksol.model.TransactionSignature
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.time.OffsetDateTime
@@ -25,6 +26,7 @@ private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
 class HomeViewModel(
   application: Application,
+  private val transactionViewStateFactory: TransactionViewStateFactory,
   private val solanaApiRepository: SolanaApiRepository,
   private val nfcManager: NfcManager,
 ) : AndroidViewModel(application) {
@@ -46,8 +48,11 @@ class HomeViewModel(
   private val transactionsResourceConsumer =
     ResourceFlowConsumer<List<TransactionInfo>>(viewModelScope)
   val isLoadingTransactions = transactionsResourceConsumer.isLoading
-  val transactions = transactionsResourceConsumer.data.map {
-    it?.filterIsInstance<TransactionInfo.FullTransaction>()
+  val transactions = transactionsResourceConsumer.data.map { transactionInfoList ->
+    transactionInfoList
+      ?.filterIsInstance<TransactionInfo.FullTransaction>()
+      ?.map { it.transaction }
+      ?.map { transactionViewStateFactory.createForList(it) }
   }
 
   private val _navigateToReceiveFlow = SimpleMutableEventFlow()
@@ -56,7 +61,7 @@ class HomeViewModel(
   private val _navigateToSettings = SimpleMutableEventFlow()
   val navigateToSettings = _navigateToSettings.asEventFlow()
 
-  private val _navigateToTransactionDetails = MutableEventFlow<TransactionInfo.FullTransaction>()
+  private val _navigateToTransactionDetails = MutableEventFlow<TransactionSignature>()
   val navigateToTransactionDetails = _navigateToTransactionDetails.asEventFlow()
 
   private val _showSendActionSheet = MutableEventFlow<List<SendActionSheetItem>>()
@@ -125,7 +130,7 @@ class HomeViewModel(
     )
   }
 
-  fun onTransactionClicked(transaction: TransactionInfo.FullTransaction) {
+  fun onTransactionClicked(transaction: TransactionSignature) {
     _navigateToTransactionDetails.tryEmit(transaction)
   }
 }

@@ -17,13 +17,12 @@ import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.actionsheet.extensions.showActionSheet
 import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
-import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.util.anyTrue
 import com.dgsd.android.solar.di.util.activityViewModel
 import com.dgsd.android.solar.extensions.ensureViewCount
 import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
-import com.dgsd.android.solar.model.TransactionInfo
+import com.dgsd.android.solar.model.TransactionViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(R.layout.frag_home) {
@@ -110,7 +109,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     }
 
     onEach(viewModel.navigateToTransactionDetails) { transaction ->
-      appCoordinator.navigateToTransactionDetails(transaction.signature)
+      appCoordinator.navigateToTransactionDetails(transaction)
     }
 
     onEach(viewModel.showSendActionSheet) { items ->
@@ -136,45 +135,48 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     )
   }
 
-  private fun LinearLayout.bindTransactions(transactions: List<TransactionInfo.FullTransaction>) {
+  private fun LinearLayout.bindTransactions(transactions: List<TransactionViewState>) {
     val layoutInflater = LayoutInflater.from(context)
     ensureViewCount(transactions.size) {
       layoutInflater.inflate(R.layout.view_transaction_content, this, true)
     }
 
-    children.toList().zip(transactions) { view, transactionInfo ->
+    children.toList().zip(transactions) { view, transaction ->
       val publicKeyView = view.findViewById<TextView>(R.id.public_key)
       val dateTimeView = view.findViewById<TextView>(R.id.date_time)
       val amountView = view.findViewById<TextView>(R.id.amount)
       val iconView = view.findViewById<ImageView>(R.id.icon)
 
-      publicKeyView.text = "public key"
-      amountView.text = "123.45"
+      publicKeyView.text = transaction.displayAccountText
+      amountView.text = transaction.amountText
 
-      if (transactionInfo.transaction.blockTime == null) {
+      if (transaction.dateText == null) {
         dateTimeView.isVisible = false
       } else {
         dateTimeView.isVisible = true
-        dateTimeView.text = DateTimeFormatter.formatRelativeDateAndTime(
-          context,
-          checkNotNull(transactionInfo.transaction.blockTime)
-        )
+        dateTimeView.text = transaction.dateText
       }
 
-      if (true) {
-        iconView.setImageResource(R.drawable.ic_baseline_call_made_24)
-        iconView.imageTintList = ColorStateList.valueOf(
-          context.getColorAttr(R.attr.colorTertiary)
-        )
-      } else {
-        iconView.setImageResource(R.drawable.ic_baseline_call_received_24)
-        iconView.imageTintList = ColorStateList.valueOf(
-          context.getColorAttr(R.attr.colorError)
-        )
+      when (transaction.direction) {
+        TransactionViewState.Direction.INCOMING -> {
+          iconView.setImageResource(R.drawable.ic_baseline_call_made_24)
+          iconView.imageTintList = ColorStateList.valueOf(
+            context.getColorAttr(R.attr.colorTertiary)
+          )
+        }
+        TransactionViewState.Direction.OUTGOING -> {
+          iconView.setImageResource(R.drawable.ic_baseline_call_received_24)
+          iconView.imageTintList = ColorStateList.valueOf(
+            context.getColorAttr(R.attr.colorError)
+          )
+        }
+        TransactionViewState.Direction.NONE -> {
+
+        }
       }
 
       view.setOnClickListener {
-        viewModel.onTransactionClicked(transactionInfo)
+        viewModel.onTransactionClicked(transaction.transactionSignature)
       }
     }
   }

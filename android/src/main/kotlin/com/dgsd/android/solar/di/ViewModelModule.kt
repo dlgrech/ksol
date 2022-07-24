@@ -21,6 +21,7 @@ internal object ViewModelModule {
             viewModel {
                 HomeViewModel(
                     application = get(),
+                    transactionViewStateFactory = getScoped(),
                     solanaApiRepository = getScoped(),
                     nfcManager = get(),
                 )
