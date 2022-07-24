@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginHorizontal="@dimen/padding_default"
+        android:layout_marginHorizontal="@dimen/padding_small"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -29,7 +29,7 @@
             style="@style/TextAppearance.Solar.Label2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autoSizeTextType="uniform"
+            android:ellipsize="middle"
             android:maxLines="1" />
 
         <TextView
