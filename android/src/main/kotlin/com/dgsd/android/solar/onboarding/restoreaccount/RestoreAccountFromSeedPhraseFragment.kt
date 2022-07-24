@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -61,8 +62,8 @@ class RestoreAccountFromSeedPhraseFragment :
 
     onEach(viewModel.isLoading) {
       TransitionManager.beginDelayedTransition(view as ViewGroup)
-      loadingIndicator.isVisible = it
-      nextButton.isVisible = !it
+      loadingIndicator.isInvisible = !it
+      nextButton.isInvisible = it
     }
 
     onEach(viewModel.errorMessage) {
