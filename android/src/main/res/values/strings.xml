@@ -87,4 +87,6 @@
     <string name="key_display_vote_program">Vote Program</string>
     <string name="key_display_bpf_loader_program">BPF Loader Program</string>
     <string name="unknown">Unknown</string>
+    <string name="sent">Sent</string>
+    <string name="received">Received</string>
 </resources>

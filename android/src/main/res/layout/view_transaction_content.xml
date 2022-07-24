@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
@@ -14,7 +15,8 @@
         android:layout_height="@dimen/transaction_icon_size"
         android:layout_gravity="center_vertical"
         android:background="@drawable/circle_surface_variant"
-        android:padding="12dp" />
+        app:tint="?colorOnSurfaceVariant"
+        android:padding="@dimen/padding_small" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -35,6 +37,7 @@
         <TextView
             android:id="@+id/date_time"
             style="@style/TextAppearance.Solar.Label5"
+            android:textColor="?android:textColorSecondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

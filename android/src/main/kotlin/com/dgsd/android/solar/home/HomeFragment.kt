@@ -1,6 +1,5 @@
 package com.dgsd.android.solar.home
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,6 @@ import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
 import com.dgsd.android.solar.common.util.anyTrue
 import com.dgsd.android.solar.di.util.activityViewModel
 import com.dgsd.android.solar.extensions.ensureViewCount
-import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.model.TransactionViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -159,19 +157,13 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
       when (transaction.direction) {
         TransactionViewState.Direction.INCOMING -> {
-          iconView.setImageResource(R.drawable.ic_baseline_call_made_24)
-          iconView.imageTintList = ColorStateList.valueOf(
-            context.getColorAttr(R.attr.colorTertiary)
-          )
+          iconView.setImageResource(R.drawable.ic_baseline_expand_more_24)
         }
         TransactionViewState.Direction.OUTGOING -> {
-          iconView.setImageResource(R.drawable.ic_baseline_call_received_24)
-          iconView.imageTintList = ColorStateList.valueOf(
-            context.getColorAttr(R.attr.colorError)
-          )
+          iconView.setImageResource(R.drawable.ic_baseline_expand_less_24)
         }
         TransactionViewState.Direction.NONE -> {
-
+          iconView.setImageResource(R.drawable.ic_baseline_commit_24)
         }
       }
 

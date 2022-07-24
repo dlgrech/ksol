@@ -1,6 +1,7 @@
 package com.dgsd.android.solar.common.ui
 
 import android.content.Context
+import android.text.TextUtils
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.model.NativePrograms
 import com.dgsd.android.solar.model.TransactionViewState
@@ -24,14 +25,30 @@ class TransactionViewStateFactory(
       publicKeyFormatter.format(displayPublicKey)
     }
 
-    val dateText = transaction.blockTime?.let { blockTime ->
+    val transactionDirection = getTransactionDirection(transaction)
+
+    val formattedDate = transaction.blockTime?.let { blockTime ->
       DateTimeFormatter.formatRelativeDateAndTime(context, blockTime)
     }
+    val dateText = when(transactionDirection) {
+      TransactionViewState.Direction.INCOMING -> {
+        TextUtils.concat(
+          context.getString(R.string.received),
+          " ",
+          formattedDate
+        )
+      }
+      TransactionViewState.Direction.OUTGOING -> {
+        TextUtils.concat(
+          context.getString(R.string.sent),
+          " ",
+          formattedDate
+        )
+      }
+      TransactionViewState.Direction.NONE -> formattedDate
+    }
 
-    val amount = extractAmount(transaction)
-
-    val formattedAmount = SolTokenFormatter.format(amount)
-    val transactionDirection = getTransactionDirection(transaction)
+    val formattedAmount = SolTokenFormatter.format(extractAmount(transaction))
 
     val amountText = when(transactionDirection) {
       TransactionViewState.Direction.INCOMING -> "+ $formattedAmount"
