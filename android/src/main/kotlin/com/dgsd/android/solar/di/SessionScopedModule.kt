@@ -5,6 +5,8 @@ import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.android.solar.repository.SolanaApiRepositoryImpl
+import com.dgsd.android.solar.repository.cache.BalanceCache
+import com.dgsd.android.solar.repository.cache.memory.BalanceMemoryCache
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.Session
 import com.dgsd.android.solar.session.model.WalletSession
@@ -25,10 +27,15 @@ internal object SessionScopedModule {
                     )
                 }
 
+                scoped<BalanceCache> {
+                    BalanceMemoryCache()
+                }
+
                 scoped<SolanaApiRepository> {
                     SolanaApiRepositoryImpl(
                         session = getScoped(),
                         solanaApi = getScoped(),
+                        balanceCache = getScoped(),
                     )
                 }
 
