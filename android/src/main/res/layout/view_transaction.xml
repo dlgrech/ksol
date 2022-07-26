@@ -17,6 +17,11 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <include
+        android:id="@+id/error"
+        layout="@layout/view_transaction_error"
+        android:visibility="invisible" />
+
+    <include
         android:id="@+id/content"
         layout="@layout/view_transaction_content"
         android:visibility="invisible" />

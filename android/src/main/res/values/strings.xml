@@ -90,4 +90,5 @@
     <string name="sent">Sent</string>
     <string name="received">Received</string>
     <string name="home_view_more_transactions">View more transactions</string>
+    <string name="error_loading_transaction">There was an error loading this transaction</string>
 </resources>

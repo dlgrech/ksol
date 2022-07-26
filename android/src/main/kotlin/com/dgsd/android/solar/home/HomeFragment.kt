@@ -161,23 +161,36 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   private fun bindLoading(view: View) {
     view.findViewById<View>(R.id.loading).isInvisible = false
     view.findViewById<View>(R.id.content).isInvisible = true
+    view.findViewById<View>(R.id.error).isInvisible = true
+
+    view.setOnClickListener(null)
   }
 
   private fun bindError(view: View, viewState: TransactionViewState.Error) {
     view.findViewById<View>(R.id.loading).isInvisible = true
     view.findViewById<View>(R.id.content).isInvisible = true
+    view.findViewById<View>(R.id.error).isInvisible = false
 
-    // Coming soon: Error state
+    if (viewState.transactionSignature == null) {
+      view.setOnClickListener(null)
+    } else {
+      view.setOnClickListener {
+        viewModel.onTransactionClicked(viewState.transactionSignature)
+      }
+    }
   }
 
   private fun bindTransaction(view: View, transaction: TransactionViewState.Transaction) {
-    view.findViewById<View>(R.id.loading).isInvisible = true
-    view.findViewById<View>(R.id.content).isInvisible = false
+    val contentView = view.findViewById<View>(R.id.content)
 
-    val publicKeyView = view.findViewById<TextView>(R.id.public_key)
-    val dateTimeView = view.findViewById<TextView>(R.id.date_time)
-    val amountView = view.findViewById<TextView>(R.id.amount)
-    val iconView = view.findViewById<ImageView>(R.id.icon)
+    view.findViewById<View>(R.id.loading).isInvisible = true
+    contentView.isInvisible = false
+    view.findViewById<View>(R.id.error).isInvisible = true
+
+    val publicKeyView = contentView.findViewById<TextView>(R.id.public_key)
+    val dateTimeView = contentView.findViewById<TextView>(R.id.date_time)
+    val amountView = contentView.findViewById<TextView>(R.id.amount)
+    val iconView = contentView.findViewById<ImageView>(R.id.icon)
 
     publicKeyView.text = transaction.displayAccountText
     amountView.text = transaction.amountText
