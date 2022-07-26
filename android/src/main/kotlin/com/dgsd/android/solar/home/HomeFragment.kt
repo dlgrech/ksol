@@ -146,40 +146,63 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   private fun LinearLayout.bindTransactions(transactions: List<TransactionViewState>) {
     val layoutInflater = LayoutInflater.from(context)
     ensureViewCount(transactions.size) {
-      layoutInflater.inflate(R.layout.view_transaction_content, this, true)
+      layoutInflater.inflate(R.layout.view_transaction, this, true)
     }
 
-    children.toList().zip(transactions) { view, transaction ->
-      val publicKeyView = view.findViewById<TextView>(R.id.public_key)
-      val dateTimeView = view.findViewById<TextView>(R.id.date_time)
-      val amountView = view.findViewById<TextView>(R.id.amount)
-      val iconView = view.findViewById<ImageView>(R.id.icon)
-
-      publicKeyView.text = transaction.displayAccountText
-      amountView.text = transaction.amountText
-
-      if (transaction.dateText == null) {
-        dateTimeView.isVisible = false
-      } else {
-        dateTimeView.isVisible = true
-        dateTimeView.text = transaction.dateText
+    children.toList().zip(transactions) { view, transactionViewState ->
+      when (transactionViewState) {
+        is TransactionViewState.Error -> bindError(view, transactionViewState)
+        is TransactionViewState.Loading -> bindLoading(view)
+        is TransactionViewState.Transaction -> bindTransaction(view, transactionViewState)
       }
+    }
+  }
 
-      when (transaction.direction) {
-        TransactionViewState.Direction.INCOMING -> {
-          iconView.setImageResource(R.drawable.ic_baseline_expand_more_24)
-        }
-        TransactionViewState.Direction.OUTGOING -> {
-          iconView.setImageResource(R.drawable.ic_baseline_expand_less_24)
-        }
-        TransactionViewState.Direction.NONE -> {
-          iconView.setImageResource(R.drawable.ic_baseline_commit_24)
-        }
-      }
+  private fun bindLoading(view: View) {
+    view.findViewById<View>(R.id.loading).isInvisible = false
+    view.findViewById<View>(R.id.content).isInvisible = true
+  }
 
-      view.setOnClickListener {
-        viewModel.onTransactionClicked(transaction.transactionSignature)
+  private fun bindError(view: View, viewState: TransactionViewState.Error) {
+    view.findViewById<View>(R.id.loading).isInvisible = true
+    view.findViewById<View>(R.id.content).isInvisible = true
+
+    // Coming soon: Error state
+  }
+
+  private fun bindTransaction(view: View, transaction: TransactionViewState.Transaction) {
+    view.findViewById<View>(R.id.loading).isInvisible = true
+    view.findViewById<View>(R.id.content).isInvisible = false
+
+    val publicKeyView = view.findViewById<TextView>(R.id.public_key)
+    val dateTimeView = view.findViewById<TextView>(R.id.date_time)
+    val amountView = view.findViewById<TextView>(R.id.amount)
+    val iconView = view.findViewById<ImageView>(R.id.icon)
+
+    publicKeyView.text = transaction.displayAccountText
+    amountView.text = transaction.amountText
+
+    if (transaction.dateText == null) {
+      dateTimeView.isVisible = false
+    } else {
+      dateTimeView.isVisible = true
+      dateTimeView.text = transaction.dateText
+    }
+
+    when (transaction.direction) {
+      TransactionViewState.Transaction.Direction.INCOMING -> {
+        iconView.setImageResource(R.drawable.ic_baseline_expand_more_24)
       }
+      TransactionViewState.Transaction.Direction.OUTGOING -> {
+        iconView.setImageResource(R.drawable.ic_baseline_expand_less_24)
+      }
+      TransactionViewState.Transaction.Direction.NONE -> {
+        iconView.setImageResource(R.drawable.ic_baseline_commit_24)
+      }
+    }
+
+    view.setOnClickListener {
+      viewModel.onTransactionClicked(transaction.transactionSignature)
     }
   }
 

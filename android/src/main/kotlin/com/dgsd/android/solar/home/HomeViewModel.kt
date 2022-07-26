@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cache.CacheStrategy
+import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
@@ -15,7 +16,7 @@ import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.model.LamportsWithTimestamp
-import com.dgsd.android.solar.model.TransactionInfo
+import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.TransactionSignature
@@ -46,13 +47,12 @@ class HomeViewModel(
       )
     }
   private val transactionsResourceConsumer =
-    ResourceFlowConsumer<List<TransactionInfo>>(viewModelScope)
+    ResourceFlowConsumer<List<Resource<TransactionOrSignature>>>(viewModelScope)
   val isLoadingTransactions = transactionsResourceConsumer.isLoading
-  val transactions = transactionsResourceConsumer.data.map { transactionInfoList ->
-    transactionInfoList
-      ?.filterIsInstance<TransactionInfo.FullTransaction>()
-      ?.map { it.transaction }
-      ?.map { transactionViewStateFactory.createForList(it) }
+  val transactions = transactionsResourceConsumer.data.map { transactionsWithState ->
+    transactionsWithState?.map { transactionResource ->
+      transactionViewStateFactory.createForList(transactionResource)
+    }
   }
 
   private val _navigateToReceiveFlow = SimpleMutableEventFlow()

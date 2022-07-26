@@ -3,7 +3,9 @@ package com.dgsd.android.solar.common.ui
 import android.content.Context
 import android.text.TextUtils
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.model.NativePrograms
+import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.model.*
@@ -17,7 +19,15 @@ class TransactionViewStateFactory(
   private val session: WalletSession,
 ) {
 
-  fun createForList(transaction: Transaction): TransactionViewState {
+  fun createForList(resource: Resource<TransactionOrSignature>): TransactionViewState {
+    return when (resource) {
+      is Resource.Error -> TransactionViewState.Error(resource.data?.signatureOrThrow())
+      is Resource.Loading -> TransactionViewState.Loading(resource.data?.signatureOrThrow())
+      is Resource.Success -> createForList(resource.data.transactionOrThrow())
+    }
+  }
+
+  private fun createForList(transaction: Transaction): TransactionViewState {
     val displayPublicKey = extractDisplayAccount(transaction)
     val displayAccountText = if (displayPublicKey == null) {
       context.getString(R.string.unknown)
@@ -31,32 +41,32 @@ class TransactionViewStateFactory(
       DateTimeFormatter.formatRelativeDateAndTime(context, blockTime)
     }
     val dateText = when(transactionDirection) {
-      TransactionViewState.Direction.INCOMING -> {
+      TransactionViewState.Transaction.Direction.INCOMING -> {
         TextUtils.concat(
           context.getString(R.string.received),
           " ",
           formattedDate
         )
       }
-      TransactionViewState.Direction.OUTGOING -> {
+      TransactionViewState.Transaction.Direction.OUTGOING -> {
         TextUtils.concat(
           context.getString(R.string.sent),
           " ",
           formattedDate
         )
       }
-      TransactionViewState.Direction.NONE -> formattedDate
+      TransactionViewState.Transaction.Direction.NONE -> formattedDate
     }
 
     val formattedAmount = SolTokenFormatter.format(extractAmount(transaction))
 
     val amountText = when(transactionDirection) {
-      TransactionViewState.Direction.INCOMING -> "+ $formattedAmount"
-      TransactionViewState.Direction.OUTGOING -> "- $formattedAmount"
-      TransactionViewState.Direction.NONE -> formattedAmount
+      TransactionViewState.Transaction.Direction.INCOMING -> "+ $formattedAmount"
+      TransactionViewState.Transaction.Direction.OUTGOING -> "- $formattedAmount"
+      TransactionViewState.Transaction.Direction.NONE -> formattedAmount
     }
 
-    return TransactionViewState(
+    return TransactionViewState.Transaction(
       transactionSignature = transaction.id,
       direction = transactionDirection,
       displayAccountText = displayAccountText,
@@ -67,14 +77,14 @@ class TransactionViewStateFactory(
 
   private fun getTransactionDirection(
     transaction: Transaction
-  ): TransactionViewState.Direction {
+  ): TransactionViewState.Transaction.Direction {
     val balanceDifference = transaction.sessionAccountBalance()?.balanceDifference() ?: 0
     return if (balanceDifference < 0L) {
-      TransactionViewState.Direction.OUTGOING
+      TransactionViewState.Transaction.Direction.OUTGOING
     } else if (balanceDifference > 0L) {
-      TransactionViewState.Direction.INCOMING
+      TransactionViewState.Transaction.Direction.INCOMING
     } else {
-      TransactionViewState.Direction.NONE
+      TransactionViewState.Transaction.Direction.NONE
     }
   }
 

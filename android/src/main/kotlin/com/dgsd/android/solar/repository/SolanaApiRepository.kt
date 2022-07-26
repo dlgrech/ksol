@@ -3,7 +3,7 @@ package com.dgsd.android.solar.repository
 import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.model.LamportsWithTimestamp
-import com.dgsd.android.solar.model.TransactionInfo
+import com.dgsd.android.solar.model.TransactionOrSignature
 import kotlinx.coroutines.flow.Flow
 
 interface SolanaApiRepository {
@@ -15,5 +15,5 @@ interface SolanaApiRepository {
     fun getTransactions(
         cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT,
         limit: Int
-    ): Flow<Resource<List<TransactionInfo>>>
+    ): Flow<Resource<List<Resource<TransactionOrSignature>>>>
 }

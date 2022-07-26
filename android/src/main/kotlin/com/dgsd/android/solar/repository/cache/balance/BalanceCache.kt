@@ -1,4 +1,4 @@
-package com.dgsd.android.solar.repository.cache
+package com.dgsd.android.solar.repository.cache.balance
 
 import com.dgsd.android.solar.cache.Cache
 import com.dgsd.android.solar.model.LamportsWithTimestamp

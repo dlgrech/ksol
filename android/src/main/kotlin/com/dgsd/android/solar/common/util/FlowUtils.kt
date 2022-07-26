@@ -36,6 +36,24 @@ fun <T> Flow<Resource<T>>.onEachSuccess(
   }
 }
 
+@Suppress("UNCHECKED_CAST")
+fun <T, R> Flow<Resource<T>>.flatMapSuccess(mapper: (T) -> Flow<Resource<R>>): Flow<Resource<R>> {
+  return flatMapConcat { resource ->
+    when (resource) {
+      is Resource.Success -> mapper.invoke(resource.data)
+      is Resource.Loading -> flowOf(Resource.Loading(data = null))
+      is Resource.Error -> flowOf(Resource.Error(resource.error))
+    }
+  }.catch { error ->
+    emit(Resource.Error(error as? Exception ?: RuntimeException(error)))
+  }.distinctUntilChanged { old, new ->
+    // Consider loading/error emissions to be the same, as we dont change any of the
+    // wrapped values
+    (old is Resource.Loading && new is Resource.Loading) ||
+      (old is Resource.Error && new is Resource.Error)
+  }.map { it as Resource<R> }
+}
+
 /**
  * Emits [true] if any of the given flows have a value of [true], [false] otherwise
  */
