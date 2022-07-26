@@ -21,8 +21,10 @@ import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.TransactionSignature
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
 private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
@@ -36,17 +38,29 @@ class HomeViewModel(
 
   private val balanceResourceConsumer = ResourceFlowConsumer<LamportsWithTimestamp>(viewModelScope)
   val isLoadingBalance = balanceResourceConsumer.isLoading
-  val balanceText =
-    balanceResourceConsumer.data.filterNotNull().map { SolTokenFormatter.format(it.lamports) }
+  val balanceText = balanceResourceConsumer.data
+      .filterNotNull()
+    .map { SolTokenFormatter.format(it.lamports) }
+    .onStart { emit("-") }
+
   val balanceLoadTimeText =
-    balanceResourceConsumer.data.filterNotNull().map {
-      getString(
-        R.string.home_balance_last_fetch_template,
-        DateTimeFormatter.formatRelativeDateAndTime(
-          application,
-          it.timestamp
+    combine(
+      balanceResourceConsumer.data,
+      balanceResourceConsumer.error
+    ) { balance, error ->
+      balance to error
+    }.map { (balance, error) ->
+      when {
+        error != null -> errorMessageFactory.create(
+          error,
+          getString(R.string.home_error_loading_balance_try_again)
         )
-      )
+        balance != null -> getString(
+          R.string.home_balance_last_fetch_template,
+          DateTimeFormatter.formatRelativeDateAndTime(application, balance.timestamp)
+        )
+        else -> getString(R.string.balance)
+      }
     }
   private val transactionsResourceConsumer =
     ResourceFlowConsumer<List<Resource<TransactionOrSignature>>>(viewModelScope)
@@ -101,6 +115,13 @@ class HomeViewModel(
   fun onRetryTransactionLoadClicked() {
     reloadBalance(CacheStrategy.CACHE_IF_PRESENT)
     reloadRecentTransactions(CacheStrategy.NETWORK_ONLY)
+  }
+
+  fun onBalanceLabelClicked() {
+    if (balanceResourceConsumer.error.value != null) {
+      reloadBalance(CacheStrategy.NETWORK_ONLY)
+      reloadRecentTransactions(CacheStrategy.CACHE_IF_PRESENT)
+    }
   }
 
   fun onSettingsClicked() {

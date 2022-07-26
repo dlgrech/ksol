@@ -70,6 +70,12 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       viewModel.onSwipeToRefresh()
     }
 
+    arrayOf(balanceText, balanceAsAtText, solLabel).forEach { view ->
+      view.setOnClickListener {
+        viewModel.onBalanceLabelClicked()
+      }
+    }
+
     transactionsErrorMessage.setOnClickListener {
       viewModel.onRetryTransactionLoadClicked()
     }

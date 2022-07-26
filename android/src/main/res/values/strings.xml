@@ -93,4 +93,6 @@
     <string name="error_loading_transaction">There was an error loading this transaction</string>
     <string name="error_modal_default_title">There was a problem</string>
     <string name="home_error_loading_transactions_try_again">There was a problem when fetching your recent transactions.\n\nTap here to try again.</string>
+    <string name="balance">Balance</string>
+    <string name="home_error_loading_balance_try_again">Error loading balance. Tap to retry</string>
 </resources>
