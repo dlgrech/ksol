@@ -6,6 +6,8 @@ import java.text.NumberFormat
 
 object SolTokenFormatter {
 
+    private const val SOL_SYMBOL = "◎"
+
     private val numberFormatter = NumberFormat.getNumberInstance().apply {
         maximumFractionDigits = 2
         minimumFractionDigits = 2
@@ -13,8 +15,10 @@ object SolTokenFormatter {
     }
 
     fun format(lamports: Lamports): CharSequence {
-        return numberFormatter.format(
+        val formattedNumber =  numberFormatter.format(
             lamports.toBigDecimal().divide(LAMPORTS_IN_SOL.toBigDecimal())
         )
+
+        return "$SOL_SYMBOL$formattedNumber"
     }
 }
