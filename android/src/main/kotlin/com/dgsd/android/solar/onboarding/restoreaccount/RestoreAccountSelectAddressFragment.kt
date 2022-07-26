@@ -15,7 +15,6 @@ import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
-import com.dgsd.android.solar.common.util.getTextColorForLamports
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
@@ -106,7 +105,7 @@ class RestoreAccountSelectAddressFragment :
       }
 
       if (candidateAccount is CandidateAccount.AccountWithBalance) {
-        amount.setTextColor(getTextColorForLamports(itemView.context, candidateAccount.lamports))
+        amount.setTextColor(itemView.context.getColorAttr(android.R.attr.textColorPrimary))
       } else if (candidateAccount is CandidateAccount.Error) {
         amount.setTextColor(itemView.context.getColorAttr(R.attr.colorError))
         amount.setText(R.string.sol_amount_error_loading)
@@ -164,7 +163,7 @@ class RestoreAccountSelectAddressFragment :
       }
 
       if (candidateAccount is CandidateAccount.AccountWithBalance) {
-        amount.setTextColor(getTextColorForLamports(itemView.context, candidateAccount.lamports))
+        amount.setTextColor(itemView.context.getColorAttr(android.R.attr.textColorPrimary))
       } else if (candidateAccount is CandidateAccount.Error) {
         amount.setTextColor(itemView.context.getColorAttr(R.attr.colorError))
         amount.setText(R.string.sol_amount_error_loading)

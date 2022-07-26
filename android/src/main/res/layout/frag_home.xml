@@ -118,7 +118,7 @@
 
                     <androidx.core.widget.NestedScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:fillViewport="true">
 
                         <LinearLayout
@@ -139,7 +139,34 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@string/home_view_more_transactions" />
+                                android:text="@string/home_view_more_transactions"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:id="@+id/transaction_error_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="@dimen/padding_xxlarge"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="36dp"
+                                    android:layout_height="36dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginBottom="@dimen/padding_default"
+                                    android:src="@drawable/ic_baseline_replay_24"
+                                    app:tint="?colorError" />
+
+                                <TextView
+                                    android:id="@+id/transaction_error_message"
+                                    style="@style/TextAppearance.Solar.Label1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:paddingHorizontal="@dimen/padding_default"
+                                    android:textColor="?colorError" />
+                            </LinearLayout>
 
                             <com.facebook.shimmer.ShimmerFrameLayout
                                 android:id="@+id/shimmer_transactions_container"

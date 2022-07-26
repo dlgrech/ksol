@@ -12,9 +12,13 @@ class ErrorMessageFactory(
 ) {
 
     fun create(error: Throwable): CharSequence {
+        return create(error, createDefault())
+    }
+
+    fun create(error: Throwable, defaultMessage: CharSequence): CharSequence {
         return when(error) {
-            is UserFacingException -> error.userVisibleMessage.ifEmpty { createDefault() }
-            else -> createDefault()
+            is UserFacingException -> error.userVisibleMessage.ifEmpty { defaultMessage }
+            else -> defaultMessage
         }
     }
 

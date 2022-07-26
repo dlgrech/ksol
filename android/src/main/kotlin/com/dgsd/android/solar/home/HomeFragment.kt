@@ -21,6 +21,9 @@ import com.dgsd.android.solar.di.util.activityViewModel
 import com.dgsd.android.solar.extensions.ensureViewCount
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.model.TransactionViewState
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment(R.layout.frag_home) {
@@ -39,6 +42,8 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val balanceText = view.findViewById<TextView>(R.id.balance)
     val solLabel = view.findViewById<TextView>(R.id.sol_label)
     val transactionsContainer = view.findViewById<LinearLayout>(R.id.transactions_container)
+    val transactionErrorContainer = view.findViewById<View>(R.id.transaction_error_container)
+    val transactionsErrorMessage = view.findViewById<TextView>(R.id.transaction_error_message)
     val viewMoreTransactionsButton = view.findViewById<View>(R.id.view_more_transactions)
     val shimmerBalanceText = view.findViewById<View>(R.id.shimmer_balance)
     val shimmerSolLabel = view.findViewById<View>(R.id.shimmer_sol_label)
@@ -65,6 +70,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       viewModel.onSwipeToRefresh()
     }
 
+    transactionsErrorMessage.setOnClickListener {
+      viewModel.onRetryTransactionLoadClicked()
+    }
+
     onEach(viewModel.isLoadingBalance) {
       shimmerBalanceText.isInvisible = !it
       shimmerSolLabel.isInvisible = !it
@@ -74,11 +83,38 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       solLabel.isInvisible = it
     }
 
-    onEach(viewModel.isLoadingTransactions) {
-      shimmerTransactionsContainer.isVisible = it
-      viewMoreTransactionsButton.isVisible = !it
-      transactionsContainer.isVisible = !it
-    }
+    combine(
+      viewModel.isLoadingTransactions,
+      viewModel.transactionsError
+    ) { isLoading, errorMessage ->
+      isLoading to errorMessage
+    }.onEach { (isLoading, errorMessage) ->
+      transactionsErrorMessage.text = errorMessage
+
+      when {
+        errorMessage != null -> {
+          transactionErrorContainer.isVisible = true
+          shimmerTransactionsContainer.isVisible = false
+          viewMoreTransactionsButton.isVisible = false
+          transactionsContainer.isVisible = false
+        }
+
+        isLoading -> {
+          transactionErrorContainer.isVisible = false
+          shimmerTransactionsContainer.isVisible = true
+          viewMoreTransactionsButton.isVisible = false
+          transactionsContainer.isVisible = false
+        }
+
+        else -> {
+          transactionErrorContainer.isVisible = false
+          shimmerTransactionsContainer.isVisible = false
+          viewMoreTransactionsButton.isVisible = true
+          transactionsContainer.isVisible = true
+        }
+      }
+
+    }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     onEach(
       anyTrue(viewModel.isLoadingBalance, viewModel.isLoadingTransactions)

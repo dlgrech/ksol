@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cache.CacheStrategy
+import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.common.ui.DateTimeFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
@@ -27,6 +28,7 @@ private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
 class HomeViewModel(
   application: Application,
+  private val errorMessageFactory: ErrorMessageFactory,
   private val transactionViewStateFactory: TransactionViewStateFactory,
   private val solanaApiRepository: SolanaApiRepository,
   private val nfcManager: NfcManager,
@@ -49,6 +51,14 @@ class HomeViewModel(
   private val transactionsResourceConsumer =
     ResourceFlowConsumer<List<Resource<TransactionOrSignature>>>(viewModelScope)
   val isLoadingTransactions = transactionsResourceConsumer.isLoading
+  val transactionsError = transactionsResourceConsumer.error.map { error ->
+    error?.let {
+      errorMessageFactory.create(
+        it,
+        getString(R.string.home_error_loading_transactions_try_again)
+      )
+    }
+  }
   val transactions = transactionsResourceConsumer.data.map { transactionsWithState ->
     transactionsWithState?.map { transactionResource ->
       transactionViewStateFactory.createForList(transactionResource)
@@ -86,6 +96,11 @@ class HomeViewModel(
 
   fun onSwipeToRefresh() {
     reloadData(CacheStrategy.NETWORK_ONLY)
+  }
+
+  fun onRetryTransactionLoadClicked() {
+    reloadBalance(CacheStrategy.CACHE_IF_PRESENT)
+    reloadRecentTransactions(CacheStrategy.NETWORK_ONLY)
   }
 
   fun onSettingsClicked() {
@@ -141,10 +156,18 @@ class HomeViewModel(
   }
 
   private fun reloadData(cacheStrategy: CacheStrategy) {
-    balanceResourceConsumer.collectFlow(solanaApiRepository.getBalance(cacheStrategy))
+    reloadBalance(cacheStrategy)
+    reloadRecentTransactions(cacheStrategy)
+  }
+
+  private fun reloadRecentTransactions(cacheStrategy: CacheStrategy) {
     transactionsResourceConsumer.collectFlow(
       solanaApiRepository.getTransactions(cacheStrategy, NUM_TRANSACTIONS_TO_DISPLAY)
     )
+  }
+
+  private fun reloadBalance(cacheStrategy: CacheStrategy) {
+    balanceResourceConsumer.collectFlow(solanaApiRepository.getBalance(cacheStrategy))
   }
 
   fun onTransactionClicked(transaction: TransactionSignature) {
