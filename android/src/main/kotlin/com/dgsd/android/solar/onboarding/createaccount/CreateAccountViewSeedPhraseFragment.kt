@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -12,13 +11,11 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModal
+import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
-import com.dgsd.android.solar.common.shimmer.ShimmerView
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
-import com.dgsd.android.solar.extensions.dpToPx
 import com.dgsd.android.solar.extensions.onEach
-import com.dgsd.ksol.keygen.MnemonicPhraseLength
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -82,11 +79,15 @@ class CreateAccountViewSeedPhraseFragment :
       seedPhraseContainer.populate(seedPhrase.orEmpty())
     }
 
-    onEach(viewModel.isLoading) {
+    onEach(viewModel.showLoadingState) {
       loadingIndicator.isInvisible = !it
       seedPhraseContainer.isInvisible = it
       copyButton.isInvisible = it
       nextButton.isInvisible = it
+    }
+
+    onEach(viewModel.errorMessage) {
+      showModelFromErrorMessage(it)
     }
 
     onEach(viewModel.showSeedPhraseCopiedSuccess) {

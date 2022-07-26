@@ -11,7 +11,7 @@ import com.dgsd.android.solar.onboarding.createaccount.CreateAccountEnterPassphr
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountViewSeedPhraseViewModel
 import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountCoordinator
 import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountSelectAddressViewModel
-import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountViewSeedPhraseViewModel
+import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountFromSeedPhraseViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
@@ -29,7 +29,7 @@ object OnboardingViewModelModule {
             viewModelOf(::CreateAccountConfirmationViewModel)
 
             viewModelOf(::RestoreAccountCoordinator)
-            viewModelOf(::RestoreAccountViewSeedPhraseViewModel)
+            viewModelOf(::RestoreAccountFromSeedPhraseViewModel)
             viewModel {
                 RestoreAccountSelectAddressViewModel(
                     errorMessageFactory = get(),

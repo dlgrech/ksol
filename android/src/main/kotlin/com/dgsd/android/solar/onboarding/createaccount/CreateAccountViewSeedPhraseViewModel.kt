@@ -28,7 +28,7 @@ class CreateAccountViewSeedPhraseViewModel(
 
   val seedPhrase = generateMnemonicConsumer.data
 
-  val isLoading = generateMnemonicConsumer.isLoading
+  val showLoadingState = generateMnemonicConsumer.isLoadingOrError
 
   val errorMessage = generateMnemonicConsumer.error
     .filterNotNull()

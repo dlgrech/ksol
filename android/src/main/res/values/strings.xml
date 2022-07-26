@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Solar Wallet</string>
 
-    <string name="error_message_generic">Looks like something went wrong. Please try again</string>
+    <string name="error_message_generic">Looks like something went wrong. Please try again.</string>
     <string name="onboarding_welcome_already_have_account">I already have a wallet</string>
     <string name="onboarding_welcome_create_new_account">Create new wallet</string>
     <string name="onboarding_welcome_screen_title_welcome">Welcome to</string>
@@ -30,7 +30,7 @@
     <string name="onboarding_restore_account_from_seed_explainer">Enter your recovery phrase.\n\nThis is list of 12 or 24 words that you were given when you generated your wallet</string>
     <string name="onboarding_restore_account_from_seed_screen_title">Restore wallet</string>
     <string name="onboarding_restore_account_from_seed_input_hint">Recovery phrase…</string>
-    <string name="onboarding_restore_account_from_seed_add_passphrase">My wallet has a password...</string>
+    <string name="onboarding_restore_account_from_seed_add_passphrase">My wallet has a password…</string>
     <string name="error_invalid_seed_phrase_length">Invalid seed phrase. Please check your recovery phrase.</string>
     <string name="onboarding_restore_account_from_seed_passphrase_label">Password: </string>
     <string name="onboarding_restore_account_from_seed_passphrase_dialog_title">Enter password</string>
@@ -91,4 +91,5 @@
     <string name="received">Received</string>
     <string name="home_view_more_transactions">View more transactions</string>
     <string name="error_loading_transaction">There was an error loading this transaction</string>
+    <string name="error_modal_default_title">There was a problem</string>
 </resources>

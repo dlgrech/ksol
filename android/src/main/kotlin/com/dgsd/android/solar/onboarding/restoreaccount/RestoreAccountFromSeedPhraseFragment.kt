@@ -27,7 +27,7 @@ class RestoreAccountFromSeedPhraseFragment :
   Fragment(R.layout.frag_onboarding_restore_account_from_seed) {
 
   private val restoreAccountCoordinator: RestoreAccountCoordinator by parentViewModel()
-  private val viewModel: RestoreAccountViewSeedPhraseViewModel by viewModel()
+  private val viewModel: RestoreAccountFromSeedPhraseViewModel by viewModel()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

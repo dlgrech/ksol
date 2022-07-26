@@ -2,10 +2,7 @@ package com.dgsd.android.solar.common.util
 
 import com.dgsd.android.solar.common.model.Resource
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 
 /**
  * Helper class for mapping a [Flow<Resource>] to something more useful at the UI level
@@ -23,6 +20,10 @@ class ResourceFlowConsumer<T>(
 
     private val _data = MutableStateFlow<T?>(null)
     val data = _data.asStateFlow()
+
+    val isLoadingOrError = combine(isLoading, error) { isLoading, error ->
+        isLoading || error != null
+    }.distinctUntilChanged()
 
     private var existingJob: Job? = null
 

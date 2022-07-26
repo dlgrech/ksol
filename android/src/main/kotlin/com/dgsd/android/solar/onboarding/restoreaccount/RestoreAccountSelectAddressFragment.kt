@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.util.getTextColorForLamports
@@ -55,6 +56,10 @@ class RestoreAccountSelectAddressFragment :
 
     onEach(viewModel.accountData) {
       adapter.items = it
+    }
+
+    onEach(viewModel.errorMessage) {
+      showModelFromErrorMessage(it)
     }
 
     onEach(viewModel.continueWithResult) { keyPair ->

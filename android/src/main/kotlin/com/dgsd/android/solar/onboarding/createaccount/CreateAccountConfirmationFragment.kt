@@ -8,6 +8,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
 import com.dgsd.android.solar.common.util.SwallowBackpressLifecycleObserver
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
@@ -48,6 +49,10 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
       walletAddress.text = it
     }
 
+    onEach(viewModel.errorMessage) {
+      showModelFromErrorMessage(it)
+    }
+
     onEach(viewModel.showCopiedSuccessMessage) {
       Snackbar.make(
         view,
@@ -56,7 +61,7 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
       ).show()
     }
 
-    onEach(viewModel.isLoading) {
+    onEach(viewModel.showLoadingState) {
       loadingIndicator.isVisible = it
       successTitle.isInvisible = it
       explainerMessage.isInvisible = it

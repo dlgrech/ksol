@@ -14,10 +14,7 @@ import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.model.KeyPair
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 
@@ -41,6 +38,11 @@ class RestoreAccountSelectAddressViewModel(
   val accountData = combine(candidateAccountList) {
     it.toList()
   }
+
+  val errorMessage = generateKeysResourceConsumer.error
+    .filterNotNull()
+    .map { errorMessageFactory.create(it) }
+    .asEventFlow(viewModelScope)
 
   fun onCreate() {
     onEach(generateKeysResourceConsumer.data.filterNotNull().take(1)) { keys ->

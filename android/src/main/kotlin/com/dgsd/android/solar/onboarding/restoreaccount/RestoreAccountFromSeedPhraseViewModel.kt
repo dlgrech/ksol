@@ -18,7 +18,7 @@ import com.dgsd.ksol.keygen.KeyFactory
 import com.dgsd.ksol.keygen.MnemonicPhraseLength
 import kotlinx.coroutines.flow.*
 
-class RestoreAccountViewSeedPhraseViewModel(
+class RestoreAccountFromSeedPhraseViewModel(
   private val application: Application,
   errorMessageFactory: ErrorMessageFactory,
 ) : ViewModel() {

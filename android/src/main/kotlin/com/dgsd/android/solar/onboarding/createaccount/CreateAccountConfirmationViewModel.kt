@@ -30,7 +30,7 @@ class CreateAccountConfirmationViewModel(
 
   private val generateKeyPairConsumer = ResourceFlowConsumer<KeyPair>(viewModelScope)
 
-  val isLoading = generateKeyPairConsumer.isLoading
+  val showLoadingState = generateKeyPairConsumer.isLoadingOrError
 
   val publicKeyText =
     generateKeyPairConsumer.data.mapNotNull { it?.publicKey?.let(publicKeyFormatter::format) }
