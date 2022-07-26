@@ -14,8 +14,22 @@ object SolTokenFormatter {
         minimumIntegerDigits = 1
     }
 
+    private val fullNumberFormatter = NumberFormat.getNumberInstance().apply {
+        maximumFractionDigits = 10
+        minimumFractionDigits = 2
+        minimumIntegerDigits = 1
+    }
+
     fun format(lamports: Lamports): CharSequence {
         val formattedNumber =  numberFormatter.format(
+            lamports.toBigDecimal().divide(LAMPORTS_IN_SOL.toBigDecimal())
+        )
+
+        return "$SOL_SYMBOL$formattedNumber"
+    }
+
+    fun formatLong(lamports: Lamports): CharSequence {
+        val formattedNumber =  fullNumberFormatter.format(
             lamports.toBigDecimal().divide(LAMPORTS_IN_SOL.toBigDecimal())
         )
 

@@ -84,6 +84,22 @@ internal class SolanaApiRepositoryImpl(
     }
   }
 
+  override fun getTransaction(
+    cacheStrategy: CacheStrategy,
+    transactionSignature: TransactionSignature,
+  ): Flow<Resource<Transaction>> {
+    return executeWithCache(
+      cacheKey = transactionSignature,
+      cacheStrategy = cacheStrategy,
+      cache = transactionCache,
+      networkFlowProvider = {
+        resourceFlowOf {
+          checkNotNull(solanaApi.getTransaction(transactionSignature))
+        }
+      }
+    )
+  }
+
   private fun getTransactionSignatures(
     cacheStrategy: CacheStrategy,
     limit: Int
@@ -98,22 +114,6 @@ internal class SolanaApiRepositoryImpl(
             accountKey = session.publicKey,
             limit = limit
           )
-        }
-      }
-    )
-  }
-
-  private fun getTransaction(
-    cacheStrategy: CacheStrategy,
-    signature: TransactionSignature,
-  ): Flow<Resource<Transaction>> {
-    return executeWithCache(
-      cacheKey = signature,
-      cacheStrategy = cacheStrategy,
-      cache = transactionCache,
-      networkFlowProvider = {
-        resourceFlowOf {
-          checkNotNull(solanaApi.getTransaction(signature))
         }
       }
     )

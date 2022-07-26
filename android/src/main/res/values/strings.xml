@@ -96,4 +96,11 @@
     <string name="balance">Balance</string>
     <string name="home_error_loading_balance_try_again">Error loading balance. Tap to retry</string>
     <string name="transaction_details_screen_title">Transaction Details</string>
+    <string name="transaction_details_section_title_signatures">Signatures</string>
+    <string name="transaction_details_section_title_signature">Signature</string>
+    <string name="transaction_details_section_change_in_balance">Change in your wallet balance</string>
+    <string name="transaction_details_section_block_time">Block time</string>
+    <string name="transaction_details_section_fee">Fee</string>
+    <string name="transaction_details_accounts">Accounts</string>
+    <string name="transaction_details_logs">Logs</string>
 </resources>

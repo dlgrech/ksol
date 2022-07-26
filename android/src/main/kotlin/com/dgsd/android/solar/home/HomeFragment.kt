@@ -70,8 +70,8 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       viewModel.onSwipeToRefresh()
     }
 
-    arrayOf(balanceText, balanceAsAtText, solLabel).forEach { view ->
-      view.setOnClickListener {
+    arrayOf(balanceText, balanceAsAtText, solLabel).forEach { v ->
+      v.setOnClickListener {
         viewModel.onBalanceLabelClicked()
       }
     }
