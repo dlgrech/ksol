@@ -14,7 +14,7 @@ class TransactionListFragment : Fragment(R.layout.frag_transaction_list) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+    val toolbar = view.requireViewById<Toolbar>(R.id.toolbar)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()

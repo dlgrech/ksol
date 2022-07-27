@@ -36,7 +36,7 @@ class CreateAccountViewSeedPhraseFragment :
     val copyButton = requireView().findViewById<TextView>(R.id.copy)
     val loadingIndicator = requireView().findViewById<View>(R.id.loading_indicator)
 
-    view.findViewById<MaterialToolbar>(R.id.toolbar).apply {
+    view.requireViewById<MaterialToolbar>(R.id.toolbar).apply {
       setNavigationOnClickListener {
         requireActivity().onBackPressed()
       }

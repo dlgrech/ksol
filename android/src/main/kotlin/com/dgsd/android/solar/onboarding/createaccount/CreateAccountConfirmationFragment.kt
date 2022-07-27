@@ -31,11 +31,11 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val successTitle = view.findViewById<View>(R.id.success_title)
-    val explainerMessage = view.findViewById<View>(R.id.explainer_message)
-    val walletAddress = view.findViewById<TextView>(R.id.wallet_address)
-    val continueButton = view.findViewById<Button>(R.id.continue_button)
-    val loadingIndicator = view.findViewById<View>(R.id.loading_indicator)
+    val successTitle = view.requireViewById<View>(R.id.success_title)
+    val explainerMessage = view.requireViewById<View>(R.id.explainer_message)
+    val walletAddress = view.requireViewById<TextView>(R.id.wallet_address)
+    val continueButton = view.requireViewById<Button>(R.id.continue_button)
+    val loadingIndicator = view.requireViewById<View>(R.id.loading_indicator)
 
     continueButton.setOnClickListener {
       viewModel.onContinueClicked()

@@ -15,6 +15,7 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.android.solar.session.model.WalletSession
+import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.Transaction
 import com.dgsd.ksol.model.TransactionSignature
 import kotlinx.coroutines.flow.filterNotNull
@@ -79,11 +80,7 @@ class TransactionDetailsViewModel(
   val accountDetails = transaction.map { transaction ->
     transaction.message.accountKeys.map { accountMetadata ->
       val accountDisplayText = if (session.publicKey == accountMetadata.publicKey) {
-        RichTextFormatter.expandTemplate(
-          application,
-          R.string.your_wallet_template,
-          publicKeyFormatter.format(accountMetadata.publicKey)
-        )
+        getString(R.string.your_wallet)
       } else {
         publicKeyFormatter.format(accountMetadata.publicKey)
       }
@@ -101,9 +98,11 @@ class TransactionDetailsViewModel(
       }
 
       TransactionAccountViewState(
+        accountKey = accountMetadata.publicKey,
         accountDisplayText = accountDisplayText,
         isWriter = accountMetadata.isWritable,
         isSigner = accountMetadata.isSigner,
+        isFeePayer = accountMetadata.isFeePayer,
         isProgram = accountMetadata.publicKey in programAccounts,
         balanceAfterText = changeInBalanceText,
       )
@@ -139,6 +138,13 @@ class TransactionDetailsViewModel(
         cacheStrategy,
         transactionSignature
       )
+    )
+  }
+
+  fun onAccountClicked(accountKey: PublicKey) {
+    systemClipboard.copy(accountKey.toBase58String())
+    _showConfirmationMessage.tryEmit(
+      getString(R.string.account_key_copied_to_clipboard)
     )
   }
 }

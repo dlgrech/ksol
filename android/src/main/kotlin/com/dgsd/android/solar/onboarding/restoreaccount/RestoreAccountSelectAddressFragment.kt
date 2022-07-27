@@ -37,8 +37,8 @@ class RestoreAccountSelectAddressFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
-    val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+    val toolbar = view.requireViewById<MaterialToolbar>(R.id.toolbar)
+    val recyclerView = view.requireViewById<RecyclerView>(R.id.recycler_view)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()
@@ -76,15 +76,15 @@ class RestoreAccountSelectAddressFragment :
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.ViewHolder(view) {
 
-    private val shimmerSuggestedWalletTitle = view.findViewById<View>(R.id.shimmer_suggested_wallet)
-    private val shimmerAccountKey = view.findViewById<View>(R.id.shimmer_account_key)
-    private val shimmerAmount = view.findViewById<View>(R.id.shimmer_amount)
-    private val shimmerUseThisAccountButton = view.findViewById<View>(R.id.shimmer_use_this_account)
+    private val shimmerSuggestedWalletTitle = view.requireViewById<View>(R.id.shimmer_suggested_wallet)
+    private val shimmerAccountKey = view.requireViewById<View>(R.id.shimmer_account_key)
+    private val shimmerAmount = view.requireViewById<View>(R.id.shimmer_amount)
+    private val shimmerUseThisAccountButton = view.requireViewById<View>(R.id.shimmer_use_this_account)
 
-    private val suggestedWalletTitle = view.findViewById<View>(R.id.suggested_wallet)
-    private val accountKey = view.findViewById<TextView>(R.id.account_key)
-    private val amount = view.findViewById<TextView>(R.id.amount)
-    private val useThisAccountButton = view.findViewById<View>(R.id.use_this_account)
+    private val suggestedWalletTitle = view.requireViewById<View>(R.id.suggested_wallet)
+    private val accountKey = view.requireViewById<TextView>(R.id.account_key)
+    private val amount = view.requireViewById<TextView>(R.id.amount)
+    private val useThisAccountButton = view.requireViewById<View>(R.id.use_this_account)
 
 
     fun bind(candidateAccount: CandidateAccount) {
@@ -144,11 +144,11 @@ class RestoreAccountSelectAddressFragment :
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.ViewHolder(view) {
 
-    private val shimmerAccountKey = view.findViewById<View>(R.id.shimmer_account_key)
-    private val shimmerAmount = view.findViewById<View>(R.id.shimmer_amount)
+    private val shimmerAccountKey = view.requireViewById<View>(R.id.shimmer_account_key)
+    private val shimmerAmount = view.requireViewById<View>(R.id.shimmer_amount)
 
-    private val accountKey = view.findViewById<TextView>(R.id.account_key)
-    private val amount = view.findViewById<TextView>(R.id.amount)
+    private val accountKey = view.requireViewById<TextView>(R.id.account_key)
+    private val amount = view.requireViewById<TextView>(R.id.amount)
 
     fun bind(candidateAccount: CandidateAccount) {
       shimmerAccountKey.isInvisible = candidateAccount !is CandidateAccount.Empty
@@ -196,8 +196,8 @@ class RestoreAccountSelectAddressFragment :
 
   private class AlternateWalletsHeader(view: View) : RecyclerView.ViewHolder(view) {
 
-    private val title = view.findViewById<View>(R.id.title)
-    private val shimmerTitle = view.findViewById<View>(R.id.shimmer_title)
+    private val title = view.requireViewById<View>(R.id.title)
+    private val shimmerTitle = view.requireViewById<View>(R.id.shimmer_title)
 
     fun bind(showLoadingState: Boolean) {
       title.isInvisible = showLoadingState

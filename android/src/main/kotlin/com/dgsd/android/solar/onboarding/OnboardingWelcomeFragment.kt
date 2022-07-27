@@ -14,15 +14,15 @@ class OnboardingWelcomeFragment : Fragment(R.layout.frag_onboarding_welcome) {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    view.findViewById<View>(R.id.already_have_account).setOnClickListener {
+    view.requireViewById<View>(R.id.already_have_account).setOnClickListener {
       onboardingCoordinator.navigateToAddFromSeedPhrase()
     }
 
-    view.findViewById<View>(R.id.create_new_wallet).setOnClickListener {
+    view.requireViewById<View>(R.id.create_new_wallet).setOnClickListener {
       onboardingCoordinator.navigateToCreateNewAccount()
     }
 
-    view.findViewById<TextView>(R.id.app_name).text = RichTextFormatter.expandTemplate(
+    view.requireViewById<TextView>(R.id.app_name).text = RichTextFormatter.expandTemplate(
       requireContext(),
       R.string.onboarding_welcome_screen_title_app_name_template,
       RichTextFormatter.coloredTextAttr(

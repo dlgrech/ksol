@@ -11,12 +11,14 @@ class TransactionAccountMetadataTest {
         val first = TransactionAccountMetadata(
             PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
         val second = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = false,
+            isFeePayer = false,
             isWritable = false
         )
 
@@ -31,12 +33,14 @@ class TransactionAccountMetadataTest {
         val first = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
         val second = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = false,
+            isFeePayer = false,
             isWritable = false
         )
 
@@ -51,12 +55,14 @@ class TransactionAccountMetadataTest {
         val first = TransactionAccountMetadata(
             PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
         val second = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = false,
+            isFeePayer = false,
             isWritable = false
         )
 
@@ -71,24 +77,28 @@ class TransactionAccountMetadataTest {
         val first = TransactionAccountMetadata(
             PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
         val second = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = false,
+            isFeePayer = false,
             isWritable = false
         )
 
         val third = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = true,
+            isFeePayer = false,
             isWritable = false
         )
 
         val fourth = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
@@ -105,12 +115,14 @@ class TransactionAccountMetadataTest {
         val first = TransactionAccountMetadata(
             PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
         val second = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = false,
+            isFeePayer = false,
             isWritable = false
         )
 
@@ -127,18 +139,21 @@ class TransactionAccountMetadataTest {
         val first = TransactionAccountMetadata(
             PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
             isSigner = true,
+            isFeePayer = true,
             isWritable = true
         )
 
         val second = TransactionAccountMetadata(
             PublicKey.fromBase58("4ETf86tK7b4W72f27kNLJLgRWi9UfJjgH4koHGUXMFtn"),
             isSigner = false,
+            isFeePayer = false,
             isWritable = true
         )
 
         val third = TransactionAccountMetadata(
             SystemProgram.PROGRAM_ID,
             isSigner = false,
+            isFeePayer = false,
             isWritable = false
         )
 

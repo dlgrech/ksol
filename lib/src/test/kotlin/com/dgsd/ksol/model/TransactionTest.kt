@@ -15,7 +15,8 @@ class TransactionTest {
             TransactionAccountMetadata(
                 PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
                 isSigner = true,
-                isWritable = true
+                isWritable = true,
+                isFeePayer = true,
             )
         )
         message = TransactionMessage(

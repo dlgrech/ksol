@@ -21,18 +21,18 @@ class CreateAccountEnterPassphraseFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    view.findViewById<MaterialToolbar>(R.id.toolbar).apply {
+    view.requireViewById<MaterialToolbar>(R.id.toolbar).apply {
       setNavigationOnClickListener {
         requireActivity().onBackPressed()
       }
     }
 
-    view.findViewById<View>(R.id.skip).setOnClickListener {
+    view.requireViewById<View>(R.id.skip).setOnClickListener {
       viewModel.onSkipClicked()
     }
 
-    view.findViewById<View>(R.id.next).setOnClickListener {
-      val password = view.findViewById<EditText>(R.id.password_input).text?.toString()
+    view.requireViewById<View>(R.id.next).setOnClickListener {
+      val password = view.requireViewById<EditText>(R.id.password_input).text?.toString()
       viewModel.onContinueClicked(password)
     }
 

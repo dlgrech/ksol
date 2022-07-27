@@ -15,6 +15,7 @@ class LocalTransactionTest {
             TransactionAccountMetadata(
                 PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
                 isSigner = true,
+                isFeePayer = true,
                 isWritable = true
             )
         )

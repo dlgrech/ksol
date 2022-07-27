@@ -104,5 +104,11 @@
     <string name="transaction_details_section_fee">Fee</string>
     <string name="transaction_details_accounts">Accounts</string>
     <string name="transaction_details_logs">Logs</string>
-    <string name="your_wallet_template">Your Wallet (^1)</string>
+    <string name="your_wallet">Your Wallet</string>
+    <string name="transaction_details_account_details_balance_label">Balance after transaction:</string>
+    <string name="account_key_copied_to_clipboard">Account key copied to clipboard!</string>
+    <string name="transaction_details_badge_writer">Writer</string>
+    <string name="transaction_details_badge_signer">Signer</string>
+    <string name="transaction_details_badge_fee_payer">Fee Payer</string>
+    <string name="transaction_details_badge_program">Program</string>
 </resources>

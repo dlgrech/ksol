@@ -32,13 +32,13 @@ class RestoreAccountFromSeedPhraseFragment :
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
-    val loadingIndicator = view.findViewById<ProgressBar>(R.id.loading_indicator)
-    val seedPhraseInput = view.findViewById<EditText>(R.id.seed_phrase_input)
-    val nextButton = view.findViewById<View>(R.id.next)
-    val addPassphrase = view.findViewById<View>(R.id.add_passphrase)
-    val passphraseValue = view.findViewById<TextView>(R.id.passphrase_value)
-    val errorMessage = view.findViewById<TextView>(R.id.error_message)
+    val toolbar = view.requireViewById<MaterialToolbar>(R.id.toolbar)
+    val loadingIndicator = view.requireViewById<ProgressBar>(R.id.loading_indicator)
+    val seedPhraseInput = view.requireViewById<EditText>(R.id.seed_phrase_input)
+    val nextButton = view.requireViewById<View>(R.id.next)
+    val addPassphrase = view.requireViewById<View>(R.id.add_passphrase)
+    val passphraseValue = view.requireViewById<TextView>(R.id.passphrase_value)
+    val errorMessage = view.requireViewById<TextView>(R.id.error_message)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()

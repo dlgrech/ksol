@@ -27,9 +27,9 @@ class SetupAppLockEnterPinFragment : Fragment(R.layout.frag_setup_app_lock_enter
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val keyboard = view.findViewById<NumericKeyboardView>(R.id.keyboard)
-    val codeDisplay = view.findViewById<TextView>(R.id.code)
-    val nextButton = view.findViewById<View>(R.id.next)
+    val keyboard = view.requireViewById<NumericKeyboardView>(R.id.keyboard)
+    val codeDisplay = view.requireViewById<TextView>(R.id.code)
+    val nextButton = view.requireViewById<View>(R.id.next)
 
     nextButton.setOnClickListener {
       viewModel.onNextClicked()

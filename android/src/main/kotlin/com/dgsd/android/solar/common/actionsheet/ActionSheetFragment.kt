@@ -45,12 +45,12 @@ class ActionSheetFragment : BaseBottomSheetFragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+    view.requireViewById<RecyclerView>(R.id.recycler_view).apply {
       adapter = ActionSheetAdapter()
       layoutManager = LinearLayoutManager(requireContext())
     }
 
-    view.findViewById<TextView>(R.id.title).apply {
+    view.requireViewById<TextView>(R.id.title).apply {
       text = sheetTitle
       isVisible = !sheetTitle.isNullOrEmpty()
     }

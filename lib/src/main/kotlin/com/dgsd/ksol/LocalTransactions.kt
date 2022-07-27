@@ -27,9 +27,24 @@ object LocalTransactions {
         )
 
         val accountKeys = listOf(
-            TransactionAccountMetadata(sender.publicKey, isSigner = true, isWritable = true),
-            TransactionAccountMetadata(recipient, isSigner = false, isWritable = true),
-            TransactionAccountMetadata(transferInstruction.programAccount, isSigner = false, isWritable = false)
+            TransactionAccountMetadata(
+                sender.publicKey,
+                isSigner = true,
+                isWritable = true,
+                isFeePayer = true
+            ),
+            TransactionAccountMetadata(
+                recipient,
+                isSigner = false,
+                isWritable = true,
+                isFeePayer = false
+            ),
+            TransactionAccountMetadata(
+                transferInstruction.programAccount,
+                isSigner = false,
+                isWritable = false,
+                isFeePayer = false
+            )
         )
 
         val header = TransactionHeader.createFrom(accountKeys)

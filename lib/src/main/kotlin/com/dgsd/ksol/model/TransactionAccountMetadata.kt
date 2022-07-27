@@ -2,6 +2,7 @@ package com.dgsd.ksol.model
 
 data class TransactionAccountMetadata(
     val publicKey: PublicKey,
+    val isFeePayer: Boolean,
     val isSigner: Boolean,
     val isWritable: Boolean,
 ) : Comparable<TransactionAccountMetadata> {
@@ -36,13 +37,11 @@ data class TransactionAccountMetadata(
                     output.add(meta)
                 } else {
                     val existing = output[existingIndex]
-                    output.set(
-                        existingIndex,
-                        TransactionAccountMetadata(
-                            meta.publicKey,
-                            isSigner = meta.isSigner || existing.isSigner,
-                            isWritable = meta.isWritable || existing.isWritable
-                        )
+                    output[existingIndex] = TransactionAccountMetadata(
+                        meta.publicKey,
+                        isFeePayer = meta.isFeePayer || existing.isFeePayer,
+                        isSigner = meta.isSigner || existing.isSigner,
+                        isWritable = meta.isWritable || existing.isWritable
                     )
                 }
             }

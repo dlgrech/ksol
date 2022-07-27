@@ -25,10 +25,10 @@ class SetupAppLockConfirmPinFragment : Fragment(R.layout.frag_setup_app_lock_con
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
-    val keyboard = view.findViewById<NumericKeyboardView>(R.id.keyboard)
-    val codeDisplay = view.findViewById<TextView>(R.id.code)
-    val confirmButton = view.findViewById<View>(R.id.confirm)
+    val toolbar = view.requireViewById<MaterialToolbar>(R.id.toolbar)
+    val keyboard = view.requireViewById<NumericKeyboardView>(R.id.keyboard)
+    val codeDisplay = view.requireViewById<TextView>(R.id.code)
+    val confirmButton = view.requireViewById<View>(R.id.confirm)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()

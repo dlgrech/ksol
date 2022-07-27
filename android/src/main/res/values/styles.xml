@@ -5,6 +5,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clipChildren">false</item>
+        <item name="android:background">?android:windowBackground</item>
         <item name="contentInsetEnd">@dimen/padding_default</item>
         <item name="contentInsetStart">@dimen/padding_default</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
@@ -75,6 +76,23 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TransactionDetails.Badge" parent="TextAppearance.Solar.Label5">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/padding_xsmall</item>
+        <item name="android:paddingHorizontal">@dimen/padding_small</item>
+    </style>
+
+    <style name="TransactionDetails.Badge.Default">
+        <item name="android:textColor">@color/info_text_color</item>
+        <item name="android:background">@color/info_background_color</item>
+    </style>
+
+    <style name="TransactionDetails.Badge.Program">
+        <item name="android:textColor">@color/warning_text_color</item>
+        <item name="android:background">@color/warning_background_color</item>
     </style>
 
 </resources>

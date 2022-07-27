@@ -1,4 +1,3 @@
-
 <resources>
     <color name="black">#000000</color>
 
@@ -62,4 +61,13 @@
     <color name="md_theme_dark_surfaceTintColor">#FEBA4B</color>
 
     <color name="shimmer_background_color">#C3C5C8</color>
+
+    <color name="positive_text_color">#26e97e</color>
+    <color name="positive_background_color">#116939</color>
+
+    <color name="warning_text_color">#fa62fc</color>
+    <color name="warning_background_color">#712c71</color>
+
+    <color name="info_text_color">#43b5c5</color>
+    <color name="info_background_color">#1e5159</color>
 </resources>

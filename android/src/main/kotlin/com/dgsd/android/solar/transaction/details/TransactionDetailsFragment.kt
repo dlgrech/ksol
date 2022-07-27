@@ -14,8 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
+import com.dgsd.android.solar.extensions.dpToPx
 import com.dgsd.android.solar.extensions.ensureViewCount
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.extensions.roundedCorners
 import com.dgsd.ksol.model.TransactionSignature
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -34,20 +36,21 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
-    val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
-    val transactionSignatureHeader = view.findViewById<TextView>(R.id.transaction_signatures_header)
+    val toolbar = view.requireViewById<Toolbar>(R.id.toolbar)
+    val swipeRefresh = view.requireViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
+    val transactionSignatureHeader =
+      view.requireViewById<TextView>(R.id.transaction_signatures_header)
     val transactionSignatureContainer =
-      view.findViewById<LinearLayout>(R.id.transaction_signatures_container)
-    val blockTimeHeader = view.findViewById<TextView>(R.id.block_time_header)
-    val blockTime = view.findViewById<TextView>(R.id.block_time)
-    val amount = view.findViewById<TextView>(R.id.amount)
-    val feeHeader = view.findViewById<TextView>(R.id.fee_header)
-    val fee = view.findViewById<TextView>(R.id.fee)
-    val logsHeader = view.findViewById<TextView>(R.id.logs_header)
-    val logsContainer = view.findViewById<LinearLayout>(R.id.logs_container)
-    val accountsHeader = view.findViewById<TextView>(R.id.accounts_header)
-    val accountsContainer = view.findViewById<LinearLayout>(R.id.accounts_container)
+      view.requireViewById<LinearLayout>(R.id.transaction_signatures_container)
+    val blockTimeHeader = view.requireViewById<TextView>(R.id.block_time_header)
+    val blockTime = view.requireViewById<TextView>(R.id.block_time)
+    val amount = view.requireViewById<TextView>(R.id.amount)
+    val feeHeader = view.requireViewById<TextView>(R.id.fee_header)
+    val fee = view.requireViewById<TextView>(R.id.fee)
+    val logsHeader = view.requireViewById<TextView>(R.id.logs_header)
+    val logsContainer = view.requireViewById<LinearLayout>(R.id.logs_container)
+    val accountsHeader = view.requireViewById<TextView>(R.id.accounts_header)
+    val accountsContainer = view.requireViewById<LinearLayout>(R.id.accounts_container)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()
@@ -161,12 +164,39 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
   private fun LinearLayout.bindAccounts(accounts: List<TransactionAccountViewState>) {
     ensureViewCount(accounts.size) {
       LayoutInflater.from(context).inflate(
-        R.layout.view_transaction_details_log_row, this, true
+        R.layout.view_transaction_details_account, this, true
       )
     }
 
     children.toList().zip(accounts) { view, account ->
-      (view as TextView).text = account.toString()
+      val accountKey = view.requireViewById<TextView>(R.id.account_key)
+      val balance = view.requireViewById<TextView>(R.id.balance)
+      val writerBadge = view.requireViewById<View>(R.id.writer_badge)
+      val signerBadge = view.requireViewById<View>(R.id.signer_badge)
+      val feePayerBadge = view.requireViewById<View>(R.id.fee_payer_badge)
+      val programBadge = view.requireViewById<View>(R.id.program_badge)
+
+      arrayOf(
+        writerBadge,
+          signerBadge,
+          feePayerBadge,
+          programBadge,
+      ).forEach {
+        it.roundedCorners(it.context.dpToPx(8))
+      }
+
+      accountKey.text = account.accountDisplayText
+      balance.text = account.balanceAfterText
+      balance.isVisible = !account.balanceAfterText.isNullOrEmpty()
+
+      writerBadge.isVisible = account.isWriter
+      signerBadge.isVisible = account.isSigner
+      feePayerBadge.isVisible = account.isFeePayer
+      programBadge.isVisible = account.isProgram
+
+      view.setOnClickListener {
+        viewModel.onAccountClicked(account.accountKey)
+      }
     }
   }
 

@@ -42,6 +42,7 @@ internal object TransactionFactory {
             TransactionAccountMetadata(
                 key,
                 isSigner = true,
+                isFeePayer = index == 0,
                 isWritable = index < (signerPublicKeys.size - header.numReadonlySignedAccounts)
             )
         }
@@ -49,6 +50,7 @@ internal object TransactionFactory {
             TransactionAccountMetadata(
                 key,
                 isSigner = false,
+                isFeePayer = false,
                 isWritable = index < (nonSignerPublicKeys.size - header.numReadonlyUnsignedAccounts)
             )
         }

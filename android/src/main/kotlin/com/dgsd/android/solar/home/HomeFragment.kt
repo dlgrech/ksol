@@ -34,21 +34,21 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    val swipeRefresh = view.findViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
-    val settingsIcon = view.findViewById<View>(R.id.settings)
-    val sendButton = view.findViewById<View>(R.id.send)
-    val receiveButton = view.findViewById<View>(R.id.receive)
-    val balanceAsAtText = view.findViewById<TextView>(R.id.balance_as_at_label)
-    val balanceText = view.findViewById<TextView>(R.id.balance)
-    val solLabel = view.findViewById<TextView>(R.id.sol_label)
-    val transactionsContainer = view.findViewById<LinearLayout>(R.id.transactions_container)
-    val transactionErrorContainer = view.findViewById<View>(R.id.transaction_error_container)
-    val transactionsErrorMessage = view.findViewById<TextView>(R.id.transaction_error_message)
-    val viewMoreTransactionsButton = view.findViewById<View>(R.id.view_more_transactions)
-    val shimmerBalanceText = view.findViewById<View>(R.id.shimmer_balance)
-    val shimmerSolLabel = view.findViewById<View>(R.id.shimmer_sol_label)
-    val shimmerBalanceAsAtText = view.findViewById<View>(R.id.shimmer_balance_as_at_label)
-    val shimmerTransactionsContainer = view.findViewById<View>(R.id.shimmer_transactions_container)
+    val swipeRefresh = view.requireViewById<SwipeRefreshLayout>(R.id.swipe_refresh)
+    val settingsIcon = view.requireViewById<View>(R.id.settings)
+    val sendButton = view.requireViewById<View>(R.id.send)
+    val receiveButton = view.requireViewById<View>(R.id.receive)
+    val balanceAsAtText = view.requireViewById<TextView>(R.id.balance_as_at_label)
+    val balanceText = view.requireViewById<TextView>(R.id.balance)
+    val solLabel = view.requireViewById<TextView>(R.id.sol_label)
+    val transactionsContainer = view.requireViewById<LinearLayout>(R.id.transactions_container)
+    val transactionErrorContainer = view.requireViewById<View>(R.id.transaction_error_container)
+    val transactionsErrorMessage = view.requireViewById<TextView>(R.id.transaction_error_message)
+    val viewMoreTransactionsButton = view.requireViewById<View>(R.id.view_more_transactions)
+    val shimmerBalanceText = view.requireViewById<View>(R.id.shimmer_balance)
+    val shimmerSolLabel = view.requireViewById<View>(R.id.shimmer_sol_label)
+    val shimmerBalanceAsAtText = view.requireViewById<View>(R.id.shimmer_balance_as_at_label)
+    val shimmerTransactionsContainer = view.requireViewById<View>(R.id.shimmer_transactions_container)
 
     settingsIcon.setOnClickListener {
       viewModel.onSettingsClicked()
@@ -201,17 +201,17 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   }
 
   private fun bindLoading(view: View) {
-    view.findViewById<View>(R.id.loading).isInvisible = false
-    view.findViewById<View>(R.id.content).isInvisible = true
-    view.findViewById<View>(R.id.error).isInvisible = true
+    view.requireViewById<View>(R.id.loading).isInvisible = false
+    view.requireViewById<View>(R.id.content).isInvisible = true
+    view.requireViewById<View>(R.id.error).isInvisible = true
 
     view.setOnClickListener(null)
   }
 
   private fun bindError(view: View, viewState: TransactionViewState.Error) {
-    view.findViewById<View>(R.id.loading).isInvisible = true
-    view.findViewById<View>(R.id.content).isInvisible = true
-    view.findViewById<View>(R.id.error).isInvisible = false
+    view.requireViewById<View>(R.id.loading).isInvisible = true
+    view.requireViewById<View>(R.id.content).isInvisible = true
+    view.requireViewById<View>(R.id.error).isInvisible = false
 
     if (viewState.transactionSignature == null) {
       view.setOnClickListener(null)
@@ -223,11 +223,11 @@ class HomeFragment : Fragment(R.layout.frag_home) {
   }
 
   private fun bindTransaction(view: View, transaction: TransactionViewState.Transaction) {
-    val contentView = view.findViewById<View>(R.id.content)
+    val contentView = view.requireViewById<View>(R.id.content)
 
-    view.findViewById<View>(R.id.loading).isInvisible = true
+    view.requireViewById<View>(R.id.loading).isInvisible = true
     contentView.isInvisible = false
-    view.findViewById<View>(R.id.error).isInvisible = true
+    view.requireViewById<View>(R.id.error).isInvisible = true
 
     val publicKeyView = contentView.findViewById<TextView>(R.id.public_key)
     val dateTimeView = contentView.findViewById<TextView>(R.id.date_time)

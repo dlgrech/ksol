@@ -10,23 +10,23 @@ class TransactionHeaderTests {
 
     private val input = mapOf(
         listOf(
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isWritable = false)
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isFeePayer = true, isWritable = false)
         ) to TransactionHeader(1, 1, 0),
 
         listOf(
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isWritable = false),
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isWritable = false)
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isFeePayer = true, isWritable = false),
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isFeePayer = true, isWritable = false)
         ) to TransactionHeader(2, 2, 0),
 
         listOf(
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isWritable = true),
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isWritable = false)
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isFeePayer = true, isWritable = true),
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isFeePayer = true, isWritable = false)
         ) to TransactionHeader(2, 1, 0),
 
         listOf(
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isWritable = true),
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = false, isWritable = true),
-            TransactionAccountMetadata(PUBLIC_KEY, isSigner = false, isWritable = false)
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = true, isFeePayer = true, isWritable = true),
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = false, isFeePayer = false, isWritable = true),
+            TransactionAccountMetadata(PUBLIC_KEY, isSigner = false, isFeePayer = false, isWritable = false)
         ) to TransactionHeader(1, 0, 1),
     )
 
