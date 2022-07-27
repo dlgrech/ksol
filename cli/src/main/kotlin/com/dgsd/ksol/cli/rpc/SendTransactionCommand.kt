@@ -50,7 +50,7 @@ class SendTransactionCommand() : CliktCommand(
                     keyPair,
                     toAccount,
                     lamports,
-                    recentBlockhash
+                    PublicKey.fromBase58(recentBlockhash)
                 )
             )
         )

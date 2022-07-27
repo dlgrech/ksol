@@ -58,7 +58,7 @@ internal object LocalTransactionSerializer {
             .put(serialize(message.header))
             .put(accountKeysSizeCompacted)
             .put(accountKeysOutput.array())
-            .put(DecodingUtils.decodeBase58(message.recentBlockhash))
+            .put(DecodingUtils.decodeBase58(message.recentBlockhash.toBase58String()))
             .put(instructionsSizeCompacted)
         compiledInstructions.forEach { compiledInstruction ->
             output

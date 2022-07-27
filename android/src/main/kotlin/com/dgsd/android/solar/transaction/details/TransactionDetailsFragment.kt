@@ -45,6 +45,7 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     val blockTimeHeader = view.requireViewById<TextView>(R.id.block_time_header)
     val blockTime = view.requireViewById<TextView>(R.id.block_time)
     val amount = view.requireViewById<TextView>(R.id.amount)
+    val recentBlockHash = view.requireViewById<TextView>(R.id.recent_blockhash)
     val feeHeader = view.requireViewById<TextView>(R.id.fee_header)
     val fee = view.requireViewById<TextView>(R.id.fee)
     val logsHeader = view.requireViewById<TextView>(R.id.logs_header)
@@ -58,6 +59,10 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
 
     swipeRefresh.setOnRefreshListener {
       viewModel.onSwipeToRefresh()
+    }
+
+    recentBlockHash.setOnClickListener {
+      viewModel.onRecentBlockhasClicked()
     }
 
     onEach(viewModel.showLoadingState) {
@@ -107,6 +112,10 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
 
         blockTime.text = it
       }
+    }
+
+    onEach(viewModel.recentBlockHashText) {
+      recentBlockHash.text = it
     }
 
     onEach(viewModel.amountText) {

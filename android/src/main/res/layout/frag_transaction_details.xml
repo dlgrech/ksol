@@ -79,6 +79,14 @@
                         style="@style/TransactionDetails.Value" />
 
                     <TextView
+                        style="@style/TransactionDetails.SmallHeader"
+                        android:text="@string/transaction_details_section_recent_blockhash" />
+
+                    <TextView
+                        android:id="@+id/recent_blockhash"
+                        style="@style/TransactionDetails.Value" />
+
+                    <TextView
                         android:id="@+id/accounts_header"
                         style="@style/TransactionDetails.LargeHeader"
                         android:text="@string/transaction_details_accounts" />

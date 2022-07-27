@@ -3,7 +3,7 @@ package com.dgsd.ksol.model
 data class TransactionMessage(
     val header: TransactionHeader,
     val accountKeys: List<TransactionAccountMetadata>,
-    val recentBlockhash: String,
+    val recentBlockhash: PublicKey,
     val instructions: List<TransactionInstruction>,
 ) {
 

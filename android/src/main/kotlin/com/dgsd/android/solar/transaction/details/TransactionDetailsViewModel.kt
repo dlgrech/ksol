@@ -7,7 +7,10 @@ import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
-import com.dgsd.android.solar.common.ui.*
+import com.dgsd.android.solar.common.ui.DateTimeFormatter
+import com.dgsd.android.solar.common.ui.PublicKeyFormatter
+import com.dgsd.android.solar.common.ui.SolTokenFormatter
+import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
@@ -71,6 +74,10 @@ class TransactionDetailsViewModel(
     }
   }
 
+  val recentBlockHashText = transaction.map {
+    publicKeyFormatter.format(it.message.recentBlockhash)
+  }
+
   val amountText = transaction.map {
     transactionViewStateFactory.extractCurrentWalletTransactionAmount(it, useLongFormat = true)
   }
@@ -123,6 +130,16 @@ class TransactionDetailsViewModel(
 
   fun onSwipeToRefresh() {
     reloadData(CacheStrategy.NETWORK_ONLY)
+  }
+
+  fun onRecentBlockhasClicked() {
+    val blockHash = transactionResourceConsumer.data.value?.message?.recentBlockhash
+    if (blockHash != null) {
+      systemClipboard.copy(blockHash.toBase58String())
+      _showConfirmationMessage.tryEmit(
+        getString(R.string.copied_to_clipboard)
+      )
+    }
   }
 
   fun onSignatureClicked(signature: TransactionSignature) {

@@ -22,7 +22,7 @@ class TransactionTest {
         message = TransactionMessage(
             header = TransactionHeader.createFrom(keys),
             accountKeys = keys,
-            recentBlockhash = "recent_blockhash",
+            recentBlockhash = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
             instructions = listOf(
                 TransactionInstruction(
                     programAccount = SystemProgram.PROGRAM_ID,

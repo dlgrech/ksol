@@ -60,7 +60,7 @@ class SendCommand : CliktCommand(
                 keyPair,
                 toAccount,
                 lamports,
-                recentBlockhash
+                PublicKey.fromBase58(recentBlockhash)
             )
         )
 

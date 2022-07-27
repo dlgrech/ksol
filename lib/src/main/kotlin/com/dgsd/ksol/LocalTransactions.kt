@@ -18,7 +18,7 @@ object LocalTransactions {
         sender: KeyPair,
         recipient: PublicKey,
         lamports: Lamports,
-        recentBlockhash: String,
+        recentBlockhash: PublicKey,
     ): LocalTransaction {
         val transferInstruction = SystemProgram.transfer(
             sender.publicKey,

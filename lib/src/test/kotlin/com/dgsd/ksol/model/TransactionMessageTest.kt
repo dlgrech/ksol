@@ -12,7 +12,7 @@ class TransactionMessageTest {
             TransactionMessage(
                 header = TransactionHeader(1, 1, 1),
                 accountKeys = emptyList(),
-                recentBlockhash = "recent_blockhash",
+                recentBlockhash = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
                 instructions = listOf(
                     TransactionInstruction(
                         programAccount = SystemProgram.PROGRAM_ID,
@@ -37,7 +37,7 @@ class TransactionMessageTest {
                         isWritable = true
                     )
                 ),
-                recentBlockhash = "recent_blockhash",
+                recentBlockhash = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
                 instructions = emptyList()
             )
         }

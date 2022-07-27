@@ -70,7 +70,7 @@ internal object TransactionFactory {
         return TransactionMessage(
             header = header,
             accountKeys = accountKeys,
-            recentBlockhash = response.recentBlockhash,
+            recentBlockhash = PublicKey.fromBase58(response.recentBlockhash),
             instructions = instructions
         )
     }
