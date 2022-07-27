@@ -7,15 +7,14 @@ import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
-import com.dgsd.android.solar.common.ui.DateTimeFormatter
-import com.dgsd.android.solar.common.ui.SolTokenFormatter
-import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
+import com.dgsd.android.solar.common.ui.*
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.android.solar.repository.SolanaApiRepository
+import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.model.Transaction
 import com.dgsd.ksol.model.TransactionSignature
 import kotlinx.coroutines.flow.filterNotNull
@@ -23,6 +22,8 @@ import kotlinx.coroutines.flow.map
 
 class TransactionDetailsViewModel(
   application: Application,
+  private val session: WalletSession,
+  private val publicKeyFormatter: PublicKeyFormatter,
   private val solanaApiRepository: SolanaApiRepository,
   private val errorMessageFactory: ErrorMessageFactory,
   private val transactionViewStateFactory: TransactionViewStateFactory,
@@ -70,10 +71,44 @@ class TransactionDetailsViewModel(
   }
 
   val amountText = transaction.map {
-    transactionViewStateFactory.getFormattedAmount(it, useLongFormat = true)
+    transactionViewStateFactory.extractCurrentWalletTransactionAmount(it, useLongFormat = true)
   }
 
   val logMessages = transaction.map { it.metadata.logMessages }
+
+  val accountDetails = transaction.map { transaction ->
+    transaction.message.accountKeys.map { accountMetadata ->
+      val accountDisplayText = if (session.publicKey == accountMetadata.publicKey) {
+        RichTextFormatter.expandTemplate(
+          application,
+          R.string.your_wallet_template,
+          publicKeyFormatter.format(accountMetadata.publicKey)
+        )
+      } else {
+        publicKeyFormatter.format(accountMetadata.publicKey)
+      }
+
+      val programAccounts = transaction.message.instructions.map { it.programAccount }.toSet()
+
+      val balanceAfter = transaction.metadata.accountBalances.firstOrNull {
+        it.accountKey == accountMetadata.publicKey
+      }?.balanceAfter
+
+      val changeInBalanceText = if (balanceAfter == null) {
+        null
+      } else {
+        SolTokenFormatter.formatLong(balanceAfter)
+      }
+
+      TransactionAccountViewState(
+        accountDisplayText = accountDisplayText,
+        isWriter = accountMetadata.isWritable,
+        isSigner = accountMetadata.isSigner,
+        isProgram = accountMetadata.publicKey in programAccounts,
+        balanceAfterText = changeInBalanceText,
+      )
+    }
+  }
 
   val errorMessage = transactionResourceConsumer.error
     .filterNotNull()

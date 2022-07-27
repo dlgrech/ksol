@@ -78,8 +78,15 @@
                         style="@style/TransactionDetails.Value" />
 
                     <TextView
+                        android:id="@+id/accounts_header"
                         style="@style/TransactionDetails.LargeHeader"
                         android:text="@string/transaction_details_accounts" />
+
+                    <LinearLayout
+                        android:id="@+id/accounts_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
 
                     <TextView
                         android:id="@+id/logs_header"

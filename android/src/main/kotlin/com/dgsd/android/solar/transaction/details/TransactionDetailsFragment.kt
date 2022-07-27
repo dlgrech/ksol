@@ -46,6 +46,8 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     val fee = view.findViewById<TextView>(R.id.fee)
     val logsHeader = view.findViewById<TextView>(R.id.logs_header)
     val logsContainer = view.findViewById<LinearLayout>(R.id.logs_container)
+    val accountsHeader = view.findViewById<TextView>(R.id.accounts_header)
+    val accountsContainer = view.findViewById<LinearLayout>(R.id.accounts_container)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()
@@ -115,15 +117,20 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
       logsContainer.bindLogs(it)
     }
 
+    onEach(viewModel.accountDetails) { accountDetails ->
+      accountsHeader.isVisible = accountDetails.isNotEmpty()
+      accountsContainer.isVisible = accountDetails.isNotEmpty()
+
+      accountsContainer.bindAccounts(accountDetails)
+    }
+
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       viewModel.onCreate()
     }
   }
 
   private fun LinearLayout.bindSignatures(signatures: List<TransactionSignature>) {
-    ensureViewCount(
-      signatures.size
-    ) {
+    ensureViewCount(signatures.size) {
       LayoutInflater.from(context).inflate(
         R.layout.view_transaction_details_transaction_signature,
         this,
@@ -140,9 +147,7 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
   }
 
   private fun LinearLayout.bindLogs(logEntries: List<String>) {
-    ensureViewCount(
-      logEntries.size
-    ) {
+    ensureViewCount(logEntries.size) {
       LayoutInflater.from(context).inflate(
         R.layout.view_transaction_details_log_row, this, true
       )
@@ -153,6 +158,17 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     }
   }
 
+  private fun LinearLayout.bindAccounts(accounts: List<TransactionAccountViewState>) {
+    ensureViewCount(accounts.size) {
+      LayoutInflater.from(context).inflate(
+        R.layout.view_transaction_details_log_row, this, true
+      )
+    }
+
+    children.toList().zip(accounts) { view, account ->
+      (view as TextView).text = account.toString()
+    }
+  }
 
   companion object {
 

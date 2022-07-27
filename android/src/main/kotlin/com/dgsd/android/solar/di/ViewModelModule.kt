@@ -23,7 +23,9 @@ internal object ViewModelModule {
             viewModelOf(::TransactionListViewModel)
             viewModel {
                 TransactionDetailsViewModel(
+                    session = getScoped(),
                     application = get(),
+                    publicKeyFormatter = get(),
                     errorMessageFactory = get(),
                     solanaApiRepository = getScoped(),
                     systemClipboard = get(),

@@ -12,6 +12,7 @@ import com.dgsd.ksol.model.*
 import com.dgsd.ksol.programs.system.SystemProgram
 import com.dgsd.ksol.programs.system.SystemProgramInstruction
 import com.dgsd.ksol.programs.system.SystemProgramInstructionData
+import kotlin.math.abs
 
 class TransactionViewStateFactory(
   private val context: Context,
@@ -27,14 +28,14 @@ class TransactionViewStateFactory(
     }
   }
 
-  fun getFormattedAmount(
+  fun extractCurrentWalletTransactionAmount(
     transaction: Transaction,
     useLongFormat: Boolean = false
   ): CharSequence {
     val amount = if (transaction.isSystemProgramTransfer()) {
       checkNotNull(transaction.getSystemProgramInstruction()?.lamports)
     } else {
-      transaction.sessionAccountBalance()?.balanceDifference() ?: 0
+      abs(transaction.sessionAccountBalance()?.balanceDifference() ?: 0)
     }
 
     val formattedAmount = if (useLongFormat) {
@@ -73,7 +74,7 @@ class TransactionViewStateFactory(
 
     val transactionDirection = getTransactionDirection(transaction)
 
-    val amountText = getFormattedAmount(transaction)
+    val amountText = extractCurrentWalletTransactionAmount(transaction)
 
     val formattedDate = transaction.blockTime?.let { blockTime ->
       DateTimeFormatter.formatRelativeDateAndTime(context, blockTime)
