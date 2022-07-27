@@ -73,6 +73,8 @@ class TransactionDetailsViewModel(
     transactionViewStateFactory.getFormattedAmount(it, useLongFormat = true)
   }
 
+  val logMessages = transaction.map { it.metadata.logMessages }
+
   val errorMessage = transactionResourceConsumer.error
     .filterNotNull()
     .map { errorMessageFactory.create(it) }

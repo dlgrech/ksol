@@ -82,6 +82,7 @@
                         android:text="@string/transaction_details_accounts" />
 
                     <TextView
+                        android:id="@+id/logs_header"
                         style="@style/TransactionDetails.LargeHeader"
                         android:text="@string/transaction_details_logs" />
 

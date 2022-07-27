@@ -44,6 +44,7 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     val amount = view.findViewById<TextView>(R.id.amount)
     val feeHeader = view.findViewById<TextView>(R.id.fee_header)
     val fee = view.findViewById<TextView>(R.id.fee)
+    val logsHeader = view.findViewById<TextView>(R.id.logs_header)
     val logsContainer = view.findViewById<LinearLayout>(R.id.logs_container)
 
     toolbar.setNavigationOnClickListener {
@@ -107,6 +108,13 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
       amount.text = it
     }
 
+    onEach(viewModel.logMessages) {
+      logsHeader.isVisible = it.isNotEmpty()
+      logsContainer.isVisible = it.isNotEmpty()
+
+      logsContainer.bindLogs(it)
+    }
+
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       viewModel.onCreate()
     }
@@ -130,6 +138,21 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
       }
     }
   }
+
+  private fun LinearLayout.bindLogs(logEntries: List<String>) {
+    ensureViewCount(
+      logEntries.size
+    ) {
+      LayoutInflater.from(context).inflate(
+        R.layout.view_transaction_details_log_row, this, true
+      )
+    }
+
+    children.toList().zip(logEntries) { view, logMessage ->
+      (view as TextView).text = logMessage
+    }
+  }
+
 
   companion object {
 
