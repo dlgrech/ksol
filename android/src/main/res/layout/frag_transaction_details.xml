@@ -52,6 +52,7 @@
                         android:orientation="vertical" />
 
                     <TextView
+                        android:id="@+id/block_time_header"
                         style="@style/TransactionDetails.SmallHeader"
                         android:text="@string/transaction_details_section_block_time" />
 
@@ -61,13 +62,14 @@
 
                     <TextView
                         style="@style/TransactionDetails.SmallHeader"
-                        android:text="@string/transaction_details_section_change_in_balance" />
+                        android:text="@string/transaction_details_section_amount" />
 
                     <TextView
-                        android:id="@+id/change_in_balance"
+                        android:id="@+id/amount"
                         style="@style/TransactionDetails.Value" />
 
                     <TextView
+                        android:id="@+id/fee_header"
                         style="@style/TransactionDetails.SmallHeader"
                         android:text="@string/transaction_details_section_fee" />
 

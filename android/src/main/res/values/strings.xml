@@ -26,6 +26,7 @@
     <string name="create_account_seed_phrase_confirmation_message">…one last time. Please be sure that you have recorded these words down somewhere safe and secure.</string>
     <string name="create_account_seed_phrase_confirmation_positive_button">Got it, continue</string>
     <string name="copy_to_clipboard">Copy to Clipboard</string>
+    <string name="copied_to_clipboard">Copied to Clipboard!</string>
     <string name="seed_phrase_copied_to_clipboard_success_message">Copied!</string>
     <string name="onboarding_restore_account_from_seed_explainer">Enter your recovery phrase.\n\nThis is list of 12 or 24 words that you were given when you generated your wallet</string>
     <string name="onboarding_restore_account_from_seed_screen_title">Restore wallet</string>
@@ -98,7 +99,7 @@
     <string name="transaction_details_screen_title">Transaction Details</string>
     <string name="transaction_details_section_title_signatures">Signatures</string>
     <string name="transaction_details_section_title_signature">Signature</string>
-    <string name="transaction_details_section_change_in_balance">Change in your wallet balance</string>
+    <string name="transaction_details_section_amount">Amount</string>
     <string name="transaction_details_section_block_time">Block time</string>
     <string name="transaction_details_section_fee">Fee</string>
     <string name="transaction_details_accounts">Accounts</string>

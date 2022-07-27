@@ -61,7 +61,7 @@
     <style name="TransactionDetails.SmallHeader" parent="TextAppearance.Solar.Label5">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/padding_small</item>
+        <item name="android:layout_marginTop">@dimen/padding_default</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 

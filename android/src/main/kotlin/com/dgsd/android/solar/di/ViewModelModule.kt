@@ -26,6 +26,8 @@ internal object ViewModelModule {
                     application = get(),
                     errorMessageFactory = get(),
                     solanaApiRepository = getScoped(),
+                    systemClipboard = get(),
+                    transactionViewStateFactory = getScoped(),
                     transactionSignature = get(),
                 )
             }

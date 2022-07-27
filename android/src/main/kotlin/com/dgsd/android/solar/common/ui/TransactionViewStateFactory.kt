@@ -27,6 +27,42 @@ class TransactionViewStateFactory(
     }
   }
 
+  fun getFormattedAmount(
+    transaction: Transaction,
+    useLongFormat: Boolean = false
+  ): CharSequence {
+    val amount = if (transaction.isSystemProgramTransfer()) {
+      checkNotNull(transaction.getSystemProgramInstruction()?.lamports)
+    } else {
+      transaction.sessionAccountBalance()?.balanceDifference() ?: 0
+    }
+
+    val formattedAmount = if (useLongFormat) {
+      SolTokenFormatter.formatLong(amount)
+    } else {
+      SolTokenFormatter.format(amount)
+    }
+
+    return when (getTransactionDirection(transaction)) {
+      TransactionViewState.Transaction.Direction.INCOMING -> "+ $formattedAmount"
+      TransactionViewState.Transaction.Direction.OUTGOING -> "- $formattedAmount"
+      TransactionViewState.Transaction.Direction.NONE -> formattedAmount
+    }
+  }
+
+  fun getTransactionDirection(
+    transaction: Transaction
+  ): TransactionViewState.Transaction.Direction {
+    val balanceDifference = transaction.sessionAccountBalance()?.balanceDifference() ?: 0
+    return if (balanceDifference < 0L) {
+      TransactionViewState.Transaction.Direction.OUTGOING
+    } else if (balanceDifference > 0L) {
+      TransactionViewState.Transaction.Direction.INCOMING
+    } else {
+      TransactionViewState.Transaction.Direction.NONE
+    }
+  }
+
   private fun createForList(transaction: Transaction): TransactionViewState {
     val displayPublicKey = extractDisplayAccount(transaction)
     val displayAccountText = if (displayPublicKey == null) {
@@ -36,6 +72,8 @@ class TransactionViewStateFactory(
     }
 
     val transactionDirection = getTransactionDirection(transaction)
+
+    val amountText = getFormattedAmount(transaction)
 
     val formattedDate = transaction.blockTime?.let { blockTime ->
       DateTimeFormatter.formatRelativeDateAndTime(context, blockTime)
@@ -58,14 +96,6 @@ class TransactionViewStateFactory(
       TransactionViewState.Transaction.Direction.NONE -> formattedDate
     }
 
-    val formattedAmount = SolTokenFormatter.format(extractAmount(transaction))
-
-    val amountText = when(transactionDirection) {
-      TransactionViewState.Transaction.Direction.INCOMING -> "+ $formattedAmount"
-      TransactionViewState.Transaction.Direction.OUTGOING -> "- $formattedAmount"
-      TransactionViewState.Transaction.Direction.NONE -> formattedAmount
-    }
-
     return TransactionViewState.Transaction(
       transactionSignature = transaction.id,
       direction = transactionDirection,
@@ -73,27 +103,6 @@ class TransactionViewStateFactory(
       amountText = amountText,
       dateText = dateText
     )
-  }
-
-  private fun getTransactionDirection(
-    transaction: Transaction
-  ): TransactionViewState.Transaction.Direction {
-    val balanceDifference = transaction.sessionAccountBalance()?.balanceDifference() ?: 0
-    return if (balanceDifference < 0L) {
-      TransactionViewState.Transaction.Direction.OUTGOING
-    } else if (balanceDifference > 0L) {
-      TransactionViewState.Transaction.Direction.INCOMING
-    } else {
-      TransactionViewState.Transaction.Direction.NONE
-    }
-  }
-
-  private fun extractAmount(transaction: Transaction): Lamports {
-    return if (transaction.isSystemProgramTransfer()) {
-      checkNotNull(transaction.getSystemProgramInstruction()?.lamports)
-    } else {
-      transaction.sessionAccountBalance()?.balanceDifference() ?: 0
-    }
   }
 
   private fun extractDisplayAccount(transaction: Transaction): PublicKey? {

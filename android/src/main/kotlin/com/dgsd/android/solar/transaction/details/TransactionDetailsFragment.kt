@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,6 +17,7 @@ import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMes
 import com.dgsd.android.solar.extensions.ensureViewCount
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.ksol.model.TransactionSignature
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -37,8 +39,10 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     val transactionSignatureHeader = view.findViewById<TextView>(R.id.transaction_signatures_header)
     val transactionSignatureContainer =
       view.findViewById<LinearLayout>(R.id.transaction_signatures_container)
+    val blockTimeHeader = view.findViewById<TextView>(R.id.block_time_header)
     val blockTime = view.findViewById<TextView>(R.id.block_time)
-    val changeInBalance = view.findViewById<TextView>(R.id.change_in_balance)
+    val amount = view.findViewById<TextView>(R.id.amount)
+    val feeHeader = view.findViewById<TextView>(R.id.fee_header)
     val fee = view.findViewById<TextView>(R.id.fee)
     val logsContainer = view.findViewById<LinearLayout>(R.id.logs_container)
 
@@ -73,7 +77,34 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     }
 
     onEach(viewModel.feeText) {
-      fee.text = it
+      if (it.isNullOrEmpty()) {
+        feeHeader.isVisible = false
+        fee.isVisible = false
+      } else {
+        feeHeader.isVisible = true
+        fee.isVisible = true
+        fee.text = it
+      }
+    }
+
+    onEach(viewModel.showConfirmationMessage) {
+      Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+    }
+
+    onEach(viewModel.blockTimeText) {
+      if (it.isNullOrEmpty()) {
+        blockTime.isVisible = false
+        blockTimeHeader.isVisible = false
+      } else {
+        blockTime.isVisible = true
+        blockTimeHeader.isVisible = true
+
+        blockTime.text = it
+      }
+    }
+
+    onEach(viewModel.amountText) {
+      amount.text = it
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -94,6 +125,9 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
 
     children.toList().zip(signatures) { view, signature ->
       (view as TextView).text = signature
+      view.setOnClickListener {
+        viewModel.onSignatureClicked(signature)
+      }
     }
   }
 
