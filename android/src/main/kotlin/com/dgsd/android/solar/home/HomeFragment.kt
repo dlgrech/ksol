@@ -246,10 +246,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     when (transaction.direction) {
       TransactionViewState.Transaction.Direction.INCOMING -> {
-        iconView.setImageResource(R.drawable.ic_baseline_expand_more_24)
+        iconView.setImageResource(R.drawable.ic_baseline_chevron_left_24)
       }
       TransactionViewState.Transaction.Direction.OUTGOING -> {
-        iconView.setImageResource(R.drawable.ic_baseline_expand_less_24)
+        iconView.setImageResource(R.drawable.ic_baseline_chevron_right_24)
       }
       TransactionViewState.Transaction.Direction.NONE -> {
         iconView.setImageResource(R.drawable.ic_baseline_commit_24)
