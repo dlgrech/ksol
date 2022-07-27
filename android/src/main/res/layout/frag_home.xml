@@ -28,188 +28,182 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/balance_as_at_label"
+                style="@style/TextAppearance.Solar.Label4"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/padding_large"
+                android:gravity="center_horizontal"
+                android:textColor="?android:textColorSecondary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/balance_as_at_label"
-                    style="@style/TextAppearance.Solar.Label4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_large"
-                    android:gravity="center_horizontal"
-                    android:textColor="?android:textColorSecondary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <com.dgsd.android.solar.common.shimmer.ShimmerView
+                android:id="@+id/shimmer_balance_as_at_label"
+                android:layout_width="80dp"
+                android:layout_height="16dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/balance_as_at_label"
+                app:layout_constraintEnd_toEndOf="@id/balance_as_at_label"
+                app:layout_constraintStart_toStartOf="@id/balance_as_at_label"
+                app:layout_constraintTop_toTopOf="@id/balance_as_at_label" />
 
-                <com.dgsd.android.solar.common.shimmer.ShimmerView
-                    android:id="@+id/shimmer_balance_as_at_label"
-                    android:layout_width="80dp"
-                    android:layout_height="16dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@id/balance_as_at_label"
-                    app:layout_constraintEnd_toEndOf="@id/balance_as_at_label"
-                    app:layout_constraintStart_toStartOf="@id/balance_as_at_label"
-                    app:layout_constraintTop_toTopOf="@id/balance_as_at_label" />
+            <TextView
+                android:id="@+id/balance"
+                style="@style/TextAppearance.Solar.Hero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_default"
+                android:layout_marginTop="@dimen/padding_large"
+                android:autoSizeTextType="uniform"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/balance"
-                    style="@style/TextAppearance.Solar.Hero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/padding_default"
-                    android:layout_marginTop="@dimen/padding_large"
-                    android:autoSizeTextType="uniform"
-                    android:gravity="center_horizontal"
-                    android:maxLines="1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <com.dgsd.android.solar.common.shimmer.ShimmerView
+                android:id="@+id/shimmer_balance"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/balance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/balance" />
 
-                <com.dgsd.android.solar.common.shimmer.ShimmerView
-                    android:id="@+id/shimmer_balance"
-                    android:layout_width="120dp"
-                    android:layout_height="40dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@id/balance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/balance" />
+            <TextView
+                android:id="@+id/sol_label"
+                style="@style/TextAppearance.Solar.Label3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80sp"
+                android:gravity="center_horizontal"
+                android:text="@string/home_balance_sol_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/balance" />
 
-                <TextView
-                    android:id="@+id/sol_label"
-                    style="@style/TextAppearance.Solar.Label3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="80sp"
-                    android:gravity="center_horizontal"
-                    android:text="@string/home_balance_sol_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/balance" />
+            <com.dgsd.android.solar.common.shimmer.ShimmerView
+                android:id="@+id/shimmer_sol_label"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/sol_label"
+                app:layout_constraintEnd_toEndOf="@id/sol_label"
+                app:layout_constraintStart_toStartOf="@id/sol_label"
+                app:layout_constraintTop_toTopOf="@id/sol_label" />
 
-                <com.dgsd.android.solar.common.shimmer.ShimmerView
-                    android:id="@+id/shimmer_sol_label"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:visibility="invisible"
-                    app:layout_constraintBottom_toBottomOf="@id/sol_label"
-                    app:layout_constraintEnd_toEndOf="@id/sol_label"
-                    app:layout_constraintStart_toStartOf="@id/sol_label"
-                    app:layout_constraintTop_toTopOf="@id/sol_label" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/padding_default"
+                app:cardCornerRadius="@dimen/card_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sol_label">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/padding_default"
-                    app:cardCornerRadius="@dimen/card_radius"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sol_label">
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
-                    <androidx.core.widget.NestedScrollView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fillViewport="true">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/padding_default">
 
                         <LinearLayout
+                            android:id="@+id/transactions_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingBottom="@dimen/padding_default">
+                            android:orientation="vertical" />
 
-                            <LinearLayout
-                                android:id="@+id/transactions_container"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical" />
+                        <TextView
+                            android:id="@+id/view_more_transactions"
+                            style="@style/TextAppearance.Link"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/home_view_more_transactions"
+                            android:visibility="gone" />
+
+                        <LinearLayout
+                            android:id="@+id/transaction_error_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/padding_xxlarge"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="@dimen/padding_default"
+                                android:src="@drawable/ic_baseline_replay_24"
+                                app:tint="?colorError" />
 
                             <TextView
-                                android:id="@+id/view_more_transactions"
-                                style="@style/TextAppearance.Link"
+                                android:id="@+id/transaction_error_message"
+                                style="@style/TextAppearance.Solar.Label1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:gravity="center"
-                                android:text="@string/home_view_more_transactions"
-                                android:visibility="gone" />
-
-                            <LinearLayout
-                                android:id="@+id/transaction_error_container"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginTop="@dimen/padding_xxlarge"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_marginBottom="@dimen/padding_default"
-                                    android:src="@drawable/ic_baseline_replay_24"
-                                    app:tint="?colorError" />
-
-                                <TextView
-                                    android:id="@+id/transaction_error_message"
-                                    style="@style/TextAppearance.Solar.Label1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:paddingHorizontal="@dimen/padding_default"
-                                    android:textColor="?colorError" />
-                            </LinearLayout>
-
-                            <com.facebook.shimmer.ShimmerFrameLayout
-                                android:id="@+id/shimmer_transactions_container"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:visibility="gone"
-                                app:shimmer_duration="@integer/shimmer_duration_ms"
-                                app:shimmer_highlight_alpha="@dimen/shimmer_alpha">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <include layout="@layout/view_transaction_shimmer_placeholder" />
-
-                                    <include layout="@layout/view_transaction_shimmer_placeholder" />
-
-                                    <include layout="@layout/view_transaction_shimmer_placeholder" />
-
-                                    <include layout="@layout/view_transaction_shimmer_placeholder" />
-
-                                    <include layout="@layout/view_transaction_shimmer_placeholder" />
-
-                                    <View
-                                        android:layout_width="100dp"
-                                        android:layout_height="20dp"
-                                        android:layout_gravity="center_horizontal"
-                                        android:layout_marginTop="@dimen/padding_default"
-                                        android:background="@drawable/shimmer_background_rounded" />
-
-                                </LinearLayout>
-
-                            </com.facebook.shimmer.ShimmerFrameLayout>
-
+                                android:paddingHorizontal="@dimen/padding_default"
+                                android:textColor="?colorError" />
                         </LinearLayout>
 
-                    </androidx.core.widget.NestedScrollView>
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:id="@+id/shimmer_transactions_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:shimmer_duration="@integer/shimmer_duration_ms"
+                            app:shimmer_highlight_alpha="@dimen/shimmer_alpha">
 
-                </androidx.cardview.widget.CardView>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+                                <include layout="@layout/view_transaction_shimmer_placeholder" />
+
+                                <include layout="@layout/view_transaction_shimmer_placeholder" />
+
+                                <include layout="@layout/view_transaction_shimmer_placeholder" />
+
+                                <include layout="@layout/view_transaction_shimmer_placeholder" />
+
+                                <include layout="@layout/view_transaction_shimmer_placeholder" />
+
+                                <View
+                                    android:layout_width="100dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="@dimen/padding_default"
+                                    android:background="@drawable/shimmer_background_rounded" />
+
+                            </LinearLayout>
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    </LinearLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
