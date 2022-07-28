@@ -47,10 +47,11 @@ internal class SolanaApiRepositoryImpl(
 
   override fun getTransactions(
     cacheStrategy: CacheStrategy,
-    limit: Int
+    limit: Int,
+    beforeSignature: TransactionSignature?
   ): Flow<Resource<List<Resource<TransactionOrSignature>>>> {
     return getTransactionSignatures(
-      cacheStrategy, limit
+      cacheStrategy, limit, beforeSignature
     ).flatMapSuccess { signatureList ->
       val transactionsFlow = signatureList.map { signatureInfo ->
         getTransaction(cacheStrategy, signatureInfo.signature).map { transactionResource ->
@@ -102,16 +103,18 @@ internal class SolanaApiRepositoryImpl(
 
   private fun getTransactionSignatures(
     cacheStrategy: CacheStrategy,
-    limit: Int
+    limit: Int,
+    beforeSignature: TransactionSignature?
   ): Flow<Resource<List<TransactionSignatureInfo>>> {
     return executeWithCache(
-      cacheKey = TransactionSignaturesCacheKey(session.publicKey, limit),
+      cacheKey = TransactionSignaturesCacheKey(session.publicKey, limit, beforeSignature),
       cacheStrategy = cacheStrategy,
       cache = transactionSignaturesCache,
       networkFlowProvider = {
         resourceFlowOf {
           solanaApi.getSignaturesForAddress(
             accountKey = session.publicKey,
+            before = beforeSignature,
             limit = limit
           )
         }

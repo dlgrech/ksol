@@ -22,8 +22,8 @@ class TransactionViewStateFactory(
 
   fun createForList(resource: Resource<TransactionOrSignature>): TransactionViewState {
     return when (resource) {
-      is Resource.Error -> TransactionViewState.Error(resource.data?.signatureOrThrow())
-      is Resource.Loading -> TransactionViewState.Loading(resource.data?.signatureOrThrow())
+      is Resource.Error -> TransactionViewState.Error(resource.data?.signature())
+      is Resource.Loading -> TransactionViewState.Loading(resource.data?.signature())
       is Resource.Success -> createForList(resource.data.transactionOrThrow())
     }
   }

@@ -20,7 +20,13 @@ internal object ViewModelModule {
             viewModelOf(::AppCoordinator)
             viewModelOf(::SettingsViewModel)
             viewModelOf(::ReceiveViewModel)
-            viewModelOf(::TransactionListViewModel)
+            viewModel {
+                TransactionListViewModel(
+                    errorMessageFactory = get(),
+                    solanaApiRepository = getScoped(),
+                    transactionViewStateFactory = getScoped(),
+                )
+            }
             viewModel {
                 TransactionDetailsViewModel(
                     session = getScoped(),

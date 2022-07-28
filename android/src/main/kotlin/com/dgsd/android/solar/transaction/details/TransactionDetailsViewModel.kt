@@ -7,10 +7,7 @@ import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
-import com.dgsd.android.solar.common.ui.DateTimeFormatter
-import com.dgsd.android.solar.common.ui.PublicKeyFormatter
-import com.dgsd.android.solar.common.ui.SolTokenFormatter
-import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
+import com.dgsd.android.solar.common.ui.*
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
@@ -87,7 +84,11 @@ class TransactionDetailsViewModel(
   val accountDetails = transaction.map { transaction ->
     transaction.message.accountKeys.map { accountMetadata ->
       val accountDisplayText = if (session.publicKey == accountMetadata.publicKey) {
-        getString(R.string.your_wallet)
+        RichTextFormatter.expandTemplate(
+          application,
+          R.string.your_wallet_template,
+          publicKeyFormatter.abbreviate(accountMetadata.publicKey)
+        )
       } else {
         publicKeyFormatter.format(accountMetadata.publicKey)
       }

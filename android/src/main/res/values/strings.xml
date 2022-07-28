@@ -86,6 +86,8 @@
     <string name="key_display_secp256k1_program">Secp256k1 Program</string>
     <string name="key_display_stake_program">Stake Program</string>
     <string name="key_display_vote_program">Vote Program</string>
+    <string name="key_display_testnet_faucet">Testnet Faucet</string>
+    <string name="key_display_devnet_faucet">Devnet Faucet</string>
     <string name="key_display_bpf_loader_program">BPF Loader Program</string>
     <string name="unknown">Unknown</string>
     <string name="sent">Sent</string>
@@ -104,7 +106,7 @@
     <string name="transaction_details_section_fee">Fee</string>
     <string name="transaction_details_accounts">Accounts</string>
     <string name="transaction_details_logs">Logs</string>
-    <string name="your_wallet">Your Wallet</string>
+    <string name="your_wallet_template">Your Wallet (^1)</string>
     <string name="transaction_details_account_details_balance_label">Balance after transaction:</string>
     <string name="account_key_copied_to_clipboard">Account key copied to clipboard!</string>
     <string name="transaction_details_badge_writer">Writer</string>
@@ -112,4 +114,5 @@
     <string name="transaction_details_badge_fee_payer">Fee Payer</string>
     <string name="transaction_details_badge_program">Program</string>
     <string name="transaction_details_section_recent_blockhash">Recent Blockhash</string>
+    <string name="transaction_list_screen_title">Transactions</string>
 </resources>

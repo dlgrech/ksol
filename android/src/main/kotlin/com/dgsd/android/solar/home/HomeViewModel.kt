@@ -21,10 +21,7 @@ import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.TransactionSignature
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 
 private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
@@ -73,11 +70,13 @@ class HomeViewModel(
       )
     }
   }
-  val transactions = transactionsResourceConsumer.data.map { transactionsWithState ->
-    transactionsWithState?.map { transactionResource ->
-      transactionViewStateFactory.createForList(transactionResource)
+  val transactions = transactionsResourceConsumer.data
+    .take(NUM_TRANSACTIONS_TO_DISPLAY)
+    .map { transactionsWithState ->
+      transactionsWithState?.map { transactionResource ->
+        transactionViewStateFactory.createForList(transactionResource)
+      }
     }
-  }
 
   private val _navigateToReceiveFlow = SimpleMutableEventFlow()
   val navigateToReceiveFlow = _navigateToReceiveFlow.asEventFlow()

@@ -15,7 +15,7 @@ class TransactionOrSignature private constructor(
     return requireNotNull(transaction)
   }
 
-  fun signatureOrThrow(): TransactionSignature {
-    return requireNotNull(signature)
+  fun signature(): TransactionSignature {
+    return requireNotNull(signature ?: transaction?.id)
   }
 }

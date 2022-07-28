@@ -16,7 +16,8 @@ interface SolanaApiRepository {
 
   fun getTransactions(
     cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT,
-    limit: Int
+    limit: Int,
+    beforeSignature: TransactionSignature? = null,
   ): Flow<Resource<List<Resource<TransactionOrSignature>>>>
 
   fun getTransaction(
