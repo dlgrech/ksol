@@ -146,7 +146,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       }
     }
 
-    onEach(viewModel.navigateToReceiveFlow) {
+    onEach(viewModel.navigateToShareAddress) {
       appCoordinator.navigateToReceiveDetails()
     }
 
@@ -166,6 +166,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       showSendActionSheet(items)
     }
 
+    onEach(viewModel.showReceiveActionSheet) { items ->
+      showReceiveActionSheet(items)
+    }
+
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       viewModel.onCreate()
     }
@@ -180,6 +184,21 @@ class HomeFragment : Fragment(R.layout.frag_home) {
           icon = requireContext().getDrawable(sendActionSheetItem.iconRes),
         ) {
           viewModel.onSendActionSheetItemClicked(sendActionSheetItem.type)
+        }
+      }.toTypedArray()
+    )
+  }
+
+
+  private fun showReceiveActionSheet(items: List<ReceiveActionSheetItem>) {
+    showActionSheet(
+      getString(R.string.home_receive_sheet_title),
+      *items.map { receiveActionSheetItem ->
+        ActionSheetItem(
+          title = receiveActionSheetItem.displayText,
+          icon = requireContext().getDrawable(receiveActionSheetItem.iconRes),
+        ) {
+          viewModel.onReceiveActionSheetItemClicked(receiveActionSheetItem.type)
         }
       }.toTypedArray()
     )

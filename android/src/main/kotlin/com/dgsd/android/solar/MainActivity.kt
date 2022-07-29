@@ -9,7 +9,7 @@ import com.dgsd.android.solar.common.model.ScreenTransitionType
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
-import com.dgsd.android.solar.receive.ReceiveFragment
+import com.dgsd.android.solar.receive.ReceiveShareAddressFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
 import com.dgsd.android.solar.transaction.list.TransactionListFragment
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
       Destination.Home -> HomeFragment.newInstance()
       Destination.Onboarding -> OnboardingContainerFragment.newInstance()
       Destination.Settings -> SettingsFragment.newInstance()
-      Destination.Receive -> ReceiveFragment.newInstance()
+      Destination.Receive -> ReceiveShareAddressFragment.newInstance()
       Destination.TransactionList -> TransactionListFragment.newInstance()
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)

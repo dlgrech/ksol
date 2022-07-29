@@ -14,9 +14,9 @@ import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.extensions.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ReceiveFragment : Fragment(R.layout.frag_receive) {
+class ReceiveShareAddressFragment : Fragment(R.layout.frag_receive_share_address_screen_title) {
 
-  private val viewModel: ReceiveViewModel by viewModel()
+  private val viewModel: ReceiveShareAddressViewModel by viewModel()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -73,8 +73,8 @@ class ReceiveFragment : Fragment(R.layout.frag_receive) {
 
   companion object {
 
-    fun newInstance(): ReceiveFragment {
-      return ReceiveFragment()
+    fun newInstance(): ReceiveShareAddressFragment {
+      return ReceiveShareAddressFragment()
     }
   }
 }

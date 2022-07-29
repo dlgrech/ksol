@@ -78,8 +78,8 @@ class HomeViewModel(
       }
     }
 
-  private val _navigateToReceiveFlow = SimpleMutableEventFlow()
-  val navigateToReceiveFlow = _navigateToReceiveFlow.asEventFlow()
+  private val _navigateToShareAddress = SimpleMutableEventFlow()
+  val navigateToShareAddress = _navigateToShareAddress.asEventFlow()
 
   private val _navigateToTransactionsList = SimpleMutableEventFlow()
   val navigateToTransactionsList = _navigateToTransactionsList.asEventFlow()
@@ -92,6 +92,10 @@ class HomeViewModel(
 
   private val _showSendActionSheet = MutableEventFlow<List<SendActionSheetItem>>()
   val showSendActionSheet = _showSendActionSheet.asEventFlow()
+
+  private val _showReceiveActionSheet = MutableEventFlow<List<ReceiveActionSheetItem>>()
+  val showReceiveActionSheet = _showReceiveActionSheet.asEventFlow()
+
 
   private var hasBeenCreated = false
 
@@ -167,8 +171,28 @@ class HomeViewModel(
     }
   }
 
+  fun onReceiveActionSheetItemClicked(type: ReceiveActionSheetItem.Type) {
+    when (type) {
+      ReceiveActionSheetItem.Type.SHARE_ADDRESS -> _navigateToShareAddress.call()
+      ReceiveActionSheetItem.Type.REQUEST_AMOUNT -> Unit
+    }
+  }
+
   fun onReceiveButtonClicked() {
-    _navigateToReceiveFlow.call()
+    _showReceiveActionSheet.tryEmit(
+      listOf(
+        ReceiveActionSheetItem(
+          getString(R.string.home_receive_action_sheet_item_share_address),
+          R.drawable.ic_baseline_share_24,
+          ReceiveActionSheetItem.Type.SHARE_ADDRESS
+        ),
+        ReceiveActionSheetItem(
+          getString(R.string.home_receive_action_sheet_item_request_amount),
+          R.drawable.ic_baseline_install_mobile_24,
+          ReceiveActionSheetItem.Type.REQUEST_AMOUNT
+        ),
+      )
+    )
   }
 
   fun onViewMoreTransactionsClicked() {

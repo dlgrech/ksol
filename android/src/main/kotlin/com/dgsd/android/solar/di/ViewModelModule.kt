@@ -4,7 +4,7 @@ import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.home.HomeViewModel
 import com.dgsd.android.solar.onboarding.di.OnboardingViewModelModule
-import com.dgsd.android.solar.receive.ReceiveViewModel
+import com.dgsd.android.solar.receive.ReceiveShareAddressViewModel
 import com.dgsd.android.solar.settings.SettingsViewModel
 import com.dgsd.android.solar.transaction.details.TransactionDetailsViewModel
 import com.dgsd.android.solar.transaction.list.TransactionListViewModel
@@ -20,7 +20,7 @@ internal object ViewModelModule {
             viewModelOf(::AppCoordinator)
             viewModelOf(::SettingsViewModel)
             viewModel {
-                ReceiveViewModel(
+                ReceiveShareAddressViewModel(
                     application = get(),
                     session = getScoped(),
                     publicKeyFormatter = get(),

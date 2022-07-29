@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ReceiveViewModel(
+class ReceiveShareAddressViewModel(
   application: Application,
   private val session: WalletSession,
   private val errorMessageFactory: ErrorMessageFactory,
