@@ -44,7 +44,7 @@ class SolTokenFormatterTest {
 
     @Test
     fun format_withHalf_returnsExpectedValue() {
-        val input = (1.5 * LAMPORTS_IN_SOL).toLong()
+        val input = (1.5 * LAMPORTS_IN_SOL.longValueExact()).toLong()
 
         val output = SolTokenFormatter.format(input)
 

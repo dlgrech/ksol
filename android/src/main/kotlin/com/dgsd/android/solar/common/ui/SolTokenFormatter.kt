@@ -22,7 +22,7 @@ object SolTokenFormatter {
 
     fun format(lamports: Lamports): CharSequence {
         val formattedNumber =  numberFormatter.format(
-            lamports.toBigDecimal().divide(LAMPORTS_IN_SOL.toBigDecimal())
+            lamports.toBigDecimal().divide(LAMPORTS_IN_SOL)
         )
 
         return "$SOL_SYMBOL$formattedNumber"
@@ -30,7 +30,7 @@ object SolTokenFormatter {
 
     fun formatLong(lamports: Lamports): CharSequence {
         val formattedNumber =  fullNumberFormatter.format(
-            lamports.toBigDecimal().divide(LAMPORTS_IN_SOL.toBigDecimal())
+            lamports.toBigDecimal().divide(LAMPORTS_IN_SOL)
         )
 
         return "$SOL_SYMBOL$formattedNumber"
