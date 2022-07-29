@@ -115,4 +115,8 @@
     <string name="transaction_details_badge_program">Program</string>
     <string name="transaction_details_section_recent_blockhash">Recent Blockhash</string>
     <string name="transaction_list_screen_title">Transactions</string>
+    <string name="receive_wallet_address_label">Your wallet address:</string>
+    <string name="receive_wallet_copy_button">Copy Address</string>
+    <string name="receive_wallet_share_button">Share</string>
+    <string name="receive_wallet_explanation">Other wallets can use your public address to send you SOL.</string>
 </resources>

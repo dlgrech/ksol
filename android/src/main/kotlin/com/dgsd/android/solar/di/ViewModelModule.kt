@@ -19,7 +19,15 @@ internal object ViewModelModule {
         return module {
             viewModelOf(::AppCoordinator)
             viewModelOf(::SettingsViewModel)
-            viewModelOf(::ReceiveViewModel)
+            viewModel {
+                ReceiveViewModel(
+                    application = get(),
+                    session = getScoped(),
+                    publicKeyFormatter = get(),
+                    systemClipboard = get(),
+                    errorMessageFactory = get(),
+                )
+            }
             viewModel {
                 TransactionListViewModel(
                     errorMessageFactory = get(),

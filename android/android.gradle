@@ -48,6 +48,7 @@ dependencies {
     implementation libs.koin.android
     implementation libs.google.material
     implementation libs.shimmer.android
+    implementation libs.zxing.android
 
     debugImplementation libs.leakcanary
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -10,5 +11,93 @@
         app:navigationIcon="@drawable/ic_baseline_close_24"
         app:title="@string/receive_screen_title" />
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/explainer_message"
+                style="@style/TextAppearance.PageInstruction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/receive_wallet_explanation"
+                app:layout_constraintBottom_toTopOf="@id/qr_code"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <ImageView
+                android:id="@+id/qr_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_large"
+                app:layout_constraintBottom_toTopOf="@id/wallet_address_label"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/explainer_message" />
+
+            <TextView
+                android:id="@+id/wallet_address_label"
+                style="@style/TextAppearance.Solar.Label1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_default"
+                android:layout_marginTop="@dimen/padding_default"
+                android:gravity="center"
+                android:text="@string/receive_wallet_address_label"
+                app:layout_constraintBottom_toTopOf="@id/wallet_address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/qr_code" />
+
+            <TextView
+                android:id="@+id/wallet_address"
+                style="@style/TextAppearance.Solar.Title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/padding_default"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@id/copy_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wallet_address_label" />
+
+            <TextView
+                android:id="@+id/copy_button"
+                style="@style/TextAppearance.Link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_default"
+                android:text="@string/receive_wallet_copy_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/share_button"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wallet_address" />
+
+            <Button
+                android:id="@+id/share_button"
+                style="@style/PrimaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/padding_default"
+                android:text="@string/receive_wallet_share_button"
+                app:layout_constraintBottom_toBottomOf="@id/copy_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/copy_button"
+                app:layout_constraintTop_toTopOf="@id/copy_button" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
