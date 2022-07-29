@@ -82,7 +82,7 @@
     <string name="home_balance_sol_label">SOL</string>
     <string name="home_balance_last_fetch_template">Balance as at %1$s</string>
     <string name="settings_screen_title">Settings</string>
-    <string name="receive_screen_title">Request SOL</string>
+    <string name="receive_share_address_screen_title">Your Wallet Address</string>
     <string name="key_display_system_program">System Program</string>
     <string name="key_display_config_program">Config Program</string>
     <string name="key_display_ed25519_program">Ed25519 Program</string>
@@ -118,7 +118,6 @@
     <string name="transaction_details_badge_program">Program</string>
     <string name="transaction_details_section_recent_blockhash">Recent Blockhash</string>
     <string name="transaction_list_screen_title">Transactions</string>
-    <string name="receive_wallet_address_label">Your wallet address:</string>
     <string name="receive_wallet_copy_button">Copy Address</string>
     <string name="receive_wallet_share_button">Share</string>
     <string name="receive_wallet_explanation">Other wallets can use your public address to send you SOL.</string>

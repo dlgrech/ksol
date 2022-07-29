@@ -14,7 +14,7 @@ import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.extensions.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ReceiveShareAddressFragment : Fragment(R.layout.frag_receive_share_address_screen_title) {
+class ReceiveShareAddressFragment : Fragment(R.layout.frag_receive_share_address) {
 
   private val viewModel: ReceiveShareAddressViewModel by viewModel()
 
