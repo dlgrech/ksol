@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     // We explicitly don't restore our state here, so that we're always starting afresh
     super.onCreate(null)
 
-    setContentView(R.layout.view_fragment_container)
+    setContentView(R.layout.act_main)
 
     appCoordinator.destination
       .onEach(::onDestinationChanged)
