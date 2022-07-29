@@ -12,7 +12,7 @@ import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMes
 import com.dgsd.android.solar.common.util.SwallowBackpressLifecycleObserver
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
-import com.google.android.material.snackbar.Snackbar
+import com.dgsd.android.solar.extensions.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -54,11 +54,7 @@ class CreateAccountConfirmationFragment : Fragment(R.layout.frag_create_account_
     }
 
     onEach(viewModel.showCopiedSuccessMessage) {
-      Snackbar.make(
-        view,
-        R.string.create_account_confirmation_copied_to_clipboard_success_message,
-        Snackbar.LENGTH_SHORT
-      ).show()
+      showSnackbar(R.string.create_account_confirmation_copied_to_clipboard_success_message)
     }
 
     onEach(viewModel.showLoadingState) {

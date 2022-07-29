@@ -14,12 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
-import com.dgsd.android.solar.extensions.dpToPx
-import com.dgsd.android.solar.extensions.ensureViewCount
-import com.dgsd.android.solar.extensions.onEach
-import com.dgsd.android.solar.extensions.roundedCorners
+import com.dgsd.android.solar.extensions.*
 import com.dgsd.ksol.model.TransactionSignature
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -99,7 +95,7 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     }
 
     onEach(viewModel.showConfirmationMessage) {
-      Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+      showSnackbar(it)
     }
 
     onEach(viewModel.blockTimeText) {

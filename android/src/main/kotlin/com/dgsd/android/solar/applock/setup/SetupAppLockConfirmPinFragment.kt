@@ -9,9 +9,9 @@ import com.dgsd.android.solar.common.util.KeyboardInputUtils
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.extensions.showSnackbar
 import com.dgsd.android.solar.widget.keyboard.NumericKeyboardView
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -53,7 +53,7 @@ class SetupAppLockConfirmPinFragment : Fragment(R.layout.frag_setup_app_lock_con
     }
 
     onEach(viewModel.showError) { message ->
-      Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
+      showSnackbar(message)
     }
 
     onEach(viewModel.continueWithCode) {

@@ -10,8 +10,8 @@ import com.dgsd.android.solar.common.util.SwallowBackpressLifecycleObserver
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.extensions.showSnackbar
 import com.dgsd.android.solar.widget.keyboard.NumericKeyboardView
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SetupAppLockEnterPinFragment : Fragment(R.layout.frag_setup_app_lock_enter_pin) {
@@ -50,7 +50,7 @@ class SetupAppLockEnterPinFragment : Fragment(R.layout.frag_setup_app_lock_enter
     }
 
     onEach(viewModel.showError) { message ->
-      Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show()
+      showSnackbar(message)
     }
 
     onEach(viewModel.continueWithCode) { code ->

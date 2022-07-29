@@ -16,8 +16,8 @@ import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.android.solar.extensions.showSnackbar
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateAccountViewSeedPhraseFragment :
@@ -91,11 +91,7 @@ class CreateAccountViewSeedPhraseFragment :
     }
 
     onEach(viewModel.showSeedPhraseCopiedSuccess) {
-      Snackbar.make(
-        view,
-        R.string.seed_phrase_copied_to_clipboard_success_message,
-        Snackbar.LENGTH_SHORT
-      ).show()
+      showSnackbar(R.string.seed_phrase_copied_to_clipboard_success_message)
     }
   }
 
