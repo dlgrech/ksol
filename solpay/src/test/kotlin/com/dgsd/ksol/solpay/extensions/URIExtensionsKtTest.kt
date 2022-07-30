@@ -52,6 +52,16 @@ class URIExtensionsKtTest {
   }
 
   @Test
+  fun getPathName_withTrailingQuestionMark_returnsFullPath() {
+    val input = "solana:abc123?"
+
+    val pathName = URI.create(input).getPathName()
+
+    Assertions.assertEquals("abc123", pathName)
+  }
+
+
+  @Test
   fun getRawQueryParameters_withOneOfEach_extractsCorrectQueryParameters() {
     val input = URI.create("http://example.com?a=1&b=2&c=3")
     val params = input.getRawQueryParameters()
@@ -98,6 +108,14 @@ class URIExtensionsKtTest {
   @Test
   fun getRawQueryParameters_withMissingQuery_extractsCorrectQueryParameters() {
     val input = URI.create("http://example.com")
+    val params = input.getRawQueryParameters()
+
+    Assertions.assertEquals(0, params.size)
+  }
+
+  @Test
+  fun getRawQueryParameters_withMissingQueryButTrailingQuestionMark_extractsCorrectQueryParameters() {
+    val input = URI.create("http://example.com?")
     val params = input.getRawQueryParameters()
 
     Assertions.assertEquals(0, params.size)

@@ -66,6 +66,18 @@ class SolPayTransferRequestFactoryTest {
   }
 
   @Test
+  fun create_withNoExtraParamsAndTrailingQuestionMark_isParsedCorrectly() {
+    val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?"
+
+    val request = SolPayTransferRequestFactory.createRequest(input)
+
+    Assertions.assertEquals(
+      PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
+      request.recipient
+    )
+  }
+
+  @Test
   fun create_withAllExtraParams_isParsedCorrectly() {
     val input = buildString {
       append("solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?")
