@@ -4,16 +4,62 @@ import com.dgsd.ksol.model.LAMPORTS_IN_SOL
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.solpay.extensions.getPathName
 import com.dgsd.ksol.solpay.extensions.getRawQueryParameters
+import com.dgsd.ksol.solpay.extensions.urlDecode
+import com.dgsd.ksol.solpay.extensions.urlEncode
 import com.dgsd.ksol.solpay.model.SolPayParsingException
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import java.math.BigDecimal
 import java.net.URI
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 object SolPayTransferRequestFactory {
 
-  fun create(url: String): SolPayTransferRequest {
+  private const val QUERY_PARAM_SPL_TOKEN = "spl-token"
+  private const val QUERY_PARAM_AMOUNT = "amount"
+  private const val QUERY_PARAM_REFERENCE = "reference"
+  private const val QUERY_PARAM_LABEL = "label"
+  private const val QUERY_PARAM_MESSAGE = "message"
+  private const val QUERY_PARAM_MEMO = "memo"
+
+  fun createUrl(request: SolPayTransferRequest): String {
+    return buildString {
+      append(SolPayConstants.SCHEME_SOLANA)
+      append(':')
+      append(request.recipient.toBase58String())
+
+      val queryParams = buildList {
+        if (request.amount != null) {
+          add(QUERY_PARAM_AMOUNT + "=" + request.amount.toPlainString())
+        }
+
+        if (request.splTokenMintAccount != null) {
+          add(QUERY_PARAM_SPL_TOKEN + "=" + request.splTokenMintAccount.toBase58String())
+        }
+
+        request.references.forEach { reference ->
+          add(QUERY_PARAM_REFERENCE + "=" + reference.toBase58String())
+        }
+
+        if (request.label != null) {
+          add(QUERY_PARAM_LABEL + "=" + request.label.urlEncode())
+        }
+
+        if (request.message != null) {
+          add(QUERY_PARAM_MESSAGE + "=" + request.message.urlEncode())
+        }
+
+        if (request.memo != null) {
+          add(QUERY_PARAM_MEMO + "=" + request.memo.urlEncode())
+        }
+      }.joinToString("&")
+
+      if (queryParams.isNotEmpty()) {
+        append('?')
+        append(queryParams)
+      }
+    }
+  }
+
+  fun createRequest(url: String): SolPayTransferRequest {
     return runCatching {
       createInternal(url)
     }.getOrElse {
@@ -35,12 +81,12 @@ object SolPayTransferRequestFactory {
 
     return createFromParts(
       recipientInput = uri.getPathName(),
-      splTokenInput = queryParams["spl-token"]?.singleOrNull(),
-      amountInput = queryParams["amount"]?.singleOrNull(),
-      referencesInput = queryParams["reference"],
-      labelInput = queryParams["label"]?.singleOrNull(),
-      messageInput = queryParams["message"]?.singleOrNull(),
-      memoInput = queryParams["memo"]?.singleOrNull(),
+      splTokenInput = queryParams[QUERY_PARAM_SPL_TOKEN]?.singleOrNull(),
+      amountInput = queryParams[QUERY_PARAM_AMOUNT]?.singleOrNull(),
+      referencesInput = queryParams[QUERY_PARAM_REFERENCE],
+      labelInput = queryParams[QUERY_PARAM_LABEL]?.singleOrNull(),
+      messageInput = queryParams[QUERY_PARAM_MESSAGE]?.singleOrNull(),
+      memoInput = queryParams[QUERY_PARAM_MEMO]?.singleOrNull(),
     )
   }
 
@@ -73,9 +119,9 @@ object SolPayTransferRequestFactory {
       amount = amount,
       splTokenMintAccount = splTokenInput?.let { PublicKey.fromBase58(it) },
       references = referencesInput.orEmpty().map(PublicKey::fromBase58),
-      label = labelInput?.let { URLDecoder.decode(it, StandardCharsets.UTF_8) },
-      message = messageInput?.let { URLDecoder.decode(it, StandardCharsets.UTF_8) },
-      memo = memoInput?.let { URLDecoder.decode(it, StandardCharsets.UTF_8) }
+      label = labelInput?.urlDecode(),
+      message = messageInput?.urlDecode(),
+      memo = memoInput?.urlDecode(),
     )
   }
 }

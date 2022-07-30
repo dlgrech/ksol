@@ -2,6 +2,7 @@ package com.dgsd.ksol.solpay.factory
 
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.solpay.model.SolPayParsingException
+import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
@@ -85,9 +86,9 @@ class SolPayTransferRequestFactoryTest {
       append("spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&")
       append("reference=9B5XszUGdMaxCZ7uSQhPzdks5ZQSmWxrmzCSvtJ6Ns6g&")
       append("reference=11111111111111111111111111111111&")
+      append("label=Cool%20Label&")
       append("message=Thanks%20for%20all%20the%20fish&")
-      append("memo=Order%20Id%2012345&")
-      append("label=Cool%20Label")
+      append("memo=Order%20Id%2012345")
     }
 
     val request = SolPayTransferRequestFactory.createRequest(input)
@@ -169,5 +170,56 @@ class SolPayTransferRequestFactoryTest {
     )
 
     Assertions.assertEquals(BigDecimal.ZERO, request.amount)
+  }
+
+  @Test
+  fun createUrl_withAllExtraParams_createsExpectedUrl() {
+    val request = SolPayTransferRequest(
+      recipient = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
+      splTokenMintAccount = PublicKey.fromBase58("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"),
+      references = listOf(
+        PublicKey.fromBase58("9B5XszUGdMaxCZ7uSQhPzdks5ZQSmWxrmzCSvtJ6Ns6g"),
+        PublicKey.fromBase58("11111111111111111111111111111111"),
+      ),
+      amount = BigDecimal("1.5"),
+      message = "Thanks for all the fish",
+      memo = "Order Id 12345",
+      label = "Cool Label"
+    )
+
+    val url = SolPayTransferRequestFactory.createUrl(request)
+
+    val expected = buildString {
+      append("solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?")
+      append("amount=1.5&")
+      append("spl-token=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v&")
+      append("reference=9B5XszUGdMaxCZ7uSQhPzdks5ZQSmWxrmzCSvtJ6Ns6g&")
+      append("reference=11111111111111111111111111111111&")
+      append("label=Cool%20Label&")
+      append("message=Thanks%20for%20all%20the%20fish&")
+      append("memo=Order%20Id%2012345")
+    }
+
+    Assertions.assertEquals(expected, url)
+  }
+
+  @Test
+  fun createUrl_withOnlyAmount_createsExpectedUrl() {
+    val request = SolPayTransferRequest(
+      recipient = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
+      amount = BigDecimal("1.5"),
+      references = emptyList(),
+      splTokenMintAccount = null,
+      message = null,
+      memo = null,
+      label = null,
+    )
+
+    val url = SolPayTransferRequestFactory.createUrl(request)
+
+    Assertions.assertEquals(
+      "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?amount=1.5",
+      url
+    )
   }
 }
