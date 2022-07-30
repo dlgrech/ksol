@@ -59,6 +59,10 @@ object SolPayTransferRequestFactory {
 
     val amount = amountInput?.let(::BigDecimal)
     if (amount != null && amount != BigDecimal.ZERO) {
+      check(amount > BigDecimal.ZERO) {
+        "Cannot have a negative amount"
+      }
+
       check(LAMPORTS_IN_SOL * amount >= BigDecimal.ONE) {
         "Amount has too many decimals"
       }

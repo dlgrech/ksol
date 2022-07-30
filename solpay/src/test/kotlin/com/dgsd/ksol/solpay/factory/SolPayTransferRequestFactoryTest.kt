@@ -12,7 +12,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withEmptyUrl_throwsError() {
     Assertions.assertThrows(SolPayParsingException::class.java) {
       val input = ""
-      SolPayTransferRequestFactory.create(input)
+      SolPayTransferRequestFactory.createRequest(input)
     }
   }
 
@@ -20,7 +20,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withInvalidUrl_throwsError() {
     Assertions.assertThrows(SolPayParsingException::class.java) {
       val input = "this is not a url"
-      SolPayTransferRequestFactory.create(input)
+      SolPayTransferRequestFactory.createRequest(input)
     }
   }
 
@@ -28,7 +28,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withHttpUrl_throwsError() {
     Assertions.assertThrows(SolPayParsingException::class.java) {
       val input = "http://example.com"
-      SolPayTransferRequestFactory.create(input)
+      SolPayTransferRequestFactory.createRequest(input)
     }
   }
 
@@ -41,7 +41,7 @@ class SolPayTransferRequestFactoryTest {
         }
       }
 
-      SolPayTransferRequestFactory.create(input)
+      SolPayTransferRequestFactory.createRequest(input)
     }
   }
 
@@ -49,7 +49,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withInvalidRecipient_throwsError() {
     Assertions.assertThrows(SolPayParsingException::class.java) {
       val input = "solana:abc123"
-      SolPayTransferRequestFactory.create(input)
+      SolPayTransferRequestFactory.createRequest(input)
     }
   }
 
@@ -57,7 +57,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withNoExtraParams_isParsedCorrectly() {
     val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"
 
-    val request = SolPayTransferRequestFactory.create(input)
+    val request = SolPayTransferRequestFactory.createRequest(input)
 
     Assertions.assertEquals(
       PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
@@ -78,7 +78,7 @@ class SolPayTransferRequestFactoryTest {
       append("label=Cool%20Label")
     }
 
-    val request = SolPayTransferRequestFactory.create(input)
+    val request = SolPayTransferRequestFactory.createRequest(input)
 
     Assertions.assertEquals(
       PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
@@ -105,7 +105,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withDecimalAmount_isParsedCorrectly() {
     val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?amount=0.1"
 
-    val request = SolPayTransferRequestFactory.create(input)
+    val request = SolPayTransferRequestFactory.createRequest(input)
 
     Assertions.assertEquals(
       PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
@@ -119,7 +119,15 @@ class SolPayTransferRequestFactoryTest {
   fun create_withInvalidDecimalAmount_throwsError() {
     Assertions.assertThrows(SolPayParsingException::class.java) {
       val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?amount=0.0000000001"
-      SolPayTransferRequestFactory.create(input)
+      SolPayTransferRequestFactory.createRequest(input)
+    }
+  }
+
+  @Test
+  fun create_withNegativeAmount_throwsError() {
+    Assertions.assertThrows(SolPayParsingException::class.java) {
+      val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?amount=-1"
+      SolPayTransferRequestFactory.createRequest(input)
     }
   }
 
@@ -127,7 +135,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withIntegerAmount_isParsedCorrectly() {
     val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?amount=1"
 
-    val request = SolPayTransferRequestFactory.create(input)
+    val request = SolPayTransferRequestFactory.createRequest(input)
 
     Assertions.assertEquals(
       PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
@@ -141,7 +149,7 @@ class SolPayTransferRequestFactoryTest {
   fun create_withZeroAmount_isParsedCorrectly() {
     val input = "solana:9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ?amount=0"
 
-    val request = SolPayTransferRequestFactory.create(input)
+    val request = SolPayTransferRequestFactory.createRequest(input)
 
     Assertions.assertEquals(
       PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
