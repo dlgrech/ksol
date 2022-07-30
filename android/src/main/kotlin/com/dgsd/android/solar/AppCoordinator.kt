@@ -22,8 +22,9 @@ class AppCoordinator(
         object Onboarding : Destination
         object Home : Destination
         object Settings : Destination
-        object Receive : Destination
+        object ShareWalletAddress : Destination
         object TransactionList : Destination
+        object RequestAmount : Destination
 
         data class TransactionDetails(val signature: TransactionSignature): Destination
     }
@@ -46,8 +47,12 @@ class AppCoordinator(
         _destination.tryEmit(Destination.TransactionDetails(signature))
     }
 
-    fun navigateToReceiveDetails() {
-        _destination.tryEmit(Destination.Receive)
+    fun navigateToShareWalletAddress() {
+        _destination.tryEmit(Destination.ShareWalletAddress)
+    }
+
+    fun navigateToRequestAmount() {
+        _destination.tryEmit(Destination.RequestAmount)
     }
 
     fun navigateToTransactionList() {

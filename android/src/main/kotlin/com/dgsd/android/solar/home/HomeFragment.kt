@@ -147,7 +147,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     }
 
     onEach(viewModel.navigateToShareAddress) {
-      appCoordinator.navigateToReceiveDetails()
+      appCoordinator.navigateToShareWalletAddress()
     }
 
     onEach(viewModel.navigateToTransactionsList) {
@@ -160,6 +160,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     onEach(viewModel.navigateToTransactionDetails) { transaction ->
       appCoordinator.navigateToTransactionDetails(transaction)
+    }
+
+    onEach(viewModel.navigateToRequestAmountFlow) {
+      appCoordinator.navigateToRequestAmount()
     }
 
     onEach(viewModel.showSendActionSheet) { items ->

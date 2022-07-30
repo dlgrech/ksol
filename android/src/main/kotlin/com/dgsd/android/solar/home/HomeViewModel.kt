@@ -81,6 +81,9 @@ class HomeViewModel(
   private val _navigateToShareAddress = SimpleMutableEventFlow()
   val navigateToShareAddress = _navigateToShareAddress.asEventFlow()
 
+  private val _navigateToRequestAmountFlow = SimpleMutableEventFlow()
+  val navigateToRequestAmountFlow = _navigateToRequestAmountFlow.asEventFlow()
+
   private val _navigateToTransactionsList = SimpleMutableEventFlow()
   val navigateToTransactionsList = _navigateToTransactionsList.asEventFlow()
 
@@ -174,7 +177,7 @@ class HomeViewModel(
   fun onReceiveActionSheetItemClicked(type: ReceiveActionSheetItem.Type) {
     when (type) {
       ReceiveActionSheetItem.Type.SHARE_ADDRESS -> _navigateToShareAddress.call()
-      ReceiveActionSheetItem.Type.REQUEST_AMOUNT -> Unit
+      ReceiveActionSheetItem.Type.REQUEST_AMOUNT -> _navigateToRequestAmountFlow.call()
     }
   }
 

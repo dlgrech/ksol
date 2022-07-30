@@ -9,6 +9,7 @@ import com.dgsd.android.solar.common.model.ScreenTransitionType
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
+import com.dgsd.android.solar.receive.requestamount.RequestAmountContainerFragment
 import com.dgsd.android.solar.receive.shareaddress.ReceiveShareAddressFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
@@ -52,7 +53,8 @@ class MainActivity : AppCompatActivity() {
     return when (destination) {
       Destination.Home -> ScreenTransitionType.FADE
       Destination.Onboarding -> ScreenTransitionType.FADE
-      Destination.Receive -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.Settings -> ScreenTransitionType.DEFAULT
       Destination.TransactionList -> ScreenTransitionType.DEFAULT
       is Destination.TransactionDetails -> ScreenTransitionType.DEFAULT
@@ -63,8 +65,9 @@ class MainActivity : AppCompatActivity() {
     return when (destination) {
       Destination.Home -> HomeFragment.newInstance()
       Destination.Onboarding -> OnboardingContainerFragment.newInstance()
+      Destination.RequestAmount -> RequestAmountContainerFragment.newInstance()
       Destination.Settings -> SettingsFragment.newInstance()
-      Destination.Receive -> ReceiveShareAddressFragment.newInstance()
+      Destination.ShareWalletAddress -> ReceiveShareAddressFragment.newInstance()
       Destination.TransactionList -> TransactionListFragment.newInstance()
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
@@ -76,7 +79,8 @@ class MainActivity : AppCompatActivity() {
       Destination.Home,
       Destination.Onboarding -> true
 
-      Destination.Receive,
+      Destination.RequestAmount,
+      Destination.ShareWalletAddress,
       Destination.Settings,
       Destination.TransactionList,
       is Destination.TransactionDetails -> false
