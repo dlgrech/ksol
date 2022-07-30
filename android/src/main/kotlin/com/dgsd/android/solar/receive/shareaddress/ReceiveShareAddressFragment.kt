@@ -1,4 +1,4 @@
-package com.dgsd.android.solar.receive
+package com.dgsd.android.solar.receive.shareaddress
 
 import android.os.Bundle
 import android.view.View

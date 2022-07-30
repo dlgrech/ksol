@@ -9,7 +9,7 @@ import com.dgsd.android.solar.common.model.ScreenTransitionType
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
-import com.dgsd.android.solar.receive.ReceiveShareAddressFragment
+import com.dgsd.android.solar.receive.shareaddress.ReceiveShareAddressFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
 import com.dgsd.android.solar.transaction.list.TransactionListFragment

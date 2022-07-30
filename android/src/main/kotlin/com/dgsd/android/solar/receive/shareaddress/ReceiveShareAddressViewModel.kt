@@ -1,4 +1,4 @@
-package com.dgsd.android.solar.receive
+package com.dgsd.android.solar.receive.shareaddress
 
 import android.app.Application
 import android.graphics.Bitmap

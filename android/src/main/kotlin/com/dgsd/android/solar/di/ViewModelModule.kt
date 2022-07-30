@@ -4,7 +4,7 @@ import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.home.HomeViewModel
 import com.dgsd.android.solar.onboarding.di.OnboardingViewModelModule
-import com.dgsd.android.solar.receive.ReceiveShareAddressViewModel
+import com.dgsd.android.solar.receive.shareaddress.ReceiveShareAddressViewModel
 import com.dgsd.android.solar.settings.SettingsViewModel
 import com.dgsd.android.solar.transaction.details.TransactionDetailsViewModel
 import com.dgsd.android.solar.transaction.list.TransactionListViewModel
