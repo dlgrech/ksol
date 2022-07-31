@@ -1,6 +1,7 @@
 package com.dgsd.ksol.utils
 
 import org.bitcoinj.core.Utils
+import kotlin.experimental.and
 
 /**
  * @see https://github.com/solana-labs/solana/blob/master/sdk/program/src/short_vec.rs
@@ -33,5 +34,22 @@ internal object ShortVecEncoding {
         System.arraycopy(output, 0, bytes, 0, cursor + 1)
 
         return bytes
+    }
+
+    fun decodeLength(input: ByteArray): Int {
+        var len = 0
+        var size = 0
+        val inputList = input.asList().toMutableList()
+        while (inputList.isNotEmpty()) {
+            val elem = inputList.removeFirst()
+            len = len or ((elem and 0x7f).toInt() shl (size * 7))
+            size++
+
+            if((elem and 0x80.toByte()).toInt() == 0) {
+                break
+            }
+        }
+
+        return len
     }
 }
