@@ -2,7 +2,7 @@ package com.dgsd.ksol.solpay.factory
 
 import com.dgsd.ksol.model.LAMPORTS_IN_SOL
 import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.solpay.extensions.getPathName
+import com.dgsd.ksol.solpay.extensions.getPathPortion
 import com.dgsd.ksol.solpay.extensions.getRawQueryParameters
 import com.dgsd.ksol.solpay.extensions.urlDecode
 import com.dgsd.ksol.solpay.extensions.urlEncode
@@ -11,7 +11,7 @@ import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import java.math.BigDecimal
 import java.net.URI
 
-object SolPayTransferRequestFactory {
+internal object SolPayTransferRequestFactory {
 
   private const val QUERY_PARAM_SPL_TOKEN = "spl-token"
   private const val QUERY_PARAM_AMOUNT = "amount"
@@ -61,26 +61,21 @@ object SolPayTransferRequestFactory {
 
   fun createRequest(url: String): SolPayTransferRequest {
     return runCatching {
-      createInternal(url)
+      createRequestInternal(url)
     }.getOrElse {
       throw SolPayParsingException(url, it)
     }
   }
 
-  private fun createInternal(url: String): SolPayTransferRequest {
-    if (url.length > SolPayConstants.MAX_URL_LENGTH) {
-      throw SolPayParsingException(url, "URL too long")
-    }
+  private fun createRequestInternal(url: String): SolPayTransferRequest {
+    validateUrlLength(url)
+    validateSolanaScheme(url)
 
-    val uri = URI(url)
-    if (!url.startsWith(SolPayConstants.SCHEME_SOLANA + ":")) {
-      throw SolPayParsingException(url, "Invalid scheme")
-    }
-
-    val queryParams = uri.getRawQueryParameters()
+    val pathName = url.getPathPortion()
+    val queryParams = url.getRawQueryParameters()
 
     return createFromParts(
-      recipientInput = uri.getPathName(),
+      recipientInput = pathName,
       splTokenInput = queryParams[QUERY_PARAM_SPL_TOKEN]?.singleOrNull(),
       amountInput = queryParams[QUERY_PARAM_AMOUNT]?.singleOrNull(),
       referencesInput = queryParams[QUERY_PARAM_REFERENCE],
