@@ -2,6 +2,7 @@ package com.dgsd.ksol.utils
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.nio.ByteBuffer
 
 class ShortVecEncodingTests {
 
@@ -51,42 +52,42 @@ class ShortVecEncodingTests {
   @Test
   fun decodeLength() {
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf()),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf())),
       0
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(5)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(5))),
       5
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(0x7f)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(0x7f))),
       0x7f
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(0x80.toByte(), 0x01)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(0x80.toByte(), 0x01))),
       0x80
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(0xff.toByte(), 0x01)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(0xff.toByte(), 0x01))),
       0xff
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(0x80.toByte(), 0x02)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(0x80.toByte(), 0x02))),
       0x100
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(0xff.toByte(), 0xff.toByte(), 0x01)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(0xff.toByte(), 0xff.toByte(), 0x01))),
       0x7fff
     )
 
     Assertions.assertEquals(
-      ShortVecEncoding.decodeLength(byteArrayOf(0x80.toByte(), 0x80.toByte(), 0x80.toByte(), 0x01)),
+      ShortVecEncoding.decodeLength(ByteBuffer.wrap(byteArrayOf(0x80.toByte(), 0x80.toByte(), 0x80.toByte(), 0x01))),
       0x200000
     )
   }

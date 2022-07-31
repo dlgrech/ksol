@@ -2,7 +2,7 @@ package com.dgsd.ksol
 
 import com.dgsd.ksol.model.*
 import com.dgsd.ksol.programs.system.SystemProgram
-import com.dgsd.ksol.serialization.LocalTransactionSerializer
+import com.dgsd.ksol.serialization.LocalTransactionSerialization
 import com.dgsd.ksol.utils.EncodingUtils
 import com.dgsd.ksol.utils.SigningUtils
 
@@ -56,7 +56,7 @@ object LocalTransactions {
             listOf(transferInstruction)
         )
 
-        val serializedMessage = LocalTransactionSerializer.serialize(message)
+        val serializedMessage = LocalTransactionSerialization.serialize(message)
         val signatureBytes = SigningUtils.sign(serializedMessage, sender.privateKey)
         val signatures = listOf(EncodingUtils.encodeBase58(signatureBytes))
 

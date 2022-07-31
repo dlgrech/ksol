@@ -11,7 +11,7 @@ import com.dgsd.ksol.jsonrpc.networking.RpcIOException
 import com.dgsd.ksol.jsonrpc.networking.util.await
 import com.dgsd.ksol.jsonrpc.types.*
 import com.dgsd.ksol.model.*
-import com.dgsd.ksol.serialization.LocalTransactionSerializer
+import com.dgsd.ksol.serialization.LocalTransactionSerialization
 import com.dgsd.ksol.utils.EncodingUtils
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -301,7 +301,7 @@ internal class SolanaApiImpl(
     override suspend fun sendTransaction(transaction: LocalTransaction): TransactionSignature {
         val request = RpcRequestFactory.create(
             SolanaJsonRpcConstants.Methods.SEND_TRANSACTION,
-            EncodingUtils.encodeBase64(LocalTransactionSerializer.serialize(transaction)),
+            EncodingUtils.encodeBase64(LocalTransactionSerialization.serialize(transaction)),
             SendTransactionRequestBody(SolanaJsonRpcConstants.Encodings.BASE64)
         )
 

@@ -1,6 +1,7 @@
 package com.dgsd.ksol.utils
 
 import org.bitcoinj.core.Utils
+import java.nio.ByteBuffer
 import kotlin.experimental.and
 
 /**
@@ -36,12 +37,11 @@ internal object ShortVecEncoding {
         return bytes
     }
 
-    fun decodeLength(input: ByteArray): Int {
+    fun decodeLength(input: ByteBuffer): Int {
         var len = 0
         var size = 0
-        val inputList = input.asList().toMutableList()
-        while (inputList.isNotEmpty()) {
-            val elem = inputList.removeFirst()
+        while (input.hasRemaining()) {
+            val elem = input.get()
             len = len or ((elem and 0x7f).toInt() shl (size * 7))
             size++
 
