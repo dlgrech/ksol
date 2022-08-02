@@ -125,4 +125,7 @@
     <string name="receive_request_amount_amount_input_explainer">How many SOL tokens would you like to receive?</string>
     <string name="receive_request_amount_amount_input_hint">SOL amount (Eg 1.05)</string>
     <string name="receive_request_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>
+    <string name="receive_request_amount_message_screen_title">Enter message</string>
+    <string name="receive_request_amount_message_explainer">Enter an optional message you would like to send with this request. This could be a short message to help someone understand what this request is for.</string>
+    <string name="receive_request_amount_message_hint">(Optional) message</string>
 </resources>

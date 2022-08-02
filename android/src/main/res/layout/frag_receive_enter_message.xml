@@ -8,7 +8,37 @@
         android:id="@+id/toolbar"
         style="@style/SolarToolbar"
         app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-        app:title="@string/restore_account_select_address_screen_title" />
+        app:title="@string/receive_request_amount_message_screen_title" />
+
+    <TextView
+        android:id="@+id/explainer_message"
+        style="@style/TextAppearance.PageInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_xlarge"
+        android:text="@string/receive_request_amount_message_explainer"
+        app:layout_constraintBottom_toTopOf="@id/message_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <EditText
+        android:id="@+id/message_input"
+        style="@style/TextAppearance.Solar.Title3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/padding_xlarge"
+        android:gravity="center"
+        android:hint="@string/receive_request_amount_message_hint"
+        android:inputType="text|textCapSentences"
+        android:maxLength="280"
+        android:minHeight="@dimen/clickable_element_min_height"
+        app:layout_constraintBottom_toTopOf="@id/next"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/explainer_message" />
 
     <Button
         android:id="@+id/next"
@@ -21,4 +51,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
