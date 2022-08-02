@@ -10,6 +10,7 @@ import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.Session
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.SolanaApi
+import com.dgsd.ksol.solpay.SolPay
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.scopedOf
 import org.koin.dsl.module
@@ -23,6 +24,13 @@ internal object SessionScopedModule {
                     SolanaApi(
                         cluster = get<ClusterManager>().activeCluster.value,
                         okHttpClient = get()
+                    )
+                }
+
+                scoped<SolPay> {
+                    SolPay(
+                        okHttpClient = get(),
+                        solanaApi = getScoped(),
                     )
                 }
 

@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation projects.lib
+    implementation projects.solpay
 
     implementation libs.appcompat
     implementation libs.androidx.fragment.ktx

@@ -10,10 +10,10 @@ import okhttp3.OkHttpClient
  * Creates a default implementation of [SolPay] using the given [Cluster]
  */
 fun SolPay(
-  cluster: Cluster,
   okHttpClient: OkHttpClient = OkHttpClient(),
+  solanaApi: SolanaApi,
 ): SolPay {
-  return SolPayImpl(okHttpClient, SolanaApi(cluster, okHttpClient))
+  return SolPayImpl(okHttpClient, solanaApi)
 }
 
 /**
