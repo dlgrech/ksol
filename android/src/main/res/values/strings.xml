@@ -121,4 +121,8 @@
     <string name="receive_wallet_copy_button">Copy Address</string>
     <string name="receive_wallet_share_button">Share</string>
     <string name="receive_wallet_explanation">Other wallets can use your public address to send you SOL.</string>
+    <string name="receive_request_amount_amount_input_screen_title">Enter amount</string>
+    <string name="receive_request_amount_amount_input_explainer">How many SOL tokens would you like to receive?</string>
+    <string name="receive_request_amount_amount_input_hint">SOL amount (Eg 1.05)</string>
+    <string name="receive_request_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>
 </resources>
