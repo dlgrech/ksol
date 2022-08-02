@@ -1,6 +1,7 @@
 plugins {
     id 'jacoco'
     id 'org.jetbrains.kotlin.jvm'
+    id 'kotlin-kapt'
 }
 
 repositories {
@@ -9,6 +10,10 @@ repositories {
 
 dependencies {
     implementation projects.lib
+
+    kapt libs.moshi.codegen
+    implementation libs.moshi.moshi
+
     testImplementation libs.junit
 }
 
