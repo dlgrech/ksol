@@ -26,6 +26,7 @@ class RequestAmountContainerFragment : Fragment(R.layout.view_fragment_container
   private fun onDestinationChanged(destination: RequestAmountCoordinator.Destination) {
     val fragment = when (destination) {
       RequestAmountCoordinator.Destination.EnterAmount -> RequestEnterAmountFragment()
+      RequestAmountCoordinator.Destination.EnterMessage -> RequestEnterAmountFragment()
       RequestAmountCoordinator.Destination.ViewQR -> RequestAmountViewQRFragment()
     }
 

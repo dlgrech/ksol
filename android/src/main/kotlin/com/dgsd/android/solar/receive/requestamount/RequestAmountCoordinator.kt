@@ -9,6 +9,7 @@ class RequestAmountCoordinator : ViewModel() {
 
   sealed interface Destination {
     object EnterAmount : Destination
+    object EnterMessage : Destination
     object ViewQR : Destination
   }
 
@@ -18,12 +19,20 @@ class RequestAmountCoordinator : ViewModel() {
   var lamports: Lamports? = null
     private set
 
+  var message: String? = null
+    private set
+
   fun onCreate() {
     _destination.tryEmit(Destination.EnterAmount)
   }
 
   fun onAmountEntered(lamports: Lamports) {
     this.lamports = lamports
+    _destination.tryEmit(Destination.EnterMessage)
+  }
+
+  fun onMessageEntered(message: String?) {
+    this.message = message
     _destination.tryEmit(Destination.ViewQR)
   }
 }

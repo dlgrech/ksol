@@ -4,6 +4,7 @@ import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.receive.requestamount.RequestAmountCoordinator
 import com.dgsd.android.solar.receive.requestamount.RequestAmountViewQRViewModel
 import com.dgsd.android.solar.receive.requestamount.RequestEnterAmountViewModel
+import com.dgsd.android.solar.receive.requestamount.RequestEnterMessageViewModel
 import com.dgsd.android.solar.receive.shareaddress.ReceiveShareAddressViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -16,6 +17,7 @@ object ReceiveViewModelModule {
     return module {
       viewModelOf(::RequestAmountCoordinator)
       viewModelOf(::RequestEnterAmountViewModel)
+      viewModelOf(::RequestEnterMessageViewModel)
       viewModelOf(::RequestAmountViewQRViewModel)
       viewModel {
         ReceiveShareAddressViewModel(
