@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
+import com.dgsd.android.solar.common.util.IntentFactory
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -46,6 +47,10 @@ class RequestAmountViewQRFragment : Fragment(R.layout.frag_request_amount_view_q
 
     onEach(viewModel.showError) {
       showModelFromErrorMessage(it)
+    }
+
+    onEach(viewModel.showSystemShare) { imageUri ->
+      startActivity(IntentFactory.createShareImageIntent(imageUri))
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

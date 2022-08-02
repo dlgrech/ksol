@@ -14,6 +14,7 @@ import com.dgsd.android.solar.cluster.manager.ClusterManagerImpl
 import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
+import com.dgsd.android.solar.files.FileProviderManager
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.nfc.NfcManagerImpl
 import com.dgsd.android.solar.session.manager.SessionManager
@@ -88,6 +89,7 @@ internal object AppModule {
       singleOf(::OkHttpClient)
       singleOf(::ErrorMessageFactory)
       singleOf(::SystemClipboard)
+      singleOf(::FileProviderManager)
     }
   }
 

@@ -23,6 +23,7 @@ object ReceiveViewModelModule {
           application = get(),
           session = getScoped(),
           solPay = getScoped(),
+          fileProviderManager = get(),
           errorMessageFactory = get(),
           lamports = get(),
           message = get(),
