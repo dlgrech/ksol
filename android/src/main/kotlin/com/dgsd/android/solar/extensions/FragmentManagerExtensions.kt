@@ -31,7 +31,7 @@ fun FragmentManager.navigate(
       setScreenTransitionType(screenTransitionType)
     } else if (findActiveFragmentById(containerId) != null) {
       setScreenTransitionType(screenTransitionType)
-      addToBackStack(null)
+      addToBackStack(fragment.generateTag())
     }
 
     replace(containerId, fragment)

@@ -3,8 +3,10 @@ package com.dgsd.android.solar.receive.requestamount
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.extensions.generateTag
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,7 +21,10 @@ class RequestAmountContainerFragment : Fragment(R.layout.view_fragment_container
     onEach(coordinator.destination, ::onDestinationChanged)
 
     onEach(coordinator.closeFlow) {
-      parentFragmentManager.popBackStackImmediate()
+      parentFragmentManager.popBackStackImmediate(
+        generateTag(),
+        FragmentManager.POP_BACK_STACK_INCLUSIVE
+      )
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

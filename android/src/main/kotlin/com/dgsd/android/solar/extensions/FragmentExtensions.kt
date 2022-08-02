@@ -25,3 +25,7 @@ fun Fragment.showSnackbar(
       .show()
   }
 }
+
+fun Fragment.generateTag(): String {
+  return this::class.java.name
+}
