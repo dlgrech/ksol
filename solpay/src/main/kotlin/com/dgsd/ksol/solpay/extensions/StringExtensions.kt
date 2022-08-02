@@ -3,10 +3,9 @@ package com.dgsd.ksol.solpay.extensions
 import java.net.URI
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 internal fun String.urlEncode(): String {
-  return URLEncoder.encode(this, StandardCharsets.UTF_8)
+  return URLEncoder.encode(this, "UTF-8")
     .replace("+", "%20")
     .replace("!", "%21")
     .replace("'", "%27")
@@ -16,7 +15,7 @@ internal fun String.urlEncode(): String {
 }
 
 internal fun String.urlDecode(): String {
-  return URLDecoder.decode(this, StandardCharsets.UTF_8)
+  return URLDecoder.decode(this, "UTF-8")
 }
 
 internal fun String.getPathPortion(): String {
