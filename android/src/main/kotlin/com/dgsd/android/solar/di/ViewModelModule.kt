@@ -5,6 +5,7 @@ import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.home.HomeViewModel
 import com.dgsd.android.solar.onboarding.di.OnboardingViewModelModule
 import com.dgsd.android.solar.receive.di.ReceiveViewModelModule
+import com.dgsd.android.solar.send.di.SendViewModelModule
 import com.dgsd.android.solar.settings.SettingsViewModel
 import com.dgsd.android.solar.transaction.details.TransactionDetailsViewModel
 import com.dgsd.android.solar.transaction.list.TransactionListViewModel
@@ -51,6 +52,7 @@ internal object ViewModelModule {
 
             includes(OnboardingViewModelModule.create())
             includes(ReceiveViewModelModule.create())
+            includes(SendViewModelModule.create())
         }
     }
 }

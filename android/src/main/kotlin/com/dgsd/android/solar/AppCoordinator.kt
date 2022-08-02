@@ -15,60 +15,80 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class AppCoordinator(
-    private val sessionManager: SessionManager,
+  private val sessionManager: SessionManager,
 ) : ViewModel() {
 
-    sealed interface Destination {
-        object Onboarding : Destination
-        object Home : Destination
-        object Settings : Destination
-        object ShareWalletAddress : Destination
-        object TransactionList : Destination
-        object RequestAmount : Destination
+  sealed interface Destination {
+    object Onboarding : Destination
+    object Home : Destination
+    object Settings : Destination
+    object ShareWalletAddress : Destination
+    object TransactionList : Destination
+    object RequestAmount : Destination
+    object SendWithQR : Destination
+    object SendWithAddress : Destination
+    object SendWithHistoricalAddress : Destination
+    object SendWithNearby : Destination
 
-        data class TransactionDetails(val signature: TransactionSignature): Destination
+    data class TransactionDetails(val signature: TransactionSignature) : Destination
+  }
+
+  private val _destination = MutableEventFlow<Destination>()
+  val destination = _destination.asEventFlow()
+
+  fun onCreate() {
+    sessionManager.activeSession
+      .distinctUntilChangedBy { it.sessionId }
+      .onEach { onSessionChanged(it) }
+      .launchIn(viewModelScope)
+  }
+
+  fun navigateToSettings() {
+    _destination.tryEmit(Destination.Settings)
+  }
+
+  fun navigateToTransactionDetails(signature: TransactionSignature) {
+    _destination.tryEmit(Destination.TransactionDetails(signature))
+  }
+
+  fun navigateToShareWalletAddress() {
+    _destination.tryEmit(Destination.ShareWalletAddress)
+  }
+
+  fun navigateToRequestAmount() {
+    _destination.tryEmit(Destination.RequestAmount)
+  }
+
+  fun navigateToTransactionList() {
+    _destination.tryEmit(Destination.TransactionList)
+  }
+
+  fun navigateToSendWithAddress() {
+    _destination.tryEmit(Destination.SendWithAddress)
+  }
+
+  fun navigateToSendWithHistoricalAddress() {
+    _destination.tryEmit(Destination.SendWithHistoricalAddress)
+  }
+
+  fun navigateToSendWithNearby() {
+    _destination.tryEmit(Destination.SendWithNearby)
+  }
+
+  fun navigateToSendWithQrCode() {
+    _destination.tryEmit(Destination.SendWithQR)
+  }
+
+  private fun onSessionChanged(session: Session) {
+    when (session) {
+      NoActiveWalletSession -> {
+        _destination.tryEmit(Destination.Onboarding)
+      }
+
+      is KeyPairSession,
+      is PublicKeySession -> {
+        _destination.tryEmit(Destination.Home)
+      }
     }
-
-    private val _destination = MutableEventFlow<Destination>()
-    val destination = _destination.asEventFlow()
-
-    fun onCreate() {
-        sessionManager.activeSession
-            .distinctUntilChangedBy { it.sessionId }
-            .onEach { onSessionChanged(it) }
-            .launchIn(viewModelScope)
-    }
-
-    fun navigateToSettings() {
-        _destination.tryEmit(Destination.Settings)
-    }
-
-    fun navigateToTransactionDetails(signature: TransactionSignature) {
-        _destination.tryEmit(Destination.TransactionDetails(signature))
-    }
-
-    fun navigateToShareWalletAddress() {
-        _destination.tryEmit(Destination.ShareWalletAddress)
-    }
-
-    fun navigateToRequestAmount() {
-        _destination.tryEmit(Destination.RequestAmount)
-    }
-
-    fun navigateToTransactionList() {
-        _destination.tryEmit(Destination.TransactionList)
-    }
-
-    private fun onSessionChanged(session: Session) {
-        when (session) {
-            NoActiveWalletSession -> {
-                _destination.tryEmit(Destination.Onboarding)
-            }
-
-            is KeyPairSession,
-            is PublicKeySession -> {
-                _destination.tryEmit(Destination.Home)
-            }
-        }
-    }
+  }
 }

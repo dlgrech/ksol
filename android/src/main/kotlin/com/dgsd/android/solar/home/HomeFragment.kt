@@ -166,6 +166,22 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       appCoordinator.navigateToRequestAmount()
     }
 
+    onEach(viewModel.navigateToSendWithAddress) {
+      appCoordinator.navigateToSendWithAddress()
+    }
+
+    onEach(viewModel.navigateToSendWithHistoricalAddress) {
+      appCoordinator.navigateToSendWithHistoricalAddress()
+    }
+
+    onEach(viewModel.navigateToSendWithNearby) {
+      appCoordinator.navigateToSendWithNearby()
+    }
+
+    onEach(viewModel.navigateToScanQr) {
+      appCoordinator.navigateToSendWithQrCode()
+    }
+
     onEach(viewModel.showSendActionSheet) { items ->
       showSendActionSheet(items)
     }

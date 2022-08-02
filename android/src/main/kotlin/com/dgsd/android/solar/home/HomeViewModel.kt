@@ -99,6 +99,17 @@ class HomeViewModel(
   private val _showReceiveActionSheet = MutableEventFlow<List<ReceiveActionSheetItem>>()
   val showReceiveActionSheet = _showReceiveActionSheet.asEventFlow()
 
+  private val _navigateToScanQr = SimpleMutableEventFlow()
+  val navigateToScanQr = _navigateToScanQr.asEventFlow()
+
+  private val _navigateToSendWithAddress = SimpleMutableEventFlow()
+  val navigateToSendWithAddress = _navigateToSendWithAddress.asEventFlow()
+
+  private val _navigateToSendWithHistoricalAddress = SimpleMutableEventFlow()
+  val navigateToSendWithHistoricalAddress = _navigateToSendWithHistoricalAddress.asEventFlow()
+
+  private val _navigateToSendWithNearby = SimpleMutableEventFlow()
+  val navigateToSendWithNearby = _navigateToSendWithNearby.asEventFlow()
 
   private var hasBeenCreated = false
 
@@ -167,10 +178,10 @@ class HomeViewModel(
 
   fun onSendActionSheetItemClicked(type: SendActionSheetItem.Type) {
     when (type) {
-      SendActionSheetItem.Type.SCAN_QR -> Unit
-      SendActionSheetItem.Type.ENTER_PUBLIC_ADDRESS -> Unit
-      SendActionSheetItem.Type.HISTORICAL_ADDRESS -> Unit
-      SendActionSheetItem.Type.NEARBY -> Unit
+      SendActionSheetItem.Type.SCAN_QR -> _navigateToScanQr.call()
+      SendActionSheetItem.Type.ENTER_PUBLIC_ADDRESS -> _navigateToSendWithAddress.call()
+      SendActionSheetItem.Type.HISTORICAL_ADDRESS -> _navigateToSendWithHistoricalAddress.call()
+      SendActionSheetItem.Type.NEARBY -> _navigateToSendWithNearby.call()
     }
   }
 

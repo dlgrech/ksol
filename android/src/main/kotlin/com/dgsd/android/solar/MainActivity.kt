@@ -11,6 +11,7 @@ import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import com.dgsd.android.solar.receive.requestamount.RequestAmountContainerFragment
 import com.dgsd.android.solar.receive.shareaddress.ReceiveShareAddressFragment
+import com.dgsd.android.solar.send.SendContainerFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
 import com.dgsd.android.solar.transaction.list.TransactionListFragment
@@ -55,6 +56,10 @@ class MainActivity : AppCompatActivity() {
       Destination.Onboarding -> ScreenTransitionType.FADE
       Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.SendWithAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.SendWithHistoricalAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.SendWithNearby -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.SendWithQR -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.Settings -> ScreenTransitionType.DEFAULT
       Destination.TransactionList -> ScreenTransitionType.DEFAULT
       is Destination.TransactionDetails -> ScreenTransitionType.DEFAULT
@@ -71,6 +76,10 @@ class MainActivity : AppCompatActivity() {
       Destination.TransactionList -> TransactionListFragment.newInstance()
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
+      Destination.SendWithAddress -> SendContainerFragment.newInstance()
+      Destination.SendWithHistoricalAddress -> SendContainerFragment.newInstance()
+      Destination.SendWithNearby -> SendContainerFragment.newInstance()
+      Destination.SendWithQR -> SendContainerFragment.newInstance()
     }
   }
 
@@ -83,6 +92,10 @@ class MainActivity : AppCompatActivity() {
       Destination.ShareWalletAddress,
       Destination.Settings,
       Destination.TransactionList,
+      Destination.SendWithAddress,
+      Destination.SendWithHistoricalAddress,
+      Destination.SendWithNearby,
+      Destination.SendWithQR,
       is Destination.TransactionDetails -> false
     }
   }
