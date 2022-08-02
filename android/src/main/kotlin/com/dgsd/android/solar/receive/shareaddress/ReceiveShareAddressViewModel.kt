@@ -25,7 +25,6 @@ class ReceiveShareAddressViewModel(
   publicKeyFormatter: PublicKeyFormatter,
 ) : AndroidViewModel(application) {
 
-
   val walletAddressText = MutableStateFlow(publicKeyFormatter.format(session.publicKey))
 
   private val _qrCodeBitmap = MutableStateFlow<Bitmap?>(null)
