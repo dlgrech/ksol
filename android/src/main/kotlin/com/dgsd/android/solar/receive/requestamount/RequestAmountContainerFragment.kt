@@ -18,6 +18,10 @@ class RequestAmountContainerFragment : Fragment(R.layout.view_fragment_container
 
     onEach(coordinator.destination, ::onDestinationChanged)
 
+    onEach(coordinator.closeFlow) {
+      parentFragmentManager.popBackStackImmediate()
+    }
+
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       coordinator.onCreate()
     }

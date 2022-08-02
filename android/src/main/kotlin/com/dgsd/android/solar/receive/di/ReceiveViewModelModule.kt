@@ -18,7 +18,16 @@ object ReceiveViewModelModule {
       viewModelOf(::RequestAmountCoordinator)
       viewModelOf(::RequestEnterAmountViewModel)
       viewModelOf(::RequestEnterMessageViewModel)
-      viewModelOf(::RequestAmountViewQRViewModel)
+      viewModel {
+        RequestAmountViewQRViewModel(
+          application = get(),
+          session = getScoped(),
+          solPay = getScoped(),
+          errorMessageFactory = get(),
+          lamports = get(),
+          message = get(),
+        )
+      }
       viewModel {
         ReceiveShareAddressViewModel(
           application = get(),

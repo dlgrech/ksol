@@ -128,4 +128,8 @@
     <string name="receive_request_amount_message_screen_title">Enter message</string>
     <string name="receive_request_amount_message_explainer">Enter an optional message you would like to send with this request. This could be a short message to help someone understand what this request is for.</string>
     <string name="receive_request_amount_message_hint">(Optional) message</string>
+    <string name="receive_request_amount_qr_screen_title">Request SOL</string>
+    <string name="receive_request_amount_qr_explainer">You can share this QR code with other people to receive SOL.</string>
+    <string name="share">Share</string>
+    <string name="done">Done</string>
 </resources>

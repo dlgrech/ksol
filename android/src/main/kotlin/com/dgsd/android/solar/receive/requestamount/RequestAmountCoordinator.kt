@@ -2,7 +2,9 @@ package com.dgsd.android.solar.receive.requestamount
 
 import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.flow.call
 import com.dgsd.ksol.model.Lamports
 
 class RequestAmountCoordinator : ViewModel() {
@@ -15,6 +17,9 @@ class RequestAmountCoordinator : ViewModel() {
 
   private val _destination = MutableEventFlow<Destination>()
   val destination = _destination.asEventFlow()
+
+  private val _closeFlow = SimpleMutableEventFlow()
+  val closeFlow = _closeFlow.asEventFlow()
 
   var lamports: Lamports? = null
     private set
@@ -34,5 +39,9 @@ class RequestAmountCoordinator : ViewModel() {
   fun onMessageEntered(message: String?) {
     this.message = message
     _destination.tryEmit(Destination.ViewQR)
+  }
+
+  fun onCloseFlowClicked() {
+    _closeFlow.call()
   }
 }
