@@ -33,6 +33,7 @@ object ReceiveViewModelModule {
         ReceiveShareAddressViewModel(
           application = get(),
           session = getScoped(),
+          fileProviderManager = get(),
           publicKeyFormatter = get(),
           systemClipboard = get(),
           errorMessageFactory = get(),

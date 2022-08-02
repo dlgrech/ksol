@@ -2,6 +2,7 @@ package com.dgsd.android.solar.receive.shareaddress
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
@@ -9,6 +10,7 @@ import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.extensions.getString
+import com.dgsd.android.solar.files.FileProviderManager
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.qr.QRCodeFactory
@@ -20,6 +22,7 @@ import kotlinx.coroutines.launch
 class ReceiveShareAddressViewModel(
   application: Application,
   private val session: WalletSession,
+  private val fileProviderManager: FileProviderManager,
   private val errorMessageFactory: ErrorMessageFactory,
   private val systemClipboard: SystemClipboard,
   publicKeyFormatter: PublicKeyFormatter,
@@ -39,6 +42,9 @@ class ReceiveShareAddressViewModel(
   private val _showSystemShare = MutableEventFlow<String>()
   val showSystemShare = _showSystemShare.asEventFlow()
 
+  private val _showSystemShareForImage = MutableEventFlow<Uri>()
+  val showSystemShareForImage = _showSystemShareForImage.asEventFlow()
+
   fun onCreate() {
     viewModelScope.launch {
       runCatching {
@@ -57,7 +63,16 @@ class ReceiveShareAddressViewModel(
   }
 
   fun onShareAddressClicked() {
-    _showSystemShare.tryEmit(session.publicKey.toBase58String())
+    viewModelScope.launch {
+      val address = session.publicKey.toBase58String()
+      val bitmap = qrCodeBitmap.value
+      if (bitmap == null) {
+        _showSystemShare.tryEmit(address)
+      } else {
+        val uri = fileProviderManager.save(bitmap)
+        _showSystemShareForImage.tryEmit(uri)
+      }
+    }
   }
 
   override fun onCleared() {

@@ -66,6 +66,13 @@ class ReceiveShareAddressFragment : Fragment(R.layout.frag_receive_share_address
         .startChooser()
     }
 
+    onEach(viewModel.showSystemShareForImage) { imageUri ->
+      ShareCompat.IntentBuilder(requireContext())
+        .setStream(imageUri)
+        .setType("image/png")
+        .startChooser()
+    }
+
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       viewModel.onCreate()
     }

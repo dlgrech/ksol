@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
-import com.dgsd.android.solar.common.util.IntentFactory
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,7 +50,10 @@ class RequestAmountViewQRFragment : Fragment(R.layout.frag_request_amount_view_q
     }
 
     onEach(viewModel.showSystemShare) { imageUri ->
-      startActivity(IntentFactory.createShareImageIntent(imageUri))
+      ShareCompat.IntentBuilder(requireContext())
+        .setStream(imageUri)
+        .setType("image/png")
+        .startChooser()
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
