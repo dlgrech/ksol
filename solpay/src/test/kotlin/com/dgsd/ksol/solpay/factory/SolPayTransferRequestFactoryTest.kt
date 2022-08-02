@@ -208,11 +208,6 @@ class SolPayTransferRequestFactoryTest {
     val request = SolPayTransferRequest(
       recipient = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
       amount = BigDecimal("1.5"),
-      references = emptyList(),
-      splTokenMintAccount = null,
-      message = null,
-      memo = null,
-      label = null,
     )
 
     val url = SolPayTransferRequestFactory.createUrl(request)
@@ -227,12 +222,6 @@ class SolPayTransferRequestFactoryTest {
   fun createUrl_withNoQueryParmas_createsExpectedUrl() {
     val request = SolPayTransferRequest(
       recipient = PublicKey.fromBase58("9nRgWwaeutVYbGFR1yC4TxBHY72LQkPxbTmEFvLKgrKJ"),
-      amount = null,
-      references = emptyList(),
-      splTokenMintAccount = null,
-      message = null,
-      memo = null,
-      label = null,
     )
 
     val url = SolPayTransferRequestFactory.createUrl(request)
