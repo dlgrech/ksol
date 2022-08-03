@@ -76,10 +76,10 @@ class MainActivity : AppCompatActivity() {
       Destination.TransactionList -> TransactionListFragment.newInstance()
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
-      Destination.SendWithAddress -> SendContainerFragment.newInstance()
-      Destination.SendWithHistoricalAddress -> SendContainerFragment.newInstance()
-      Destination.SendWithNearby -> SendContainerFragment.newInstance()
-      Destination.SendWithQR -> SendContainerFragment.newInstance()
+      Destination.SendWithAddress -> SendContainerFragment.newEnterAddressInstance()
+      Destination.SendWithHistoricalAddress -> SendContainerFragment.newEnterAddressInstance()
+      Destination.SendWithNearby -> SendContainerFragment.newEnterAddressInstance()
+      Destination.SendWithQR -> SendContainerFragment.newQRScanInstance()
     }
   }
 

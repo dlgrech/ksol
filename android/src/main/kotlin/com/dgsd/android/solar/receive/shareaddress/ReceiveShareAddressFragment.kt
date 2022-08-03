@@ -9,7 +9,7 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
-import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
+import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.extensions.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -52,7 +52,7 @@ class ReceiveShareAddressFragment : Fragment(R.layout.frag_receive_share_address
     }
 
     onEach(viewModel.showError) {
-      showModelFromErrorMessage(it)
+      showModalFromErrorMessage(it)
     }
 
     onEach(viewModel.showSuccessMessage) {

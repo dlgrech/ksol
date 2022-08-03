@@ -11,7 +11,7 @@ fun Fragment.showModal(modalInfo: ModalInfo) {
   fragment.show(childFragmentManager, null)
 }
 
-fun Fragment.showModelFromErrorMessage(message: CharSequence) {
+fun Fragment.showModalFromErrorMessage(message: CharSequence) {
   showModal(
     modalInfo = ModalInfo(
       title = getString(R.string.error_modal_default_title),

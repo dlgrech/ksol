@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
-import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
+import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
@@ -58,7 +58,7 @@ class RestoreAccountSelectAddressFragment :
     }
 
     onEach(viewModel.errorMessage) {
-      showModelFromErrorMessage(it)
+      showModalFromErrorMessage(it)
     }
 
     onEach(viewModel.continueWithResult) { keyPair ->

@@ -11,7 +11,7 @@ import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModal
-import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
+import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.di.util.parentViewModel
@@ -87,7 +87,7 @@ class CreateAccountViewSeedPhraseFragment :
     }
 
     onEach(viewModel.errorMessage) {
-      showModelFromErrorMessage(it)
+      showModalFromErrorMessage(it)
     }
 
     onEach(viewModel.showSeedPhraseCopiedSuccess) {

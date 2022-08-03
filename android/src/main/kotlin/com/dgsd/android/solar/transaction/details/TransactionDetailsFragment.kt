@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
-import com.dgsd.android.solar.common.modalsheet.extensions.showModelFromErrorMessage
+import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.extensions.*
 import com.dgsd.ksol.model.TransactionSignature
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -72,7 +72,7 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     }
 
     onEach(viewModel.errorMessage) {
-      showModelFromErrorMessage(it)
+      showModalFromErrorMessage(it)
     }
 
     onEach(viewModel.transactionSignatureHeaderText) {

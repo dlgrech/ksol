@@ -17,6 +17,7 @@ import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.files.FileProviderManager
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.nfc.NfcManagerImpl
+import com.dgsd.android.solar.permission.PermissionsManager
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
 import com.dgsd.ksol.model.Cluster
@@ -86,6 +87,7 @@ internal object AppModule {
       }
 
       singleOf(::PublicKeyFormatter)
+      singleOf(::PermissionsManager)
       singleOf(::OkHttpClient)
       singleOf(::ErrorMessageFactory)
       singleOf(::SystemClipboard)

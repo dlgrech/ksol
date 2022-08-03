@@ -132,4 +132,9 @@
     <string name="receive_request_amount_qr_explainer">You can share this QR code with other people to receive SOL.</string>
     <string name="share">Share</string>
     <string name="done">Done</string>
+    <string name="send_scan_qr_screen_title">Scan QR</string>
+    <string name="send_scan_qr_permission_explaination">We\'ll need to use the phone camera to scan a QR.\n\nTap below to grant permission.</string>
+    <string name="send_scan_qr_grant_permission_link">Grant Permission</string>
+    <string name="send_scan_qr_camera_error">There was a problem opening up your device camera</string>
+    <string name="send_scan_qr_barcode_error">Detected a barcode, but could not find wallet address</string>
 </resources>
