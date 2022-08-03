@@ -137,4 +137,7 @@
     <string name="send_scan_qr_grant_permission_link">Grant Permission</string>
     <string name="send_scan_qr_camera_error">There was a problem opening up your device camera</string>
     <string name="send_scan_qr_barcode_error">Detected a barcode, but could not find wallet address</string>
+    <string name="send_scan_qr_page_explainer">"You can scan a SolPay-compatible QR code, or a QR code with a solana public key "</string>
+    <string name="send_scan_qr_enter_details_manually">Enter details manually</string>
+    <string name="or">or</string>
 </resources>

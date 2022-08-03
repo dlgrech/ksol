@@ -8,7 +8,7 @@ import android.provider.Settings
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
@@ -40,6 +40,8 @@ class SendScanQRFragment : Fragment(R.layout.frag_send_scan_qr) {
     barcodeScannerView = view.requireViewById(R.id.barcode_scanner)
     val toolbar = view.requireViewById<Toolbar>(R.id.toolbar)
     val permissionsContainer = view.requireViewById<View>(R.id.permission_container)
+    val pageInstructions = view.requireViewById<View>(R.id.page_instructions)
+    val enterDetailsManually = view.requireViewById<View>(R.id.enter_details_manually)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()
@@ -47,6 +49,10 @@ class SendScanQRFragment : Fragment(R.layout.frag_send_scan_qr) {
 
     permissionsContainer.setOnClickListener {
       viewModel.onRequestCameraPermissionClicked()
+    }
+
+    enterDetailsManually.setOnClickListener {
+      viewModel.onEnterDetailsManuallyClicked()
     }
 
     barcodeScannerView?.setStatusText(null)
@@ -70,10 +76,11 @@ class SendScanQRFragment : Fragment(R.layout.frag_send_scan_qr) {
     }
 
     onEach(viewModel.showMissingCameraPermissionsState) {
-      barcodeScannerView?.isVisible = !it
-      permissionsContainer.isVisible = it
+      barcodeScannerView?.isInvisible = it
+      permissionsContainer.isInvisible = !it
+      pageInstructions.isInvisible = it
 
-      if (it) {
+      if (!it) {
         barcodeScannerView?.resume()
       }
     }

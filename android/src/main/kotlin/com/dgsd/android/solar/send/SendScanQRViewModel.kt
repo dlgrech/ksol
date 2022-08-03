@@ -23,7 +23,8 @@ class SendScanQRViewModel(
   private val solPay: SolPay,
 ) : AndroidViewModel(application) {
 
-  private val _showMissingCameraPermissionsState = MutableStateFlow(false)
+  private val _showMissingCameraPermissionsState =
+    MutableStateFlow(!permissionsManager.hasCameraPermissions())
   val showMissingCameraPermissionsState = _showMissingCameraPermissionsState.asStateFlow()
 
   private val _showSystemCameraPermissionPrompt = SimpleMutableEventFlow()
@@ -51,6 +52,10 @@ class SendScanQRViewModel(
 
   fun onRequestCameraPermissionClicked() {
     _showSystemCameraPermissionPrompt.call()
+  }
+
+  fun onEnterDetailsManuallyClicked() {
+    // Coming soon..
   }
 
   fun onCameraStateError() {

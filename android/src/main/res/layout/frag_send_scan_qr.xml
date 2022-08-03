@@ -10,6 +10,19 @@
         app:navigationIcon="@drawable/ic_baseline_close_24"
         app:title="@string/send_scan_qr_screen_title" />
 
+    <TextView
+        android:id="@+id/page_instructions"
+        style="@style/TextAppearance.PageInstruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/send_scan_qr_page_explainer"
+        app:layout_constraintBottom_toTopOf="@id/barcode_scanner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/barcode_scanner"
         android:layout_width="match_parent"
@@ -17,12 +30,11 @@
         android:layout_margin="@dimen/padding_large"
         android:visibility="invisible"
         app:layout_constrainedHeight="true"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/or_label"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintTop_toBottomOf="@id/page_instructions"
         app:zxing_preview_scaling_strategy="centerCrop" />
 
     <LinearLayout
@@ -49,5 +61,27 @@
             android:text="@string/send_scan_qr_grant_permission_link" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/or_label"
+        style="@style/TextAppearance.Solar.Label1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/or"
+        app:layout_constraintBottom_toTopOf="@id/enter_details_manually"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/enter_details_manually"
+        style="@style/TextAppearance.Link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/padding_default"
+        android:layout_marginBottom="@dimen/padding_default"
+        android:text="@string/send_scan_qr_enter_details_manually"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
