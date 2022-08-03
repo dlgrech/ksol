@@ -1,7 +1,7 @@
 package com.dgsd.ksol.solpay.factory
 
-import com.dgsd.ksol.model.LAMPORTS_IN_SOL
 import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.utils.isValidSolAmount
 import com.dgsd.ksol.solpay.extensions.getPathPortion
 import com.dgsd.ksol.solpay.extensions.getRawQueryParameters
 import com.dgsd.ksol.solpay.extensions.urlDecode
@@ -9,7 +9,6 @@ import com.dgsd.ksol.solpay.extensions.urlEncode
 import com.dgsd.ksol.solpay.model.SolPayParsingException
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import java.math.BigDecimal
-import java.net.URI
 
 internal object SolPayTransferRequestFactory {
 
@@ -104,7 +103,7 @@ internal object SolPayTransferRequestFactory {
         "Cannot have a negative amount"
       }
 
-      check(LAMPORTS_IN_SOL * amount >= BigDecimal.ONE) {
+      check(amount.isValidSolAmount()) {
         "Amount has too many decimals"
       }
     }

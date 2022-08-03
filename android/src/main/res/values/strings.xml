@@ -151,4 +151,6 @@
     <string name="send_enter_amount_page_explainer">How many SOL tokens do you want to send?</string>
     <string name="send_enter_amount_input_hint">SOL amount (Eg 1.05)</string>
     <string name="send_enter_amount_balance_template">Your balance: ^1</string>
+    <string name="send_enter_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>
+    <string name="send_enter_amount_not_enough_balance">You have an insufficient balance.</string>
 </resources>

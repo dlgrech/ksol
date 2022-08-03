@@ -9,6 +9,7 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.model.LAMPORTS_IN_SOL
 import com.dgsd.ksol.model.Lamports
+import com.dgsd.ksol.utils.isValidSolAmount
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
@@ -43,7 +44,7 @@ class RequestEnterAmountViewModel(
         getString(R.string.receive_request_amount_amount_input_error_invalid_amount)
       )
     }.onSuccess { bigDecimalAmount ->
-      if (LAMPORTS_IN_SOL * bigDecimalAmount < BigDecimal.ONE) {
+      if (!bigDecimalAmount.isValidSolAmount()) {
         // Invalid number of decimals
         _errorMessage.value =
           getString(R.string.receive_request_amount_amount_input_error_invalid_amount)

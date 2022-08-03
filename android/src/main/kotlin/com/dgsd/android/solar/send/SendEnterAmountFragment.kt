@@ -2,9 +2,11 @@ package com.dgsd.android.solar.send
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isInvisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
@@ -21,6 +23,7 @@ class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
 
     val toolbar = view.requireViewById<Toolbar>(R.id.toolbar)
     val nextButton = view.requireViewById<View>(R.id.next)
+    val input = view.requireViewById<EditText>(R.id.input)
     val balanceText = view.requireViewById<TextView>(R.id.balance_text)
 
     toolbar.setNavigationOnClickListener {
@@ -31,6 +34,10 @@ class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
       viewModel.onNextButtonClicked()
     }
 
+    input.doAfterTextChanged {
+      viewModel.onInputChanged(it?.toString().orEmpty())
+    }
+
     onEach(viewModel.balanceText) {
       balanceText.text = it
       balanceText.isInvisible = it.isEmpty()
@@ -38,6 +45,14 @@ class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
 
     onEach(viewModel.errorMessage) {
       showModalFromErrorMessage(it)
+    }
+
+    onEach(viewModel.isNextButtonEnabled) {
+      nextButton.isEnabled = it
+    }
+
+    onEach(viewModel.continueWithLamports) {
+
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

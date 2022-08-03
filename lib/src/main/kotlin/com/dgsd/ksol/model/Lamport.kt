@@ -12,7 +12,7 @@ typealias Lamports = Long
 /**
  * The number of SOL tokens in a single lamport.
  */
-val SOL_IN_LAMPORTS = BigDecimal.valueOf(0.000000001)
+val SOL_IN_LAMPORTS = BigDecimal("0.000000001")
 
 /**
  * The number of lamports that make up 1 SOL token
