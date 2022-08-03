@@ -32,6 +32,7 @@
         android:layout_marginHorizontal="@dimen/padding_xlarge"
         android:gravity="center"
         android:hint="@string/receive_request_amount_amount_input_hint"
+        android:imeOptions="actionDone"
         android:inputType="number|numberDecimal"
         android:maxLines="1"
         android:minHeight="@dimen/clickable_element_min_height"

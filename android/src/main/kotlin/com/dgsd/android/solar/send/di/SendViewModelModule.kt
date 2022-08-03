@@ -18,9 +18,16 @@ object SendViewModelModule {
           solPayRequestUrl = params.getOrNull(),
         )
       }
-      viewModelOf(::SendEnterAmountViewModel)
       viewModelOf(::SendConfirmTransactionRequestViewModel)
       viewModelOf(::SendConfirmTransferRequestViewModel)
+      viewModel {
+        SendEnterAmountViewModel(
+          application = get(),
+          errorMessageFactory = get(),
+          session = getScoped(),
+          solanaApi = getScoped(),
+        )
+      }
       viewModel {
         SendEnterAddressViewModel(
           application = get(),
