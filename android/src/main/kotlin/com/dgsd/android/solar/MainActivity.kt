@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
       Destination.SendWithAddress -> SendContainerFragment.newEnterAddressInstance()
-      Destination.SendWithHistoricalAddress -> SendContainerFragment.newEnterAddressInstance()
+      Destination.SendWithHistoricalAddress -> SendContainerFragment.newPreviousTransactionAddressInstance()
       Destination.SendWithNearby -> SendContainerFragment.newEnterAddressInstance()
       Destination.SendWithQR -> SendContainerFragment.newQRScanInstance()
     }

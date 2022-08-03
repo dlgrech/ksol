@@ -34,13 +34,13 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
   private fun onDestinationChanged(destination: Destination) {
     val fragment = when (destination) {
       Destination.Confirmation -> TODO()
-      Destination.DetectedRecipient -> TODO()
       Destination.EnterAddress -> SendEnterAddressFragment()
-      Destination.EnterAmount -> TODO()
-      Destination.ScanQR -> SendScanQRFragment()
-      Destination.SendToPrevious -> TODO()
-      Destination.Success -> TODO()
+      Destination.EnterAmount -> SendEnterAmountFragment()
       Destination.PreviousTransactionPicker -> TODO()
+      Destination.ScanQR -> SendScanQRFragment()
+      Destination.Success -> TODO()
+      Destination.TransactionRequestConfirmation -> SendConfirmTransactionRequestFragment()
+      Destination.TransferRequestConfirmation -> SendConfirmTransferRequestFragment()
     }
 
     childFragmentManager.navigate(R.id.fragment_container, fragment)
@@ -54,6 +54,11 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
 
     fun newEnterAddressInstance(): SendContainerFragment {
       return newInstance(SendCoordinator.StartingDestination.ENTER_ADDRESS)
+    }
+
+
+    fun newPreviousTransactionAddressInstance(): SendContainerFragment {
+      return newInstance(SendCoordinator.StartingDestination.PREVIOUS_ADDRESS_PICKER)
     }
 
     fun newInstance(startingDestination: SendCoordinator.StartingDestination): SendContainerFragment {

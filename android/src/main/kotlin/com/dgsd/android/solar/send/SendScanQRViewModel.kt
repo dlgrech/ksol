@@ -42,6 +42,9 @@ class SendScanQRViewModel(
   private val _continueWithSolPayTransactionRequest = MutableEventFlow<SolPayTransactionRequest>()
   val continueWithSolPayTransactionRequest = _continueWithSolPayTransactionRequest.asEventFlow()
 
+  private val _navigateToEnterAddress = SimpleMutableEventFlow()
+  val navigateToEnterAddress = _navigateToEnterAddress.asEventFlow()
+
   fun onResume() {
     onCameraPermissionStateChanged()
   }
@@ -55,7 +58,7 @@ class SendScanQRViewModel(
   }
 
   fun onEnterDetailsManuallyClicked() {
-    // Coming soon..
+    _navigateToEnterAddress.call()
   }
 
   fun onCameraStateError() {
@@ -63,8 +66,7 @@ class SendScanQRViewModel(
   }
 
   fun onBarcodeScanResult(text: String) {
-    val parsingResult = solPay.parseUrl(text)
-    val request = when (parsingResult) {
+    when (val parsingResult = solPay.parseUrl(text)) {
       is SolPayUrlParsingResult.TransactionRequest -> {
         _continueWithSolPayTransactionRequest.tryEmit(parsingResult.request)
       }

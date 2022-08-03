@@ -111,6 +111,10 @@ class SendScanQRFragment : Fragment(R.layout.frag_send_scan_qr) {
     onEach(viewModel.continueWithSolPayTransferRequest) {
       coordinator.navigateWithTransferRequest(it)
     }
+
+    onEach(viewModel.navigateToEnterAddress) {
+      coordinator.navigateToEnterAmount()
+    }
   }
 
   override fun onResume() {

@@ -1,9 +1,7 @@
 package com.dgsd.android.solar.send.di
 
 import com.dgsd.android.solar.di.util.getScoped
-import com.dgsd.android.solar.send.SendCoordinator
-import com.dgsd.android.solar.send.SendEnterAddressViewModel
-import com.dgsd.android.solar.send.SendScanQRViewModel
+import com.dgsd.android.solar.send.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
@@ -15,6 +13,9 @@ object SendViewModelModule {
     return module {
       viewModelOf(::SendCoordinator)
       viewModelOf(::SendEnterAddressViewModel)
+      viewModelOf(::SendEnterAmountViewModel)
+      viewModelOf(::SendConfirmTransactionRequestViewModel)
+      viewModelOf(::SendConfirmTransferRequestViewModel)
       viewModel {
         SendScanQRViewModel(
           application = get(),
