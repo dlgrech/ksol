@@ -33,30 +33,26 @@ internal class SolPayImpl(
   private val transactionDetailsRequestJsonAdapter =
     moshiJson.adapter(TransactionRequestTransactionDetailsRequest::class.java)
 
-  override fun createUrl(request: SolPayTransferRequest): String {
-    return SolPayTransferRequestFactory.createUrl(request)
-  }
-
-  override fun createUrl(request: SolPayTransactionRequest): String {
-    return SolPayTransactionRequestFactory.createUrl(request)
-  }
-
-  override fun parseUrl(url: String): SolPayUrlParsingResult {
-    val parsingResult = if (url.isTransactionRequestUrl()) {
-      runCatching {
-        SolPayUrlParsingResult.TransactionRequest(
-          SolPayTransactionRequestFactory.createRequest(url)
-        )
-      }
-    } else {
-      runCatching {
-        SolPayUrlParsingResult.TransferRequest(
-          SolPayTransferRequestFactory.createRequest(url)
-        )
-      }
+  override fun createUrl(request: SolPayRequest): String {
+    return when (request) {
+      is SolPayTransactionRequest -> SolPayTransactionRequestFactory.createUrl(request)
+      is SolPayTransferRequest -> SolPayTransferRequestFactory.createUrl(request)
     }
+  }
 
-    return parsingResult.getOrElse { SolPayUrlParsingResult.ParsingError(it) }
+  override fun parseUrl(url: String): SolPayRequest? {
+    val parsingResult =
+      if (url.isTransactionRequestUrl()) {
+        runCatching {
+          SolPayTransactionRequestFactory.createRequest(url)
+        }
+      } else {
+        runCatching {
+          SolPayTransferRequestFactory.createRequest(url)
+        }
+      }
+
+    return parsingResult.getOrNull()
   }
 
   override suspend fun getDetails(

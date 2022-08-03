@@ -5,11 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cache.CacheStrategy
+import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.model.Resource
-import com.dgsd.android.solar.common.ui.DateTimeFormatter
-import com.dgsd.android.solar.common.ui.SolTokenFormatter
-import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
+import com.dgsd.android.solar.common.ui.*
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
@@ -20,23 +19,29 @@ import com.dgsd.android.solar.model.LamportsWithTimestamp
 import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
+import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.solpay.SolPay
+import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import kotlinx.coroutines.flow.*
 
 private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
 
 class HomeViewModel(
   application: Application,
+  private val systemClipboard: SystemClipboard,
   private val errorMessageFactory: ErrorMessageFactory,
+  private val publicKeyFormatter: PublicKeyFormatter,
   private val transactionViewStateFactory: TransactionViewStateFactory,
   private val solanaApiRepository: SolanaApiRepository,
+  private val solPay: SolPay,
   private val nfcManager: NfcManager,
 ) : AndroidViewModel(application) {
 
   private val balanceResourceConsumer = ResourceFlowConsumer<LamportsWithTimestamp>(viewModelScope)
   val isLoadingBalance = balanceResourceConsumer.isLoading
   val balanceText = balanceResourceConsumer.data
-      .filterNotNull()
+    .filterNotNull()
     .map { SolTokenFormatter.format(it.lamports) }
     .onStart { emit("-") }
 
@@ -111,6 +116,9 @@ class HomeViewModel(
   private val _navigateToSendWithNearby = SimpleMutableEventFlow()
   val navigateToSendWithNearby = _navigateToSendWithNearby.asEventFlow()
 
+  private val _navigateToSendToAddress = MutableEventFlow<String>()
+  val navigateToSendWithSolPayRequest = _navigateToSendToAddress.asEventFlow()
+
   private var hasBeenCreated = false
 
   fun onCreate() {
@@ -146,28 +154,44 @@ class HomeViewModel(
   }
 
   fun onSendButtonClicked() {
+    val addressOnClipboard = systemClipboard.currentContents()?.let {
+      runCatching { PublicKey.fromBase58(it) }.getOrNull()
+    }
     _showSendActionSheet.tryEmit(
       listOfNotNull(
+        if (addressOnClipboard == null) {
+          null
+        } else {
+          SendActionSheetItem(
+            RichTextFormatter.expandTemplate(
+              getApplication(),
+              R.string.home_send_action_sheet_item_from_clipboard_template,
+              publicKeyFormatter.abbreviate(addressOnClipboard)
+            ),
+            R.drawable.ic_baseline_content_copy_24,
+            SendActionSheetItem.Type.PreselectedAddress(addressOnClipboard)
+          )
+        },
         SendActionSheetItem(
           getString(R.string.home_send_action_sheet_item_scan_qr),
           R.drawable.ic_baseline_qr_code_scanner_24,
-          SendActionSheetItem.Type.SCAN_QR
+          SendActionSheetItem.Type.ScanQr
         ),
         SendActionSheetItem(
           getString(R.string.home_send_action_sheet_item_enter_address),
           R.drawable.ic_baseline_keyboard_24,
-          SendActionSheetItem.Type.ENTER_PUBLIC_ADDRESS
+          SendActionSheetItem.Type.EnterPublicAddress
         ),
         SendActionSheetItem(
           getString(R.string.home_send_action_sheet_item_send_to_previous),
           R.drawable.ic_baseline_history_24,
-          SendActionSheetItem.Type.HISTORICAL_ADDRESS
+          SendActionSheetItem.Type.HistoricalAddress
         ),
         if (nfcManager.isNfAvailable()) {
           SendActionSheetItem(
             getString(R.string.home_send_action_sheet_item_nearby),
             R.drawable.ic_baseline_tap_and_play_24,
-            SendActionSheetItem.Type.NEARBY
+            SendActionSheetItem.Type.Nearby
           )
         } else {
           null
@@ -178,10 +202,14 @@ class HomeViewModel(
 
   fun onSendActionSheetItemClicked(type: SendActionSheetItem.Type) {
     when (type) {
-      SendActionSheetItem.Type.SCAN_QR -> _navigateToScanQr.call()
-      SendActionSheetItem.Type.ENTER_PUBLIC_ADDRESS -> _navigateToSendWithAddress.call()
-      SendActionSheetItem.Type.HISTORICAL_ADDRESS -> _navigateToSendWithHistoricalAddress.call()
-      SendActionSheetItem.Type.NEARBY -> _navigateToSendWithNearby.call()
+      SendActionSheetItem.Type.ScanQr -> _navigateToScanQr.call()
+      SendActionSheetItem.Type.EnterPublicAddress -> _navigateToSendWithAddress.call()
+      SendActionSheetItem.Type.HistoricalAddress -> _navigateToSendWithHistoricalAddress.call()
+      SendActionSheetItem.Type.Nearby -> _navigateToSendWithNearby.call()
+      is SendActionSheetItem.Type.PreselectedAddress -> {
+        val request = SolPayTransferRequest(type.address)
+        _navigateToSendToAddress.tryEmit(solPay.createUrl(request))
+      }
     }
   }
 

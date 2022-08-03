@@ -3,11 +3,15 @@ package com.dgsd.android.solar.send
 import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.ksol.solpay.SolPay
+import com.dgsd.ksol.solpay.model.SolPayRequest
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 
 class SendCoordinator(
-  private val startingDestination: StartingDestination,
+  private val solPay: SolPay,
+  private val startingDestination: StartingDestination?,
+  solPayRequestUrl: String?,
 ) : ViewModel() {
 
   enum class StartingDestination {
@@ -30,30 +34,31 @@ class SendCoordinator(
   private val _destination = MutableEventFlow<Destination>()
   val destination = _destination.asEventFlow()
 
-  var transferRequest: SolPayTransferRequest? = null
-    private set
-
-  var transactionRequest: SolPayTransactionRequest? = null
+  var solPayRequest: SolPayRequest? = solPayRequestUrl?.let { solPay.parseUrl(it) }
     private set
 
   fun onCreate() {
-    _destination.tryEmit(
-      when (startingDestination) {
-        StartingDestination.QR_SCAN -> Destination.ScanQR
-        StartingDestination.ENTER_ADDRESS -> Destination.EnterAddress
-        StartingDestination.PREVIOUS_ADDRESS_PICKER -> Destination.PreviousTransactionPicker
-      }
-    )
+    if (startingDestination != null) {
+      _destination.tryEmit(
+        when (startingDestination) {
+          StartingDestination.QR_SCAN -> Destination.ScanQR
+          StartingDestination.ENTER_ADDRESS -> Destination.EnterAddress
+          StartingDestination.PREVIOUS_ADDRESS_PICKER -> Destination.PreviousTransactionPicker
+        }
+      )
+    } else if (solPayRequest != null) {
+      navigateWithSolPayRequest(checkNotNull(solPayRequest))
+    } else {
+      _destination.tryEmit(Destination.EnterAddress)
+    }
   }
 
-  fun navigateWithTransactionRequest(request: SolPayTransactionRequest) {
-    transactionRequest = request
-    _destination.tryEmit(Destination.TransactionRequestConfirmation)
-  }
-
-  fun navigateWithTransferRequest(request: SolPayTransferRequest) {
-    transferRequest = request
-    _destination.tryEmit(Destination.TransferRequestConfirmation)
+  fun navigateWithSolPayRequest(request: SolPayRequest) {
+    solPayRequest = request
+    when (solPayRequest) {
+      is SolPayTransactionRequest -> _destination.tryEmit(Destination.TransferRequestConfirmation)
+      is SolPayTransferRequest -> _destination.tryEmit(Destination.TransferRequestConfirmation)
+    }
   }
 
   fun navigateToEnterAmount() {

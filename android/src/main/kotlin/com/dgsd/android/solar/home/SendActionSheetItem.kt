@@ -1,6 +1,7 @@
 package com.dgsd.android.solar.home
 
 import androidx.annotation.DrawableRes
+import com.dgsd.ksol.model.PublicKey
 
 data class SendActionSheetItem(
   val displayText: CharSequence,
@@ -8,10 +9,11 @@ data class SendActionSheetItem(
   val type: Type
 ) {
 
-  enum class Type {
-    SCAN_QR,
-    ENTER_PUBLIC_ADDRESS,
-    HISTORICAL_ADDRESS,
-    NEARBY,
+  sealed interface Type {
+    object ScanQr : Type
+    object EnterPublicAddress : Type
+    object HistoricalAddress : Type
+    object Nearby : Type
+    data class PreselectedAddress(val address: PublicKey) : Type
   }
 }

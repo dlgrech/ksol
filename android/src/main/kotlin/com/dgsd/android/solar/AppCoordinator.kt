@@ -29,6 +29,7 @@ class AppCoordinator(
     object SendWithAddress : Destination
     object SendWithHistoricalAddress : Destination
     object SendWithNearby : Destination
+    data class SendWithSolPayRequest(val requestUrl: String): Destination
 
     data class TransactionDetails(val signature: TransactionSignature) : Destination
   }
@@ -77,6 +78,10 @@ class AppCoordinator(
 
   fun navigateToSendWithQrCode() {
     _destination.tryEmit(Destination.SendWithQR)
+  }
+
+  fun navigateToSendWithSolPayRequest(solPayRequestUrl: String) {
+    _destination.tryEmit(Destination.SendWithSolPayRequest(solPayRequestUrl))
   }
 
   private fun onSessionChanged(session: Session) {

@@ -11,9 +11,9 @@ import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.permission.PermissionsManager
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.solpay.SolPay
+import com.dgsd.ksol.solpay.model.SolPayRequest
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
-import com.dgsd.ksol.solpay.model.SolPayUrlParsingResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -36,11 +36,8 @@ class SendScanQRViewModel(
   private val _showInvalidBarcodeError = MutableEventFlow<CharSequence>()
   val showInvalidBarcodeError = _showInvalidBarcodeError.asEventFlow()
 
-  private val _continueWithSolPayTransferRequest = MutableEventFlow<SolPayTransferRequest>()
-  val continueWithSolPayTransferRequest = _continueWithSolPayTransferRequest.asEventFlow()
-
-  private val _continueWithSolPayTransactionRequest = MutableEventFlow<SolPayTransactionRequest>()
-  val continueWithSolPayTransactionRequest = _continueWithSolPayTransactionRequest.asEventFlow()
+  private val _continueWithSolPayRequest = MutableEventFlow<SolPayRequest>()
+  val continueWithSolPayRequest = _continueWithSolPayRequest.asEventFlow()
 
   private val _navigateToEnterAddress = SimpleMutableEventFlow()
   val navigateToEnterAddress = _navigateToEnterAddress.asEventFlow()
@@ -66,23 +63,23 @@ class SendScanQRViewModel(
   }
 
   fun onBarcodeScanResult(text: String) {
-    when (val parsingResult = solPay.parseUrl(text)) {
-      is SolPayUrlParsingResult.TransactionRequest -> {
-        _continueWithSolPayTransactionRequest.tryEmit(parsingResult.request)
-      }
-      is SolPayUrlParsingResult.TransferRequest -> {
-        _continueWithSolPayTransferRequest.tryEmit(parsingResult.request)
-      }
-      is SolPayUrlParsingResult.ParsingError -> {
+    when (val result = solPay.parseUrl(text)) {
+      null -> {
         runCatching {
           SolPayTransferRequest(recipient = PublicKey.fromBase58(text))
         }.onSuccess {
-          _continueWithSolPayTransferRequest.tryEmit(it)
+          _continueWithSolPayRequest.tryEmit(it)
         }.onFailure {
           _showInvalidBarcodeError.tryEmit(
             getString(R.string.send_scan_qr_barcode_error)
           )
         }
+      }
+      is SolPayTransactionRequest -> {
+        _continueWithSolPayRequest.tryEmit(result)
+      }
+      is SolPayTransferRequest -> {
+        _continueWithSolPayRequest.tryEmit(result)
       }
     }
   }

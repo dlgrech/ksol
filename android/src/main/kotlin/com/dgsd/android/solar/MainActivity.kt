@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
       Destination.SendWithHistoricalAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithNearby -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithQR -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      is Destination.SendWithSolPayRequest -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.Settings -> ScreenTransitionType.DEFAULT
       Destination.TransactionList -> ScreenTransitionType.DEFAULT
       is Destination.TransactionDetails -> ScreenTransitionType.DEFAULT
@@ -80,6 +81,8 @@ class MainActivity : AppCompatActivity() {
       Destination.SendWithHistoricalAddress -> SendContainerFragment.newPreviousTransactionAddressInstance()
       Destination.SendWithNearby -> SendContainerFragment.newEnterAddressInstance()
       Destination.SendWithQR -> SendContainerFragment.newQRScanInstance()
+      is Destination.SendWithSolPayRequest ->
+        SendContainerFragment.newTransferRequestInstance(destination.requestUrl)
     }
   }
 
@@ -87,16 +90,7 @@ class MainActivity : AppCompatActivity() {
     return when (destination) {
       Destination.Home,
       Destination.Onboarding -> true
-
-      Destination.RequestAmount,
-      Destination.ShareWalletAddress,
-      Destination.Settings,
-      Destination.TransactionList,
-      Destination.SendWithAddress,
-      Destination.SendWithHistoricalAddress,
-      Destination.SendWithNearby,
-      Destination.SendWithQR,
-      is Destination.TransactionDetails -> false
+      else -> false
     }
   }
 

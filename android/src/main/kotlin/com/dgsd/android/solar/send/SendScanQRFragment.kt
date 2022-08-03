@@ -104,12 +104,8 @@ class SendScanQRFragment : Fragment(R.layout.frag_send_scan_qr) {
       showSnackbar(it)
     }
 
-    onEach(viewModel.continueWithSolPayTransactionRequest) {
-      coordinator.navigateWithTransactionRequest(it)
-    }
-
-    onEach(viewModel.continueWithSolPayTransferRequest) {
-      coordinator.navigateWithTransferRequest(it)
+    onEach(viewModel.continueWithSolPayRequest) {
+      coordinator.navigateWithSolPayRequest(it)
     }
 
     onEach(viewModel.navigateToEnterAddress) {

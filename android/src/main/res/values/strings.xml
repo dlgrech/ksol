@@ -73,6 +73,7 @@
     <string name="request">Request</string>
     <string name="home_send_sheet_title">Send SOL</string>
     <string name="home_send_action_sheet_item_nearby">Another nearby Solar user</string>
+    <string name="home_send_action_sheet_item_from_clipboard_template">Address you copied (^1)</string>
     <string name="home_send_action_sheet_item_scan_qr">Scan a QR code</string>
     <string name="home_send_action_sheet_item_enter_address">Enter a wallet address</string>
     <string name="home_send_action_sheet_item_send_to_previous">Send to a previous address</string>
@@ -140,4 +141,7 @@
     <string name="send_scan_qr_page_explainer">"You can scan a SolPay-compatible QR code, or a QR code with a solana public key "</string>
     <string name="send_scan_qr_enter_details_manually">Enter details manually</string>
     <string name="or">or</string>
+    <string name="send_enter_address_screen_title">Send to…</string>
+    <string name="send_enter_address_page_explainer">Enter the public address of the wallet you want to send to</string>
+    <string name="send_enter_address_input_hint">Wallet address</string>
 </resources>

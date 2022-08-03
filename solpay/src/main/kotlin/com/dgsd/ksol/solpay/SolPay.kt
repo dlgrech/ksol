@@ -27,21 +27,14 @@ interface SolPay {
    *
    * This URL can be used to share with other SolPay compatible systems
    */
-  fun createUrl(request: SolPayTransferRequest): String
-
-  /**
-   * Construct a SolPay-compatible URL from the given transaction request
-   *
-   * This URL can be used to share with other SolPay compatible systems
-   */
-  fun createUrl(request: SolPayTransactionRequest): String
+  fun createUrl(request: SolPayRequest): String
 
   /**
    * Parses the given URL and return a SolPay request object, if applicable.
    *
-   * @see [SolPayUrlParsingResult]
+   * @see [SolPayRequest]
    */
-  fun parseUrl(url: String): SolPayUrlParsingResult
+  fun parseUrl(url: String): SolPayRequest?
 
   /**
    * Fetch the transaction request details for the SolPay transaction request

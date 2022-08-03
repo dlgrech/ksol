@@ -13,12 +13,18 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 private const val ARG_STARTING_DESTINATION = "starting_destination"
+private const val ARG_SOLPAY_REQUEST = "transfer_request"
 
 class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
 
   private val coordinator by viewModel<SendCoordinator> {
     val ordinal = requireArguments().getInt(ARG_STARTING_DESTINATION, -1)
-    parametersOf(SendCoordinator.StartingDestination.values()[ordinal])
+    val solPayRequestUrl = requireArguments().getString(ARG_SOLPAY_REQUEST)
+
+    parametersOf(
+      SendCoordinator.StartingDestination.values().getOrNull(ordinal),
+      solPayRequestUrl
+    )
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,16 +62,21 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
       return newInstance(SendCoordinator.StartingDestination.ENTER_ADDRESS)
     }
 
+    fun newTransferRequestInstance(solPayUrl: String): SendContainerFragment {
+      return SendContainerFragment().apply {
+        arguments = bundleOf(ARG_SOLPAY_REQUEST to solPayUrl)
+      }
+    }
 
     fun newPreviousTransactionAddressInstance(): SendContainerFragment {
       return newInstance(SendCoordinator.StartingDestination.PREVIOUS_ADDRESS_PICKER)
     }
 
-    fun newInstance(startingDestination: SendCoordinator.StartingDestination): SendContainerFragment {
+    fun newInstance(
+      startingDestination: SendCoordinator.StartingDestination
+    ): SendContainerFragment {
       return SendContainerFragment().apply {
-        arguments = bundleOf(
-          ARG_STARTING_DESTINATION to startingDestination.ordinal
-        )
+        arguments = bundleOf(ARG_STARTING_DESTINATION to startingDestination.ordinal)
       }
     }
   }

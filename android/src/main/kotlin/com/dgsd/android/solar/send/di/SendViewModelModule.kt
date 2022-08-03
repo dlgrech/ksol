@@ -11,7 +11,13 @@ object SendViewModelModule {
 
   fun create(): Module {
     return module {
-      viewModelOf(::SendCoordinator)
+      viewModel { params ->
+        SendCoordinator(
+          solPay = getScoped(),
+          startingDestination = params.getOrNull(),
+          solPayRequestUrl = params.getOrNull(),
+        )
+      }
       viewModelOf(::SendEnterAddressViewModel)
       viewModelOf(::SendEnterAmountViewModel)
       viewModelOf(::SendConfirmTransactionRequestViewModel)

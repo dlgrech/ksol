@@ -43,9 +43,12 @@ internal object ViewModelModule {
             viewModel {
                 HomeViewModel(
                     application = get(),
+                    systemClipboard = get(),
                     errorMessageFactory = get(),
+                    publicKeyFormatter = get(),
                     transactionViewStateFactory = getScoped(),
                     solanaApiRepository = getScoped(),
+                    solPay = getScoped(),
                     nfcManager = get(),
                 )
             }

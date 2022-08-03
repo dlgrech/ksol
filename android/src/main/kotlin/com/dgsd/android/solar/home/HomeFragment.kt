@@ -182,6 +182,10 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       appCoordinator.navigateToSendWithQrCode()
     }
 
+    onEach(viewModel.navigateToSendWithSolPayRequest) { requestUrl ->
+      appCoordinator.navigateToSendWithSolPayRequest(requestUrl)
+    }
+
     onEach(viewModel.showSendActionSheet) { items ->
       showSendActionSheet(items)
     }
