@@ -144,4 +144,7 @@
     <string name="send_enter_address_screen_title">Send to…</string>
     <string name="send_enter_address_page_explainer">Enter the public address of the wallet you want to send to</string>
     <string name="send_enter_address_input_hint">Wallet address</string>
+    <string name="send_enter_address_invalid_address">That is not a valid address. Please try again</string>
+    <string name="send_enter_address_send_to_clipboard_template">Use address on clipboard (^1)</string>
+    <string name="send_enter_address_error_send_to_self">Cannot send to your own wallet</string>
 </resources>

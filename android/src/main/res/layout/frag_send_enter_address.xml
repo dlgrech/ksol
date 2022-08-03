@@ -31,15 +31,27 @@
         android:layout_marginHorizontal="@dimen/padding_xlarge"
         android:gravity="center"
         android:hint="@string/send_enter_address_input_hint"
-        android:inputType="textNoSuggestions|text"
+        android:imeOptions="actionDone"
+        android:inputType="textNoSuggestions|text|textMultiLine"
         android:minHeight="@dimen/clickable_element_min_height"
-        app:layout_constraintBottom_toTopOf="@id/continue_button"
+        app:layout_constraintBottom_toTopOf="@id/address_on_clipboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/page_instructions" />
 
+    <TextView
+        android:id="@+id/address_on_clipboard"
+        style="@style/TextAppearance.Link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/continue_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/input" />
+
     <Button
-        android:id="@+id/continue_button"
+        android:id="@+id/next"
         style="@style/PrimaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

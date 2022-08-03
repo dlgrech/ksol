@@ -3,6 +3,7 @@ package com.dgsd.android.solar.send
 import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayRequest
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest
@@ -37,6 +38,9 @@ class SendCoordinator(
   var solPayRequest: SolPayRequest? = solPayRequestUrl?.let { solPay.parseUrl(it) }
     private set
 
+  var inputtedAddress: PublicKey? = null
+    private set
+
   fun onCreate() {
     if (startingDestination != null) {
       _destination.tryEmit(
@@ -62,6 +66,11 @@ class SendCoordinator(
   }
 
   fun navigateToEnterAmount() {
+    _destination.tryEmit(Destination.EnterAmount)
+  }
+
+  fun navigateWithAddressInput(address: PublicKey) {
+    inputtedAddress = address
     _destination.tryEmit(Destination.EnterAmount)
   }
 }
