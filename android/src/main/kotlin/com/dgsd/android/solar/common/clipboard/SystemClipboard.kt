@@ -12,4 +12,13 @@ class SystemClipboard(context: Context) {
   fun copy(text: CharSequence) {
     clipboardManager.setPrimaryClip(ClipData.newPlainText(text, text))
   }
+
+  fun currentContents(): String? {
+    val primaryClip = clipboardManager.primaryClip
+    if (primaryClip == null || primaryClip.itemCount == 0) {
+      return null
+    }
+
+    return primaryClip.getItemAt(0)?.text?.toString()
+  }
 }
