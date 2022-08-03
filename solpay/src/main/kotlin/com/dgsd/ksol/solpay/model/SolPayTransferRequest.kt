@@ -56,4 +56,4 @@ data class SolPayTransferRequest(
    * sensitive information.
    */
   val memo: String? = null
-)
+): SolPayRequest
