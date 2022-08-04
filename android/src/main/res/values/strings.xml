@@ -154,4 +154,5 @@
     <string name="send_enter_amount_balance_template">Your balance: ^1</string>
     <string name="send_enter_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>
     <string name="send_enter_amount_not_enough_balance">You have an insufficient balance.</string>
+    <string name="send_transfer_request_confirmation_screen_title">Summary</string>
 </resources>

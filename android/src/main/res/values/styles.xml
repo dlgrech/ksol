@@ -59,7 +59,7 @@
         <item name="android:padding">20dp</item>
     </style>
 
-    <style name="TransactionDetails.SmallHeader" parent="TextAppearance.Solar.Label5">
+    <style name="TransactionDetails.SmallHeader" parent="TextAppearance.Solar.Label2">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/padding_default</item>
@@ -72,7 +72,7 @@
         <item name="android:layout_marginTop">@dimen/padding_large</item>
     </style>
 
-    <style name="TransactionDetails.Value" parent="TextAppearance.Solar.Label2">
+    <style name="TransactionDetails.Value" parent="TextAppearance.Solar.Label4">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorPrimary</item>
@@ -93,6 +93,19 @@
     <style name="TransactionDetails.Badge.Program">
         <item name="android:textColor">@color/warning_text_color</item>
         <item name="android:background">@color/warning_background_color</item>
+    </style>
+
+    <style name="TransferRequest.SmallHeader" parent="TextAppearance.Solar.Label2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_default</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TransferRequest.Value" parent="TextAppearance.Solar.Label5">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
 </resources>
