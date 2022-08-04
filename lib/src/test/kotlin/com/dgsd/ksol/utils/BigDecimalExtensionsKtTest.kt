@@ -42,6 +42,14 @@ class BigDecimalExtensionsKtTest {
     Assertions.assertFalse(output)
   }
 
+
+  @Test
+  fun isValidSolAmount_withNegativeAmount_isNotValid() {
+    val input = BigDecimal("-1.5")
+    val output = input.isValidSolAmount()
+    Assertions.assertFalse(output)
+  }
+
   @Test
   fun isValidSolAmount_withZero_isValid() {
     val input = BigDecimal.ZERO

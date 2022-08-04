@@ -12,13 +12,12 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.qr.QRCodeFactory
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.model.Lamports
-import com.dgsd.ksol.model.SOL_IN_LAMPORTS
+import com.dgsd.ksol.model.asSolAmount
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 
 class RequestAmountViewQRViewModel(
   application: Application,
@@ -45,7 +44,7 @@ class RequestAmountViewQRViewModel(
         val url = solPay.createUrl(
           SolPayTransferRequest(
             recipient = session.publicKey,
-            amount = SOL_IN_LAMPORTS * BigDecimal.valueOf(lamports),
+            amount = lamports.asSolAmount(),
             message = message,
           )
         )

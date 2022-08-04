@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
+import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
 
+  private val coordinator by parentViewModel<SendCoordinator>()
   private val viewModel by viewModel<SendEnterAmountViewModel>()
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,7 +54,7 @@ class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
     }
 
     onEach(viewModel.continueWithLamports) {
-
+      coordinator.navigateWithAmountInput(it)
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

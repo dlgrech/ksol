@@ -3,7 +3,9 @@ package com.dgsd.android.solar.send
 import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.model.asSolAmount
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayRequest
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest
@@ -41,6 +43,9 @@ class SendCoordinator(
   var inputtedAddress: PublicKey? = null
     private set
 
+  var inputtedLamports: Lamports? = null
+    private set
+
   fun onCreate() {
     if (startingDestination != null) {
       _destination.tryEmit(
@@ -59,9 +64,15 @@ class SendCoordinator(
 
   fun navigateWithSolPayRequest(request: SolPayRequest) {
     solPayRequest = request
-    when (solPayRequest) {
-      is SolPayTransactionRequest -> _destination.tryEmit(Destination.TransferRequestConfirmation)
-      is SolPayTransferRequest -> _destination.tryEmit(Destination.TransferRequestConfirmation)
+    when (request) {
+      is SolPayTransactionRequest -> _destination.tryEmit(Destination.TransactionRequestConfirmation)
+      is SolPayTransferRequest -> {
+        if (request.amount != null) {
+          _destination.tryEmit(Destination.TransferRequestConfirmation)
+        } else {
+          _destination.tryEmit(Destination.EnterAmount)
+        }
+      }
     }
   }
 
@@ -71,6 +82,40 @@ class SendCoordinator(
 
   fun navigateWithAddressInput(address: PublicKey) {
     inputtedAddress = address
-    _destination.tryEmit(Destination.EnterAmount)
+    navigateAfterAmountAndAddressEntry()
+  }
+
+  fun navigateWithAmountInput(lamports: Lamports) {
+    inputtedLamports = lamports
+    navigateAfterAmountAndAddressEntry()
+  }
+
+  private fun navigateAfterAmountAndAddressEntry() {
+    when {
+      inputtedAddress != null && inputtedLamports != null -> {
+        navigateWithSolPayRequest(
+          SolPayTransferRequest(
+            recipient = checkNotNull(inputtedAddress),
+            amount = checkNotNull(inputtedLamports).asSolAmount()
+          )
+        )
+      }
+
+      solPayRequest is SolPayTransferRequest && inputtedLamports != null -> {
+        navigateWithSolPayRequest(
+          (solPayRequest as SolPayTransferRequest).copy(
+            amount = checkNotNull(inputtedLamports).asSolAmount()
+          )
+        )
+      }
+
+      inputtedAddress != null -> {
+        _destination.tryEmit(Destination.EnterAmount)
+      }
+
+      inputtedLamports != null -> {
+        _destination.tryEmit(Destination.EnterAddress)
+      }
+    }
   }
 }
