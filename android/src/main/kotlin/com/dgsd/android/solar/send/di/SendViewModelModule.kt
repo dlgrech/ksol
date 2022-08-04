@@ -20,12 +20,14 @@ object SendViewModelModule {
       }
       viewModelOf(::SendConfirmTransactionRequestViewModel)
       viewModelOf(::SendConfirmTransferRequestViewModel)
-      viewModel {
+      viewModel { params ->
         SendEnterAmountViewModel(
           application = get(),
           errorMessageFactory = get(),
           session = getScoped(),
           solanaApi = getScoped(),
+          publicKeyFormatter = get(),
+          sendingToAddress = params.getOrNull()
         )
       }
       viewModel {

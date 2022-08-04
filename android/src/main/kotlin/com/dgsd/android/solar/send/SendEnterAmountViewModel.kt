@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
+import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
@@ -16,8 +17,10 @@ import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.model.LAMPORTS_IN_SOL
 import com.dgsd.ksol.model.Lamports
+import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.utils.isValidSolAmount
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import java.math.BigDecimal
@@ -27,9 +30,23 @@ class SendEnterAmountViewModel(
   private val errorMessageFactory: ErrorMessageFactory,
   private val session: WalletSession,
   private val solanaApi: SolanaApi,
+  publicKeyFormatter: PublicKeyFormatter,
+  sendingToAddress: PublicKey?,
 ) : AndroidViewModel(application) {
 
   private val balanceResourceConsumer = ResourceFlowConsumer<Lamports>(viewModelScope)
+
+  val pageInstructionsText = MutableStateFlow(
+    if (sendingToAddress == null) {
+      getString(R.string.send_enter_amount_page_explainer)
+    } else {
+      RichTextFormatter.expandTemplate(
+        application,
+        R.string.send_enter_amount_page_explainer_with_address_template,
+        RichTextFormatter.bold(publicKeyFormatter.abbreviate(sendingToAddress))
+      )
+    }
+  ).asStateFlow()
 
   private val _errorMessage = MutableEventFlow<CharSequence>()
   val errorMessage = _errorMessage.asEventFlow()

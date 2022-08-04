@@ -15,7 +15,6 @@
         style="@style/TextAppearance.PageInstruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/send_enter_amount_page_explainer"
         app:layout_constraintBottom_toTopOf="@id/input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

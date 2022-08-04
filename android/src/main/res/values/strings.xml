@@ -149,6 +149,7 @@
     <string name="send_enter_address_error_send_to_self">Cannot send to your own wallet</string>
     <string name="send_enter_amount_screen_title">How much?</string>
     <string name="send_enter_amount_page_explainer">How many SOL tokens do you want to send?</string>
+    <string name="send_enter_amount_page_explainer_with_address_template">Sending to (^1)</string>
     <string name="send_enter_amount_input_hint">SOL amount (Eg 1.05)</string>
     <string name="send_enter_amount_balance_template">Your balance: ^1</string>
     <string name="send_enter_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>

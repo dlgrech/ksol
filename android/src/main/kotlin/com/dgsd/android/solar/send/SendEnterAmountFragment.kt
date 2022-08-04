@@ -13,12 +13,19 @@ import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
+import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
 
   private val coordinator by parentViewModel<SendCoordinator>()
-  private val viewModel by viewModel<SendEnterAmountViewModel>()
+  private val viewModel by viewModel<SendEnterAmountViewModel> {
+    parametersOf(
+      (coordinator.solPayRequest as? SolPayTransferRequest)?.recipient
+        ?: coordinator.inputtedAddress
+    )
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -27,6 +34,7 @@ class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
     val nextButton = view.requireViewById<View>(R.id.next)
     val input = view.requireViewById<EditText>(R.id.input)
     val balanceText = view.requireViewById<TextView>(R.id.balance_text)
+    val pageInstructions = view.requireViewById<TextView>(R.id.page_instructions)
 
     toolbar.setNavigationOnClickListener {
       requireActivity().onBackPressed()
@@ -55,6 +63,10 @@ class SendEnterAmountFragment : Fragment(R.layout.frag_send_enter_amount) {
 
     onEach(viewModel.continueWithLamports) {
       coordinator.navigateWithAmountInput(it)
+    }
+
+    onEach(viewModel.pageInstructionsText) {
+      pageInstructions.text = it
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
