@@ -155,4 +155,10 @@
     <string name="send_enter_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>
     <string name="send_enter_amount_not_enough_balance">You have an insufficient balance.</string>
     <string name="send_transfer_request_confirmation_screen_title">Summary</string>
+    <string name="send_transfer_request_confirmation_header_recipient">Recipient</string>
+    <string name="send_transfer_request_confirmation_header_amount">Amount</string>
+    <string name="send_transfer_request_confirmation_header_label">Label</string>
+    <string name="send_transfer_request_confirmation_header_message">Message</string>
+    <string name="send_transfer_request_confirmation_header_memo">Memo</string>
+    <string name="send_transfer_request_confirmation_header_fee">Fee</string>
 </resources>
