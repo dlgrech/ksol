@@ -13,6 +13,7 @@ import com.dgsd.android.solar.repository.cache.balance.TransactionSignaturesCach
 import com.dgsd.android.solar.repository.cache.balance.TransactionSignaturesCache.TransactionSignaturesCacheKey
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.SolanaApi
+import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.Transaction
 import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.model.TransactionSignatureInfo
@@ -32,14 +33,20 @@ internal class SolanaApiRepositoryImpl(
   override fun getBalance(
     cacheStrategy: CacheStrategy
   ): Flow<Resource<LamportsWithTimestamp>> {
-    val accountKey = session.publicKey
+    return getBalanceOfAccount(session.publicKey)
+  }
+
+  override fun getBalanceOfAccount(
+    account: PublicKey,
+    cacheStrategy: CacheStrategy
+  ): Flow<Resource<LamportsWithTimestamp>> {
     return executeWithCache(
-      cacheKey = accountKey,
+      cacheKey = account,
       cacheStrategy = cacheStrategy,
       cache = balanceCache,
       networkFlowProvider = {
         resourceFlowOf {
-          LamportsWithTimestamp(solanaApi.getBalance(accountKey), OffsetDateTime.now())
+          LamportsWithTimestamp(solanaApi.getBalance(account), OffsetDateTime.now())
         }
       }
     )

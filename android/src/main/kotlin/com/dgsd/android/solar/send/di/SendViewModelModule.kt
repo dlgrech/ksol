@@ -24,8 +24,7 @@ object SendViewModelModule {
         SendEnterAmountViewModel(
           application = get(),
           errorMessageFactory = get(),
-          session = getScoped(),
-          solanaApi = getScoped(),
+          solanaApiRepository = getScoped(),
           publicKeyFormatter = get(),
           sendingToAddress = params.getOrNull()
         )

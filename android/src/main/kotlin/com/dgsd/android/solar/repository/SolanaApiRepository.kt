@@ -4,6 +4,7 @@ import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.model.LamportsWithTimestamp
 import com.dgsd.android.solar.model.TransactionOrSignature
+import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.Transaction
 import com.dgsd.ksol.model.TransactionSignature
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,11 @@ import kotlinx.coroutines.flow.Flow
 interface SolanaApiRepository {
 
   fun getBalance(
+    cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT
+  ): Flow<Resource<LamportsWithTimestamp>>
+
+  fun getBalanceOfAccount(
+    account: PublicKey,
     cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT
   ): Flow<Resource<LamportsWithTimestamp>>
 

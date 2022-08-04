@@ -9,16 +9,15 @@ import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.RichTextFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
-import com.dgsd.android.solar.common.util.resourceFlowOf
+import com.dgsd.android.solar.common.util.mapData
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
-import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.model.LAMPORTS_IN_SOL
+import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.utils.isValidSolAmount
+import com.dgsd.ksol.utils.solToLamports
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
@@ -28,8 +27,7 @@ import java.math.BigDecimal
 class SendEnterAmountViewModel(
   application: Application,
   private val errorMessageFactory: ErrorMessageFactory,
-  private val session: WalletSession,
-  private val solanaApi: SolanaApi,
+  private val solanaApiRepository: SolanaApiRepository,
   publicKeyFormatter: PublicKeyFormatter,
   sendingToAddress: PublicKey?,
 ) : AndroidViewModel(application) {
@@ -67,9 +65,7 @@ class SendEnterAmountViewModel(
 
   fun onCreate() {
     balanceResourceConsumer.collectFlow(
-      resourceFlowOf {
-        solanaApi.getBalance(session.publicKey)
-      }
+      solanaApiRepository.getBalance().mapData { it.lamports }
     )
   }
 
@@ -95,7 +91,7 @@ class SendEnterAmountViewModel(
           getString(R.string.send_enter_amount_amount_input_error_invalid_amount)
         )
       } else {
-        val lamports = (bigDecimalAmount * LAMPORTS_IN_SOL).longValueExact()
+        val lamports = bigDecimalAmount.solToLamports()
         if (lamports == 0L) {
           _errorMessage.tryEmit(
             getString(R.string.send_enter_amount_amount_input_error_invalid_amount)
