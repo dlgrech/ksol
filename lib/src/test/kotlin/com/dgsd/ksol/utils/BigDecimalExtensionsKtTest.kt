@@ -63,4 +63,28 @@ class BigDecimalExtensionsKtTest {
     val output = input.isValidSolAmount()
     Assertions.assertTrue(output)
   }
+
+  @Test
+  fun solToLamports_withValidSOLValue_convertsToLamports() {
+    val input = BigDecimal("1.5")
+    val output = input.solToLamports()
+
+    Assertions.assertEquals(1500000000, output)
+  }
+
+  @Test
+  fun solToLamports_withMinSOLValue_convertsToLamports() {
+    val input = SOL_IN_LAMPORTS
+    val output = input.solToLamports()
+
+    Assertions.assertEquals(1, output)
+  }
+
+  @Test
+  fun solToLamports_withInvalidSOLValue_throwsException() {
+    val input = BigDecimal("0.000000000001")
+    Assertions.assertThrows(ArithmeticException::class.java) {
+      input.solToLamports()
+    }
+  }
 }
