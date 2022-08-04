@@ -4,9 +4,7 @@ import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.model.LamportsWithTimestamp
 import com.dgsd.android.solar.model.TransactionOrSignature
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.Transaction
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface SolanaApiRepository {

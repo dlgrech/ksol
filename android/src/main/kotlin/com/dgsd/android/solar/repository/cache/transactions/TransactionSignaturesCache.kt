@@ -1,7 +1,7 @@
-package com.dgsd.android.solar.repository.cache.balance
+package com.dgsd.android.solar.repository.cache.transactions
 
 import com.dgsd.android.solar.cache.Cache
-import com.dgsd.android.solar.repository.cache.balance.TransactionSignaturesCache.TransactionSignaturesCacheKey
+import com.dgsd.android.solar.repository.cache.transactions.TransactionSignaturesCache.TransactionSignaturesCacheKey
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.model.TransactionSignatureInfo
