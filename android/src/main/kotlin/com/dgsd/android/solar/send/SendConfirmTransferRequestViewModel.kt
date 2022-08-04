@@ -11,7 +11,6 @@ import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.mapData
 import com.dgsd.android.solar.common.util.stateFlowOf
 import com.dgsd.android.solar.extensions.getString
-import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.TransactionSignature
@@ -53,7 +52,7 @@ class SendConfirmTransferRequestViewModel(
     } else if (error != null) {
       getString(R.string.send_transfer_request_confirmation_error_getting_fee)
     } else {
-      ""
+      null
     }
   }
 
@@ -61,18 +60,6 @@ class SendConfirmTransferRequestViewModel(
     getFeeResourceConsumer.collectFlow(
       solanaApiRepository.getRecentBlockhash().mapData { delay(2000); it.fee }
     )
-
-    onEach(getFeeResourceConsumer.data) {
-      println("HERE: data = $it")
-    }
-
-    onEach(getFeeResourceConsumer.error) {
-      println("HERE: error = $it")
-    }
-
-    onEach(getFeeResourceConsumer.isLoading) {
-      println("HERE: isLoading = $it")
-    }
   }
 
   fun onSendClicked() {
