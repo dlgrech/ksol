@@ -16,7 +16,7 @@ object SolTokenFormatter {
 
     private val fullNumberFormatter = NumberFormat.getNumberInstance().apply {
         maximumFractionDigits = 9
-        minimumFractionDigits = 9
+        minimumFractionDigits = 2
         minimumIntegerDigits = 1
     }
 
