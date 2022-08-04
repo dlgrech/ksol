@@ -102,7 +102,7 @@
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
-    <style name="TransferRequest.Value" parent="TextAppearance.Solar.Label5">
+    <style name="TransferRequest.Value" parent="TextAppearance.Solar.Label4">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">?android:textColorPrimary</item>

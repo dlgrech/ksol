@@ -105,6 +105,12 @@ internal class SolanaApiRepositoryImpl(
     )
   }
 
+  override fun getRecentBlockhash(): Flow<Resource<RecentBlockhashResult>> {
+    return resourceFlowOf {
+      solanaApi.getRecentBlockhash(Commitment.FINALIZED)
+    }
+  }
+
   private fun getTransactionSignatures(
     cacheStrategy: CacheStrategy,
     limit: Int,

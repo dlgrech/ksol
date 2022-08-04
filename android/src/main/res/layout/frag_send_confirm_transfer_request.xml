@@ -52,6 +52,12 @@
                 android:id="@+id/value_fee"
                 style="@style/TransferRequest.Value" />
 
+            <com.dgsd.android.solar.common.shimmer.ShimmerView
+                android:id="@+id/value_fee_shimmer"
+                android:layout_width="66dp"
+                android:layout_height="20dp"
+                android:visibility="gone"/>
+
             <TextView
                 android:id="@+id/header_label"
                 style="@style/TransferRequest.SmallHeader"

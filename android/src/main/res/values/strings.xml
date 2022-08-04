@@ -161,4 +161,5 @@
     <string name="send_transfer_request_confirmation_header_message">Message</string>
     <string name="send_transfer_request_confirmation_header_memo">Memo</string>
     <string name="send_transfer_request_confirmation_header_fee">Fee</string>
+    <string name="send_transfer_request_confirmation_error_getting_fee">There was a problem getting the transaction fee</string>
 </resources>

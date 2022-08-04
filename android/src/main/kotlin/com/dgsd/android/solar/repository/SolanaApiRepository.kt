@@ -28,4 +28,6 @@ interface SolanaApiRepository {
     cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT,
     transactionSignature: TransactionSignature,
   ): Flow<Resource<Transaction>>
+
+  fun getRecentBlockhash(): Flow<Resource<RecentBlockhashResult>>
 }

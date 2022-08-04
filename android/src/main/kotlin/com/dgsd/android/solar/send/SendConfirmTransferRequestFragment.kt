@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
@@ -28,13 +29,13 @@ class SendConfirmTransferRequestFragment : Fragment(R.layout.frag_send_confirm_t
     val toolbar = view.requireViewById<Toolbar>(R.id.toolbar)
     val headerRecipient = view.requireViewById<TextView>(R.id.header_recipient)
     val headerAmount = view.requireViewById<TextView>(R.id.header_amount)
-    val headerFee = view.requireViewById<TextView>(R.id.header_fee)
     val headerLabel = view.requireViewById<TextView>(R.id.header_label)
     val headerMessage = view.requireViewById<TextView>(R.id.header_message)
     val headerMemo = view.requireViewById<TextView>(R.id.header_memo)
     val valueRecipient = view.requireViewById<TextView>(R.id.value_recipient)
     val valueAmount = view.requireViewById<TextView>(R.id.value_amount)
     val valueFee = view.requireViewById<TextView>(R.id.value_fee)
+    val shimmerValueFee = view.requireViewById<View>(R.id.value_fee_shimmer)
     val valueLabel = view.requireViewById<TextView>(R.id.value_label)
     val valueMessage = view.requireViewById<TextView>(R.id.value_message)
     val valueMemo = view.requireViewById<TextView>(R.id.value_memo)
@@ -62,9 +63,12 @@ class SendConfirmTransferRequestFragment : Fragment(R.layout.frag_send_confirm_t
     }
 
     onEach(viewModel.feeText) {
-      headerAmount.isVisible = it.isNotEmpty()
-      valueAmount.isVisible = it.isNotEmpty()
-      valueAmount.text = it
+      valueFee.text = it
+    }
+
+    onEach(viewModel.isLoadingFee) {
+      valueFee.isVisible = !it
+      shimmerValueFee.isVisible = it
     }
 
     onEach(viewModel.messageText) {
@@ -83,6 +87,10 @@ class SendConfirmTransferRequestFragment : Fragment(R.layout.frag_send_confirm_t
       headerMemo.isVisible = !it.isNullOrEmpty()
       valueMemo.isVisible = !it.isNullOrEmpty()
       valueMemo.text = it
+    }
+
+    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+      viewModel.onCreate()
     }
   }
 }
