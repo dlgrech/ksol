@@ -31,7 +31,7 @@ internal class SolanaApiRepositoryImpl(
   override fun getBalance(
     cacheStrategy: CacheStrategy
   ): Flow<Resource<LamportsWithTimestamp>> {
-    return getBalanceOfAccount(session.publicKey)
+    return getBalanceOfAccount(session.publicKey, cacheStrategy)
   }
 
   override fun getBalanceOfAccount(
