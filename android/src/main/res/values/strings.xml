@@ -167,4 +167,9 @@
     <string name="app_entry_lock_screen_explainer">Enter your app lock code.</string>
     <string name="app_lock_entry_biometric_prompt_title">Verify that it\'s you</string>
     <string name="app_lock_entry_biometric_prompt_message">We want to keep your wallet safe, so we ask to verify who you are to keep your information safe</string>
+    <string name="send_error_accessing_private_key">Sorry, there was a problem accessing your private key.</string>
+    <string name="send_unlock_biometrics_title">Verify it\'s you</string>
+    <string name="send_unlock_biometrics_description">Allow access to your secret key to submit this transaction</string>
+    <string name="app_lock_entry_error_invalid_biometrics">Unable to verify your information</string>
+    <string name="send_error_invalid_biometrics">We could not verify your information.</string>
 </resources>

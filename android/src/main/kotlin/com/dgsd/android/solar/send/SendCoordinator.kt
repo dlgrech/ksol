@@ -5,6 +5,7 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.model.asSolAmount
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayRequest
@@ -44,6 +45,9 @@ class SendCoordinator(
     private set
 
   var inputtedLamports: Lamports? = null
+    private set
+
+  var transactionSignature: TransactionSignature? = null
     private set
 
   fun onCreate() {
@@ -88,6 +92,11 @@ class SendCoordinator(
   fun navigateWithAmountInput(lamports: Lamports) {
     inputtedLamports = lamports
     navigateAfterAmountAndAddressEntry()
+  }
+
+  fun navigateWithTransactionSignature(signature: TransactionSignature) {
+    this.transactionSignature = signature
+    _destination.tryEmit(Destination.Confirmation)
   }
 
   private fun navigateAfterAmountAndAddressEntry() {

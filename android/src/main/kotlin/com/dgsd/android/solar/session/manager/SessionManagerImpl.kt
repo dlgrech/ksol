@@ -2,6 +2,8 @@ package com.dgsd.android.solar.session.manager
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.dgsd.android.solar.common.model.SensitiveList
+import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.session.model.*
 import com.dgsd.ksol.model.KeyPair
@@ -43,6 +45,52 @@ class SessionManagerImpl(
     val current = _activeSession.value
     if (current is WalletSession) {
       _activeSession.value = LockedAppSession(current.publicKey)
+    }
+  }
+
+  override fun upgradeSession() {
+    when (val currentSession = _activeSession.value) {
+      is LockedAppSession,
+      NoActiveWalletSession -> {
+        // We don't only allow upgrading when the user is logged in & unlocked
+      }
+
+      is KeyPairSession -> {
+        // Nothing to do
+      }
+
+      is PublicKeySession -> {
+        // We wrap this operation in the case that the user has not unlocked their keystore
+        // (which is presumed to have happened when this method is called)
+        runCatching {
+          val privateKey = secretsSharedPreferences.value.getString(
+            PREF_KEY_SECRET_ACTIVE_WALLET_PRIVATE_KEY,
+            null
+          )
+          val passPhrase = secretsSharedPreferences.value.getString(
+            PREF_KEY_SECRET_PASSPHRASE,
+            null
+          ).orEmpty()
+          val seedPhrase = secretsSharedPreferences.value.getString(
+            PREF_KEY_SECRET_SEED_PHRASE,
+            ""
+          )?.split(",")
+
+          check(privateKey != null) { "Could not get private key" }
+          check(seedPhrase != null) { "Could not get seed phrase" }
+
+          setActiveSession(
+            seedInfo = AccountSeedInfo(
+              seedPhrase = SensitiveList(seedPhrase),
+              passPhrase = SensitiveString(passPhrase)
+            ),
+            keyPair = KeyPair(
+              publicKey = currentSession.publicKey,
+              privateKey = PrivateKey.fromBase58(privateKey)
+            )
+          )
+        }
+      }
     }
   }
 

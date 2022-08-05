@@ -30,4 +30,10 @@ interface SolanaApiRepository {
   ): Flow<Resource<Transaction>>
 
   fun getRecentBlockhash(): Flow<Resource<RecentBlockhashResult>>
+
+  fun send(
+    privateKey: PrivateKey,
+    recipient: PublicKey,
+    lamports: Lamports
+  ): Flow<Resource<TransactionSignature>>
 }

@@ -39,7 +39,7 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
 
   private fun onDestinationChanged(destination: Destination) {
     val fragment = when (destination) {
-      Destination.Confirmation -> TODO()
+      Destination.Confirmation -> SendConfirmationFragment()
       Destination.EnterAddress -> SendEnterAddressFragment()
       Destination.EnterAmount -> SendEnterAmountFragment()
       Destination.PreviousTransactionPicker -> TODO()

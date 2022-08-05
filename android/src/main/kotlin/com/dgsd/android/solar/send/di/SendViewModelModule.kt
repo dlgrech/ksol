@@ -22,10 +22,12 @@ object SendViewModelModule {
       viewModel {
         SendConfirmTransferRequestViewModel(
           application = get(),
+          sessionManager = get(),
           errorMessageFactory = get(),
           solanaApiRepository = getScoped(),
           publicKeyFormatter = get(),
-          transferRequest = get()
+          transferRequest = get(),
+          biometricManager = get(),
         )
       }
       viewModel { params ->

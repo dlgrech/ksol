@@ -12,6 +12,7 @@ import com.dgsd.android.solar.repository.cache.transactions.TransactionCache
 import com.dgsd.android.solar.repository.cache.transactions.TransactionSignaturesCache
 import com.dgsd.android.solar.repository.cache.transactions.TransactionSignaturesCache.TransactionSignaturesCacheKey
 import com.dgsd.android.solar.session.model.WalletSession
+import com.dgsd.ksol.LocalTransactions
 import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.model.*
 import kotlinx.coroutines.flow.Flow
@@ -108,6 +109,27 @@ internal class SolanaApiRepositoryImpl(
   override fun getRecentBlockhash(): Flow<Resource<RecentBlockhashResult>> {
     return resourceFlowOf {
       solanaApi.getRecentBlockhash(Commitment.FINALIZED)
+    }
+  }
+
+  override fun send(
+    privateKey: PrivateKey,
+    recipient: PublicKey,
+    lamports: Lamports
+  ): Flow<Resource<TransactionSignature>> {
+    return resourceFlowOf {
+      val blockhash = PublicKey.fromBase58(
+        solanaApi.getRecentBlockhash(Commitment.FINALIZED).blockhash
+      )
+
+      solanaApi.sendTransaction(
+        LocalTransactions.createTransferTransaction(
+          sender = KeyPair(session.publicKey, privateKey),
+          recipient = recipient,
+          lamports = lamports,
+          recentBlockhash = blockhash
+        )
+      )
     }
   }
 

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.applock.biometrics.showBiometricPrompt
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
@@ -87,6 +89,20 @@ class SendConfirmTransferRequestFragment : Fragment(R.layout.frag_send_confirm_t
       headerMemo.isVisible = !it.isNullOrEmpty()
       valueMemo.isVisible = !it.isNullOrEmpty()
       valueMemo.text = it
+    }
+
+    onEach(viewModel.showBiometricAuthenticationPrompt) {
+      val result = showBiometricPrompt(it)
+      viewModel.onBiometricPromptResult(result)
+    }
+
+    onEach(viewModel.isSubmitTransactionLoading) {
+      submitLoadingIndicator.isInvisible = !it
+      sendButton.isInvisible = it
+    }
+
+    onEach(viewModel.continueWithTransactionSignature) {
+      coordinator.navigateWithTransactionSignature(it)
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

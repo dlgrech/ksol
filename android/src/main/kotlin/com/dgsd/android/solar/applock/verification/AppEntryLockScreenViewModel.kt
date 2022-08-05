@@ -66,6 +66,10 @@ class AppEntryLockScreenViewModel(
     if (result == BiometricPromptResult.SUCCESS) {
       appLockManager.unlock()
       continueAfterUnlock()
+    } else if (result == BiometricPromptResult.FAIL) {
+      _showError.tryEmit(
+        getString(R.string.app_lock_entry_error_invalid_biometrics)
+      )
     }
   }
 
