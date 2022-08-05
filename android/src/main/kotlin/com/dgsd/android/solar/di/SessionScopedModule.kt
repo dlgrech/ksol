@@ -3,6 +3,7 @@ package com.dgsd.android.solar.di
 import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.common.ui.TransactionViewStateFactory
 import com.dgsd.android.solar.di.util.getScoped
+import com.dgsd.android.solar.di.util.scopedWithClose
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.android.solar.repository.SolanaApiRepositoryImpl
 import com.dgsd.android.solar.repository.cache.balance.BalanceCache
@@ -25,29 +26,29 @@ internal object SessionScopedModule {
     fun create(): Module {
         return module {
             scope<Session> {
-                scoped<SolanaApi> {
+                scopedWithClose<SolanaApi> {
                     SolanaApi(
                         cluster = get<ClusterManager>().activeCluster.value,
                         okHttpClient = get()
                     )
                 }
 
-                scoped<SolPay> {
+                scopedWithClose<SolPay> {
                     SolPay(
                         okHttpClient = get(),
                         solanaApi = getScoped(),
                     )
                 }
 
-                scoped<BalanceCache> {
+                scopedWithClose<BalanceCache> {
                     BalanceMemoryCache()
                 }
 
-                scoped<TransactionCache> {
+                scopedWithClose<TransactionCache> {
                     TransactionInMemoryCache()
                 }
 
-                scoped<TransactionSignaturesCache> {
+                scopedWithClose<TransactionSignaturesCache> {
                     TransactionSignaturesInMemoryCache()
                 }
 
@@ -63,7 +64,7 @@ internal object SessionScopedModule {
 
                 scopedOf(::TransactionViewStateFactory)
 
-                scoped {
+                scopedWithClose {
                     get<SessionManager>().activeSession.value as WalletSession
                 }
             }
