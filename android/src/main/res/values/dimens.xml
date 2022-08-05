@@ -11,4 +11,5 @@
 
     <dimen name="card_radius">12dp</dimen>
     <dimen name="transaction_icon_size">40dp</dimen>
+    <dimen name="amount_background_corner_radius">6dp</dimen>
 </resources>

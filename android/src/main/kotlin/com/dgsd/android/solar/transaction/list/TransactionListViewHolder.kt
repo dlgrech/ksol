@@ -9,6 +9,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.ksol.model.TransactionSignature
 
@@ -63,6 +64,16 @@ class TransactionListViewHolder private constructor(
 
     publicKeyView.text = transaction.displayAccountText
     amountView.text = transaction.amountText
+    when (transaction.direction) {
+      TransactionViewState.Transaction.Direction.INCOMING -> {
+        amountView.setTextColor(itemView.context.getColor(R.color.positive_text_color))
+        amountView.setBackgroundResource(R.drawable.amount_background_incoming)
+      }
+      else -> {
+        amountView.setTextColor(itemView.context.getColorAttr(android.R.attr.textColorPrimary))
+        amountView.background = null
+      }
+    }
 
     if (transaction.dateText == null) {
       dateTimeView.isVisible = false

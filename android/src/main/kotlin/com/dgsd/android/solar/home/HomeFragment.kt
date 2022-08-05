@@ -19,6 +19,7 @@ import com.dgsd.android.solar.common.actionsheet.model.ActionSheetItem
 import com.dgsd.android.solar.common.util.anyTrue
 import com.dgsd.android.solar.di.util.activityViewModel
 import com.dgsd.android.solar.extensions.ensureViewCount
+import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.model.TransactionViewState
 import kotlinx.coroutines.flow.combine
@@ -48,7 +49,8 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val shimmerBalanceText = view.requireViewById<View>(R.id.shimmer_balance)
     val shimmerSolLabel = view.requireViewById<View>(R.id.shimmer_sol_label)
     val shimmerBalanceAsAtText = view.requireViewById<View>(R.id.shimmer_balance_as_at_label)
-    val shimmerTransactionsContainer = view.requireViewById<View>(R.id.shimmer_transactions_container)
+    val shimmerTransactionsContainer =
+      view.requireViewById<View>(R.id.shimmer_transactions_container)
 
     settingsIcon.setOnClickListener {
       viewModel.onSettingsClicked()
@@ -279,6 +281,16 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     publicKeyView.text = transaction.displayAccountText
     amountView.text = transaction.amountText
+    when (transaction.direction) {
+      TransactionViewState.Transaction.Direction.INCOMING -> {
+        amountView.setTextColor(requireContext().getColor(R.color.positive_text_color))
+        amountView.setBackgroundResource(R.drawable.amount_background_incoming)
+      }
+      else -> {
+        amountView.setTextColor(requireContext().getColorAttr(android.R.attr.textColorPrimary))
+        amountView.background = null
+      }
+    }
 
     if (transaction.dateText == null) {
       dateTimeView.isVisible = false
