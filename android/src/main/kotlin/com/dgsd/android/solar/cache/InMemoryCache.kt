@@ -19,6 +19,10 @@ abstract class InMemoryCache<K, V> : Cache<K, V> {
     return getOrCreateMutableFlow(key)
   }
 
+  override suspend fun clear() {
+    keyToValueFlowMap.clear()
+  }
+
   private fun getOrCreateMutableFlow(
     key: K
   ): MutableStateFlow<CacheEntry<V>?> {

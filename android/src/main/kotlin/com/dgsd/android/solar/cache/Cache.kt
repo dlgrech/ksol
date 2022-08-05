@@ -7,7 +7,10 @@ import kotlinx.coroutines.flow.Flow
  */
 interface Cache<K, V> {
 
+  suspend fun clear()
+
   suspend fun set(key: K, value: V)
 
   fun get(key: K): Flow<CacheEntry<V>?>
+
 }
