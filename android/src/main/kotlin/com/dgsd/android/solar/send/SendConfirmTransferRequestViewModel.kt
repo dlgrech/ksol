@@ -26,6 +26,7 @@ import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import com.dgsd.ksol.utils.solToLamports
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 
@@ -75,12 +76,15 @@ class SendConfirmTransferRequestViewModel(
   private val _showError = MutableEventFlow<CharSequence>()
   val showError = _showError.asEventFlow()
 
+  private val isShowingBiometricPrompt = MutableStateFlow(false)
+
   val isSubmitTransactionLoading =
     combine(
       submitTransactionResourceConsumer.isLoading,
-      submitTransactionResourceConsumer.data
-    ) { isLoading, transactionSignature ->
-      isLoading || transactionSignature != null
+      submitTransactionResourceConsumer.data,
+      isShowingBiometricPrompt,
+    ) { isLoading, transactionSignature, isShowingBiometricPrompt ->
+      isLoading || isShowingBiometricPrompt ||  transactionSignature != null
     }
   val continueWithTransactionSignature =
     submitTransactionResourceConsumer.data.filterNotNull().asEventFlow(viewModelScope)
@@ -97,6 +101,7 @@ class SendConfirmTransferRequestViewModel(
 
   fun onSendClicked() {
     if (biometricManager.isAvailableOnDevice()) {
+      isShowingBiometricPrompt.value = true
       _showBiometricAuthenticationPrompt.tryEmit(
         biometricManager.createPrompt(
           title = getString(R.string.send_unlock_biometrics_title),
@@ -109,6 +114,7 @@ class SendConfirmTransferRequestViewModel(
   }
 
   fun onBiometricPromptResult(result: BiometricPromptResult) {
+    isShowingBiometricPrompt.value = false
     if (result == BiometricPromptResult.SUCCESS) {
       upgradeSessionAndSend()
     } else if (result == BiometricPromptResult.FAIL) {

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.applock.biometrics.showBiometricPrompt
+import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
@@ -103,6 +104,10 @@ class SendConfirmTransferRequestFragment : Fragment(R.layout.frag_send_confirm_t
 
     onEach(viewModel.continueWithTransactionSignature) {
       coordinator.navigateWithTransactionSignature(it)
+    }
+
+    onEach(viewModel.showError) {
+      showModalFromErrorMessage(it)
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
