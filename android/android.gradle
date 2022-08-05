@@ -45,6 +45,7 @@ dependencies {
     implementation libs.androidx.fragment.ktx
     implementation libs.androidx.security
     implementation libs.androidx.biometrics
+    implementation libs.androidx.lifecycle.process
     implementation libs.androidx.swiperefresh
     implementation libs.koin.android
     implementation libs.google.material
