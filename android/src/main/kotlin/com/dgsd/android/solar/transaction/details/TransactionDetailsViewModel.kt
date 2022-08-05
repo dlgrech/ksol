@@ -53,7 +53,7 @@ class TransactionDetailsViewModel(
   val feeText = transaction.map {
     when (transactionViewStateFactory.getTransactionDirection(it)) {
       TransactionViewState.Transaction.Direction.OUTGOING -> {
-        SolTokenFormatter.formatLong(it.metadata.fee)
+        SolTokenFormatter.format(it.metadata.fee)
       }
       TransactionViewState.Transaction.Direction.INCOMING,
       TransactionViewState.Transaction.Direction.NONE -> {
@@ -76,7 +76,7 @@ class TransactionDetailsViewModel(
   }
 
   val amountText = transaction.map {
-    transactionViewStateFactory.extractCurrentWalletTransactionAmount(it, useLongFormat = true)
+    transactionViewStateFactory.extractCurrentWalletTransactionAmount(it)
   }
 
   val logMessages = transaction.map { it.metadata.logMessages }
@@ -102,7 +102,7 @@ class TransactionDetailsViewModel(
       val changeInBalanceText = if (balanceAfter == null) {
         null
       } else {
-        SolTokenFormatter.formatLong(balanceAfter)
+        SolTokenFormatter.format(balanceAfter)
       }
 
       TransactionAccountViewState(

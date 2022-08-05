@@ -30,7 +30,6 @@ class TransactionViewStateFactory(
 
   fun extractCurrentWalletTransactionAmount(
     transaction: Transaction,
-    useLongFormat: Boolean = false
   ): CharSequence {
     val amount = if (transaction.isSystemProgramTransfer()) {
       checkNotNull(transaction.getSystemProgramInstruction()?.lamports)
@@ -38,11 +37,7 @@ class TransactionViewStateFactory(
       abs(transaction.sessionAccountBalance()?.balanceDifference() ?: 0)
     }
 
-    val formattedAmount = if (useLongFormat) {
-      SolTokenFormatter.formatLong(amount)
-    } else {
-      SolTokenFormatter.format(amount)
-    }
+    val formattedAmount = SolTokenFormatter.format(amount)
 
     return when (getTransactionDirection(transaction)) {
       TransactionViewState.Transaction.Direction.INCOMING -> "+ $formattedAmount"

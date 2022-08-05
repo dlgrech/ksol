@@ -59,7 +59,7 @@ class SendEnterAmountViewModel(
     RichTextFormatter.expandTemplate(
       application,
       R.string.send_enter_amount_balance_template,
-      RichTextFormatter.bold(SolTokenFormatter.formatLong(it))
+      RichTextFormatter.bold(SolTokenFormatter.format(it))
     )
   }
 

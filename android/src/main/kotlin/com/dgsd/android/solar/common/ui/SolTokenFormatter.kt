@@ -9,12 +9,6 @@ object SolTokenFormatter {
     private const val SOL_SYMBOL = "◎"
 
     private val numberFormatter = NumberFormat.getNumberInstance().apply {
-        maximumFractionDigits = 2
-        minimumFractionDigits = 2
-        minimumIntegerDigits = 1
-    }
-
-    private val fullNumberFormatter = NumberFormat.getNumberInstance().apply {
         maximumFractionDigits = 9
         minimumFractionDigits = 2
         minimumIntegerDigits = 1
@@ -22,14 +16,6 @@ object SolTokenFormatter {
 
     fun format(lamports: Lamports): CharSequence {
         val formattedNumber =  numberFormatter.format(
-            lamports.toBigDecimal().divide(LAMPORTS_IN_SOL)
-        )
-
-        return "$SOL_SYMBOL$formattedNumber"
-    }
-
-    fun formatLong(lamports: Lamports): CharSequence {
-        val formattedNumber =  fullNumberFormatter.format(
             lamports.toBigDecimal().divide(LAMPORTS_IN_SOL)
         )
 

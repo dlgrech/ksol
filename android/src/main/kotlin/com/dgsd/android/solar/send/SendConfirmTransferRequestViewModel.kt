@@ -50,7 +50,7 @@ class SendConfirmTransferRequestViewModel(
   }
 
   val amountText = stateFlowOf {
-    SolTokenFormatter.formatLong(checkNotNull(transferRequest.amount?.solToLamports()))
+    SolTokenFormatter.format(checkNotNull(transferRequest.amount?.solToLamports()))
   }
 
   val messageText = stateFlowOf { transferRequest.message }
@@ -61,7 +61,7 @@ class SendConfirmTransferRequestViewModel(
 
   val feeText = combine(getFeeResourceConsumer.data, getFeeResourceConsumer.error) { fee, error ->
     if (fee != null) {
-      SolTokenFormatter.formatLong(fee)
+      SolTokenFormatter.format(fee)
     } else if (error != null) {
       getString(R.string.send_transfer_request_confirmation_error_getting_fee)
     } else {
