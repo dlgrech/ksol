@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.AppCoordinator.Destination
+import com.dgsd.android.solar.applock.verification.AppEntryLockScreenFragment
 import com.dgsd.android.solar.common.model.ScreenTransitionType
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.home.HomeFragment
@@ -38,6 +39,13 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
+  override fun onResume() {
+    super.onResume()
+    lifecycleScope.launchWhenResumed {
+      appCoordinator.onResume()
+    }
+  }
+
   private fun onDestinationChanged(destination: Destination) {
     val fragment = getFragmentForDestination(destination)
     val shouldResetBackStack = shouldResetBackStackForDestination(destination)
@@ -54,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     return when (destination) {
       Destination.Home -> ScreenTransitionType.FADE
       Destination.Onboarding -> ScreenTransitionType.FADE
+      Destination.AppEntryLock -> ScreenTransitionType.FADE
       Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
@@ -69,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun getFragmentForDestination(destination: Destination): Fragment {
     return when (destination) {
+      Destination.AppEntryLock -> AppEntryLockScreenFragment.newInstance()
       Destination.Home -> HomeFragment.newInstance()
       Destination.Onboarding -> OnboardingContainerFragment.newInstance()
       Destination.RequestAmount -> RequestAmountContainerFragment.newInstance()
@@ -88,6 +98,7 @@ class MainActivity : AppCompatActivity() {
 
   private fun shouldResetBackStackForDestination(destination: Destination): Boolean {
     return when (destination) {
+      Destination.AppEntryLock,
       Destination.Home,
       Destination.Onboarding -> true
       else -> false

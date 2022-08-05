@@ -4,9 +4,13 @@ import com.dgsd.android.solar.common.model.SensitiveString
 
 interface AppLockManager {
 
+  fun shouldShowAppLockEntry(): Boolean
+
   fun updateCode(code: SensitiveString)
 
   fun hasCode(): Boolean
 
-  fun matches(candidate: String): Boolean
+  fun attemptUnlock(candidate: SensitiveString): Boolean
+
+  fun unlock()
 }

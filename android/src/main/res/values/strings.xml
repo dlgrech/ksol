@@ -162,4 +162,9 @@
     <string name="send_transfer_request_confirmation_header_memo">Memo</string>
     <string name="send_transfer_request_confirmation_header_fee">Fee</string>
     <string name="send_transfer_request_confirmation_error_getting_fee">There was a problem getting the transaction fee</string>
+    <string name="unlock">Unlock</string>
+    <string name="app_lock_entry_error_incorrect_code">That was not the right pin code. Please try again.</string>
+    <string name="app_entry_lock_screen_explainer">Enter your app lock code.</string>
+    <string name="app_lock_entry_biometric_prompt_title">Verify that it\'s you</string>
+    <string name="app_lock_entry_biometric_prompt_message">We want to keep your wallet safe, so we ask to verify who you are to keep your information safe</string>
 </resources>

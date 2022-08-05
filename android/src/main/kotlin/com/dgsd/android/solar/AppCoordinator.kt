@@ -2,13 +2,11 @@ package com.dgsd.android.solar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dgsd.android.solar.applock.manager.AppLockManager
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.session.manager.SessionManager
-import com.dgsd.android.solar.session.model.KeyPairSession
-import com.dgsd.android.solar.session.model.NoActiveWalletSession
-import com.dgsd.android.solar.session.model.PublicKeySession
-import com.dgsd.android.solar.session.model.Session
+import com.dgsd.android.solar.session.model.*
 import com.dgsd.ksol.model.TransactionSignature
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
@@ -16,10 +14,12 @@ import kotlinx.coroutines.flow.onEach
 
 class AppCoordinator(
   private val sessionManager: SessionManager,
+  private val appLockManager: AppLockManager,
 ) : ViewModel() {
 
   sealed interface Destination {
     object Onboarding : Destination
+    object AppEntryLock : Destination
     object Home : Destination
     object Settings : Destination
     object ShareWalletAddress : Destination
@@ -42,6 +42,12 @@ class AppCoordinator(
       .distinctUntilChangedBy { it.sessionId }
       .onEach { onSessionChanged(it) }
       .launchIn(viewModelScope)
+  }
+
+  fun onResume() {
+    if (appLockManager.shouldShowAppLockEntry()) {
+      sessionManager.lockSession()
+    }
   }
 
   fun navigateToSettings() {
@@ -90,8 +96,11 @@ class AppCoordinator(
         _destination.tryEmit(Destination.Onboarding)
       }
 
-      is KeyPairSession,
-      is PublicKeySession -> {
+      is LockedAppSession -> {
+        _destination.tryEmit(Destination.AppEntryLock)
+      }
+
+      is WalletSession -> {
         _destination.tryEmit(Destination.Home)
       }
     }

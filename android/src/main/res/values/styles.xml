@@ -53,10 +53,13 @@
         <item name="android:textIsSelectable">false</item>
     </style>
 
-    <style name="NumericKeyboardBackspace" parent="NumericKeyboardElement">
-        <item name="android:src">@drawable/ic_baseline_backspace_24</item>
+    <style name="NumericKeyboardImage" parent="NumericKeyboardElement">
         <item name="tint">?android:textColorPrimary</item>
         <item name="android:padding">20dp</item>
+    </style>
+
+    <style name="NumericKeyboardBackspace" parent="NumericKeyboardImage">
+        <item name="android:src">@drawable/ic_baseline_backspace_24</item>
     </style>
 
     <style name="TransactionDetails.SmallHeader" parent="TextAppearance.Solar.Label2">

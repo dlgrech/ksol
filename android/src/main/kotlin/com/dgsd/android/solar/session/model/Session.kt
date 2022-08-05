@@ -10,10 +10,10 @@ import com.dgsd.ksol.model.PublicKey
  */
 sealed interface Session {
 
-    /**
-     * Used to uniquely identify the same wallet
-     */
-    val sessionId: String
+  /**
+   * Used to uniquely identify the same wallet
+   */
+  val sessionId: String
 }
 
 /**
@@ -21,7 +21,16 @@ sealed interface Session {
  */
 object NoActiveWalletSession : Session {
 
-    override val sessionId = "no_active_wallet_session"
+  override val sessionId = "no_active_wallet_session"
+}
+
+/**
+ * [Session] instance tied to a particular account, but the app will need to verify the user first
+ */
+data class LockedAppSession(val publicKey: PublicKey) : Session {
+
+  override val sessionId: String
+    get() = "locked_${publicKey.toBase58String()}"
 }
 
 /**
@@ -29,13 +38,13 @@ object NoActiveWalletSession : Session {
  */
 sealed class WalletSession : Session {
 
-    /**
-     * The [PublicKey] associated with the wallet being interacted with by the app
-     */
-    abstract val publicKey: PublicKey
+  /**
+   * The [PublicKey] associated with the wallet being interacted with by the app
+   */
+  abstract val publicKey: PublicKey
 
-    override val sessionId: String
-        get() = publicKey.toBase58String()
+  override val sessionId: String
+    get() = publicKey.toBase58String()
 }
 
 /**
@@ -49,9 +58,9 @@ data class PublicKeySession(override val publicKey: PublicKey) : WalletSession()
  * user has given access to the [PrivateKey] of the underlying wallet
  */
 data class KeyPairSession(
-    val seedInfo: AccountSeedInfo,
-    val keyPair: KeyPair,
+  val seedInfo: AccountSeedInfo,
+  val keyPair: KeyPair,
 ) : WalletSession() {
 
-    override val publicKey = keyPair.publicKey
+  override val publicKey = keyPair.publicKey
 }

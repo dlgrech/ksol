@@ -1,11 +1,15 @@
 package com.dgsd.android.solar.widget.keyboard
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isInvisible
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.performHapticFeedback
 
@@ -17,6 +21,7 @@ class NumericKeyboardView @JvmOverloads constructor(
   private var onNumericKeyPressedCallback: OnNumericKeyPressedListener? = null
   private var onBackspaceKeyPressedCallback: OnBackspaceKeyPressedListener? = null
   private var onBackspaceKeyLongPressedCallback: OnBackspaceKeyPressedListener? = null
+  private var onCustomKeyPressedListener: OnCustomKeyPressedListener? = null
 
   init {
     LayoutInflater.from(context).inflate(R.layout.view_numeric_keyboard, this, true)
@@ -54,6 +59,20 @@ class NumericKeyboardView @JvmOverloads constructor(
         true
       }
     }
+
+    findViewById<ImageView>(R.id.custom_action).setOnClickListener {
+      onCustomKeyPressedListener?.invoke()
+    }
+  }
+
+  fun setCustomActionImage(drawable: Drawable?) {
+    val view = findViewById<ImageView>(R.id.custom_action)
+    if (drawable == null) {
+      view.isInvisible = true
+    } else {
+      view.isInvisible = false
+      view.setImageDrawable(drawable)
+    }
   }
 
   fun setOnNumericKeyPressed(callback: OnNumericKeyPressedListener) {
@@ -66,5 +85,9 @@ class NumericKeyboardView @JvmOverloads constructor(
 
   fun setOnBackspaceKeyLongPressed(callback: OnBackspaceKeyPressedListener) {
     onBackspaceKeyLongPressedCallback = callback
+  }
+
+  fun setOnCustomActionPressed(callback: OnCustomKeyPressedListener) {
+    onCustomKeyPressedListener = callback
   }
 }

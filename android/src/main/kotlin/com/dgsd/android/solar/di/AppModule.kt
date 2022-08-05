@@ -27,6 +27,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
+import java.time.Clock
 
 private const val SHARED_PREFS_KEY_ACTIVE_SESSION = "session_manager_active_wallet"
 private const val SHARED_PREFS_KEY_WALLET_SECRETS = "wallet_secrets"
@@ -75,7 +76,10 @@ internal object AppModule {
       }
 
       single<AppLockManager> {
-        AppLockManagerImpl(get(named(SHARED_PREFS_KEY_APP_SETTINGS)))
+        AppLockManagerImpl(
+          get(named(SHARED_PREFS_KEY_APP_SETTINGS)),
+          clock = Clock.systemUTC()
+        )
       }
 
       single<AppLockBiometricManager> {

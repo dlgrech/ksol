@@ -24,6 +24,11 @@ interface SessionManager {
     fun setActiveSession(publicKey: PublicKey)
 
     /**
+     * Lock the users session if currently unlocked.
+     */
+    fun lockSession()
+
+    /**
      * Sets the active session to represent the wallet with the given [KeyPair].
      *
      * This should be used when the user has granted access to their private key

@@ -1,6 +1,7 @@
 package com.dgsd.android.solar.di
 
 import com.dgsd.android.solar.AppCoordinator
+import com.dgsd.android.solar.applock.verification.AppEntryLockScreenViewModel
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.home.HomeViewModel
 import com.dgsd.android.solar.onboarding.di.OnboardingViewModelModule
@@ -20,6 +21,7 @@ internal object ViewModelModule {
         return module {
             viewModelOf(::AppCoordinator)
             viewModelOf(::SettingsViewModel)
+            viewModelOf(::AppEntryLockScreenViewModel)
 
             viewModel {
                 TransactionListViewModel(

@@ -3,10 +3,7 @@ package com.dgsd.android.solar.session.manager
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.dgsd.android.solar.model.AccountSeedInfo
-import com.dgsd.android.solar.session.model.KeyPairSession
-import com.dgsd.android.solar.session.model.NoActiveWalletSession
-import com.dgsd.android.solar.session.model.PublicKeySession
-import com.dgsd.android.solar.session.model.Session
+import com.dgsd.android.solar.session.model.*
 import com.dgsd.ksol.model.KeyPair
 import com.dgsd.ksol.model.PrivateKey
 import com.dgsd.ksol.model.PublicKey
@@ -33,13 +30,20 @@ class SessionManagerImpl(
       activeSessionSharedPreferences.getString(PREF_KEY_ACTIVE_WALLET_PUBLIC_KEY_HASH, null)
     if (publicKeyHash != null) {
       runCatching {
-        setActiveSession(PublicKey.fromBase58(publicKeyHash))
+        _activeSession.value = LockedAppSession(PublicKey.fromBase58(publicKeyHash))
       }
     }
   }
 
   override fun clear() {
     _activeSession.value = NoActiveWalletSession
+  }
+
+  override fun lockSession() {
+    val current = _activeSession.value
+    if (current is WalletSession) {
+      _activeSession.value = LockedAppSession(current.publicKey)
+    }
   }
 
   override fun setActiveSession(publicKey: PublicKey) {
