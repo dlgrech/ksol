@@ -17,9 +17,11 @@ import com.dgsd.android.solar.session.model.Session
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.solpay.SolPay
+import kotlinx.coroutines.*
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.scopedOf
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 
 internal object SessionScopedModule {
 
@@ -52,8 +54,9 @@ internal object SessionScopedModule {
                     TransactionSignaturesInMemoryCache()
                 }
 
-                scoped<SolanaApiRepository> {
+                scopedWithClose<SolanaApiRepository> {
                     SolanaApiRepositoryImpl(
+                        coroutineScope = getScoped(),
                         session = getScoped(),
                         solanaApi = getScoped(),
                         balanceCache = getScoped(),
@@ -61,6 +64,10 @@ internal object SessionScopedModule {
                         transactionSignaturesCache = getScoped(),
                     )
                 }
+
+                scoped<CoroutineScope> {
+                    GlobalScope + Dispatchers.Main.immediate
+                } onClose { it?.cancel() }
 
                 scopedOf(::TransactionViewStateFactory)
 

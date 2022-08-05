@@ -1,5 +1,8 @@
 package com.dgsd.android.solar.repository
 
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.common.util.executeWithCache
@@ -15,12 +18,12 @@ import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.LocalTransactions
 import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.model.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.*
 import java.time.OffsetDateTime
 
 internal class SolanaApiRepositoryImpl(
+  private val coroutineScope: CoroutineScope,
   private val session: WalletSession,
   private val solanaApi: SolanaApi,
   private val balanceCache: BalanceCache,
@@ -28,15 +31,33 @@ internal class SolanaApiRepositoryImpl(
   private val transactionSignaturesCache: TransactionSignaturesCache,
 ) : SolanaApiRepository {
 
+  private val solanaSubscription = solanaApi.createSubscription()
+
+  init {
+    ProcessLifecycleOwner.get().lifecycle.addObserver(
+      object : DefaultLifecycleObserver {
+        override fun onStart(owner: LifecycleOwner) {
+          connectAndSubscribeToAccount()
+        }
+
+        override fun onStop(owner: LifecycleOwner) {
+          solanaSubscription.disconnect()
+        }
+      }
+    )
+  }
+
   override fun getBalance(
-    cacheStrategy: CacheStrategy
+    cacheStrategy: CacheStrategy,
+    commitment: Commitment
   ): Flow<Resource<LamportsWithTimestamp>> {
-    return getBalanceOfAccount(session.publicKey, cacheStrategy)
+    return getBalanceOfAccount(session.publicKey, cacheStrategy, commitment)
   }
 
   override fun getBalanceOfAccount(
     account: PublicKey,
-    cacheStrategy: CacheStrategy
+    cacheStrategy: CacheStrategy,
+    commitment: Commitment
   ): Flow<Resource<LamportsWithTimestamp>> {
     return executeWithCache(
       cacheKey = account,
@@ -44,7 +65,7 @@ internal class SolanaApiRepositoryImpl(
       cache = balanceCache,
       networkFlowProvider = {
         resourceFlowOf {
-          LamportsWithTimestamp(solanaApi.getBalance(account), OffsetDateTime.now())
+          LamportsWithTimestamp(solanaApi.getBalance(account, commitment), OffsetDateTime.now())
         }
       }
     )
@@ -53,13 +74,20 @@ internal class SolanaApiRepositoryImpl(
   override fun getTransactions(
     cacheStrategy: CacheStrategy,
     limit: Int,
-    beforeSignature: TransactionSignature?
+    beforeSignature: TransactionSignature?,
+    commitment: Commitment,
   ): Flow<Resource<List<Resource<TransactionOrSignature>>>> {
     return getTransactionSignatures(
-      cacheStrategy, limit, beforeSignature
+      cacheStrategy,
+      limit,
+      beforeSignature,
+      commitment
     ).flatMapSuccess { signatureList ->
       val transactionsFlow = signatureList.map { signatureInfo ->
-        getTransaction(cacheStrategy, signatureInfo.signature).map { transactionResource ->
+        getTransaction(
+          CacheStrategy.CACHE_IF_PRESENT,
+          signatureInfo.signature
+        ).map { transactionResource ->
           when (transactionResource) {
             is Resource.Error -> {
               Resource.Error(
@@ -93,6 +121,7 @@ internal class SolanaApiRepositoryImpl(
   override fun getTransaction(
     cacheStrategy: CacheStrategy,
     transactionSignature: TransactionSignature,
+    commitment: Commitment
   ): Flow<Resource<Transaction>> {
     return executeWithCache(
       cacheKey = transactionSignature,
@@ -100,7 +129,7 @@ internal class SolanaApiRepositoryImpl(
       cache = transactionCache,
       networkFlowProvider = {
         resourceFlowOf {
-          checkNotNull(solanaApi.getTransaction(transactionSignature))
+          checkNotNull(solanaApi.getTransaction(transactionSignature, commitment))
         }
       }
     )
@@ -133,22 +162,51 @@ internal class SolanaApiRepositoryImpl(
     }
   }
 
+  override fun close() {
+    solanaSubscription.disconnect()
+  }
+
+  private fun connectAndSubscribeToAccount() {
+    if (!solanaSubscription.isConnected()) {
+      solanaSubscription.connect()
+    }
+
+    solanaSubscription.accountSubscribe(
+      session.publicKey,
+      Commitment.FINALIZED
+    ).onEach { accountInfo ->
+      balanceCache.set(
+        accountInfo.publicKey,
+        LamportsWithTimestamp(accountInfo.lamports, OffsetDateTime.now())
+      )
+      transactionSignaturesCache.clear()
+    }.launchIn(coroutineScope)
+  }
+
   private fun getTransactionSignatures(
     cacheStrategy: CacheStrategy,
     limit: Int,
-    beforeSignature: TransactionSignature?
+    beforeSignature: TransactionSignature?,
+    commitment: Commitment
   ): Flow<Resource<List<TransactionSignatureInfo>>> {
     return executeWithCache(
-      cacheKey = TransactionSignaturesCacheKey(session.publicKey, limit, beforeSignature),
+      cacheKey = TransactionSignaturesCacheKey(
+        session.publicKey,
+        limit,
+        beforeSignature,
+      ),
       cacheStrategy = cacheStrategy,
       cache = transactionSignaturesCache,
       networkFlowProvider = {
         resourceFlowOf {
-          solanaApi.getSignaturesForAddress(
+          val result = solanaApi.getSignaturesForAddress(
             accountKey = session.publicKey,
             before = beforeSignature,
-            limit = limit
+            limit = limit,
+            commitment = commitment
           )
+          println("HERE: got result: ${result.map { it.signature }}")
+          result
         }
       }
     )
