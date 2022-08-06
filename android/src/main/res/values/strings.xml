@@ -177,4 +177,5 @@
     <string name="send_confirm_error_getting_state">There was a problem getting updates for your transaction. You can come back later to check on things</string>
     <string name="send_confirm_status_processed">Your transaction has been submitted. Waiting for confirmation</string>
     <string name="send_confirm_status_finalized">Success! Your transaction has been finalized</string>
+    <string name="send_confirm_status_taking_too_long">Sorry this is taking a little longer than expected…</string>
 </resources>

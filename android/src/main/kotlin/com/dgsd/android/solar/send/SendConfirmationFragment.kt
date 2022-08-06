@@ -3,6 +3,7 @@ package com.dgsd.android.solar.send
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.util.SwallowBackpressLifecycleObserver
@@ -35,6 +36,10 @@ class SendConfirmationFragment : Fragment(R.layout.frag_send_confirmation) {
 
     onEach(viewModel.statusText) {
       statusMessage.text = it
+    }
+
+    onEach(viewModel.isCloseButtonVisible) {
+      closeButton.isInvisible = !it
     }
   }
 
