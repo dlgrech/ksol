@@ -53,7 +53,6 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
       Destination.EnterAmount -> SendEnterAmountFragment()
       Destination.PreviousTransactionPicker -> TODO()
       Destination.ScanQR -> SendScanQRFragment()
-      Destination.Success -> TODO()
       Destination.TransactionRequestConfirmation -> SendConfirmTransactionRequestFragment()
       Destination.TransferRequestConfirmation -> SendConfirmTransferRequestFragment()
     }

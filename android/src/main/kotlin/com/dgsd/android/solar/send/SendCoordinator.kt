@@ -34,7 +34,6 @@ class SendCoordinator(
     object EnterAddress : Destination
     object EnterAmount : Destination
     object Confirmation : Destination
-    object Success : Destination
   }
 
   private val _destination = MutableEventFlow<Destination>()
