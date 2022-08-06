@@ -21,6 +21,7 @@ object SendViewModelModule {
         SendConfirmTransactionRequestViewModel(
           application = get(),
           session = getScoped(),
+          solanaApiRepository = getScoped(),
           solPay = getScoped(),
           transactionRequest = get(),
           sessionManager = get(),

@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.model.Resource
+import com.dgsd.android.solar.extensions.getSystemProgramInstruction
 import com.dgsd.android.solar.model.NativePrograms
 import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.model.TransactionViewState
@@ -32,7 +33,7 @@ class TransactionViewStateFactory(
     transaction: Transaction,
   ): CharSequence {
     val amount = if (transaction.isSystemProgramTransfer()) {
-      checkNotNull(transaction.getSystemProgramInstruction()?.lamports)
+      checkNotNull(transaction.message.getSystemProgramInstruction()?.lamports)
     } else {
       abs(transaction.sessionAccountBalance()?.balanceDifference() ?: 0)
     }
@@ -116,19 +117,8 @@ class TransactionViewStateFactory(
     }
   }
 
-  private fun Transaction.getSystemProgramInstruction(): SystemProgramInstructionData? {
-    return runCatching {
-      val singleInstruction = message.instructions.singleOrNull()
-      if (singleInstruction?.programAccount != SystemProgram.PROGRAM_ID) {
-        null
-      } else {
-        SystemProgram.decodeInstruction(singleInstruction.inputData)
-      }
-    }.getOrNull()
-  }
-
   private fun Transaction.isSystemProgramTransfer(): Boolean {
-    return when (getSystemProgramInstruction()?.instruction) {
+    return when (message.getSystemProgramInstruction()?.instruction) {
       SystemProgramInstruction.TRANSFER,
       SystemProgramInstruction.TRANSFER_WITH_SEED -> true
       else -> false

@@ -1,6 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipChildren="false">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/SolarToolbar"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="@string/send_transaction_request_confirmation_screen_title" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/padding_default"
+            android:layout_marginBottom="@dimen/padding_default"
+            app:cardCornerRadius="@dimen/card_radius">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_card_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:shimmer_duration="@integer/shimmer_duration_ms"
+                app:shimmer_highlight_alpha="@dimen/shimmer_alpha">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/padding_default"
+                    android:paddingBottom="@dimen/padding_default">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginVertical="30dp"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="120dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/padding_xsmall"
+                        android:layout_marginBottom="@dimen/padding_default"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_default"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_xsmall"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_default"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_xsmall"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_default"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_xsmall"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_default"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                    <View
+                        android:layout_width="80dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="@dimen/padding_xsmall"
+                        android:background="@drawable/shimmer_background_rounded" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/card_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/padding_default"
+                android:paddingBottom="@dimen/padding_default">
+
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:layout_constraintBottom_toTopOf="@id/label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/label"
+                    style="@style/TransferRequest.Value"
+                    android:layout_marginTop="@dimen/padding_xsmall"
+                    android:layout_marginBottom="@dimen/padding_default"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toTopOf="@id/header_recipient"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/logo" />
+
+                <TextView
+                    android:id="@+id/header_recipient"
+                    style="@style/TransferRequest.SmallHeader"
+                    android:text="@string/send_transaction_request_confirmation_header_message"
+                    app:layout_constraintBottom_toTopOf="@id/value_recipient"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/label" />
+
+                <TextView
+                    android:id="@+id/value_recipient"
+                    style="@style/TransferRequest.Value"
+                    app:layout_constraintBottom_toTopOf="@id/header_amount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header_recipient" />
+
+                <TextView
+                    android:id="@+id/header_amount"
+                    style="@style/TransferRequest.SmallHeader"
+                    android:text="@string/send_transfer_request_confirmation_header_amount"
+                    app:layout_constraintBottom_toTopOf="@id/value_amount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/value_recipient" />
+
+                <TextView
+                    android:id="@+id/value_amount"
+                    style="@style/TransferRequest.Value"
+                    app:layout_constraintBottom_toTopOf="@id/header_fee"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header_amount" />
+
+                <TextView
+                    android:id="@+id/header_fee"
+                    style="@style/TransferRequest.SmallHeader"
+                    android:text="@string/send_transfer_request_confirmation_header_fee"
+                    app:layout_constraintBottom_toTopOf="@id/value_fee"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/value_amount" />
+
+                <TextView
+                    android:id="@+id/value_fee"
+                    style="@style/TransferRequest.Value"
+                    app:layout_constraintBottom_toTopOf="@id/header_message"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header_fee" />
+
+                <com.dgsd.android.solar.common.shimmer.ShimmerView
+                    android:id="@+id/value_fee_shimmer"
+                    android:layout_width="66dp"
+                    android:layout_height="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/header_message"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header_fee" />
+
+                <TextView
+                    android:id="@+id/header_message"
+                    style="@style/TransferRequest.SmallHeader"
+                    android:text="@string/send_transaction_request_confirmation_header_message"
+                    app:layout_constraintBottom_toTopOf="@id/value_message"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/value_fee" />
+
+                <TextView
+                    android:id="@+id/value_message"
+                    style="@style/TransferRequest.Value"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/header_message" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.dgsd.android.solar.common.shimmer.ShimmerView
+        android:id="@+id/shimmer_send"
+        android:layout_width="161dp"
+        android:layout_height="40dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/send"
+        app:layout_constraintEnd_toEndOf="@id/send"
+        app:layout_constraintStart_toStartOf="@id/send"
+        app:layout_constraintTop_toTopOf="@id/send" />
+
+    <Button
+        android:id="@+id/send"
+        style="@style/PrimaryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/padding_default"
+        android:layout_marginBottom="@dimen/padding_default"
+        android:text="@string/send_transaction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/submit_loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/send" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

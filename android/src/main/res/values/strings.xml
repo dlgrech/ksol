@@ -76,7 +76,6 @@
     <string name="home_send_action_sheet_item_from_clipboard_template">Address you copied (^1)</string>
     <string name="home_send_action_sheet_item_scan_qr">Scan a QR code</string>
     <string name="home_send_action_sheet_item_enter_address">Enter a wallet address</string>
-    <string name="home_send_action_sheet_item_send_to_previous">Send to a previous address</string>
     <string name="home_receive_sheet_title">Request SOL</string>
     <string name="home_receive_action_sheet_item_share_address">Share your wallet address</string>
     <string name="home_receive_action_sheet_item_request_amount">Request a specific amount</string>
@@ -155,6 +154,7 @@
     <string name="send_enter_amount_amount_input_error_invalid_amount">Please enter a valid amount</string>
     <string name="send_enter_amount_not_enough_balance">You have an insufficient balance.</string>
     <string name="send_transfer_request_confirmation_screen_title">Summary</string>
+    <string name="send_transaction_request_confirmation_screen_title">Summary</string>
     <string name="send_transfer_request_confirmation_header_recipient">Recipient</string>
     <string name="send_transfer_request_confirmation_header_amount">Amount</string>
     <string name="send_transfer_request_confirmation_header_label">Label</string>
@@ -183,4 +183,6 @@
     <string name="app_shortcut_label_your_address">Your Address</string>
     <string name="error_process_text_invalid_address">Not a valid public key</string>
     <string name="process_text_label">Send SOL</string>
+    <string name="send_transaction">Send Transaction</string>
+    <string name="send_transaction_request_confirmation_header_message">Message</string>
 </resources>

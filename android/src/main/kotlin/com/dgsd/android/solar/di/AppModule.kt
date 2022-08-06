@@ -4,6 +4,8 @@ import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import coil.ImageLoader
+import coil.decode.SvgDecoder
 import com.dgsd.android.solar.BuildConfig
 import com.dgsd.android.solar.applock.biometrics.AppLockBiometricManager
 import com.dgsd.android.solar.applock.biometrics.AppLockBiometricManagerImpl
@@ -88,6 +90,14 @@ internal object AppModule {
 
       single<NfcManager> {
         NfcManagerImpl(get())
+      }
+
+      single<ImageLoader> {
+        ImageLoader.Builder(get())
+          .crossfade(true)
+          .okHttpClient(get<OkHttpClient>())
+          .components { add(SvgDecoder.Factory()) }
+          .build()
       }
 
       singleOf(::PublicKeyFormatter)
