@@ -25,7 +25,6 @@ import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import com.dgsd.ksol.utils.solToLamports
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
@@ -90,7 +89,7 @@ class SendConfirmTransferRequestViewModel(
 
   fun onCreate() {
     getFeeResourceConsumer.collectFlow(
-      solanaApiRepository.getRecentBlockhash().mapData { delay(2000); it.fee }
+      solanaApiRepository.getRecentBlockhash().mapData { it.fee }
     )
 
     onEach(submitTransactionResourceConsumer.error.filterNotNull()) {
