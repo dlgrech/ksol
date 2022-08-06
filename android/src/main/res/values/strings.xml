@@ -181,4 +181,6 @@
     <string name="app_shortcut_label_scan_qr">Send</string>
     <string name="app_shortcut_label_request">Request</string>
     <string name="app_shortcut_label_your_address">Your Address</string>
+    <string name="error_process_text_invalid_address">Not a valid public key</string>
+    <string name="process_text_label">Send SOL</string>
 </resources>
