@@ -1,10 +1,7 @@
 package com.dgsd.android.solar.extensions
 
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
+import androidx.fragment.app.*
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.model.ScreenTransitionType
 
@@ -23,9 +20,10 @@ fun FragmentManager.navigate(
   @IdRes containerId: Int,
   fragment: Fragment,
   screenTransitionType: ScreenTransitionType = ScreenTransitionType.DEFAULT,
-  resetBackStack: Boolean = false
+  resetBackStack: Boolean = false,
+  commitNow: Boolean = false
 ) {
-  commit(allowStateLoss = true) {
+  val transaction: (FragmentTransaction.() -> Unit) = {
     if (resetBackStack) {
       fragments.forEach { remove(it) }
       setScreenTransitionType(screenTransitionType)
@@ -36,6 +34,12 @@ fun FragmentManager.navigate(
 
     replace(containerId, fragment)
     setPrimaryNavigationFragment(fragment)
+  }
+
+  if (commitNow) {
+    commitNow(allowStateLoss = true, transaction)
+  } else {
+    commit(allowStateLoss = true, transaction)
   }
 }
 

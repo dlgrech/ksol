@@ -1,5 +1,6 @@
 package com.dgsd.android.solar
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -16,8 +17,7 @@ import com.dgsd.android.solar.send.SendContainerFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
 import com.dgsd.android.solar.transaction.list.TransactionListFragment
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -42,11 +42,28 @@ class MainActivity : AppCompatActivity() {
   override fun onResume() {
     super.onResume()
     lifecycleScope.launchWhenResumed {
-      appCoordinator.onResume()
+      appCoordinator.onResume(intent.data)
+      intent = intent?.apply { data = null }
     }
   }
 
+  override fun onNewIntent(intent: Intent?) {
+    super.onNewIntent(intent)
+    appCoordinator.onNewIntent(intent?.data)
+    setIntent(intent?.apply { data = null })
+  }
+
   private fun onDestinationChanged(destination: Destination) {
+    if (destination is Destination.CompositeDestination) {
+      destination.destinations.forEachIndexed { index, dest ->
+        onDestinationChanged(dest, commitNow = index == 0)
+      }
+    } else {
+      onDestinationChanged(destination, commitNow = false)
+    }
+  }
+
+  private fun onDestinationChanged(destination: Destination, commitNow: Boolean) {
     val fragment = getFragmentForDestination(destination)
     val shouldResetBackStack = shouldResetBackStackForDestination(destination)
     val transitionType = getScreenTransitionForDestination(destination)
@@ -55,6 +72,7 @@ class MainActivity : AppCompatActivity() {
       fragment = fragment,
       resetBackStack = shouldResetBackStack,
       screenTransitionType = transitionType,
+      commitNow = commitNow,
     )
   }
 
@@ -73,6 +91,7 @@ class MainActivity : AppCompatActivity() {
       Destination.Settings -> ScreenTransitionType.DEFAULT
       Destination.TransactionList -> ScreenTransitionType.DEFAULT
       is Destination.TransactionDetails -> ScreenTransitionType.DEFAULT
+      is Destination.CompositeDestination -> error("Trying to get transition for composite")
     }
   }
 
@@ -93,6 +112,7 @@ class MainActivity : AppCompatActivity() {
       Destination.SendWithQR -> SendContainerFragment.newQRScanInstance()
       is Destination.SendWithSolPayRequest ->
         SendContainerFragment.newTransferRequestInstance(destination.requestUrl)
+      is Destination.CompositeDestination -> error("Trying to get fragment for composite")
     }
   }
 
@@ -109,12 +129,14 @@ class MainActivity : AppCompatActivity() {
     fragment: Fragment,
     resetBackStack: Boolean,
     screenTransitionType: ScreenTransitionType,
+    commitNow: Boolean
   ) {
     supportFragmentManager.navigate(
       containerId = R.id.fragment_container,
       fragment = fragment,
       screenTransitionType = screenTransitionType,
-      resetBackStack = resetBackStack
+      resetBackStack = resetBackStack,
+      commitNow = commitNow,
     )
   }
 }

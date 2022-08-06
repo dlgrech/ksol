@@ -19,9 +19,16 @@ internal object ViewModelModule {
 
     fun create(): Module {
         return module {
-            viewModelOf(::AppCoordinator)
             viewModelOf(::SettingsViewModel)
             viewModelOf(::AppEntryLockScreenViewModel)
+
+            viewModel {
+                AppCoordinator(
+                    sessionManager = get(),
+                    appLockManager = get(),
+                    solPayLazy = lazy { getScoped() }
+                )
+            }
 
             viewModel {
                 TransactionListViewModel(

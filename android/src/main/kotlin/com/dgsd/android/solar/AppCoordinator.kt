@@ -1,5 +1,6 @@
 package com.dgsd.android.solar
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.applock.manager.AppLockManager
@@ -8,6 +9,7 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.*
 import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.solpay.SolPay
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.onEach
 class AppCoordinator(
   private val sessionManager: SessionManager,
   private val appLockManager: AppLockManager,
+  private val solPayLazy: Lazy<SolPay>,
 ) : ViewModel() {
 
   sealed interface Destination {
@@ -29,13 +32,16 @@ class AppCoordinator(
     object SendWithAddress : Destination
     object SendWithHistoricalAddress : Destination
     object SendWithNearby : Destination
-    data class SendWithSolPayRequest(val requestUrl: String): Destination
-
+    data class SendWithSolPayRequest(val requestUrl: String) : Destination
+    data class CompositeDestination(val destinations: List<Destination>) : Destination
     data class TransactionDetails(val signature: TransactionSignature) : Destination
   }
 
   private val _destination = MutableEventFlow<Destination>()
   val destination = _destination.asEventFlow()
+
+
+  private var pendingDeeplinkAfterAppLock: Uri? = null
 
   fun onCreate() {
     sessionManager.activeSession
@@ -44,9 +50,20 @@ class AppCoordinator(
       .launchIn(viewModelScope)
   }
 
-  fun onResume() {
-    if (appLockManager.shouldShowAppLockEntry()) {
+  fun onResume(deeplink: Uri?) {
+    if (sessionManager.activeSession.value is LockedAppSession) {
+      pendingDeeplinkAfterAppLock = deeplink
+    } else if (appLockManager.shouldShowAppLockEntry()) {
+      pendingDeeplinkAfterAppLock = deeplink
       sessionManager.lockSession()
+    } else if (deeplink != null) {
+      maybeNavigateWithUri(deeplink)
+    }
+  }
+
+  fun onNewIntent(uri: Uri?) {
+    if (uri != null) {
+      maybeNavigateWithUri(uri)
     }
   }
 
@@ -101,8 +118,37 @@ class AppCoordinator(
       }
 
       is WalletSession -> {
-        _destination.tryEmit(Destination.Home)
+        val initialUri = pendingDeeplinkAfterAppLock
+        if (initialUri == null || !maybeNavigateWithUri(initialUri)) {
+          _destination.tryEmit(Destination.Home)
+        }
+
+        pendingDeeplinkAfterAppLock = null
       }
     }
+  }
+
+  private fun maybeNavigateWithUri(uri: Uri): Boolean {
+    if (sessionManager.activeSession.value !is WalletSession) {
+      // We're not logged in
+      return false
+    }
+
+    val solPay = solPayLazy.value
+    val solPayRequest = solPay.parseUrl(uri.toString())
+    if (solPayRequest != null) {
+      _destination.tryEmit(
+        Destination.CompositeDestination(
+          listOf(
+            Destination.Home,
+            Destination.SendWithSolPayRequest(solPay.createUrl(solPayRequest))
+          )
+        )
+      )
+
+      return true
+    }
+
+    return false
   }
 }
