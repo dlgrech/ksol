@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.extensions.generateTag
 import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.send.SendCoordinator.Destination
@@ -31,6 +33,13 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
     super.onViewCreated(view, savedInstanceState)
 
     onEach(coordinator.destination, ::onDestinationChanged)
+
+    onEach(coordinator.closeFlow) {
+      parentFragmentManager.popBackStackImmediate(
+        generateTag(),
+        FragmentManager.POP_BACK_STACK_INCLUSIVE
+      )
+    }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {
       coordinator.onCreate()

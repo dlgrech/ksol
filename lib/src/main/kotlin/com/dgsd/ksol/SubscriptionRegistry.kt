@@ -1,6 +1,7 @@
 package com.dgsd.ksol
 
 import com.dgsd.ksol.collections.BidirectionalMap
+import com.dgsd.ksol.model.Commitment
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.TransactionSignature
 
@@ -16,6 +17,7 @@ internal class SubscriptionRegistry {
     private val accountKeyToRpcRequestIdMap = BidirectionalMap<PublicKey, String>()
     private val transactionSignatureToRpcRequestIdMap = BidirectionalMap<TransactionSignature, String>()
     private val rpcRequestIdToSubscriptionId = BidirectionalMap<String, Long>()
+    private val rpcRequestIdToCommitment = mutableMapOf<String, Commitment>()
 
     /**
      * Called when a WebSocket Subscription `accountSubscribe` request (with an id of `rpcRequestId`) is made for
@@ -24,8 +26,10 @@ internal class SubscriptionRegistry {
     fun onAccountSubscribe(
         rpcRequestId: String,
         accountKey: PublicKey,
+        commitment: Commitment,
     ) {
         accountKeyToRpcRequestIdMap[accountKey] = rpcRequestId
+        rpcRequestIdToCommitment[rpcRequestId] = commitment
     }
 
     /**
@@ -35,8 +39,10 @@ internal class SubscriptionRegistry {
     fun onSignatureSubscribe(
         rpcRequestId: String,
         transactionSignature: TransactionSignature,
+        commitment: Commitment,
     ) {
         transactionSignatureToRpcRequestIdMap[transactionSignature] = rpcRequestId
+        rpcRequestIdToCommitment[rpcRequestId] = commitment
     }
 
     /**
@@ -85,12 +91,23 @@ internal class SubscriptionRegistry {
     }
 
     /**
+     * Returns the [Commitment] that was used when first subscribing to a subscription represented by the
+     * given `subscriptionId
+     */
+    fun getCommitmentFromSubscriptionId(subscriptionId: Long): Commitment? {
+        return rpcRequestIdToSubscriptionId.getFromValue(subscriptionId)?.let { rpcRequestId ->
+            rpcRequestIdToCommitment[rpcRequestId]
+        }
+    }
+
+    /**
      * Removes any registered `accountSubscribe` attempt for the given `accountKey`
      */
     fun clearAccountSubscription(accountKey: PublicKey) {
         val rpcRequestId = accountKeyToRpcRequestIdMap.removeKey(accountKey)
         if (rpcRequestId != null) {
             rpcRequestIdToSubscriptionId.removeKey(rpcRequestId)
+            rpcRequestIdToCommitment.remove(rpcRequestId)
         }
     }
 
@@ -101,6 +118,7 @@ internal class SubscriptionRegistry {
         val rpcRequestId = transactionSignatureToRpcRequestIdMap.removeKey(transactionSignature)
         if (rpcRequestId != null) {
             rpcRequestIdToSubscriptionId.removeKey(rpcRequestId)
+            rpcRequestIdToCommitment.remove(rpcRequestId)
         }
     }
 
@@ -111,5 +129,6 @@ internal class SubscriptionRegistry {
         accountKeyToRpcRequestIdMap.clear()
         transactionSignatureToRpcRequestIdMap.clear()
         rpcRequestIdToSubscriptionId.clear()
+        rpcRequestIdToCommitment.clear()
     }
 }

@@ -66,7 +66,7 @@ internal class SolanaSubscriptionImpl(
         val existingSubscriptionId = subscriptionRegistry.getSubscriptionIdFromAccount(accountKey)
         if (existingSubscriptionId == null) {
             val request = createAccountSubscribeRequest(accountKey, commitment)
-            subscriptionRegistry.onAccountSubscribe(request.id, accountKey)
+            subscriptionRegistry.onAccountSubscribe(request.id, accountKey, commitment)
             sendRequest(request)
         }
 
@@ -91,7 +91,7 @@ internal class SolanaSubscriptionImpl(
         val existingSubscriptionId = subscriptionRegistry.getSubscriptionIdFromSignature(signature)
         if (existingSubscriptionId == null) {
             val request = createTransactionSubscribeRequest(signature, commitment)
-            subscriptionRegistry.onSignatureSubscribe(request.id, signature)
+            subscriptionRegistry.onSignatureSubscribe(request.id, signature, commitment)
             sendRequest(request)
         }
 
@@ -178,12 +178,13 @@ internal class SolanaSubscriptionImpl(
     private fun onSignatureNotification(notification: RpcSubscriptionNotification<SignatureNotificationResponseBody>) {
         val transactionSignature =
             subscriptionRegistry.getSignatureFromSubscriptionId(notification.params.subscriptionId)
-        if (transactionSignature != null) {
+        val commitment = subscriptionRegistry.getCommitmentFromSubscriptionId(notification.params.subscriptionId)
+        if (transactionSignature != null && commitment != null) {
             val transactionSignatureStatus = TransactionSignatureStatus.Confirmed(
                 signature = transactionSignature,
                 slot = notification.params.result.context.slot,
                 errorMessage = notification.params.result.value.error?.message,
-                commitment = null
+                commitment = commitment
             )
 
             transactionSignatureToFlowMap[transactionSignature]?.tryEmit(transactionSignatureStatus)

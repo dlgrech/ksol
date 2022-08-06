@@ -51,6 +51,7 @@ dependencies {
     implementation libs.google.material
     implementation libs.shimmer.android
     implementation libs.zxing.android
+    implementation libs.lottie
 
     debugImplementation libs.leakcanary
 

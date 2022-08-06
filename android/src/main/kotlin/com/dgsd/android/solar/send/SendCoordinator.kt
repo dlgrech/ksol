@@ -2,7 +2,9 @@ package com.dgsd.android.solar.send
 
 import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.flow.call
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.TransactionSignature
@@ -49,6 +51,9 @@ class SendCoordinator(
 
   var transactionSignature: TransactionSignature? = null
     private set
+
+  private val _closeFlow = SimpleMutableEventFlow()
+  val closeFlow = _closeFlow.asEventFlow()
 
   fun onCreate() {
     if (startingDestination != null) {
@@ -97,6 +102,10 @@ class SendCoordinator(
   fun navigateWithTransactionSignature(signature: TransactionSignature) {
     this.transactionSignature = signature
     _destination.tryEmit(Destination.Confirmation)
+  }
+
+  fun onCloseFlowClicked() {
+    _closeFlow.call()
   }
 
   private fun navigateAfterAmountAndAddressEntry() {

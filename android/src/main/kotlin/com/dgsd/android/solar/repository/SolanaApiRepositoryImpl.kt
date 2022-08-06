@@ -162,14 +162,28 @@ internal class SolanaApiRepositoryImpl(
     }
   }
 
+  override fun subscribeToUpdates(
+    transactionSignature: TransactionSignature,
+    commitment: Commitment,
+  ): SubscriptionHandle<TransactionSignatureStatus> {
+    return object : SubscriptionHandle<TransactionSignatureStatus> {
+      override fun observe(): Flow<TransactionSignatureStatus> {
+        ensureSubscriptionConnected()
+        return solanaSubscription.signatureSubscribe(transactionSignature, commitment)
+      }
+
+      override fun stop() {
+        solanaSubscription.signatureUnsubscribe(transactionSignature)
+      }
+    }
+  }
+
   override fun close() {
     solanaSubscription.disconnect()
   }
 
   private fun connectAndSubscribeToAccount() {
-    if (!solanaSubscription.isConnected()) {
-      solanaSubscription.connect()
-    }
+    ensureSubscriptionConnected()
 
     solanaSubscription.accountSubscribe(
       session.publicKey,
@@ -181,6 +195,12 @@ internal class SolanaApiRepositoryImpl(
       )
       transactionSignaturesCache.clear()
     }.launchIn(coroutineScope)
+  }
+
+  private fun ensureSubscriptionConnected() {
+    if (!solanaSubscription.isConnected()) {
+      solanaSubscription.connect()
+    }
   }
 
   private fun getTransactionSignatures(
@@ -205,7 +225,6 @@ internal class SolanaApiRepositoryImpl(
             limit = limit,
             commitment = commitment
           )
-          println("HERE: got result: ${result.map { it.signature }}")
           result
         }
       }

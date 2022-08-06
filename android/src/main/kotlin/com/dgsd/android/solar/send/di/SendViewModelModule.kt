@@ -55,6 +55,13 @@ object SendViewModelModule {
           solPay = getScoped(),
         )
       }
+      viewModel {
+        SendConfirmationViewModel(
+          application = get(),
+          solanaApiRepository = getScoped(),
+          transactionSignature = get()
+        )
+      }
     }
   }
 }

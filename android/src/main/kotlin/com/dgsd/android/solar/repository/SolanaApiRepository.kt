@@ -41,4 +41,9 @@ interface SolanaApiRepository: Closeable {
     recipient: PublicKey,
     lamports: Lamports
   ): Flow<Resource<TransactionSignature>>
+
+  fun subscribeToUpdates(
+    transactionSignature: TransactionSignature,
+    commitment: Commitment = Commitment.FINALIZED
+  ): SubscriptionHandle<TransactionSignatureStatus>
 }
