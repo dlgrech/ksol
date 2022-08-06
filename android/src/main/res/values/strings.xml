@@ -178,4 +178,7 @@
     <string name="send_confirm_status_processed">Your transaction has been submitted. Waiting for confirmation</string>
     <string name="send_confirm_status_finalized">Success! Your transaction has been finalized</string>
     <string name="send_confirm_status_taking_too_long">Sorry this is taking a little longer than expected…</string>
+    <string name="app_shortcut_label_scan_qr">Send</string>
+    <string name="app_shortcut_label_request">Request</string>
+    <string name="app_shortcut_label_your_address">Your Address</string>
 </resources>

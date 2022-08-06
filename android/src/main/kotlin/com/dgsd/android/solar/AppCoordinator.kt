@@ -4,10 +4,14 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.applock.manager.AppLockManager
+import com.dgsd.android.solar.deeplink.SolarDeeplinkingConstants
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.session.manager.SessionManager
-import com.dgsd.android.solar.session.model.*
+import com.dgsd.android.solar.session.model.LockedAppSession
+import com.dgsd.android.solar.session.model.NoActiveWalletSession
+import com.dgsd.android.solar.session.model.Session
+import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.solpay.SolPay
 import kotlinx.coroutines.flow.distinctUntilChangedBy
@@ -132,6 +136,36 @@ class AppCoordinator(
     if (sessionManager.activeSession.value !is WalletSession) {
       // We're not logged in
       return false
+    }
+
+    if (uri.scheme == SolarDeeplinkingConstants.SCHEME) {
+      val destination = when (uri.host) {
+        SolarDeeplinkingConstants.DestinationHosts.SCAN_QR -> Destination.CompositeDestination(
+          listOf(
+            Destination.Home,
+            Destination.SendWithQR
+          )
+        )
+
+        SolarDeeplinkingConstants.DestinationHosts.RECEIVE_AMOUNT -> Destination.CompositeDestination(
+          listOf(
+            Destination.Home,
+            Destination.RequestAmount
+          )
+        )
+        SolarDeeplinkingConstants.DestinationHosts.YOUR_ADDRESS -> Destination.CompositeDestination(
+          listOf(
+            Destination.Home,
+            Destination.ShareWalletAddress
+          )
+        )
+        else -> null
+      }
+
+      if (destination != null) {
+        _destination.tryEmit(destination)
+        return true
+      }
     }
 
     val solPay = solPayLazy.value
