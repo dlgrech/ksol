@@ -38,8 +38,7 @@ class SendConfirmTransferRequestViewModel(
   private val errorMessageFactory: ErrorMessageFactory,
   private val solanaApiRepository: SolanaApiRepository,
   private val biometricManager: AppLockBiometricManager,
-
-  ) : AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
   private val submitTransactionResourceConsumer =
     ResourceFlowConsumer<TransactionSignature>(viewModelScope)
@@ -84,7 +83,7 @@ class SendConfirmTransferRequestViewModel(
       submitTransactionResourceConsumer.data,
       isShowingBiometricPrompt,
     ) { isLoading, transactionSignature, isShowingBiometricPrompt ->
-      isLoading || isShowingBiometricPrompt ||  transactionSignature != null
+      isLoading || isShowingBiometricPrompt || transactionSignature != null
     }
   val continueWithTransactionSignature =
     submitTransactionResourceConsumer.data.filterNotNull().asEventFlow(viewModelScope)

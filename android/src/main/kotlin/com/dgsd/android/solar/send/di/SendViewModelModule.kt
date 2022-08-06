@@ -3,7 +3,6 @@ package com.dgsd.android.solar.send.di
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.send.*
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -18,7 +17,18 @@ object SendViewModelModule {
           solPayRequestUrl = params.getOrNull(),
         )
       }
-      viewModelOf(::SendConfirmTransactionRequestViewModel)
+      viewModel {
+        SendConfirmTransactionRequestViewModel(
+          application = get(),
+          session = getScoped(),
+          solPay = getScoped(),
+          transactionRequest = get(),
+          sessionManager = get(),
+          errorMessageFactory = get(),
+          publicKeyFormatter = get(),
+          biometricManager = get(),
+        )
+      }
       viewModel {
         SendConfirmTransferRequestViewModel(
           application = get(),
