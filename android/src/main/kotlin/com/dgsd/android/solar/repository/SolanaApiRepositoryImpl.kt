@@ -162,6 +162,17 @@ internal class SolanaApiRepositoryImpl(
     }
   }
 
+  override fun signAndSend(
+    privateKey: PrivateKey,
+    localTransaction: LocalTransaction
+  ): Flow<Resource<TransactionSignature>> {
+    return resourceFlowOf {
+      val keyPair = KeyPair(session.publicKey, privateKey)
+      val signedTransaction = LocalTransactions.sign(localTransaction, keyPair)
+      solanaApi.sendTransaction(signedTransaction)
+    }
+  }
+
   override fun subscribeToUpdates(
     transactionSignature: TransactionSignature,
     commitment: Commitment,

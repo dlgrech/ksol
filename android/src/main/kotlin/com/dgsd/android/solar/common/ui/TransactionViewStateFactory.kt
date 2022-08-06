@@ -10,9 +10,7 @@ import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.model.*
-import com.dgsd.ksol.programs.system.SystemProgram
 import com.dgsd.ksol.programs.system.SystemProgramInstruction
-import com.dgsd.ksol.programs.system.SystemProgramInstructionData
 import kotlin.math.abs
 
 class TransactionViewStateFactory(
@@ -107,12 +105,14 @@ class TransactionViewStateFactory(
   }
 
   private fun extractDisplayAccount(accounts: List<TransactionAccountMetadata>): PublicKey? {
-    val otherAccounts = accounts.filterNot { it.publicKey == session.publicKey }
+    val otherAccounts = accounts
+      .filterNot { it.publicKey == session.publicKey }
+      .filterNot { NativePrograms.isNativeProgram(it.publicKey) }
     return when (otherAccounts.size) {
       0 -> null
       1 -> otherAccounts.single().publicKey
       else -> {
-        extractDisplayAccount(accounts.filterNot { NativePrograms.isNativeProgram(it.publicKey) })
+        otherAccounts.firstOrNull { it.isWritable }?.publicKey ?: otherAccounts.first().publicKey
       }
     }
   }

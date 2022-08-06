@@ -1,10 +1,12 @@
 package com.dgsd.android.solar.send
 
 import android.app.Application
+import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.applock.biometrics.AppLockBiometricManager
+import com.dgsd.android.solar.applock.biometrics.BiometricPromptResult
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.common.ui.SolTokenFormatter
@@ -18,12 +20,15 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.android.solar.session.manager.SessionManager
+import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.WalletSession
+import com.dgsd.ksol.model.KeyPair
 import com.dgsd.ksol.model.Lamports
 import com.dgsd.ksol.model.LocalTransaction
 import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
@@ -96,8 +101,21 @@ class SendConfirmTransactionRequestViewModel(
     }
   }
 
+  private val isShowingBiometricPrompt = MutableStateFlow(false)
+
+  private val _showBiometricAuthenticationPrompt = MutableEventFlow<BiometricPrompt.PromptInfo>()
+  val showBiometricAuthenticationPrompt = _showBiometricAuthenticationPrompt.asEventFlow()
+
   val isLoading = transactionDetailsResourceConsumer.isLoadingOrError
   val isLoadingFee = getFeeResourceConsumer.isLoading
+  val isSubmitTransactionLoading =
+    combine(
+      submitTransactionResourceConsumer.isLoading,
+      submitTransactionResourceConsumer.data,
+      isShowingBiometricPrompt,
+    ) { isLoading, transactionSignature, isShowingBiometricPrompt ->
+      isLoading || isShowingBiometricPrompt || transactionSignature != null
+    }
 
   private val _showError = MutableEventFlow<CharSequence>()
   val showError = _showError.asEventFlow()
@@ -130,6 +148,46 @@ class SendConfirmTransactionRequestViewModel(
   }
 
   fun onSendClicked() {
+    if (biometricManager.isAvailableOnDevice()) {
+      isShowingBiometricPrompt.value = true
+      _showBiometricAuthenticationPrompt.tryEmit(
+        biometricManager.createPrompt(
+          title = getString(R.string.send_unlock_biometrics_title),
+          description = getString(R.string.send_unlock_biometrics_description)
+        )
+      )
+    } else {
+      upgradeSessionAndSend()
+    }
+  }
 
+  fun onBiometricPromptResult(result: BiometricPromptResult) {
+    isShowingBiometricPrompt.value = false
+    if (result == BiometricPromptResult.SUCCESS) {
+      upgradeSessionAndSend()
+    } else if (result == BiometricPromptResult.FAIL) {
+      _showError.tryEmit(getString(R.string.send_error_invalid_biometrics))
+    }
+  }
+
+  private fun upgradeSessionAndSend() {
+    sessionManager.upgradeSession()
+    val session = sessionManager.activeSession.value
+    if (session is KeyPairSession) {
+      send(session.keyPair)
+    } else {
+      _showError.tryEmit(
+        getString(R.string.send_error_accessing_private_key)
+      )
+    }
+  }
+
+  private fun send(keyPair: KeyPair) {
+    submitTransactionResourceConsumer.collectFlow(
+      solanaApiRepository.signAndSend(
+        keyPair.privateKey,
+        checkNotNull(transactionDetailsResourceConsumer.data.value?.transaction)
+      )
+    )
   }
 }

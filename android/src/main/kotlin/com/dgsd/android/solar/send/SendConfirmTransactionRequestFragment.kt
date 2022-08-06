@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.applock.biometrics.showBiometricPrompt
 import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.di.util.parentViewModel
 import com.dgsd.android.solar.extensions.onEach
@@ -40,6 +41,7 @@ class SendConfirmTransactionRequestFragment :
     val valueAmount = view.requireViewById<TextView>(R.id.value_amount)
     val valueFee = view.requireViewById<TextView>(R.id.value_fee)
     val shimmerValueFee = view.requireViewById<View>(R.id.value_fee_shimmer)
+    val sendLoadingIndicator = view.requireViewById<View>(R.id.submit_loading_indicator)
     val sendButton = view.requireViewById<View>(R.id.send)
     val shimmerSendButton = view.requireViewById<View>(R.id.shimmer_send)
     val cardContent = view.requireViewById<View>(R.id.card_content)
@@ -106,12 +108,18 @@ class SendConfirmTransactionRequestFragment :
       coordinator.navigateWithTransactionSignature(it)
     }
 
-    onEach(viewModel.continueWithTransactionSignature) {
-      coordinator.navigateWithTransactionSignature(it)
+    onEach(viewModel.showBiometricAuthenticationPrompt) {
+      val result = showBiometricPrompt(it)
+      viewModel.onBiometricPromptResult(result)
     }
 
     onEach(viewModel.showError) {
       showModalFromErrorMessage(it)
+    }
+
+    onEach(viewModel.isSubmitTransactionLoading) {
+      sendLoadingIndicator.isInvisible = !it
+      sendButton.isInvisible = it
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

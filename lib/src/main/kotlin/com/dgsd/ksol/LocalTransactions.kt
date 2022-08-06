@@ -88,4 +88,25 @@ object LocalTransactions {
 
     return SigningUtils.isValidSignature(messageBytes, signature, key)
   }
+
+  fun sign(input: LocalTransaction, keyPair: KeyPair): LocalTransaction {
+    val indexOfSigner = input.message.accountKeys.indexOfFirst { it.publicKey == keyPair.publicKey }
+    require(indexOfSigner >= 0) { "Signer not expected" }
+
+    val messageBytes = LocalTransactionSerialization.serialize(input.message)
+    val newSignatureBytes = SigningUtils.sign(messageBytes, keyPair.privateKey)
+
+    val newSignatures = input.signatures.mapIndexed { index, existingSignature ->
+      if (index == indexOfSigner) {
+        EncodingUtils.encodeBase58(newSignatureBytes)
+      } else {
+        existingSignature
+      }
+    }
+
+    return LocalTransaction(
+      signatures = newSignatures,
+      message = input.message
+    )
+  }
 }
