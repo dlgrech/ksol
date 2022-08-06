@@ -12,7 +12,6 @@ data class SendActionSheetItem(
   sealed interface Type {
     object ScanQr : Type
     object EnterPublicAddress : Type
-    object HistoricalAddress : Type
     object Nearby : Type
     data class PreselectedAddress(val address: PublicKey) : Type
   }

@@ -51,7 +51,6 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
       Destination.Confirmation -> SendConfirmationFragment()
       Destination.EnterAddress -> SendEnterAddressFragment()
       Destination.EnterAmount -> SendEnterAmountFragment()
-      Destination.PreviousTransactionPicker -> TODO()
       Destination.ScanQR -> SendScanQRFragment()
       Destination.TransactionRequestConfirmation -> SendConfirmTransactionRequestFragment()
       Destination.TransferRequestConfirmation -> SendConfirmTransferRequestFragment()
@@ -74,10 +73,6 @@ class SendContainerFragment : Fragment(R.layout.view_fragment_container) {
       return SendContainerFragment().apply {
         arguments = bundleOf(ARG_SOLPAY_REQUEST to solPayUrl)
       }
-    }
-
-    fun newPreviousTransactionAddressInstance(): SendContainerFragment {
-      return newInstance(SendCoordinator.StartingDestination.PREVIOUS_ADDRESS_PICKER)
     }
 
     fun newInstance(

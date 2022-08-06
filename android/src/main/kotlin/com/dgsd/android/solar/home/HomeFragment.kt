@@ -172,10 +172,6 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       appCoordinator.navigateToSendWithAddress()
     }
 
-    onEach(viewModel.navigateToSendWithHistoricalAddress) {
-      appCoordinator.navigateToSendWithHistoricalAddress()
-    }
-
     onEach(viewModel.navigateToSendWithNearby) {
       appCoordinator.navigateToSendWithNearby()
     }

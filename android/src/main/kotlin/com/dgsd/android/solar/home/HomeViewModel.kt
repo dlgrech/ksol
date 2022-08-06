@@ -110,9 +110,6 @@ class HomeViewModel(
   private val _navigateToSendWithAddress = SimpleMutableEventFlow()
   val navigateToSendWithAddress = _navigateToSendWithAddress.asEventFlow()
 
-  private val _navigateToSendWithHistoricalAddress = SimpleMutableEventFlow()
-  val navigateToSendWithHistoricalAddress = _navigateToSendWithHistoricalAddress.asEventFlow()
-
   private val _navigateToSendWithNearby = SimpleMutableEventFlow()
   val navigateToSendWithNearby = _navigateToSendWithNearby.asEventFlow()
 
@@ -182,11 +179,6 @@ class HomeViewModel(
           R.drawable.ic_baseline_keyboard_24,
           SendActionSheetItem.Type.EnterPublicAddress
         ),
-        SendActionSheetItem(
-          getString(R.string.home_send_action_sheet_item_send_to_previous),
-          R.drawable.ic_baseline_history_24,
-          SendActionSheetItem.Type.HistoricalAddress
-        ),
         if (nfcManager.isNfAvailable()) {
           SendActionSheetItem(
             getString(R.string.home_send_action_sheet_item_nearby),
@@ -204,7 +196,6 @@ class HomeViewModel(
     when (type) {
       SendActionSheetItem.Type.ScanQr -> _navigateToScanQr.call()
       SendActionSheetItem.Type.EnterPublicAddress -> _navigateToSendWithAddress.call()
-      SendActionSheetItem.Type.HistoricalAddress -> _navigateToSendWithHistoricalAddress.call()
       SendActionSheetItem.Type.Nearby -> _navigateToSendWithNearby.call()
       is SendActionSheetItem.Type.PreselectedAddress -> {
         val request = SolPayTransferRequest(type.address)

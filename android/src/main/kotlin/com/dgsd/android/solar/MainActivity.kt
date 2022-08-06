@@ -17,7 +17,8 @@ import com.dgsd.android.solar.send.SendContainerFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
 import com.dgsd.android.solar.transaction.list.TransactionListFragment
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -84,7 +85,6 @@ class MainActivity : AppCompatActivity() {
       Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
-      Destination.SendWithHistoricalAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithNearby -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithQR -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       is Destination.SendWithSolPayRequest -> ScreenTransitionType.SLIDE_FROM_BOTTOM
@@ -107,7 +107,6 @@ class MainActivity : AppCompatActivity() {
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
       Destination.SendWithAddress -> SendContainerFragment.newEnterAddressInstance()
-      Destination.SendWithHistoricalAddress -> SendContainerFragment.newPreviousTransactionAddressInstance()
       Destination.SendWithNearby -> SendContainerFragment.newEnterAddressInstance()
       Destination.SendWithQR -> SendContainerFragment.newQRScanInstance()
       is Destination.SendWithSolPayRequest ->

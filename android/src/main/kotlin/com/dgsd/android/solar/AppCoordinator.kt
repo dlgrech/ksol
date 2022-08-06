@@ -34,7 +34,6 @@ class AppCoordinator(
     object RequestAmount : Destination
     object SendWithQR : Destination
     object SendWithAddress : Destination
-    object SendWithHistoricalAddress : Destination
     object SendWithNearby : Destination
     data class SendWithSolPayRequest(val requestUrl: String) : Destination
     data class CompositeDestination(val destinations: List<Destination>) : Destination
@@ -93,10 +92,6 @@ class AppCoordinator(
 
   fun navigateToSendWithAddress() {
     _destination.tryEmit(Destination.SendWithAddress)
-  }
-
-  fun navigateToSendWithHistoricalAddress() {
-    _destination.tryEmit(Destination.SendWithHistoricalAddress)
   }
 
   fun navigateToSendWithNearby() {

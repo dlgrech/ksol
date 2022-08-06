@@ -23,12 +23,10 @@ class SendCoordinator(
   enum class StartingDestination {
     QR_SCAN,
     ENTER_ADDRESS,
-    PREVIOUS_ADDRESS_PICKER,
   }
 
   sealed interface Destination {
     object ScanQR : Destination
-    object PreviousTransactionPicker : Destination
     object TransferRequestConfirmation : Destination
     object TransactionRequestConfirmation : Destination
     object EnterAddress : Destination
@@ -60,7 +58,6 @@ class SendCoordinator(
         when (startingDestination) {
           StartingDestination.QR_SCAN -> Destination.ScanQR
           StartingDestination.ENTER_ADDRESS -> Destination.EnterAddress
-          StartingDestination.PREVIOUS_ADDRESS_PICKER -> Destination.PreviousTransactionPicker
         }
       )
     } else if (solPayRequest != null) {
