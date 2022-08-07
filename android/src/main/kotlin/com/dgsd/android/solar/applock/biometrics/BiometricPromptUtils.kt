@@ -12,23 +12,29 @@ suspend fun Fragment.showBiometricPrompt(
     this,
     object : BiometricPrompt.AuthenticationCallback() {
       override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-        continuation.resume(BiometricPromptResult.SUCCESS)
+        if (!continuation.isCompleted) {
+          continuation.resume(BiometricPromptResult.SUCCESS)
+        }
       }
 
       override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-        val result = when (errorCode) {
-          BiometricPrompt.ERROR_CANCELED,
-          BiometricPrompt.ERROR_TIMEOUT,
-          BiometricPrompt.ERROR_USER_CANCELED,
-          BiometricPrompt.ERROR_NEGATIVE_BUTTON -> BiometricPromptResult.CANCELLED
-          else -> BiometricPromptResult.FAIL
-        }
+        if (!continuation.isCompleted) {
+          val result = when (errorCode) {
+            BiometricPrompt.ERROR_CANCELED,
+            BiometricPrompt.ERROR_TIMEOUT,
+            BiometricPrompt.ERROR_USER_CANCELED,
+            BiometricPrompt.ERROR_NEGATIVE_BUTTON -> BiometricPromptResult.CANCELLED
+            else -> BiometricPromptResult.FAIL
+          }
 
-        continuation.resume(result)
+          continuation.resume(result)
+        }
       }
 
       override fun onAuthenticationFailed() {
-        continuation.resume(BiometricPromptResult.FAIL)
+        if (!continuation.isCompleted) {
+          continuation.resume(BiometricPromptResult.FAIL)
+        }
       }
     }
   )
