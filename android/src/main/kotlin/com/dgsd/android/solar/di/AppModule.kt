@@ -18,6 +18,7 @@ import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.ui.PublicKeyFormatter
 import com.dgsd.android.solar.files.FileProviderManager
+import com.dgsd.android.solar.mobilewalletadapter.MobileWalletAdapterCoordinatorFactory
 import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.nfc.NfcManagerImpl
 import com.dgsd.android.solar.permission.PermissionsManager
@@ -114,6 +115,7 @@ internal object AppModule {
       singleOf(::ErrorMessageFactory)
       singleOf(::SystemClipboard)
       singleOf(::FileProviderManager)
+      singleOf(::MobileWalletAdapterCoordinatorFactory)
     }
   }
 

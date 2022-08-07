@@ -4,6 +4,7 @@ import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.applock.verification.AppEntryLockScreenViewModel
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.home.HomeViewModel
+import com.dgsd.android.solar.mobilewalletadapter.di.MobileWalletAdapterViewModelModule
 import com.dgsd.android.solar.onboarding.di.OnboardingViewModelModule
 import com.dgsd.android.solar.receive.di.ReceiveViewModelModule
 import com.dgsd.android.solar.send.di.SendViewModelModule
@@ -24,8 +25,10 @@ internal object ViewModelModule {
 
             viewModel {
                 AppCoordinator(
+                    application = get(),
                     sessionManager = get(),
                     appLockManager = get(),
+                    scenarioFactory = get(),
                     solPayLazy = lazy { getScoped() }
                 )
             }
@@ -65,6 +68,7 @@ internal object ViewModelModule {
             includes(OnboardingViewModelModule.create())
             includes(ReceiveViewModelModule.create())
             includes(SendViewModelModule.create())
+            includes(MobileWalletAdapterViewModelModule.create())
         }
     }
 }

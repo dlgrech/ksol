@@ -40,6 +40,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="solar" />
             </intent-filter>
+
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="solana-wallet" />
+            </intent-filter>
+            <intent-filter android:order="0">
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="solana-wallet" />
+            </intent-filter>
         </activity>
 
         <activity

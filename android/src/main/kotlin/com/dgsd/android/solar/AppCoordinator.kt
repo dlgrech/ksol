@@ -1,12 +1,18 @@
 package com.dgsd.android.solar
 
+import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgsd.android.solar.applock.manager.AppLockManager
 import com.dgsd.android.solar.deeplink.SolarDeeplinkingConstants
+import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.flow.MutableEventFlow
+import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
+import com.dgsd.android.solar.flow.call
+import com.dgsd.android.solar.mobilewalletadapter.MobileWalletAdapterCoordinator
+import com.dgsd.android.solar.mobilewalletadapter.MobileWalletAdapterCoordinatorFactory
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.LockedAppSession
 import com.dgsd.android.solar.session.model.NoActiveWalletSession
@@ -19,10 +25,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class AppCoordinator(
+  application: Application,
   private val sessionManager: SessionManager,
   private val appLockManager: AppLockManager,
+  private val scenarioFactory: MobileWalletAdapterCoordinatorFactory,
   private val solPayLazy: Lazy<SolPay>,
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
   sealed interface Destination {
     object Onboarding : Destination
@@ -35,16 +43,27 @@ class AppCoordinator(
     object SendWithQR : Destination
     object SendWithAddress : Destination
     object SendWithNearby : Destination
+    object MobileWalletAdapterAuthorize: Destination
     data class SendWithSolPayRequest(val requestUrl: String) : Destination
     data class CompositeDestination(val destinations: List<Destination>) : Destination
     data class TransactionDetails(val signature: TransactionSignature) : Destination
   }
 
+  private class IncomingDeeplinkInfo(
+    val uri: Uri,
+    val callingPackage: String?
+  )
+
   private val _destination = MutableEventFlow<Destination>()
   val destination = _destination.asEventFlow()
 
+  private val _close = SimpleMutableEventFlow()
+  val close = _close.asEventFlow()
 
-  private var pendingDeeplinkAfterAppLock: Uri? = null
+  var walletAdapterCoordinator: MobileWalletAdapterCoordinator? = null
+  private set
+
+  private var pendingDeeplinkAfterAppLock: IncomingDeeplinkInfo? = null
 
   fun onCreate() {
     sessionManager.activeSession
@@ -53,21 +72,27 @@ class AppCoordinator(
       .launchIn(viewModelScope)
   }
 
-  fun onResume(deeplink: Uri?) {
+  fun onResume(deeplink: Uri?, callingPackage: String?) {
     if (sessionManager.activeSession.value is LockedAppSession) {
-      pendingDeeplinkAfterAppLock = deeplink
+      pendingDeeplinkAfterAppLock = deeplink?.let { IncomingDeeplinkInfo(deeplink, callingPackage) }
     } else if (appLockManager.shouldShowAppLockEntry()) {
-      pendingDeeplinkAfterAppLock = deeplink
+      pendingDeeplinkAfterAppLock = deeplink?.let { IncomingDeeplinkInfo(deeplink, callingPackage) }
       sessionManager.lockSession()
     } else if (deeplink != null) {
-      maybeNavigateWithUri(deeplink)
+      maybeNavigateWithUri(IncomingDeeplinkInfo(deeplink, callingPackage))
     }
   }
 
-  fun onNewIntent(uri: Uri?) {
+  fun onNewIntent(uri: Uri?, callingPackage: String?) {
     if (uri != null) {
-      maybeNavigateWithUri(uri)
+      maybeNavigateWithUri(IncomingDeeplinkInfo(uri, callingPackage))
     }
+  }
+
+  override fun onCleared() {
+    super.onCleared()
+    walletAdapterCoordinator?.close()
+    walletAdapterCoordinator = null
   }
 
   fun navigateToSettings() {
@@ -127,45 +152,67 @@ class AppCoordinator(
     }
   }
 
-  private fun maybeNavigateWithUri(uri: Uri): Boolean {
+  private fun maybeNavigateWithUri(incomingDeeplink: IncomingDeeplinkInfo): Boolean {
     if (sessionManager.activeSession.value !is WalletSession) {
       // We're not logged in
       return false
     }
 
-    if (uri.scheme == SolarDeeplinkingConstants.SCHEME) {
-      val destination = when (uri.host) {
-        SolarDeeplinkingConstants.DestinationHosts.SCAN_QR -> Destination.CompositeDestination(
-          listOf(
-            Destination.Home,
-            Destination.SendWithQR
-          )
-        )
-
-        SolarDeeplinkingConstants.DestinationHosts.RECEIVE_AMOUNT -> Destination.CompositeDestination(
-          listOf(
-            Destination.Home,
-            Destination.RequestAmount
-          )
-        )
-        SolarDeeplinkingConstants.DestinationHosts.YOUR_ADDRESS -> Destination.CompositeDestination(
-          listOf(
-            Destination.Home,
-            Destination.ShareWalletAddress
-          )
-        )
-        else -> null
-      }
-
-      if (destination != null) {
-        _destination.tryEmit(destination)
+    if (incomingDeeplink.uri.scheme == SolarDeeplinkingConstants.SCHEME) {
+      if (maybeHandleAppSpecificDeeplink(incomingDeeplink)) {
         return true
       }
     }
 
+    if (maybeHandleSolPayDeeplink(incomingDeeplink)) {
+      return true
+    }
+
+    if (maybeHandleMobileWalletAdapterDeeplink(incomingDeeplink)) {
+      return true
+    }
+
+    return false
+  }
+
+  private fun maybeHandleAppSpecificDeeplink(incomingDeeplink: IncomingDeeplinkInfo): Boolean {
+    val destination = when (incomingDeeplink.uri.host) {
+      SolarDeeplinkingConstants.DestinationHosts.SCAN_QR -> Destination.CompositeDestination(
+        listOf(
+          Destination.Home,
+          Destination.SendWithQR
+        )
+      )
+
+      SolarDeeplinkingConstants.DestinationHosts.RECEIVE_AMOUNT -> Destination.CompositeDestination(
+        listOf(
+          Destination.Home,
+          Destination.RequestAmount
+        )
+      )
+      SolarDeeplinkingConstants.DestinationHosts.YOUR_ADDRESS -> Destination.CompositeDestination(
+        listOf(
+          Destination.Home,
+          Destination.ShareWalletAddress
+        )
+      )
+      else -> null
+    }
+
+    return if (destination != null) {
+      _destination.tryEmit(destination)
+      true
+    } else {
+      false
+    }
+  }
+
+  private fun maybeHandleSolPayDeeplink(incomingDeeplink: IncomingDeeplinkInfo): Boolean {
     val solPay = solPayLazy.value
-    val solPayRequest = solPay.parseUrl(uri.toString())
-    if (solPayRequest != null) {
+    val solPayRequest = solPay.parseUrl(incomingDeeplink.uri.toString())
+    if (solPayRequest == null) {
+      return false
+    } else {
       _destination.tryEmit(
         Destination.CompositeDestination(
           listOf(
@@ -175,6 +222,30 @@ class AppCoordinator(
         )
       )
 
+      return true
+    }
+  }
+
+  private fun maybeHandleMobileWalletAdapterDeeplink(incomingDeeplink: IncomingDeeplinkInfo): Boolean {
+    val coordinator =
+      scenarioFactory.createFromUri(incomingDeeplink.uri, incomingDeeplink.callingPackage)
+    walletAdapterCoordinator = coordinator
+    if (coordinator != null) {
+      onEach(coordinator.terminate) {
+        _close.call()
+      }
+
+      onEach(coordinator.destination) { destination ->
+        val appCoordinatorDestination = when (destination) {
+          is MobileWalletAdapterCoordinator.Destination.Authorize -> {
+            Destination.MobileWalletAdapterAuthorize
+          }
+        }
+
+        _destination.tryEmit(appCoordinatorDestination)
+      }
+
+      coordinator.start()
       return true
     }
 
