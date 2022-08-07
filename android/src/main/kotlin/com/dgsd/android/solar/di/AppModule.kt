@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.di
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.security.keystore.KeyGenParameterSpec
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -23,6 +24,7 @@ import com.dgsd.android.solar.permission.PermissionsManager
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
 import com.dgsd.ksol.model.Cluster
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -100,9 +102,15 @@ internal object AppModule {
           .build()
       }
 
+      single<OkHttpClient> {
+        val context = get<Context>()
+        OkHttpClient.Builder()
+          .cache(Cache(context.cacheDir, 10 * 1024 * 1024))
+          .build()
+      }
+
       singleOf(::PublicKeyFormatter)
       singleOf(::PermissionsManager)
-      singleOf(::OkHttpClient)
       singleOf(::ErrorMessageFactory)
       singleOf(::SystemClipboard)
       singleOf(::FileProviderManager)
