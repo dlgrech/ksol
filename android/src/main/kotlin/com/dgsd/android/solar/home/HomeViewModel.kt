@@ -23,9 +23,12 @@ import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.TransactionSignature
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 
-private const val NUM_TRANSACTIONS_TO_DISPLAY = 5
+private const val MAX_RECENT_TRANSACTIONS = 5
 
 class HomeViewModel(
   application: Application,
@@ -76,11 +79,12 @@ class HomeViewModel(
     }
   }
   val transactions = transactionsResourceConsumer.data
-    .take(NUM_TRANSACTIONS_TO_DISPLAY)
     .map { transactionsWithState ->
-      transactionsWithState?.map { transactionResource ->
-        transactionViewStateFactory.createForList(transactionResource)
-      }
+      transactionsWithState
+        ?.take(MAX_RECENT_TRANSACTIONS)
+        ?.map { transactionResource ->
+          transactionViewStateFactory.createForList(transactionResource)
+        }
     }
 
   private val _navigateToShareAddress = SimpleMutableEventFlow()
@@ -239,7 +243,7 @@ class HomeViewModel(
 
   private fun reloadRecentTransactions(cacheStrategy: CacheStrategy) {
     transactionsResourceConsumer.collectFlow(
-      solanaApiRepository.getTransactions(cacheStrategy, NUM_TRANSACTIONS_TO_DISPLAY)
+      solanaApiRepository.getTransactions(cacheStrategy)
     )
   }
 

@@ -10,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.R
-import com.dgsd.android.solar.common.util.anyTrue
+import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.di.util.activityViewModel
 import com.dgsd.android.solar.extensions.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-private val LOAD_MORE_CUTOFF = 3
 
 class TransactionListFragment : Fragment(R.layout.frag_transaction_list) {
 
@@ -37,31 +35,13 @@ class TransactionListFragment : Fragment(R.layout.frag_transaction_list) {
       viewModel.onSwipeToRefresh()
     }
 
-    val adapter = TransactionListAdapter {
-      viewModel.onTransactionClicked(it)
-    }
+    val adapter = TransactionListAdapter(
+      onTransactionClickedListener =  { viewModel.onTransactionClicked(it) },
+      onLoadMoreClickedListener = { viewModel.loadNextPage() }
+    )
 
     transactionList.layoutManager = LinearLayoutManager(context)
     transactionList.adapter = adapter
-
-    transactionList.addOnScrollListener(
-      object : RecyclerView.OnScrollListener() {
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) = Unit
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-          if (adapter.itemCount < LOAD_MORE_CUTOFF) {
-            return
-          }
-
-          val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-          val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-
-          if (lastVisiblePosition >= adapter.itemCount - LOAD_MORE_CUTOFF) {
-            viewModel.onScrolledToEnd()
-          }
-        }
-      }
-    )
 
     onEach(viewModel.isLoadingTransactions) { isLoadingTransactions ->
       if (!isLoadingTransactions) {
@@ -70,11 +50,23 @@ class TransactionListFragment : Fragment(R.layout.frag_transaction_list) {
     }
 
     onEach(viewModel.transactions) {
-      adapter.transactionItems = it.orEmpty()
+      adapter.transactionItems = it
+    }
+
+    onEach(viewModel.isLoadMoreItemsEnabled) {
+      adapter.isLoadMoreEnabled = it
+    }
+
+    onEach(viewModel.isLoadMoreItemsLoading) {
+      adapter.isLoadMoreLoading = it
     }
 
     onEach(viewModel.navigateToTransaction) { transactionSignature ->
       appCoordinator.navigateToTransactionDetails(transactionSignature)
+    }
+
+    onEach(viewModel.showError) {
+      showModalFromErrorMessage(it)
     }
 
     viewLifecycleOwner.lifecycleScope.launchWhenStarted {

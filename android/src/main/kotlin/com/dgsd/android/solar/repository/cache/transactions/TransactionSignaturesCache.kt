@@ -9,9 +9,8 @@ import com.dgsd.ksol.model.TransactionSignatureInfo
 interface TransactionSignaturesCache :
   Cache<TransactionSignaturesCacheKey, List<TransactionSignatureInfo>> {
 
-  data class TransactionSignaturesCacheKey constructor(
-    val account: PublicKey,
-    val limit: Int,
+  data class TransactionSignaturesCacheKey(
+    val accountKey: PublicKey,
     val beforeSignature: TransactionSignature?
   )
 }

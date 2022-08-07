@@ -23,7 +23,6 @@ interface SolanaApiRepository: Closeable {
 
   fun getTransactions(
     cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT,
-    limit: Int,
     beforeSignature: TransactionSignature? = null,
     commitment: Commitment = Commitment.FINALIZED
   ): Flow<Resource<List<Resource<TransactionOrSignature>>>>
@@ -46,7 +45,6 @@ interface SolanaApiRepository: Closeable {
     privateKey: PrivateKey,
     localTransaction: LocalTransaction,
   ): Flow<Resource<TransactionSignature>>
-
 
   fun subscribeToUpdates(
     transactionSignature: TransactionSignature,

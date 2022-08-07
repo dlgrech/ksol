@@ -22,6 +22,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import java.time.OffsetDateTime
 
+private const val TRANSACTION_SIGNATURE_PAGE_SIZE = 8
+
 internal class SolanaApiRepositoryImpl(
   private val coroutineScope: CoroutineScope,
   private val session: WalletSession,
@@ -73,13 +75,11 @@ internal class SolanaApiRepositoryImpl(
 
   override fun getTransactions(
     cacheStrategy: CacheStrategy,
-    limit: Int,
     beforeSignature: TransactionSignature?,
     commitment: Commitment,
   ): Flow<Resource<List<Resource<TransactionOrSignature>>>> {
     return getTransactionSignatures(
       cacheStrategy,
-      limit,
       beforeSignature,
       commitment
     ).flatMapSuccess { signatureList ->
@@ -110,10 +110,14 @@ internal class SolanaApiRepositoryImpl(
         }
       }
 
-      combine(transactionsFlow) { transactionsArray ->
-        transactionsArray.toList()
-      }.map { transactionList ->
-        Resource.Success(transactionList)
+      if (transactionsFlow.isEmpty()) {
+        flowOf(Resource.Success(emptyList()))
+      } else {
+        combine(transactionsFlow) { transactionsArray ->
+          transactionsArray.toList()
+        }.map { transactionList ->
+          Resource.Success(transactionList)
+        }
       }
     }
   }
@@ -205,7 +209,11 @@ internal class SolanaApiRepositoryImpl(
         accountInfo.publicKey,
         LamportsWithTimestamp(accountInfo.lamports, OffsetDateTime.now())
       )
-      transactionSignaturesCache.clear()
+      getTransactionSignatures(
+        cacheStrategy = CacheStrategy.NETWORK_ONLY,
+        beforeSignature = null,
+        commitment = Commitment.FINALIZED
+      )
     }.launchIn(coroutineScope)
   }
 
@@ -217,16 +225,11 @@ internal class SolanaApiRepositoryImpl(
 
   private fun getTransactionSignatures(
     cacheStrategy: CacheStrategy,
-    limit: Int,
     beforeSignature: TransactionSignature?,
     commitment: Commitment
   ): Flow<Resource<List<TransactionSignatureInfo>>> {
     return executeWithCache(
-      cacheKey = TransactionSignaturesCacheKey(
-        session.publicKey,
-        limit,
-        beforeSignature,
-      ),
+      cacheKey = TransactionSignaturesCacheKey(session.publicKey, beforeSignature),
       cacheStrategy = cacheStrategy,
       cache = transactionSignaturesCache,
       networkFlowProvider = {
@@ -234,7 +237,7 @@ internal class SolanaApiRepositoryImpl(
           val result = solanaApi.getSignaturesForAddress(
             accountKey = session.publicKey,
             before = beforeSignature,
-            limit = limit,
+            limit = TRANSACTION_SIGNATURE_PAGE_SIZE,
             commitment = commitment
           )
           result

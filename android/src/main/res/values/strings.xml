@@ -185,4 +185,5 @@
     <string name="process_text_label">Send SOL</string>
     <string name="send_transaction">Send Transaction</string>
     <string name="send_transaction_request_confirmation_header_message">Message</string>
+    <string name="transaction_list_load_more">Load more transactions</string>
 </resources>
