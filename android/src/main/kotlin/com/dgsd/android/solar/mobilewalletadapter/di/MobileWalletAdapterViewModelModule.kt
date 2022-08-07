@@ -10,12 +10,13 @@ object MobileWalletAdapterViewModelModule {
 
   fun create(): Module {
     return module {
-      viewModel {
+      viewModel { params ->
         MobileWalletAdapterAuthorizeViewModel(
           application = get(),
           session = getScoped(),
-          authorizeRequest = get(),
-          clusterManager = get(),
+          authorizeRequest = params.get(),
+          callingPackage = params.get(),
+          authorityManager = get()
         )
       }
     }

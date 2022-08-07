@@ -3,6 +3,7 @@ package com.dgsd.android.solar.mobilewalletadapter
 import android.app.Application
 import android.net.Uri
 import com.dgsd.android.solar.R
+import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.solana.mobilewalletadapter.walletlib.association.AssociationUri
 import com.solana.mobilewalletadapter.walletlib.association.LocalAssociationUri
 import com.solana.mobilewalletadapter.walletlib.authorization.AuthIssuerConfig
@@ -10,6 +11,8 @@ import com.solana.mobilewalletadapter.walletlib.protocol.MobileWalletAdapterConf
 
 class MobileWalletAdapterCoordinatorFactory(
   private val application: Application,
+  private val clusterManager: ClusterManager,
+  private val authorityManager: MobileWalletAdapterAuthorityManager,
 ) {
 
   fun createFromUri(
@@ -40,6 +43,12 @@ class MobileWalletAdapterCoordinatorFactory(
       callbacks
     )
 
-    return MobileWalletAdapterCoordinator(application, scenario, callbacks)
+    return MobileWalletAdapterCoordinator(
+      clusterManager,
+      authorityManager,
+      callingPackage,
+      scenario,
+      callbacks
+    )
   }
 }

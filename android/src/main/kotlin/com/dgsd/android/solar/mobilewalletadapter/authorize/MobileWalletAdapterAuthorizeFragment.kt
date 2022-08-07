@@ -7,7 +7,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.di.util.activityViewModel
@@ -21,7 +20,10 @@ class MobileWalletAdapterAuthorizeFragment :
 
   private val appCoordinator by activityViewModel<AppCoordinator>()
   private val viewModel by viewModel<MobileWalletAdapterAuthorizeViewModel> {
-    parametersOf(checkNotNull(appCoordinator.walletAdapterCoordinator?.authorizationRequest))
+    parametersOf(
+      checkNotNull(appCoordinator.walletAdapterCoordinator?.authorizationRequest),
+      checkNotNull(appCoordinator.walletAdapterCoordinator?.callingPackage),
+    )
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,10 +61,6 @@ class MobileWalletAdapterAuthorizeFragment :
     onEach(viewModel.requestUrl) {
       url.text = it
       url.isVisible = !it.isNullOrEmpty()
-    }
-
-    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-      viewModel.onCreate()
     }
   }
 

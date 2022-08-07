@@ -22,16 +22,12 @@ internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {
     coordinator.navigateToAuthorizationRequest(request)
   }
 
-  override fun onScenarioComplete() {
-    println("HERE: onScenarioComplete()")
-  }
-
   override fun onScenarioError() {
     println("HERE: onScenarioError()")
   }
 
   override fun onReauthorizeRequest(request: ReauthorizeRequest) {
-    println("HERE: onReauthorizeRequest(): $request")
+    coordinator.navigateWithReauthorizationRequest(request)
   }
 
   override fun onSignTransactionsRequest(request: SignTransactionsRequest) {
