@@ -151,7 +151,7 @@ internal class SolanaApiRepositoryImpl(
         solanaApi.getRecentBlockhash(Commitment.FINALIZED).blockhash
       )
 
-      solanaApi.sendTransaction(
+      send(
         LocalTransactions.createTransferTransaction(
           sender = KeyPair(session.publicKey, privateKey),
           recipient = recipient,
@@ -169,7 +169,7 @@ internal class SolanaApiRepositoryImpl(
     return resourceFlowOf {
       val keyPair = KeyPair(session.publicKey, privateKey)
       val signedTransaction = LocalTransactions.sign(localTransaction, keyPair)
-      solanaApi.sendTransaction(signedTransaction)
+      send(signedTransaction)
     }
   }
 
@@ -188,6 +188,7 @@ internal class SolanaApiRepositoryImpl(
       }
     }
   }
+
 
   override fun close() {
     solanaSubscription.disconnect()
@@ -240,5 +241,12 @@ internal class SolanaApiRepositoryImpl(
         }
       }
     )
+  }
+
+  private suspend fun send(signedTransaction: LocalTransaction): TransactionSignature {
+    val signature = solanaApi.sendTransaction(signedTransaction)
+    balanceCache.clear()
+    transactionSignaturesCache.clear()
+    return signature
   }
 }

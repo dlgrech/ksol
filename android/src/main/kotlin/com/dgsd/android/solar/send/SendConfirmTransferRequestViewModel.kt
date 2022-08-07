@@ -27,6 +27,7 @@ import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import com.dgsd.ksol.utils.solToLamports
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterNotNull
 
 class SendConfirmTransferRequestViewModel(
@@ -83,7 +84,7 @@ class SendConfirmTransferRequestViewModel(
       isShowingBiometricPrompt,
     ) { isLoading, transactionSignature, isShowingBiometricPrompt ->
       isLoading || isShowingBiometricPrompt || transactionSignature != null
-    }
+    }.distinctUntilChanged()
   val continueWithTransactionSignature =
     submitTransactionResourceConsumer.data.filterNotNull().asEventFlow(viewModelScope)
 

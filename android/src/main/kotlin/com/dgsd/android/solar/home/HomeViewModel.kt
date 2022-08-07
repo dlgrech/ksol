@@ -118,7 +118,7 @@ class HomeViewModel(
 
   private var hasBeenCreated = false
 
-  fun onCreate() {
+  fun onResume() {
     reloadData(
       if (hasBeenCreated) {
         CacheStrategy.CACHE_IF_PRESENT

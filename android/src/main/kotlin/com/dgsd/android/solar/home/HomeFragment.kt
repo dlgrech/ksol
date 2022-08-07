@@ -191,10 +191,11 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     onEach(viewModel.showReceiveActionSheet) { items ->
       showReceiveActionSheet(items)
     }
+  }
 
-    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-      viewModel.onCreate()
-    }
+  override fun onResume() {
+    super.onResume()
+    viewModel.onResume()
   }
 
   private fun showSendActionSheet(items: List<SendActionSheetItem>) {
@@ -210,7 +211,6 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       }.toTypedArray()
     )
   }
-
 
   private fun showReceiveActionSheet(items: List<ReceiveActionSheetItem>) {
     showActionSheet(
