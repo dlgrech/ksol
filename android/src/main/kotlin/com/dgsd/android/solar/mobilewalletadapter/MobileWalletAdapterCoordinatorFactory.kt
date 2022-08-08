@@ -48,7 +48,8 @@ class MobileWalletAdapterCoordinatorFactory(
       authorityManager,
       callingPackage,
       scenario,
-      callbacks
-    )
+    ).also {
+      callbacks.attach(it)
+    }
   }
 }

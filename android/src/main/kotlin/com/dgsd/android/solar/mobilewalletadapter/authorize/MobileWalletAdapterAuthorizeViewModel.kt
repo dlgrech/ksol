@@ -39,12 +39,18 @@ class MobileWalletAdapterAuthorizeViewModel(
   }
 
   fun onApproveClicked() {
-    authorizeRequest.completeWithAuthorize(
-      session.publicKey.key,
-      null,
-      null,
+    runCatching {
       authorityManager.createAuthority(callingPackage)
-    )
+    }.onSuccess { authority ->
+      authorizeRequest.completeWithAuthorize(
+        session.publicKey.key,
+        null,
+        null,
+        authority
+      )
+    }.onFailure {
+      authorizeRequest.completeWithDecline()
+    }
   }
 
   fun onDeclineClicked() {

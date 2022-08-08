@@ -15,7 +15,6 @@ class MobileWalletAdapterCoordinator internal constructor(
   private val authorityManager: MobileWalletAdapterAuthorityManager,
   val callingPackage: String?,
   private val scenario: Scenario,
-  private val callbacks: MobileWalletAdapterScenarioCallbacks,
 ) {
 
   sealed interface Destination {
@@ -30,10 +29,6 @@ class MobileWalletAdapterCoordinator internal constructor(
 
   var authorizationRequest: AuthorizeRequest? = null
     private set
-
-  init {
-    callbacks.attach(this)
-  }
 
   fun start() {
     scenario.start()
@@ -66,7 +61,7 @@ class MobileWalletAdapterCoordinator internal constructor(
       request.completeWithDecline()
       _terminate.call()
     } else {
-      if (authorityManager.isValidAuthority(request.authorizationScope)) {
+      if (authorityManager.isValidAuthority(callingPackage, request.authorizationScope)) {
         request.completeWithReauthorize()
       } else {
         request.completeWithDecline()
