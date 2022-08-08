@@ -46,7 +46,7 @@ class MobileWalletAdapterCoordinator internal constructor(
   internal fun navigateToAuthorizationRequest(request: AuthorizeRequest) {
     if (
       clusterManager.activeCluster.value !=
-      MobileWalletAuthRequestCluster.fromClusterName(request.cluster)?.toCluster()
+      MobileWalletAuthRequestCluster.fromClusterName(request.cluster).toCluster()
     ) {
       // Mismatched cluster
       request.completeWithDecline()
@@ -60,7 +60,7 @@ class MobileWalletAdapterCoordinator internal constructor(
   internal fun navigateWithReauthorizationRequest(request: ReauthorizeRequest) {
     if (
       clusterManager.activeCluster.value !=
-      MobileWalletAuthRequestCluster.fromClusterName(request.cluster)?.toCluster()
+      MobileWalletAuthRequestCluster.fromClusterName(request.cluster).toCluster()
     ) {
       // Mismatched cluster
       request.completeWithDecline()

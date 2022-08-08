@@ -17,8 +17,8 @@ internal enum class MobileWalletAuthRequestCluster(val clusterName: String) {
   }
 
   companion object {
-    fun fromClusterName(clusterName: String): MobileWalletAuthRequestCluster? {
-      return values().firstOrNull { it.clusterName == clusterName }
+    fun fromClusterName(clusterName: String?): MobileWalletAuthRequestCluster {
+      return values().firstOrNull { it.clusterName == clusterName } ?: MAINNET_BETA
     }
   }
 }
