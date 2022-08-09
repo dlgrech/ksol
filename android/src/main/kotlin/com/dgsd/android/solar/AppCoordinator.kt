@@ -45,6 +45,7 @@ class AppCoordinator(
     object SendWithNearby : Destination
     object MobileWalletAdapterAuthorize : Destination
     object MobileWalletAdapterSignTransactions : Destination
+    object MobileWalletAdapterSignMessages : Destination
     object MobileWalletAdapterSignAndSendTransactions : Destination
     data class SendWithSolPayRequest(val requestUrl: String) : Destination
     data class CompositeDestination(val destinations: List<Destination>) : Destination
@@ -247,6 +248,9 @@ class AppCoordinator(
           }
           MobileWalletAdapterCoordinator.Destination.SignAndSendTransactions -> {
             Destination.MobileWalletAdapterSignAndSendTransactions
+          }
+          MobileWalletAdapterCoordinator.Destination.SignMessages -> {
+            Destination.MobileWalletAdapterSignMessages
           }
         }
 

@@ -205,8 +205,15 @@
     <string name="mobile_wallet_adapter_sign_transaction_to_template">Transaction to ^1</string>
     <string name="mobile_wallet_adapter_sign_and_send_transactions_screen_title">Send Transactions</string>
     <string name="transaction_details_section_memo">Memo text</string>
+    <string name="mobile_wallet_adapter_sign_messages_screen_title">Sign Messages</string>
     <plurals name="mobile_wallet_adapter_sign_transaction_transactions_header_template">
         <item quantity="one">%1$s transaction</item>
         <item quantity="other">%1$s transactions</item>
     </plurals>
+    <string name="mobile_wallet_adapter_sign_messages_primary_button">Authorize</string>
+    <plurals name="mobile_wallet_adapter_sign_message_messages_header_template">
+        <item quantity="one">%1$s message</item>
+        <item quantity="other">%1$s messages</item>
+    </plurals>
+
 </resources>

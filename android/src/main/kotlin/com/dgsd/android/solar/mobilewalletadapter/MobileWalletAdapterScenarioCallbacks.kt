@@ -32,7 +32,7 @@ internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {
   }
 
   override fun onSignMessagesRequest(request: SignMessagesRequest) {
-    println("HERE: onSignMessagesRequest() $request")
+    coordinator.navigateWithSignMessagesRequest(request)
   }
 
   override fun onSignAndSendTransactionsRequest(request: SignAndSendTransactionsRequest) {

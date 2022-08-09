@@ -15,6 +15,7 @@ import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.mobilewalletadapter.authorize.MobileWalletAdapterAuthorizeFragment
 import com.dgsd.android.solar.mobilewalletadapter.signandsendtransactions.MobileWalletAdapterSignAndSendTransactionFragment
+import com.dgsd.android.solar.mobilewalletadapter.signmessages.MobileWalletAdapterSignMessagesFragment
 import com.dgsd.android.solar.mobilewalletadapter.signtransactions.MobileWalletAdapterSignTransactionFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import com.dgsd.android.solar.receive.requestamount.RequestAmountContainerFragment
@@ -93,6 +94,7 @@ class MainActivity : AppCompatActivity() {
       Destination.MobileWalletAdapterAuthorize -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.MobileWalletAdapterSignTransactions -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.MobileWalletAdapterSignAndSendTransactions -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.MobileWalletAdapterSignMessages -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
@@ -125,6 +127,7 @@ class MainActivity : AppCompatActivity() {
       is Destination.CompositeDestination -> error("Trying to get fragment for composite")
       Destination.MobileWalletAdapterAuthorize -> MobileWalletAdapterAuthorizeFragment.newInstance()
       Destination.MobileWalletAdapterSignTransactions -> MobileWalletAdapterSignTransactionFragment.newInstance()
+      Destination.MobileWalletAdapterSignMessages -> MobileWalletAdapterSignMessagesFragment.newInstance()
       Destination.MobileWalletAdapterSignAndSendTransactions -> MobileWalletAdapterSignAndSendTransactionFragment.newInstance()
     }
   }
@@ -136,6 +139,7 @@ class MainActivity : AppCompatActivity() {
       Destination.Onboarding,
       Destination.MobileWalletAdapterAuthorize,
       Destination.MobileWalletAdapterSignTransactions,
+      Destination.MobileWalletAdapterSignMessages,
       Destination.MobileWalletAdapterSignAndSendTransactions -> true
       else -> false
     }

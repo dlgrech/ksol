@@ -22,6 +22,7 @@ class MobileWalletAdapterCoordinator internal constructor(
   sealed interface Destination {
     object Authorize : Destination
     object SignTransactions : Destination
+    object SignMessages : Destination
     object SignAndSendTransactions : Destination
   }
 
@@ -35,6 +36,9 @@ class MobileWalletAdapterCoordinator internal constructor(
     private set
 
   var signTransactionsRequest: SignTransactionsRequest? = null
+    private set
+
+  var signMessagesRequest: SignMessagesRequest? = null
     private set
 
   var signAndSendTransactionsRequest: SignAndSendTransactionsRequest? = null
@@ -78,6 +82,19 @@ class MobileWalletAdapterCoordinator internal constructor(
     } else {
       signTransactionsRequest = request
       _destination.tryEmit(Destination.SignTransactions)
+    }
+  }
+
+  internal fun navigateWithSignMessagesRequest(request: SignMessagesRequest) {
+    if (!isValidCluster(request.cluster)) {
+      request.completeWithDecline()
+    } else if (!isValidAuthorizationScope(request.authorizationScope)) {
+      request.completeWithAuthorizationNotValid()
+    } else if (!isForCurrentSessionWallet(request.authorizedPublicKey)) {
+      request.completeWithAuthorizationNotValid()
+    } else {
+      signMessagesRequest = request
+      _destination.tryEmit(Destination.SignMessages)
     }
   }
 

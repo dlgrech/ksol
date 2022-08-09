@@ -123,6 +123,9 @@ object LocalTransactions {
     return SigningUtils.isValidSignature(messageBytes, signature, key)
   }
 
+  /**
+   * Signs the given [LocalTransaction] and places the resulting signature into a new transaction
+   */
   fun sign(input: LocalTransaction, keyPair: KeyPair): LocalTransaction {
     val indexOfSigner = input.message.accountKeys.indexOfFirst { it.publicKey == keyPair.publicKey }
     require(indexOfSigner >= 0) { "Signer not expected" }
@@ -142,5 +145,13 @@ object LocalTransactions {
       signatures = newSignatures,
       message = input.message
     )
+  }
+
+  /**
+   * Signs a generic [ByteArray] with the given [KeyPair]. Intended for signing portions of a
+   * transaction, such as an individual message
+   */
+  fun sign(input: ByteArray, keyPair: KeyPair): ByteArray {
+    return SigningUtils.sign(input, keyPair.privateKey)
   }
 }
