@@ -171,6 +171,7 @@
     <string name="send_error_accessing_private_key">Sorry, there was a problem accessing your private key.</string>
     <string name="send_unlock_biometrics_title">Verify it\'s you</string>
     <string name="send_unlock_biometrics_description">Allow access to your secret key to submit this transaction</string>
+    <string name="sign_unlock_biometrics_description">Allow access to your secret key to sign this transaction</string>
     <string name="app_lock_entry_error_invalid_biometrics">Unable to verify your information</string>
     <string name="send_error_invalid_biometrics">We could not verify your information.</string>
     <string name="close">Close</string>
@@ -196,4 +197,14 @@
     <string name="mobile_wallet_adapter_sign_transactions_primary_button">Authorize</string>
     <string name="send_transaction_request_confirmation_header_memo">Memo</string>
     <string name="send_transaction_request_confirmation_header_recipient">Recipient</string>
+    <string name="mobile_wallet_adapter_sign_transaction_summary_memo_template">^1: ^2</string>
+    <string name="mobile_wallet_adapter_sign_transaction_summary_create_memo">Create Memo</string>
+    <string name="mobile_wallet_adapter_sign_transaction_summary_transfer_template">Transfer ^1</string>
+    <string name="mobile_wallet_adapter_sign_transaction_summary_transaction_template">Transaction for ^1</string>
+    <string name="mobile_wallet_adapter_sign_transaction_unknown">Unknown Transaction</string>
+    <string name="mobile_wallet_adapter_sign_transaction_to_template">Transaction to ^1</string>
+    <plurals name="mobile_wallet_adapter_sign_transaction_transactions_header_template">
+        <item quantity="one">%1$s transaction</item>
+        <item quantity="other">%1$s transactions</item>
+    </plurals>
 </resources>

@@ -32,6 +32,12 @@
         <item name="fontFamily">@font/saira_semicondensed_600</item>
     </style>
 
+    <style name="TextAppearance.Solar.Title4" parent="Base.TextAppearance.Solar">
+        <item name="android:textSize">18sp</item>
+        <item name="android:lineSpacingExtra">2sp</item>
+        <item name="fontFamily">@font/saira_semicondensed_600</item>
+    </style>
+
     <style name="TextAppearance.Solar.Label1" parent="Base.TextAppearance.Solar">
         <item name="android:textSize">16sp</item>
     </style>

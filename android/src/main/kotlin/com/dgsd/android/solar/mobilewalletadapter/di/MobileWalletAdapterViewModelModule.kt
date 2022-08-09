@@ -25,7 +25,9 @@ object MobileWalletAdapterViewModelModule {
         MobileWalletAdapterSignTransactionViewModel(
           application = get(),
           signTransactionsRequest = get(),
-          sessionManager = get()
+          sessionManager = get(),
+          publicKeyFormatter = get(),
+          biometricManager = get(),
         )
       }
     }

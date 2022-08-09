@@ -13,6 +13,7 @@ import com.dgsd.android.solar.common.ui.SolTokenFormatter
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
 import com.dgsd.android.solar.common.util.mapData
 import com.dgsd.android.solar.common.util.resourceFlowOf
+import com.dgsd.android.solar.extensions.extractBestDisplayRecipient
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.extensions.getSystemProgramInstruction
 import com.dgsd.android.solar.extensions.onEach
@@ -67,9 +68,7 @@ class SendConfirmTransactionRequestViewModel(
     requestInfo
       ?.transaction
       ?.message
-      ?.accountKeys
-      ?.firstOrNull {  account -> account.isWritable && account.publicKey != session.publicKey }
-      ?.publicKey
+      ?.extractBestDisplayRecipient(session.publicKey)
       ?.let(publicKeyFormatter::format)
   }
   val feeText = combine(

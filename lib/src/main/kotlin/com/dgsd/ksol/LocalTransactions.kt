@@ -84,6 +84,12 @@ object LocalTransactions {
     return LocalTransactionSerialization.deserialize(transactionBytes)
   }
 
+  /**
+   * Takes a [LocalTransaction] and serializes it to a [ByteArray]
+   */
+  fun serialize(localTransaction: LocalTransaction): ByteArray {
+    return LocalTransactionSerialization.serialize(localTransaction)
+  }
 
   /**
    * @return `true` if the account at the given `index` has a valid signature as part of the
