@@ -2,6 +2,7 @@ package com.dgsd.android.solar.mobilewalletadapter.di
 
 import com.dgsd.android.solar.di.util.getScoped
 import com.dgsd.android.solar.mobilewalletadapter.authorize.MobileWalletAdapterAuthorizeViewModel
+import com.dgsd.android.solar.mobilewalletadapter.signandsendtransactions.MobileWalletAdapterSignAndSendTransactionViewModel
 import com.dgsd.android.solar.mobilewalletadapter.signtransactions.MobileWalletAdapterSignTransactionViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
@@ -28,6 +29,17 @@ object MobileWalletAdapterViewModelModule {
           sessionManager = get(),
           publicKeyFormatter = get(),
           biometricManager = get(),
+        )
+      }
+
+      viewModel {
+        MobileWalletAdapterSignAndSendTransactionViewModel(
+          application = get(),
+          signAndSendTransactionsRequest = get(),
+          sessionManager = get(),
+          publicKeyFormatter = get(),
+          biometricManager = get(),
+          solanaApiRepository = getScoped(),
         )
       }
     }

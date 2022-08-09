@@ -1,4 +1,4 @@
-package com.dgsd.android.solar.mobilewalletadapter.signtransactions
+package com.dgsd.android.solar.mobilewalletadapter.signandsendtransactions
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -22,13 +22,13 @@ import com.dgsd.android.solar.extensions.setUrl
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
-class MobileWalletAdapterSignTransactionFragment :
+class MobileWalletAdapterSignAndSendTransactionFragment :
   Fragment(R.layout.frag_mobile_wallet_adapter_sign_and_send_transactions) {
 
   private val appCoordinator by activityViewModel<AppCoordinator>()
-  private val viewModel by viewModel<MobileWalletAdapterSignTransactionViewModel> {
+  private val viewModel by viewModel<MobileWalletAdapterSignAndSendTransactionViewModel> {
     parametersOf(
-      checkNotNull(appCoordinator.walletAdapterCoordinator?.signTransactionsRequest),
+      checkNotNull(appCoordinator.walletAdapterCoordinator?.signAndSendTransactionsRequest),
     )
   }
 
@@ -38,7 +38,7 @@ class MobileWalletAdapterSignTransactionFragment :
     val icon = view.requireViewById<ImageView>(R.id.icon)
     val name = view.requireViewById<TextView>(R.id.name)
     val url = view.requireViewById<TextView>(R.id.url)
-    val signButton = view.requireViewById<View>(R.id.sign)
+    val signButton = view.requireViewById<View>(R.id.send)
     val declinedButton = view.requireViewById<View>(R.id.decline)
     val signLoadingIndicator = view.requireViewById<View>(R.id.sign_loading_indicator)
     val transactionsHeader = view.requireViewById<TextView>(R.id.transactions_header)
@@ -118,8 +118,8 @@ class MobileWalletAdapterSignTransactionFragment :
 
   companion object {
 
-    fun newInstance(): MobileWalletAdapterSignTransactionFragment {
-      return MobileWalletAdapterSignTransactionFragment()
+    fun newInstance(): MobileWalletAdapterSignAndSendTransactionFragment {
+      return MobileWalletAdapterSignAndSendTransactionFragment()
     }
   }
 }

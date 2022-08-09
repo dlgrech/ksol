@@ -27,10 +27,6 @@ internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {
     coordinator.navigateWithReauthorizationRequest(request)
   }
 
-  override fun onScenarioError() {
-    println("HERE: onScenarioError()")
-  }
-
   override fun onSignTransactionsRequest(request: SignTransactionsRequest) {
     coordinator.navigateWithSignTransactionsRequest(request)
   }
@@ -40,6 +36,6 @@ internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {
   }
 
   override fun onSignAndSendTransactionsRequest(request: SignAndSendTransactionsRequest) {
-    println("HERE: onSignAndSendTransactionsRequest(): $request")
+    coordinator.navigateWithSignAndSendTransactionsRequest(request)
   }
 }

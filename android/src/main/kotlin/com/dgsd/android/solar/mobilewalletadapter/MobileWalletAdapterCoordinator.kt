@@ -1,6 +1,5 @@
 package com.dgsd.android.solar.mobilewalletadapter
 
-import com.dgsd.android.solar.AppCoordinator
 import com.dgsd.android.solar.cluster.manager.ClusterManager
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.SimpleMutableEventFlow
@@ -10,11 +9,7 @@ import com.dgsd.android.solar.mobilewalletadapter.model.MobileWalletAuthRequestC
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.WalletSession
 import com.dgsd.ksol.model.PublicKey
-import com.solana.mobilewalletadapter.walletlib.scenario.AuthorizeRequest
-import com.solana.mobilewalletadapter.walletlib.scenario.ReauthorizeRequest
-import com.solana.mobilewalletadapter.walletlib.scenario.Scenario
-import com.solana.mobilewalletadapter.walletlib.scenario.SignTransactionsRequest
-import org.koin.core.component.getScopeName
+import com.solana.mobilewalletadapter.walletlib.scenario.*
 
 class MobileWalletAdapterCoordinator internal constructor(
   private val sessionManager: SessionManager,
@@ -27,6 +22,7 @@ class MobileWalletAdapterCoordinator internal constructor(
   sealed interface Destination {
     object Authorize : Destination
     object SignTransactions : Destination
+    object SignAndSendTransactions : Destination
   }
 
   private val _destination = MutableEventFlow<Destination>()
@@ -39,6 +35,9 @@ class MobileWalletAdapterCoordinator internal constructor(
     private set
 
   var signTransactionsRequest: SignTransactionsRequest? = null
+    private set
+
+  var signAndSendTransactionsRequest: SignAndSendTransactionsRequest? = null
     private set
 
   fun start() {
@@ -69,7 +68,7 @@ class MobileWalletAdapterCoordinator internal constructor(
     }
   }
 
-  fun navigateWithSignTransactionsRequest(request: SignTransactionsRequest) {
+  internal fun navigateWithSignTransactionsRequest(request: SignTransactionsRequest) {
     if (!isValidCluster(request.cluster)) {
       request.completeWithDecline()
     } else if (!isValidAuthorizationScope(request.authorizationScope)) {
@@ -79,6 +78,19 @@ class MobileWalletAdapterCoordinator internal constructor(
     } else {
       signTransactionsRequest = request
       _destination.tryEmit(Destination.SignTransactions)
+    }
+  }
+
+  internal fun navigateWithSignAndSendTransactionsRequest(request: SignAndSendTransactionsRequest) {
+    if (!isValidCluster(request.cluster)) {
+      request.completeWithDecline()
+    } else if (!isValidAuthorizationScope(request.authorizationScope)) {
+      request.completeWithAuthorizationNotValid()
+    } else if (!isForCurrentSessionWallet(request.publicKey)) {
+      request.completeWithAuthorizationNotValid()
+    } else {
+      signAndSendTransactionsRequest = request
+      _destination.tryEmit(Destination.SignAndSendTransactions)
     }
   }
 

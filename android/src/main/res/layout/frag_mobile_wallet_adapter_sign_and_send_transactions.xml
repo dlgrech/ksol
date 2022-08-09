@@ -9,13 +9,13 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/SolarToolbar"
-        app:title="@string/mobile_wallet_adapter_sign_transactions_screen_title" />
+        app:title="@string/mobile_wallet_adapter_sign_and_send_transactions_screen_title" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipChildren="false"
-        app:layout_constraintBottom_toTopOf="@id/sign"
+        app:layout_constraintBottom_toTopOf="@id/send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
@@ -98,12 +98,12 @@
     </androidx.core.widget.NestedScrollView>
 
     <Button
-        android:id="@+id/sign"
+        android:id="@+id/send"
         style="@style/PrimaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/padding_default"
-        android:text="@string/mobile_wallet_adapter_sign_transactions_primary_button"
+        android:text="@string/send"
         app:layout_constraintBottom_toTopOf="@id/decline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -116,7 +116,7 @@
         app:layout_constraintBottom_toBottomOf="@id/decline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/sign" />
+        app:layout_constraintTop_toTopOf="@id/send" />
 
     <TextView
         android:id="@+id/decline"

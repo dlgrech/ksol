@@ -63,7 +63,7 @@ class TransactionViewStateFactory(
     val displayAccountText = if (displayPublicKey == null) {
       context.getString(R.string.unknown)
     } else {
-      publicKeyFormatter.format(displayPublicKey)
+      publicKeyFormatter.formatShort(displayPublicKey)
     }
 
     val transactionDirection = getTransactionDirection(transaction)
@@ -73,7 +73,7 @@ class TransactionViewStateFactory(
     val formattedDate = transaction.blockTime?.let { blockTime ->
       DateTimeFormatter.formatRelativeDateAndTime(context, blockTime)
     }
-    val dateText = when(transactionDirection) {
+    val dateText = when (transactionDirection) {
       TransactionViewState.Transaction.Direction.INCOMING -> {
         TextUtils.concat(
           context.getString(R.string.received),
@@ -101,10 +101,16 @@ class TransactionViewStateFactory(
   }
 
   private fun extractDisplayAccount(transaction: Transaction): PublicKey? {
-    return extractDisplayAccount(transaction.message.accountKeys)
+    val recipient = extractRecipient(transaction.message.accountKeys)
+    return if (recipient != null) {
+      recipient
+    } else {
+      val programAccounts = transaction.message.instructions.map { it.programAccount }
+      programAccounts.firstOrNull()
+    }
   }
 
-  private fun extractDisplayAccount(accounts: List<TransactionAccountMetadata>): PublicKey? {
+  private fun extractRecipient(accounts: List<TransactionAccountMetadata>): PublicKey? {
     val otherAccounts = accounts
       .filterNot { it.publicKey == session.publicKey }
       .filterNot { NativePrograms.isNativeProgram(it.publicKey) }
