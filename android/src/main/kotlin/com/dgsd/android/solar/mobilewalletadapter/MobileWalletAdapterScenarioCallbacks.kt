@@ -1,5 +1,6 @@
 package com.dgsd.android.solar.mobilewalletadapter
 
+import com.dgsd.ksol.LocalTransactions
 import com.solana.mobilewalletadapter.walletlib.scenario.*
 
 internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {
@@ -22,16 +23,16 @@ internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {
     coordinator.navigateToAuthorizationRequest(request)
   }
 
-  override fun onScenarioError() {
-    println("HERE: onScenarioError()")
-  }
-
   override fun onReauthorizeRequest(request: ReauthorizeRequest) {
     coordinator.navigateWithReauthorizationRequest(request)
   }
 
+  override fun onScenarioError() {
+    println("HERE: onScenarioError()")
+  }
+
   override fun onSignTransactionsRequest(request: SignTransactionsRequest) {
-    println("HERE: onSignTransactionsRequest(): $request")
+    coordinator.navigateWithSignTransactionsRequest(request)
   }
 
   override fun onSignMessagesRequest(request: SignMessagesRequest) {

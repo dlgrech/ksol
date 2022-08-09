@@ -22,7 +22,7 @@ internal object TransactionRequestTransactionInfoFactory {
     signingWalletAddress: PublicKey,
     base64Transaction: String
   ): LocalTransaction {
-    val transaction = LocalTransactions.deserializeTransferTransaction(base64Transaction)
+    val transaction = LocalTransactions.deserializeTransaction(base64Transaction)
     transaction.validateTransactionRequest(signingWalletAddress)
     return transaction
   }

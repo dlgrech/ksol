@@ -4,6 +4,7 @@ import android.app.Application
 import android.net.Uri
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.cluster.manager.ClusterManager
+import com.dgsd.android.solar.session.manager.SessionManager
 import com.solana.mobilewalletadapter.walletlib.association.AssociationUri
 import com.solana.mobilewalletadapter.walletlib.association.LocalAssociationUri
 import com.solana.mobilewalletadapter.walletlib.authorization.AuthIssuerConfig
@@ -11,6 +12,7 @@ import com.solana.mobilewalletadapter.walletlib.protocol.MobileWalletAdapterConf
 
 class MobileWalletAdapterCoordinatorFactory(
   private val application: Application,
+  private val sessionManager: SessionManager,
   private val clusterManager: ClusterManager,
   private val authorityManager: MobileWalletAdapterAuthorityManager,
 ) {
@@ -44,6 +46,7 @@ class MobileWalletAdapterCoordinatorFactory(
     )
 
     return MobileWalletAdapterCoordinator(
+      sessionManager,
       clusterManager,
       authorityManager,
       callingPackage,

@@ -189,6 +189,10 @@
     <string name="mobile_wallet_adapter_authorize_dapp_screen_title">Authorize Dapp?</string>
     <string name="mobile_wallet_adapter_authorize_dapp_page_explainer">This dapp is requesting access to your wallet information. They won\'t be able to move any of your funds without your permission.</string>
     <string name="mobile_wallet_adapter_authorize_dapp_approve">Approve</string>
-    <string name="mobile_wallet_adapter_authorize_dapp_decline">Decline</string>
-    <string name="mobile_wallet_adapter_authorize_unknown_requester">Unknown dapp</string>
+    <string name="mobile_wallet_adapter_decline_dapp_decline">Decline</string>
+    <string name="mobile_wallet_adapter_unknown_requester">Unknown dapp</string>
+    <string name="mobile_wallet_adapter_sign_transactions_screen_title">Sign Transactions</string>
+    <string name="mobile_wallet_adapter_sign_transactions_primary_button">Authorize</string>
+    <string name="send_transaction_request_confirmation_header_memo">Memo</string>
+    <string name="send_transaction_request_confirmation_header_recipient">Recipient</string>
 </resources>

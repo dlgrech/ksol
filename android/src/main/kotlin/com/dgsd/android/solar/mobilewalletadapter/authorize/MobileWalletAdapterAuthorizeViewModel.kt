@@ -20,7 +20,7 @@ class MobileWalletAdapterAuthorizeViewModel(
 
   val requesterName = stateFlowOf {
     authorizeRequest.identityName
-      ?: getString(R.string.mobile_wallet_adapter_authorize_unknown_requester)
+      ?: getString(R.string.mobile_wallet_adapter_unknown_requester)
   }
 
   val requesterIconUrl = stateFlowOf {

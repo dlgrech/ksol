@@ -51,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/padding_default"
+                android:autoLink="web"
                 android:gravity="center" />
 
         </LinearLayout>
@@ -78,6 +79,6 @@
         android:layout_marginTop="@dimen/padding_xsmall"
         android:layout_marginBottom="@dimen/padding_default"
         android:gravity="center"
-        android:text="@string/mobile_wallet_adapter_authorize_dapp_decline" />
+        android:text="@string/mobile_wallet_adapter_decline_dapp_decline" />
 
 </LinearLayout>

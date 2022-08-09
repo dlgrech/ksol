@@ -14,6 +14,7 @@ import com.dgsd.android.solar.extensions.navigate
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.home.HomeFragment
 import com.dgsd.android.solar.mobilewalletadapter.authorize.MobileWalletAdapterAuthorizeFragment
+import com.dgsd.android.solar.mobilewalletadapter.signtransactions.MobileWalletAdapterSignTransactionFragment
 import com.dgsd.android.solar.onboarding.OnboardingContainerFragment
 import com.dgsd.android.solar.receive.requestamount.RequestAmountContainerFragment
 import com.dgsd.android.solar.receive.shareaddress.ReceiveShareAddressFragment
@@ -89,6 +90,7 @@ class MainActivity : AppCompatActivity() {
       Destination.Onboarding -> ScreenTransitionType.FADE
       Destination.AppEntryLock -> ScreenTransitionType.FADE
       Destination.MobileWalletAdapterAuthorize -> ScreenTransitionType.SLIDE_FROM_BOTTOM
+      Destination.MobileWalletAdapterSignTransactions -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
@@ -120,6 +122,7 @@ class MainActivity : AppCompatActivity() {
         SendContainerFragment.newTransferRequestInstance(destination.requestUrl)
       is Destination.CompositeDestination -> error("Trying to get fragment for composite")
       Destination.MobileWalletAdapterAuthorize -> MobileWalletAdapterAuthorizeFragment.newInstance()
+      Destination.MobileWalletAdapterSignTransactions -> MobileWalletAdapterSignTransactionFragment.newInstance()
     }
   }
 
@@ -128,7 +131,8 @@ class MainActivity : AppCompatActivity() {
       Destination.AppEntryLock,
       Destination.Home,
       Destination.Onboarding,
-      Destination.MobileWalletAdapterAuthorize -> true
+      Destination.MobileWalletAdapterAuthorize,
+      Destination.MobileWalletAdapterSignTransactions -> true
       else -> false
     }
   }

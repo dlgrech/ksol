@@ -138,7 +138,7 @@
                 <TextView
                     android:id="@+id/header_recipient"
                     style="@style/TransferRequest.SmallHeader"
-                    android:text="@string/send_transaction_request_confirmation_header_message"
+                    android:text="@string/send_transaction_request_confirmation_header_recipient"
                     app:layout_constraintBottom_toTopOf="@id/value_recipient"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/label" />

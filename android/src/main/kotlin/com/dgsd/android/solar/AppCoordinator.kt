@@ -43,7 +43,8 @@ class AppCoordinator(
     object SendWithQR : Destination
     object SendWithAddress : Destination
     object SendWithNearby : Destination
-    object MobileWalletAdapterAuthorize: Destination
+    object MobileWalletAdapterAuthorize : Destination
+    object MobileWalletAdapterSignTransactions : Destination
     data class SendWithSolPayRequest(val requestUrl: String) : Destination
     data class CompositeDestination(val destinations: List<Destination>) : Destination
     data class TransactionDetails(val signature: TransactionSignature) : Destination
@@ -61,7 +62,7 @@ class AppCoordinator(
   val close = _close.asEventFlow()
 
   var walletAdapterCoordinator: MobileWalletAdapterCoordinator? = null
-  private set
+    private set
 
   private var pendingDeeplinkAfterAppLock: IncomingDeeplinkInfo? = null
 
@@ -239,6 +240,9 @@ class AppCoordinator(
         val appCoordinatorDestination = when (destination) {
           is MobileWalletAdapterCoordinator.Destination.Authorize -> {
             Destination.MobileWalletAdapterAuthorize
+          }
+          MobileWalletAdapterCoordinator.Destination.SignTransactions -> {
+            Destination.MobileWalletAdapterSignTransactions
           }
         }
 

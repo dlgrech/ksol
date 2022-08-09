@@ -68,12 +68,22 @@ object LocalTransactions {
    * Takes a serialized [LocalTransaction], which has been base64 encoded, and returns the
    * original [LocalTransaction]
    */
-  fun deserializeTransferTransaction(
+  fun deserializeTransaction(
     base64EncodedTransaction: String
   ): LocalTransaction {
     val transactionBytes = DecodingUtils.decodeBase64(base64EncodedTransaction)
+    return deserializeTransaction(transactionBytes)
+  }
+
+  /**
+   * Takes a serialized [LocalTransaction] and returns the original [LocalTransaction]
+   */
+  fun deserializeTransaction(
+    transactionBytes: ByteArray
+  ): LocalTransaction {
     return LocalTransactionSerialization.deserialize(transactionBytes)
   }
+
 
   /**
    * @return `true` if the account at the given `index` has a valid signature as part of the

@@ -41,5 +41,9 @@ data class PublicKey internal constructor(val key: ByteArray) {
         fun fromBase58(hash: String): PublicKey {
             return PublicKey(DecodingUtils.decodeBase58(hash))
         }
+
+        fun fromByteArray(byteArray: ByteArray): PublicKey {
+            return PublicKey(byteArray)
+        }
     }
 }
