@@ -49,7 +49,7 @@ class AppCoordinator(
     data class TransactionDetails(val signature: TransactionSignature) : Destination
   }
 
-  private class IncomingDeeplinkInfo(
+  class IncomingDeeplinkInfo(
     val uri: Uri,
     val callingPackage: String?
   )
@@ -72,20 +72,20 @@ class AppCoordinator(
       .launchIn(viewModelScope)
   }
 
-  fun onResume(deeplink: Uri?, callingPackage: String?) {
+  fun onResume(incomingDeeplinkInfo: IncomingDeeplinkInfo?) {
     if (sessionManager.activeSession.value is LockedAppSession) {
-      pendingDeeplinkAfterAppLock = deeplink?.let { IncomingDeeplinkInfo(deeplink, callingPackage) }
+      pendingDeeplinkAfterAppLock = incomingDeeplinkInfo
     } else if (appLockManager.shouldShowAppLockEntry()) {
-      pendingDeeplinkAfterAppLock = deeplink?.let { IncomingDeeplinkInfo(deeplink, callingPackage) }
+      pendingDeeplinkAfterAppLock = incomingDeeplinkInfo
       sessionManager.lockSession()
-    } else if (deeplink != null) {
-      maybeNavigateWithUri(IncomingDeeplinkInfo(deeplink, callingPackage))
+    } else if (incomingDeeplinkInfo != null) {
+      maybeNavigateWithUri(incomingDeeplinkInfo)
     }
   }
 
-  fun onNewIntent(uri: Uri?, callingPackage: String?) {
-    if (uri != null) {
-      maybeNavigateWithUri(IncomingDeeplinkInfo(uri, callingPackage))
+  fun onNewIntent(incomingDeeplinkInfo: IncomingDeeplinkInfo?) {
+    if (incomingDeeplinkInfo != null) {
+      maybeNavigateWithUri(incomingDeeplinkInfo)
     }
   }
 

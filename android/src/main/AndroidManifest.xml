@@ -3,6 +3,7 @@
     package="com.dgsd.android.solar">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:name=".SolarApplication"
@@ -52,6 +53,12 @@
             <intent-filter android:order="0">
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="solana-wallet" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="solana" />
             </intent-filter>
         </activity>
 

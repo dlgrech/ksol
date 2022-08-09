@@ -1,6 +1,8 @@
 package com.dgsd.android.solar
 
 import android.content.Intent
+import android.nfc.NdefMessage
+import android.nfc.NfcAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -19,8 +21,6 @@ import com.dgsd.android.solar.send.SendContainerFragment
 import com.dgsd.android.solar.settings.SettingsFragment
 import com.dgsd.android.solar.transaction.details.TransactionDetailsFragment
 import com.dgsd.android.solar.transaction.list.TransactionListFragment
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -49,14 +49,14 @@ class MainActivity : AppCompatActivity() {
   override fun onResume() {
     super.onResume()
     lifecycleScope.launchWhenResumed {
-      appCoordinator.onResume(intent.data, callingPackage)
+      appCoordinator.onResume(createIncomingDeeplinkInfo())
       intent = intent?.apply { data = null }
     }
   }
 
   override fun onNewIntent(intent: Intent?) {
     super.onNewIntent(intent)
-    appCoordinator.onNewIntent(intent?.data, callingPackage)
+    appCoordinator.onNewIntent(createIncomingDeeplinkInfo())
     setIntent(intent?.apply { data = null })
   }
 
@@ -146,5 +146,28 @@ class MainActivity : AppCompatActivity() {
       resetBackStack = resetBackStack,
       commitNow = commitNow,
     )
+  }
+
+  private fun createIncomingDeeplinkInfo(): AppCoordinator.IncomingDeeplinkInfo? {
+    val activityIntent = intent
+    if (activityIntent == null) {
+      return null
+    }
+
+    if (activityIntent.action == NfcAdapter.ACTION_NDEF_DISCOVERED) {
+      val uri = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
+        ?.mapNotNull { it as? NdefMessage }
+        ?.flatMap { it.records.toList() }
+        ?.firstNotNullOfOrNull { it.toUri() }
+      if (uri != null) {
+        return AppCoordinator.IncomingDeeplinkInfo(uri, callingPackage)
+      }
+    }
+
+    if (activityIntent.data != null) {
+      return AppCoordinator.IncomingDeeplinkInfo(checkNotNull(activityIntent.data), callingPackage)
+    }
+
+    return null
   }
 }
