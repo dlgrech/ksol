@@ -148,7 +148,8 @@ internal class SolanaApiRepositoryImpl(
   override fun send(
     privateKey: PrivateKey,
     recipient: PublicKey,
-    lamports: Lamports
+    lamports: Lamports,
+    memo: String?
   ): Flow<Resource<TransactionSignature>> {
     return resourceFlowOf {
       val blockhash = PublicKey.fromBase58(
@@ -160,6 +161,7 @@ internal class SolanaApiRepositoryImpl(
           sender = KeyPair(session.publicKey, privateKey),
           recipient = recipient,
           lamports = lamports,
+          memo = memo,
           recentBlockhash = blockhash
         )
       )

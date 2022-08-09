@@ -47,10 +47,11 @@ class SendTransactionCommand() : CliktCommand(
         echo(
             api.sendTransaction(
                 LocalTransactions.createTransferTransaction(
-                    keyPair,
-                    toAccount,
-                    lamports,
-                    PublicKey.fromBase58(recentBlockhash)
+                    sender = keyPair,
+                    recipient = toAccount,
+                    lamports = lamports,
+                    memo = null,
+                    recentBlockhash = PublicKey.fromBase58(recentBlockhash)
                 )
             )
         )

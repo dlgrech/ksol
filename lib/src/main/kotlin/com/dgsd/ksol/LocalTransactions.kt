@@ -1,6 +1,7 @@
 package com.dgsd.ksol
 
 import com.dgsd.ksol.model.*
+import com.dgsd.ksol.programs.memo.MemoProgram
 import com.dgsd.ksol.programs.system.SystemProgram
 import com.dgsd.ksol.serialization.LocalTransactionSerialization
 import com.dgsd.ksol.utils.DecodingUtils
@@ -19,6 +20,7 @@ object LocalTransactions {
     sender: KeyPair,
     recipient: PublicKey,
     lamports: Lamports,
+    memo: String?,
     recentBlockhash: PublicKey,
   ): LocalTransaction {
     val transferInstruction = SystemProgram.transfer(
@@ -27,7 +29,13 @@ object LocalTransactions {
       lamports
     )
 
-    val accountKeys = listOf(
+    val memoInstruction = if (memo == null) {
+      null
+    } else {
+      MemoProgram.createInstruction(memo)
+    }
+
+    val accountKeys = listOfNotNull(
       TransactionAccountMetadata(
         sender.publicKey,
         isSigner = true,
@@ -40,6 +48,16 @@ object LocalTransactions {
         isWritable = true,
         isFeePayer = false
       ),
+      if (memoInstruction == null) {
+        null
+      } else {
+        TransactionAccountMetadata(
+          memoInstruction.programAccount,
+          isSigner = false,
+          isWritable = false,
+          isFeePayer = false
+        )
+      },
       TransactionAccountMetadata(
         transferInstruction.programAccount,
         isSigner = false,
@@ -54,7 +72,7 @@ object LocalTransactions {
       header,
       accountKeys,
       recentBlockhash,
-      listOf(transferInstruction)
+      listOfNotNull(memoInstruction, transferInstruction)
     )
 
     val serializedMessage = LocalTransactionSerialization.serialize(message)

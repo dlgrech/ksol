@@ -38,7 +38,8 @@ interface SolanaApiRepository: Closeable {
   fun send(
     privateKey: PrivateKey,
     recipient: PublicKey,
-    lamports: Lamports
+    lamports: Lamports,
+    memo: String? = null
   ): Flow<Resource<TransactionSignature>>
 
   fun signAndSend(

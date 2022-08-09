@@ -138,7 +138,8 @@ class SendConfirmTransferRequestViewModel(
       solanaApiRepository.send(
         keyPair.privateKey,
         transferRequest.recipient,
-        checkNotNull(transferRequest.amount).solToLamports()
+        checkNotNull(transferRequest.amount).solToLamports(),
+        transferRequest.memo,
       )
     )
   }
