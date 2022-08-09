@@ -44,6 +44,8 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
     val recentBlockHash = view.requireViewById<TextView>(R.id.recent_blockhash)
     val feeHeader = view.requireViewById<TextView>(R.id.fee_header)
     val fee = view.requireViewById<TextView>(R.id.fee)
+    val memoHeader = view.requireViewById<TextView>(R.id.memo_header)
+    val memo = view.requireViewById<TextView>(R.id.memo)
     val logsHeader = view.requireViewById<TextView>(R.id.logs_header)
     val logsContainer = view.requireViewById<LinearLayout>(R.id.logs_container)
     val accountsHeader = view.requireViewById<TextView>(R.id.accounts_header)
@@ -91,6 +93,17 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
         feeHeader.isVisible = true
         fee.isVisible = true
         fee.text = it
+      }
+    }
+
+    onEach(viewModel.memoText) {
+      if (it.isNullOrEmpty()) {
+        memoHeader.isVisible = false
+        memo.isVisible = false
+      } else {
+        memoHeader.isVisible = true
+        memo.isVisible = true
+        memo.text = it
       }
     }
 

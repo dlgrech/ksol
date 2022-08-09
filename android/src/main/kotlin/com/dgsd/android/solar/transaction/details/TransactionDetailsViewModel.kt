@@ -9,6 +9,7 @@ import com.dgsd.android.solar.common.clipboard.SystemClipboard
 import com.dgsd.android.solar.common.error.ErrorMessageFactory
 import com.dgsd.android.solar.common.ui.*
 import com.dgsd.android.solar.common.util.ResourceFlowConsumer
+import com.dgsd.android.solar.extensions.getMemoMessage
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
@@ -60,6 +61,10 @@ class TransactionDetailsViewModel(
         null
       }
     }
+  }
+
+  val memoText = transaction.map {
+    it.message.getMemoMessage()
   }
 
   val blockTimeText = transaction.map {
