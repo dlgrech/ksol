@@ -4,6 +4,7 @@ import android.content.Context
 import com.dgsd.android.solar.R
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.programs.*
+import com.dgsd.ksol.programs.memo.MemoProgram
 import com.dgsd.ksol.programs.system.SystemProgram
 
 class PublicKeyFormatter(
@@ -19,6 +20,7 @@ class PublicKeyFormatter(
       StakeProgram.PROGRAM_ID -> context.getString(R.string.key_display_stake_program)
       SystemProgram.PROGRAM_ID -> context.getString(R.string.key_display_system_program)
       VoteProgram.PROGRAM_ID -> context.getString(R.string.key_display_vote_program)
+      MemoProgram.PROGRAM_ID -> context.getString(R.string.key_display_memo_program)
       TESTNET_FAUCET -> context.getString(R.string.key_display_testnet_faucet)
       DEVNET_FAUCET -> context.getString(R.string.key_display_devnet_faucet)
       else -> null

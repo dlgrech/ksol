@@ -89,6 +89,7 @@
     <string name="key_display_secp256k1_program">Secp256k1 Program</string>
     <string name="key_display_stake_program">Stake Program</string>
     <string name="key_display_vote_program">Vote Program</string>
+    <string name="key_display_memo_program">Memo Program</string>
     <string name="key_display_testnet_faucet">Testnet Faucet</string>
     <string name="key_display_devnet_faucet">Devnet Faucet</string>
     <string name="key_display_bpf_loader_program">BPF Loader Program</string>
