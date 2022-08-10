@@ -183,6 +183,9 @@
     <string name="app_shortcut_label_scan_qr">Send</string>
     <string name="app_shortcut_label_request">Request</string>
     <string name="app_shortcut_label_your_address">Your Address</string>
+    <string name="app_system_tile_scan_qr">Send SOL</string>
+    <string name="app_system_tile_request">Request SOL</string>
+    <string name="app_system_tile_share_address">Share Wallet</string>
     <string name="error_process_text_invalid_address">Not a valid public key</string>
     <string name="process_text_label">Send SOL</string>
     <string name="send_transaction">Send Transaction</string>

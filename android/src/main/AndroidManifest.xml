@@ -56,8 +56,8 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="solana" />
             </intent-filter>
         </activity>
@@ -74,6 +74,29 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+
+        <service
+            android:name=".ScanQRTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+            android:label="@string/app_system_tile_scan_qr"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".ShareAddressTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_baseline_share_24"
+            android:label="@string/app_system_tile_share_address"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"
