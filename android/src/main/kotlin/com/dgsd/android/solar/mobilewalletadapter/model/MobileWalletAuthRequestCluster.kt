@@ -12,7 +12,7 @@ internal enum class MobileWalletAuthRequestCluster(val clusterName: String) {
     return when (this) {
       TESTNET -> Cluster.TESTNET
       DEVNET -> Cluster.DEVNET
-      MAINNET_BETA -> Cluster.MAINNET
+      MAINNET_BETA -> Cluster.MAINNET_BETA
     }
   }
 

@@ -76,7 +76,7 @@ internal object AppModule {
           if (BuildConfig.DEBUG) {
             Cluster.DEVNET
           } else {
-            Cluster.MAINNET
+            Cluster.MAINNET_BETA
           }
         )
       }

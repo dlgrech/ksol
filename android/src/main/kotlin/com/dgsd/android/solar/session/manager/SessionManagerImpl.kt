@@ -38,6 +38,7 @@ class SessionManagerImpl(
   }
 
   override fun clear() {
+    activeSessionSharedPreferences.edit { clear() }
     _activeSession.value = NoActiveWalletSession
   }
 

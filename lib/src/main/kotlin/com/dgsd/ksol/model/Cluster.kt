@@ -14,7 +14,7 @@ sealed class Cluster(
 
     object TESTNET : Cluster(url = "api.testnet.solana.com")
 
-    object MAINNET : Cluster(url = "api.mainnet-beta.solana.com")
+    object MAINNET_BETA : Cluster(url = "api.mainnet-beta.solana.com")
 
     class Custom(rpcUrl: String, webSocketUrl: String) : Cluster(rpcUrl, webSocketUrl)
 }

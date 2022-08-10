@@ -12,10 +12,10 @@ fun CliktCommand.clusterOption(): OptionDelegate<Cluster> {
         "--cluster",
         help = "The cluster to use when running operations",
     ).choice(
-        "mainnet" to Cluster.MAINNET,
+        "mainnet" to Cluster.MAINNET_BETA,
         "testnet" to Cluster.TESTNET,
         "devnet" to Cluster.DEVNET,
     ).default(
-        Cluster.MAINNET
+        Cluster.MAINNET_BETA
     )
 }

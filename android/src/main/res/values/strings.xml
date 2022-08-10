@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">Solar Wallet</string>
+    <string name="app_name">SOLar Wallet</string>
 
     <string name="error_message_generic">Looks like something went wrong. Please try again.</string>
     <string name="onboarding_welcome_already_have_account">I already have a wallet</string>
     <string name="onboarding_welcome_create_new_account">Create new wallet</string>
     <string name="onboarding_welcome_screen_title_welcome">Welcome to</string>
     <string name="onboarding_welcome_screen_title_app_name_template">^1 Wallet</string>
-    <string name="onboarding_welcome_screen_title_app_name">Solar</string>
+    <string name="onboarding_welcome_screen_title_app_name">SOLar</string>
     <string name="onboarding_welcome_action_sheet_restore_from_seed_phrase">I have a seed phrase</string>
     <string name="next">Next</string>
     <string name="continue_label">Continue</string>
@@ -72,7 +72,7 @@
     <string name="send">Send</string>
     <string name="request">Request</string>
     <string name="home_send_sheet_title">Send SOL</string>
-    <string name="home_send_action_sheet_item_nearby">Another nearby Solar user</string>
+    <string name="home_send_action_sheet_item_nearby">Another nearby SOLar user</string>
     <string name="home_send_action_sheet_item_from_clipboard_template">Address you copied (^1)</string>
     <string name="home_send_action_sheet_item_scan_qr">Scan a QR code</string>
     <string name="home_send_action_sheet_item_enter_address">Enter a wallet address</string>
@@ -215,5 +215,22 @@
         <item quantity="one">%1$s message</item>
         <item quantity="other">%1$s messages</item>
     </plurals>
+
+    <string name="settings_header_view_secret_phrase">View Seed Phrase</string>
+    <string name="settings_header_cluster">Cluster</string>
+    <string name="settings_header_sign_out">Sign out</string>
+    <string name="settings_view_secret_phrase_unlock_biometrics_title">Verify it\'s you</string>
+    <string name="settings_view_secret_phrase_unlock_biometrics_description">Before we show your secret phrase, we need to make sure you have access</string>
+
+    <string name="cluster_name_devnet">Devnet</string>
+    <string name="cluster_name_testnet">Testnet</string>
+    <string name="cluster_name_mainnet_beta">Mainnet Beta</string>
+    <string name="settings_error_getting_secret_key">We could not retrieve your secret key</string>
+    <string name="settings_secret_phrase_bottomsheet_title">Secret Phrase</string>
+    <string name="settings_cluster_picker_bottomsheet_title">Select cluster</string>
+    <string name="settings_confirm_sign_out_message">Please make sure that you know your wallet seed phrase. You will need to get access to your wallet again.</string>
+    <string name="settings_confirm_sign_out_positive_button">Sign out</string>
+    <string name="settings_confirm_sign_out_negative_button">Cancel</string>
+    <string name="settings_value_view_secret_phrase">This is your secret key to your wallet. Never give this out to anyone.</string>
 
 </resources>

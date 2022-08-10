@@ -40,11 +40,11 @@ class ClusterManagerImpl(
     private fun persistCluster(cluster: Cluster) {
         sharedPreferences.edit {
             putString(PREF_KEY_CLUSTER_RPC_URL, cluster.rpcUrl)
-            putString(PREF_KEY_CLUSTER_WS_URL, cluster.rpcUrl)
+            putString(PREF_KEY_CLUSTER_WS_URL, cluster.webSocketUrl)
         }
     }
 
     companion object {
-        private val knownClusters = arrayOf(Cluster.DEVNET, Cluster.TESTNET, Cluster.MAINNET)
+        private val knownClusters = arrayOf(Cluster.DEVNET, Cluster.TESTNET, Cluster.MAINNET_BETA)
     }
 }
