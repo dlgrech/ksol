@@ -128,6 +128,34 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical" />
 
+                        <LinearLayout
+                            android:id="@+id/transactions_empty_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:paddingTop="@dimen/padding_xxxlarge"
+                            android:visibility="gone">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottie"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="@dimen/padding_small"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/transactions_empty" />
+
+                            <TextView
+                                style="@style/TextAppearance.Solar.Label1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/home_transactions_empty_message" />
+
+                        </LinearLayout>
+
                         <TextView
                             android:id="@+id/view_more_transactions"
                             style="@style/TextAppearance.Link"
@@ -231,6 +259,5 @@
         app:layout_constraintStart_toEndOf="@id/send"
         app:layout_constraintTop_toTopOf="@id/send"
         app:layout_constraintWidth_percent="0.4" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,6 +43,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     val balanceText = view.requireViewById<TextView>(R.id.balance)
     val solLabel = view.requireViewById<TextView>(R.id.sol_label)
     val transactionsContainer = view.requireViewById<LinearLayout>(R.id.transactions_container)
+    val transactionsEmptyState = view.requireViewById<View>(R.id.transactions_empty_state)
     val transactionErrorContainer = view.requireViewById<View>(R.id.transaction_error_container)
     val transactionsErrorMessage = view.requireViewById<TextView>(R.id.transaction_error_message)
     val viewMoreTransactionsButton = view.requireViewById<View>(R.id.view_more_transactions)
@@ -93,10 +94,11 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
     combine(
       viewModel.isLoadingTransactions,
-      viewModel.transactionsError
-    ) { isLoading, errorMessage ->
-      isLoading to errorMessage
-    }.onEach { (isLoading, errorMessage) ->
+      viewModel.transactionsError,
+      viewModel.transactions
+    ) { isLoading, errorMessage, transactions ->
+      Triple(isLoading, errorMessage, transactions)
+    }.onEach { (isLoading, errorMessage, transactions) ->
       transactionsErrorMessage.text = errorMessage
 
       when {
@@ -105,6 +107,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
           shimmerTransactionsContainer.isVisible = false
           viewMoreTransactionsButton.isVisible = false
           transactionsContainer.isVisible = false
+          transactionsEmptyState.isVisible = false
         }
 
         isLoading -> {
@@ -112,13 +115,15 @@ class HomeFragment : Fragment(R.layout.frag_home) {
           shimmerTransactionsContainer.isVisible = true
           viewMoreTransactionsButton.isVisible = false
           transactionsContainer.isVisible = false
+          transactionsEmptyState.isVisible = false
         }
 
         else -> {
           transactionErrorContainer.isVisible = false
           shimmerTransactionsContainer.isVisible = false
-          viewMoreTransactionsButton.isVisible = true
-          transactionsContainer.isVisible = true
+          transactionsEmptyState.isVisible = transactions.isNullOrEmpty()
+          transactionsContainer.isVisible = !transactionsEmptyState.isVisible
+          viewMoreTransactionsButton.isVisible = !transactionsEmptyState.isVisible
         }
       }
 
@@ -141,9 +146,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     }
 
     onEach(viewModel.transactions) { transactions ->
-      if (transactions.isNullOrEmpty()) {
-        // Coming soon: Empty state
-      } else {
+      if (!transactions.isNullOrEmpty()) {
         transactionsContainer.bindTransactions(transactions)
       }
     }

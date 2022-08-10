@@ -235,5 +235,6 @@
     <string name="settings_confirm_sign_out_positive_button">Sign out</string>
     <string name="settings_confirm_sign_out_negative_button">Cancel</string>
     <string name="settings_value_view_secret_phrase">This is your secret key to your wallet. Never give this out to anyone.</string>
+    <string name="home_transactions_empty_message">No transactions yet</string>
 
 </resources>
