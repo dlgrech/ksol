@@ -175,10 +175,6 @@ class HomeFragment : Fragment(R.layout.frag_home) {
       appCoordinator.navigateToSendWithAddress()
     }
 
-    onEach(viewModel.navigateToSendWithNearby) {
-      appCoordinator.navigateToSendWithNearby()
-    }
-
     onEach(viewModel.navigateToScanQr) {
       appCoordinator.navigateToSendWithQrCode()
     }

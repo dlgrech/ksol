@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
       Destination.RequestAmount -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.ShareWalletAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithAddress -> ScreenTransitionType.SLIDE_FROM_BOTTOM
-      Destination.SendWithNearby -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.SendWithQR -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       is Destination.SendWithSolPayRequest -> ScreenTransitionType.SLIDE_FROM_BOTTOM
       Destination.Settings -> ScreenTransitionType.DEFAULT
@@ -120,7 +119,6 @@ class MainActivity : AppCompatActivity() {
       is Destination.TransactionDetails ->
         TransactionDetailsFragment.newInstance(destination.signature)
       Destination.SendWithAddress -> SendContainerFragment.newEnterAddressInstance()
-      Destination.SendWithNearby -> SendContainerFragment.newEnterAddressInstance()
       Destination.SendWithQR -> SendContainerFragment.newQRScanInstance()
       is Destination.SendWithSolPayRequest ->
         SendContainerFragment.newTransferRequestInstance(destination.requestUrl)

@@ -61,7 +61,6 @@ internal object ViewModelModule {
                     transactionViewStateFactory = getScoped(),
                     solanaApiRepository = getScoped(),
                     solPay = getScoped(),
-                    nfcManager = get(),
                 )
             }
 

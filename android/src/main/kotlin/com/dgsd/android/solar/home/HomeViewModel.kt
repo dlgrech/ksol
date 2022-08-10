@@ -17,7 +17,6 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.model.LamportsWithTimestamp
 import com.dgsd.android.solar.model.TransactionOrSignature
-import com.dgsd.android.solar.nfc.NfcManager
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.ksol.model.PublicKey
 import com.dgsd.ksol.model.TransactionSignature
@@ -38,7 +37,6 @@ class HomeViewModel(
   private val transactionViewStateFactory: TransactionViewStateFactory,
   private val solanaApiRepository: SolanaApiRepository,
   private val solPay: SolPay,
-  private val nfcManager: NfcManager,
 ) : AndroidViewModel(application) {
 
   private val balanceResourceConsumer = ResourceFlowConsumer<LamportsWithTimestamp>(viewModelScope)
@@ -114,9 +112,6 @@ class HomeViewModel(
   private val _navigateToSendWithAddress = SimpleMutableEventFlow()
   val navigateToSendWithAddress = _navigateToSendWithAddress.asEventFlow()
 
-  private val _navigateToSendWithNearby = SimpleMutableEventFlow()
-  val navigateToSendWithNearby = _navigateToSendWithNearby.asEventFlow()
-
   private val _navigateToSendToAddress = MutableEventFlow<String>()
   val navigateToSendWithSolPayRequest = _navigateToSendToAddress.asEventFlow()
 
@@ -183,15 +178,6 @@ class HomeViewModel(
           R.drawable.ic_baseline_keyboard_24,
           SendActionSheetItem.Type.EnterPublicAddress
         ),
-        if (nfcManager.isNfAvailable()) {
-          SendActionSheetItem(
-            getString(R.string.home_send_action_sheet_item_nearby),
-            R.drawable.ic_baseline_tap_and_play_24,
-            SendActionSheetItem.Type.Nearby
-          )
-        } else {
-          null
-        },
       )
     )
   }
@@ -200,7 +186,6 @@ class HomeViewModel(
     when (type) {
       SendActionSheetItem.Type.ScanQr -> _navigateToScanQr.call()
       SendActionSheetItem.Type.EnterPublicAddress -> _navigateToSendWithAddress.call()
-      SendActionSheetItem.Type.Nearby -> _navigateToSendWithNearby.call()
       is SendActionSheetItem.Type.PreselectedAddress -> {
         val request = SolPayTransferRequest(type.address)
         _navigateToSendToAddress.tryEmit(solPay.createUrl(request))

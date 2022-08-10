@@ -42,7 +42,6 @@ class AppCoordinator(
     object RequestAmount : Destination
     object SendWithQR : Destination
     object SendWithAddress : Destination
-    object SendWithNearby : Destination
     object MobileWalletAdapterAuthorize : Destination
     object MobileWalletAdapterSignTransactions : Destination
     object MobileWalletAdapterSignMessages : Destination
@@ -120,10 +119,6 @@ class AppCoordinator(
 
   fun navigateToSendWithAddress() {
     _destination.tryEmit(Destination.SendWithAddress)
-  }
-
-  fun navigateToSendWithNearby() {
-    _destination.tryEmit(Destination.SendWithNearby)
   }
 
   fun navigateToSendWithQrCode() {
