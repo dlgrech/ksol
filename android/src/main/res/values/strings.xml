@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">SOLar Wallet</string>
+    <string name="app_name">Solar Wallet</string>
 
     <string name="error_message_generic">Looks like something went wrong. Please try again.</string>
     <string name="onboarding_welcome_already_have_account">I already have a wallet</string>
     <string name="onboarding_welcome_create_new_account">Create new wallet</string>
     <string name="onboarding_welcome_screen_title_welcome">Welcome to</string>
     <string name="onboarding_welcome_screen_title_app_name_template">^1 Wallet</string>
-    <string name="onboarding_welcome_screen_title_app_name">SOLar</string>
+    <string name="onboarding_welcome_screen_title_app_name">Solar</string>
     <string name="onboarding_welcome_action_sheet_restore_from_seed_phrase">I have a seed phrase</string>
     <string name="next">Next</string>
     <string name="continue_label">Continue</string>
