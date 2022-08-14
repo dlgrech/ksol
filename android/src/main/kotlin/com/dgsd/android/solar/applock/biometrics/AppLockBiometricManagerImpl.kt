@@ -40,8 +40,9 @@ class AppLockBiometricManagerImpl(
       .setKeySize(KEY_SIZE)
       .setUserAuthenticationRequired(true)
       .setInvalidatedByBiometricEnrollment(true)
-      .setIsStrongBoxBacked(true)
       .let {
+        runCatching { it.setIsStrongBoxBacked(true) }
+
         if (Build.VERSION.SDK_INT < 30) {
           it.setUserAuthenticationValidityDurationSeconds(AUTHENTICATION_VALIDITY_DURATION_SECONDS)
         } else {
