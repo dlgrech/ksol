@@ -60,7 +60,7 @@ dependencies {
         exclude group: 'org.slf4j', module: 'slf4j-android'
     }
 
-    debugImplementation libs.leakcanary
+//    debugImplementation libs.leakcanary
 
     testImplementation libs.android.junit
 }

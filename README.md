@@ -10,11 +10,12 @@ The goal is to implement all this functionality in Kotlin itself without relying
 
 ## Structure
 
-The repository is structured into 3 high-level gradle modules:
+The repository is structured into 4 high-level gradle modules:
 
 - `lib`: Provides the core functionality of the library. The `SolanaApi` interface provides all the high-level functionality of the JSON RPC.
+- `solpay`: High-level library for working with SolPay urls
 - `cli`: A Kotlin command line app for using the functionality of the core library. This could be used as a (pointless) replacement for the standard [Solana CLI tools](https://docs.solana.com/cli)
-- `android`: (Coming soon) Non-custodial Android app using the library to generate wallets/send transactions
+- `android`: Non-custodial Android app using the library to generate wallets/send transactions
 
 ## How to use
 
@@ -87,7 +88,7 @@ account index #19: KeyPair(publicKey=CD21S9vCA6mq3g3YnEe2USdNHENh5ghkcQynBwubVxE
 account index #20: KeyPair(publicKey=2SqxrWGSeErDUxktJCYB4e2W4PkvYjbuKxMUWLqVfdt8, privateKey=2TcpbX7pqt3ZTnQ4o3AQQSYzGLfMYJ2mWqCqYM3JXx2BQ275xHJ9BDekpBxb79q3Lm3gvbjQMvj7jDbHsHcP4g2g)
 ```
 
-### Request airdrop of 1 lamport on devnet:
+### Request airdrop of 1000000000 lamport on devnet:
 
 ```
 ~/ksol: ./ksol.sh rpc --cluster devnet requestAirdrop 9a3hDy7tsbMLUCM8ADfUvFYMGPzkMbJavrqF2mXRpMQZ 1000000000
