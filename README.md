@@ -4,20 +4,26 @@
 
 kSol is a kotlin-based wrapper around the [Solana JSON-RPC](https://docs.solana.com/developing/clients/jsonrpc-api) API.
 
-It also natively supports key management and everything needed to handle a Solana Wallet and send/sign transactions.
+It also natively supports key management and everything needed to interact with a Solana Wallet, as well as send/sign transactions.
 
 The goal is to implement all this functionality in Kotlin itself without relying on libraries from any other environment (like executing JS or native code), with an eye on using this for native Android app development.
+
+The repository also includes a reference Android wallet - called Solar - that demonstrates how the library can be used to provide basic wallet functionality.
 
 ## Structure
 
 The repository is structured into 4 high-level gradle modules:
 
 - `lib`: Provides the core functionality of the library. The `SolanaApi` interface provides all the high-level functionality of the JSON RPC.
-- `solpay`: High-level library for working with SolPay urls
+- `solpay`: High-level library for working with SolPay urls. The `SolPay` interface provides an entrypoint to all Solpay-related functionality.
 - `cli`: A Kotlin command line app for using the functionality of the core library. This could be used as a (pointless) replacement for the standard [Solana CLI tools](https://docs.solana.com/cli)
-- `android`: Non-custodial Android app using the library to generate wallets/send transactions
+- `android`: The Solar wallet, a non-custodial Android wallet app using the library to generate wallets/send transactions
 
-## How to use
+## Android App - How to use
+
+Assuming you have the Android SDK set up, you can build the app simply using `./gradlew :android:assembleDebug` from the root of the repository
+
+## CLI - How to use
 
 The `ksol.sh` script at the root of the repository is your starting point to using the library. 
 
