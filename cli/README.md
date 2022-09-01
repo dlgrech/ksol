@@ -1,6 +1,25 @@
 
 <h1 align="center">Common Commands</h1>
 
+The ksol.sh script at the root of the repository is your starting point to using the library.
+
+It builds the CLI module and executes the given command:
+
+```
+~/ksol: ./ksol.sh --help
+Usage: ksol [OPTIONS] COMMAND [ARGS]...
+
+  Interact with the ksol Solana library
+
+Options:
+  -h, --help  Show this message and exit
+
+Commands:
+  rpc     Execute Solana JSON RPC methods
+  keygen  Operations relating to Solana public/private keys
+  send    Send a transaction
+```
+
 #### Generate a seed phrase:
 
 ```
