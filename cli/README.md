@@ -1,4 +1,5 @@
-### Common commands
+
+<h1 align="center">Common Commands</h1>
 
 #### Generate a seed phrase:
 
