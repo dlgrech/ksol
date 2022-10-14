@@ -2,12 +2,12 @@ package com.dgsd.ksol
 
 import com.dgsd.ksol.factory.AccountInfoFactory
 import com.dgsd.ksol.factory.CommitmentFactory
-import com.dgsd.ksol.flow.MutableEventFlow
 import com.dgsd.ksol.jsonrpc.RpcRequestFactory
 import com.dgsd.ksol.jsonrpc.SolanaJsonRpcConstants
 import com.dgsd.ksol.jsonrpc.types.*
-import com.dgsd.ksol.model.*
+import com.dgsd.ksol.core.model.*
 import com.dgsd.ksol.utils.fromJsonOrNull
+import com.dgsd.ksol.flow.MutableEventFlow
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import kotlinx.coroutines.flow.Flow

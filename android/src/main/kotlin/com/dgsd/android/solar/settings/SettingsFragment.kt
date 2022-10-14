@@ -14,7 +14,7 @@ import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMes
 import com.dgsd.android.solar.common.modalsheet.model.ModalInfo
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.extensions.showSnackbar
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.core.model.Cluster
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment(R.layout.frag_settings) {

@@ -11,7 +11,7 @@ import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 

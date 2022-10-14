@@ -1,7 +1,7 @@
 package com.dgsd.android.solar.model
 
-import com.dgsd.ksol.model.Transaction
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.Transaction
+import com.dgsd.ksol.core.model.TransactionSignature
 
 class TransactionOrSignature private constructor(
   private val signature: TransactionSignature?,

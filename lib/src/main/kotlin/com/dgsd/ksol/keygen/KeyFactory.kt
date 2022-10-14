@@ -1,10 +1,10 @@
 package com.dgsd.ksol.keygen
 
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.PrivateKey
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.utils.reverseBytes
-import com.dgsd.ksol.utils.toByteArray
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.PrivateKey
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.utils.reverseBytes
+import com.dgsd.ksol.core.utils.toByteArray
 import com.iwebpp.crypto.TweetNaclFast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,8 +28,8 @@ object KeyFactory {
         val keyPair = TweetNaclFast.Signature.keyPair_fromSecretKey(privateKey.key)
 
         KeyPair(
-            PublicKey(keyPair.publicKey),
-            PrivateKey(keyPair.secretKey),
+            PublicKey.fromByteArray(keyPair.publicKey),
+            PrivateKey.fromByteArray(keyPair.secretKey),
         )
     }
 
@@ -67,8 +67,8 @@ object KeyFactory {
     ): KeyPair = withContext(Dispatchers.IO) {
         val keyPair = TweetNaclFast.Signature.keyPair_fromSeed(seed)
         KeyPair(
-            PublicKey(keyPair.publicKey),
-            PrivateKey(keyPair.secretKey),
+            PublicKey.fromByteArray(keyPair.publicKey),
+            PrivateKey.fromByteArray(keyPair.secretKey),
         )
     }
 

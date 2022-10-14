@@ -18,8 +18,8 @@ import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.model.LamportsWithTimestamp
 import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.repository.SolanaApiRepository
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.TransactionSignature
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import kotlinx.coroutines.flow.combine

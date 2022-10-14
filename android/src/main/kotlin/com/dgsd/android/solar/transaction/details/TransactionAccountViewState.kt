@@ -1,6 +1,6 @@
 package com.dgsd.android.solar.transaction.details
 
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 
 data class TransactionAccountViewState(
   val accountKey: PublicKey,

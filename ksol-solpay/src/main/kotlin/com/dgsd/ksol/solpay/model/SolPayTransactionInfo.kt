@@ -1,6 +1,6 @@
 package com.dgsd.ksol.solpay.model
 
-import com.dgsd.ksol.model.LocalTransaction
+import com.dgsd.ksol.core.model.LocalTransaction
 
 data class SolPayTransactionInfo(
 

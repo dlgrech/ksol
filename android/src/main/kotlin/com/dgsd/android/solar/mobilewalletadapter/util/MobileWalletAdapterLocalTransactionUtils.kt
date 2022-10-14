@@ -9,8 +9,8 @@ import com.dgsd.android.solar.extensions.extractBestDisplayRecipient
 import com.dgsd.android.solar.extensions.getMemoMessage
 import com.dgsd.android.solar.extensions.getSystemProgramInstruction
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.model.LocalTransaction
-import com.dgsd.ksol.programs.system.SystemProgramInstruction
+import com.dgsd.ksol.core.model.LocalTransaction
+import com.dgsd.ksol.core.programs.system.SystemProgramInstruction
 
 fun createTransactionSummaryString(
   context: Context,

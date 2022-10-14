@@ -16,9 +16,9 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.Transaction
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.Transaction
+import com.dgsd.ksol.core.model.TransactionSignature
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 

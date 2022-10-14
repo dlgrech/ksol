@@ -2,7 +2,7 @@ package com.dgsd.android.solar.cluster.manager
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.core.model.Cluster
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

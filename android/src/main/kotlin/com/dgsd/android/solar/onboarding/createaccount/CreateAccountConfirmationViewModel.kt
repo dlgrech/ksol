@@ -13,7 +13,7 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.ksol.keygen.KeyFactory
-import com.dgsd.ksol.model.KeyPair
+import com.dgsd.ksol.core.model.KeyPair
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map

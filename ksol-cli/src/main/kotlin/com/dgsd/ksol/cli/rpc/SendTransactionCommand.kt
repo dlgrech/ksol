@@ -1,10 +1,10 @@
 package com.dgsd.ksol.cli.rpc
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.LocalTransactions
+import com.dgsd.ksol.core.LocalTransactions
 import com.dgsd.ksol.keygen.KeyFactory
-import com.dgsd.ksol.model.PrivateKey
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PrivateKey
+import com.dgsd.ksol.core.model.PublicKey
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.parameters.arguments.argument

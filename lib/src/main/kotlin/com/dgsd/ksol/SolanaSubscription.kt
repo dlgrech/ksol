@@ -1,6 +1,6 @@
 package com.dgsd.ksol
 
-import com.dgsd.ksol.model.*
+import com.dgsd.ksol.core.model.*
 import kotlinx.coroutines.flow.Flow
 
 /**

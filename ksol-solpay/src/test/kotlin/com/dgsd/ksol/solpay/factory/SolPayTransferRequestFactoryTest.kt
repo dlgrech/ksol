@@ -1,6 +1,6 @@
 package com.dgsd.ksol.solpay.factory
 
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import com.dgsd.ksol.solpay.model.SolPayParsingException
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import org.junit.jupiter.api.Assertions

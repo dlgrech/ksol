@@ -1,7 +1,7 @@
 package com.dgsd.android.solar.onboarding.restoreaccount.model
 
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.Lamports
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.Lamports
 
 sealed interface CandidateAccount {
 

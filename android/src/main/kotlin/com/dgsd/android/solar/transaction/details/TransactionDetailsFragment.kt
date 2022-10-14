@@ -15,7 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.common.modalsheet.extensions.showModalFromErrorMessage
 import com.dgsd.android.solar.extensions.*
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignature
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 

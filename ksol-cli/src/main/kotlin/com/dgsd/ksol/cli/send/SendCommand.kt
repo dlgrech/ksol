@@ -1,13 +1,13 @@
 package com.dgsd.ksol.cli.send
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.LocalTransactions
+import com.dgsd.ksol.core.LocalTransactions
 import com.dgsd.ksol.cli.util.clusterOption
 import com.dgsd.ksol.keygen.KeyFactory
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.PrivateKey
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.TransactionSignatureStatus
+import com.dgsd.ksol.core.model.Commitment
+import com.dgsd.ksol.core.model.PrivateKey
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.TransactionSignatureStatus
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.arguments.transformAll

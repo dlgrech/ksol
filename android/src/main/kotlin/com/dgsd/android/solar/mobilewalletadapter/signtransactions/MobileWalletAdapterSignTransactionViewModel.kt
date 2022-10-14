@@ -20,9 +20,9 @@ import com.dgsd.android.solar.mobilewalletadapter.util.createTransactionSummaryS
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.LocalTransactions
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.LocalTransaction
+import com.dgsd.ksol.core.LocalTransactions
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.LocalTransaction
 import com.solana.mobilewalletadapter.walletlib.scenario.SignTransactionsRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull

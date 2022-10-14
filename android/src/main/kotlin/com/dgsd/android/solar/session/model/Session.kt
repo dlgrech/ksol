@@ -1,9 +1,9 @@
 package com.dgsd.android.solar.session.model
 
 import com.dgsd.android.solar.model.AccountSeedInfo
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.PrivateKey
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.PrivateKey
+import com.dgsd.ksol.core.model.PublicKey
 
 /**
  * Represents the authentication-level of the wallet being interacted with by the app

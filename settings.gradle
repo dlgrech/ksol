@@ -1,6 +1,7 @@
 rootProject.name = "ksol"
 
 include ":ksol-cli"
+include ":ksol-core"
 include ":ksol-solpay"
 include ":lib"
 include ":android"

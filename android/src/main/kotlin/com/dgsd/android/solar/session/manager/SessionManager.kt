@@ -3,8 +3,8 @@ package com.dgsd.android.solar.session.manager
 import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.Session
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.PublicKey
 import kotlinx.coroutines.flow.StateFlow
 
 interface SessionManager {

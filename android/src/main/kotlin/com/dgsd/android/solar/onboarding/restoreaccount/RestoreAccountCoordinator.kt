@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.model.AccountSeedInfo
-import com.dgsd.ksol.model.KeyPair
+import com.dgsd.ksol.core.model.KeyPair
 
 class RestoreAccountCoordinator : ViewModel() {
 

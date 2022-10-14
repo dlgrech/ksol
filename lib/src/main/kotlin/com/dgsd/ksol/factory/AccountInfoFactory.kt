@@ -1,8 +1,8 @@
 package com.dgsd.ksol.factory
 
 import com.dgsd.ksol.jsonrpc.types.AccountInfoResponse
-import com.dgsd.ksol.model.AccountInfo
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.AccountInfo
+import com.dgsd.ksol.core.model.PublicKey
 
 internal object AccountInfoFactory {
 

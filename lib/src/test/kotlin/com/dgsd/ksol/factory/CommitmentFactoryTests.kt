@@ -1,6 +1,6 @@
 package com.dgsd.ksol.factory
 
-import com.dgsd.ksol.model.Commitment
+import com.dgsd.ksol.core.model.Commitment
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
 import org.junit.jupiter.api.Test

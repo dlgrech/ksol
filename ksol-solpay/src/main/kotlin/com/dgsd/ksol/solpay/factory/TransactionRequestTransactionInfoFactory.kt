@@ -1,8 +1,8 @@
 package com.dgsd.ksol.solpay.factory
 
-import com.dgsd.ksol.LocalTransactions
-import com.dgsd.ksol.model.LocalTransaction
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.LocalTransactions
+import com.dgsd.ksol.core.model.LocalTransaction
+import com.dgsd.ksol.core.model.PublicKey
 import com.dgsd.ksol.solpay.api.TransactionRequestTransactionDetailsResponse
 import com.dgsd.ksol.solpay.model.SolPayTransactionInfo
 

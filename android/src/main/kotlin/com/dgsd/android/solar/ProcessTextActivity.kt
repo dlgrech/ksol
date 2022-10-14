@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.dgsd.android.solar.deeplink.SolarDeeplinkingFactory
 import com.dgsd.android.solar.di.util.injectScoped
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 

@@ -8,7 +8,7 @@ import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.mobilewalletadapter.model.MobileWalletAuthRequestCluster
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import com.solana.mobilewalletadapter.walletlib.scenario.*
 
 class MobileWalletAdapterCoordinator internal constructor(

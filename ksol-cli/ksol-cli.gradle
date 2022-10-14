@@ -35,5 +35,6 @@ application {
 
 dependencies {
     implementation projects.lib
+    implementation projects.ksolCore
     implementation libs.clikt
 }

@@ -9,7 +9,7 @@ import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.permission.PermissionsManager
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayRequest
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest

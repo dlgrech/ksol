@@ -2,10 +2,10 @@ package com.dgsd.android.solar.common.ui
 
 import android.content.Context
 import com.dgsd.android.solar.R
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.programs.*
-import com.dgsd.ksol.programs.memo.MemoProgram
-import com.dgsd.ksol.programs.system.SystemProgram
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.programs.*
+import com.dgsd.ksol.core.programs.memo.MemoProgram
+import com.dgsd.ksol.core.programs.system.SystemProgram
 
 class PublicKeyFormatter(
   private val context: Context

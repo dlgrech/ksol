@@ -18,8 +18,8 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.KeyPairSession
-import com.dgsd.ksol.LocalTransactions
-import com.dgsd.ksol.model.KeyPair
+import com.dgsd.ksol.core.LocalTransactions
+import com.dgsd.ksol.core.model.KeyPair
 import com.solana.mobilewalletadapter.walletlib.scenario.SignMessagesRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull

@@ -1,7 +1,7 @@
 package com.dgsd.android.solar.common.ui
 
-import com.dgsd.ksol.model.LAMPORTS_IN_SOL
-import com.dgsd.ksol.model.Lamports
+import com.dgsd.ksol.core.model.LAMPORTS_IN_SOL
+import com.dgsd.ksol.core.model.Lamports
 import java.text.NumberFormat
 
 object SolTokenFormatter {

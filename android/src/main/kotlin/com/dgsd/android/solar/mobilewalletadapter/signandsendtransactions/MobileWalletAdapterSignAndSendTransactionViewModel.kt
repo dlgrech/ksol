@@ -20,11 +20,11 @@ import com.dgsd.android.solar.repository.SolanaApiRepository
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.LocalTransactions
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.LocalTransaction
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.LocalTransactions
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.LocalTransaction
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.TransactionSignature
 import com.solana.mobilewalletadapter.walletlib.scenario.SignAndSendTransactionsRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine

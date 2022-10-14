@@ -11,9 +11,9 @@ import com.squareup.moshi.JsonDataException
  * If this is not the case, or if there is a problem decoding the text to `T`, `null` will be returned.
  */
 fun <T> JsonAdapter<T>.fromJsonOrNull(text: String): T? {
-    return try {
-        this.fromJson(text)
-    } catch (ex: JsonDataException) {
-        null
-    }
+  return try {
+    this.fromJson(text)
+  } catch (ex: JsonDataException) {
+    null
+  }
 }

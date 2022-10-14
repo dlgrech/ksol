@@ -1,10 +1,10 @@
 package com.dgsd.android.solar.extensions
 
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.TransactionMessage
-import com.dgsd.ksol.programs.memo.MemoProgram
-import com.dgsd.ksol.programs.system.SystemProgram
-import com.dgsd.ksol.programs.system.SystemProgramInstructionData
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.TransactionMessage
+import com.dgsd.ksol.core.programs.memo.MemoProgram
+import com.dgsd.ksol.core.programs.system.SystemProgram
+import com.dgsd.ksol.core.programs.system.SystemProgramInstructionData
 
 fun TransactionMessage.getSystemProgramInstruction(): SystemProgramInstructionData? {
   return runCatching {

@@ -1,6 +1,5 @@
 package com.dgsd.android.solar.mobilewalletadapter
 
-import com.dgsd.ksol.LocalTransactions
 import com.solana.mobilewalletadapter.walletlib.scenario.*
 
 internal class MobileWalletAdapterScenarioCallbacks : EmptyScenarioCallbacks() {

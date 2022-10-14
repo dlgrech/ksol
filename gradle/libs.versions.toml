@@ -14,6 +14,7 @@ kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.
 kotlin-coroutines-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 
 okhttp = "com.squareup.okhttp3:okhttp:4.9.2"
+okio = "com.squareup.okio:okio:3.2.0"
 moshi-moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
 

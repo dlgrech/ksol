@@ -6,9 +6,9 @@ import com.dgsd.android.solar.common.model.SensitiveList
 import com.dgsd.android.solar.common.model.SensitiveString
 import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.session.model.*
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.PrivateKey
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.KeyPair
+import com.dgsd.ksol.core.model.PrivateKey
+import com.dgsd.ksol.core.model.PublicKey
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

@@ -1,7 +1,7 @@
 package com.dgsd.ksol.cli.rpc
 
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.Commitment
+import com.dgsd.ksol.core.model.PublicKey
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.*
 import com.github.ajalt.clikt.parameters.options.OptionDelegate

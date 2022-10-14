@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    implementation projects.ksolCore
+
     api libs.kotlin.coroutines.coroutines
     api libs.okhttp
 

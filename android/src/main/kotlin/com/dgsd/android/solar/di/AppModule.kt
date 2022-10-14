@@ -23,7 +23,7 @@ import com.dgsd.android.solar.mobilewalletadapter.MobileWalletAdapterCoordinator
 import com.dgsd.android.solar.permission.PermissionsManager
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.manager.SessionManagerImpl
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.core.model.Cluster
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.koin.core.module.Module

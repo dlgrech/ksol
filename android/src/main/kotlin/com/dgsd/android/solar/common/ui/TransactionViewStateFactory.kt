@@ -9,8 +9,8 @@ import com.dgsd.android.solar.model.NativePrograms
 import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.model.TransactionViewState
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.model.*
-import com.dgsd.ksol.programs.system.SystemProgramInstruction
+import com.dgsd.ksol.core.model.*
+import com.dgsd.ksol.core.programs.system.SystemProgramInstruction
 import kotlin.math.abs
 
 class TransactionViewStateFactory(

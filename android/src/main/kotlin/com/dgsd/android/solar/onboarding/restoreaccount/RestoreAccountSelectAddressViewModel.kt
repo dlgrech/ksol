@@ -12,7 +12,7 @@ import com.dgsd.android.solar.model.AccountSeedInfo
 import com.dgsd.android.solar.onboarding.restoreaccount.model.CandidateAccount
 import com.dgsd.ksol.SolanaApi
 import com.dgsd.ksol.keygen.KeyFactory
-import com.dgsd.ksol.model.KeyPair
+import com.dgsd.ksol.core.model.KeyPair
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch

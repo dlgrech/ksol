@@ -1,6 +1,6 @@
 package com.dgsd.ksol.solpay.model
 
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import java.math.BigDecimal
 
 data class SolPayTransferRequest(

@@ -1,7 +1,7 @@
 package com.dgsd.ksol.cli.rpc
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.model.AccountCirculatingStatus
+import com.dgsd.ksol.core.model.AccountCirculatingStatus
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.requireObject
 import com.github.ajalt.clikt.parameters.options.option

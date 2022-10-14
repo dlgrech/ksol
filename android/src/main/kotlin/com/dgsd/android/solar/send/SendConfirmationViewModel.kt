@@ -9,9 +9,9 @@ import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.extensions.onEach
 import com.dgsd.android.solar.repository.SolanaApiRepository
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.TransactionSignature
-import com.dgsd.ksol.model.TransactionSignatureStatus
+import com.dgsd.ksol.core.model.Commitment
+import com.dgsd.ksol.core.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignatureStatus
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

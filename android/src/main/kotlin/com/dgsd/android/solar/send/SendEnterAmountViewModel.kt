@@ -14,10 +14,10 @@ import com.dgsd.android.solar.extensions.getString
 import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.repository.SolanaApiRepository
-import com.dgsd.ksol.model.Lamports
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.utils.isValidSolAmount
-import com.dgsd.ksol.utils.solToLamports
+import com.dgsd.ksol.core.model.Lamports
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.utils.isValidSolAmount
+import com.dgsd.ksol.core.utils.solToLamports
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull

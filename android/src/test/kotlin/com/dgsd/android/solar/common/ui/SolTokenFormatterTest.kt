@@ -1,6 +1,6 @@
 package com.dgsd.android.solar.common.ui
 
-import com.dgsd.ksol.model.LAMPORTS_IN_SOL
+import com.dgsd.ksol.core.model.LAMPORTS_IN_SOL
 import org.junit.Assert
 import org.junit.Test
 

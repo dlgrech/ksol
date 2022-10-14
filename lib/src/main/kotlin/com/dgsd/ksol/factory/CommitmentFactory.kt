@@ -1,7 +1,7 @@
 package com.dgsd.ksol.factory
 
 import com.dgsd.ksol.jsonrpc.types.CommitmentConfigRequestBody
-import com.dgsd.ksol.model.Commitment
+import com.dgsd.ksol.core.model.Commitment
 
 internal object CommitmentFactory {
 

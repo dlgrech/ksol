@@ -1,7 +1,7 @@
 package com.dgsd.ksol
 
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.Commitment
+import com.dgsd.ksol.core.model.PublicKey
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 

@@ -5,7 +5,7 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
-import com.dgsd.ksol.model.Lamports
+import com.dgsd.ksol.core.model.Lamports
 
 class RequestAmountCoordinator : ViewModel() {
 

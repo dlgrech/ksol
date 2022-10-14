@@ -1,6 +1,6 @@
 package com.dgsd.android.solar.mobilewalletadapter.model
 
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.core.model.Cluster
 
 internal enum class MobileWalletAuthRequestCluster(val clusterName: String) {
   TESTNET("testnet"),

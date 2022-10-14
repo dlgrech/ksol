@@ -18,7 +18,7 @@ import com.dgsd.android.solar.session.model.LockedAppSession
 import com.dgsd.android.solar.session.model.NoActiveWalletSession
 import com.dgsd.android.solar.session.model.Session
 import com.dgsd.android.solar.session.model.WalletSession
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignature
 import com.dgsd.ksol.solpay.SolPay
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn

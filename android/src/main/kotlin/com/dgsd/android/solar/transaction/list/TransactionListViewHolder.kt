@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.R
 import com.dgsd.android.solar.extensions.getColorAttr
 import com.dgsd.android.solar.model.TransactionViewState
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignature
 
 class TransactionListViewHolder private constructor(
   view: View,

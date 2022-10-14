@@ -1,9 +1,9 @@
 package com.dgsd.ksol
 
 import com.dgsd.ksol.collections.BidirectionalMap
-import com.dgsd.ksol.model.Commitment
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.Commitment
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.TransactionSignature
 
 /**
  * Keeps track of the mappings between:

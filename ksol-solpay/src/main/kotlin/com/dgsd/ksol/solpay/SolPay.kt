@@ -1,8 +1,8 @@
 package com.dgsd.ksol.solpay
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.model.Cluster
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.Cluster
+import com.dgsd.ksol.core.model.PublicKey
 import com.dgsd.ksol.solpay.model.*
 import okhttp3.OkHttpClient
 

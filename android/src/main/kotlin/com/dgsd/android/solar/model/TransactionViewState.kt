@@ -1,6 +1,6 @@
 package com.dgsd.android.solar.model
 
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignature
 
 sealed interface TransactionViewState {
 

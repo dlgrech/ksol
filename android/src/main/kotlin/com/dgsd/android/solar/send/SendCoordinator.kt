@@ -5,10 +5,10 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.SimpleMutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
-import com.dgsd.ksol.model.Lamports
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.model.TransactionSignature
-import com.dgsd.ksol.model.asSolAmount
+import com.dgsd.ksol.core.model.Lamports
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.model.TransactionSignature
+import com.dgsd.ksol.core.model.asSolAmount
 import com.dgsd.ksol.solpay.SolPay
 import com.dgsd.ksol.solpay.model.SolPayRequest
 import com.dgsd.ksol.solpay.model.SolPayTransactionRequest

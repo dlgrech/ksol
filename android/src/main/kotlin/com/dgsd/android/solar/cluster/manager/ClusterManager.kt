@@ -1,6 +1,6 @@
 package com.dgsd.android.solar.cluster.manager
 
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.core.model.Cluster
 import kotlinx.coroutines.flow.StateFlow
 
 interface ClusterManager {

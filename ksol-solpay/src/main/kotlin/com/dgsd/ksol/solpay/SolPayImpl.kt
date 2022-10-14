@@ -1,7 +1,7 @@
 package com.dgsd.ksol.solpay
 
 import com.dgsd.ksol.SolanaApi
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 import com.dgsd.ksol.solpay.api.TransactionRequestGetDetailsResponse
 import com.dgsd.ksol.solpay.api.TransactionRequestTransactionDetailsRequest
 import com.dgsd.ksol.solpay.api.TransactionRequestTransactionDetailsResponse

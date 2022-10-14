@@ -1,7 +1,7 @@
 package com.dgsd.android.solar.home
 
 import androidx.annotation.DrawableRes
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PublicKey
 
 data class SendActionSheetItem(
   val displayText: CharSequence,

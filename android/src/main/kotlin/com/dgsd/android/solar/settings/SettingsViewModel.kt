@@ -16,7 +16,7 @@ import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.flow.call
 import com.dgsd.android.solar.session.manager.SessionManager
 import com.dgsd.android.solar.session.model.KeyPairSession
-import com.dgsd.ksol.model.Cluster
+import com.dgsd.ksol.core.model.Cluster
 import com.jakewharton.processphoenix.ProcessPhoenix
 import kotlinx.coroutines.flow.map
 

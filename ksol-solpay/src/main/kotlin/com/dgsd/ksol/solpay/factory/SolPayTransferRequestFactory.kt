@@ -1,7 +1,7 @@
 package com.dgsd.ksol.solpay.factory
 
-import com.dgsd.ksol.model.PublicKey
-import com.dgsd.ksol.utils.isValidSolAmount
+import com.dgsd.ksol.core.model.PublicKey
+import com.dgsd.ksol.core.utils.isValidSolAmount
 import com.dgsd.ksol.solpay.extensions.getPathPortion
 import com.dgsd.ksol.solpay.extensions.getRawQueryParameters
 import com.dgsd.ksol.solpay.extensions.urlDecode

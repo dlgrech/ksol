@@ -3,7 +3,7 @@ package com.dgsd.android.solar.transaction.list
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dgsd.android.solar.model.TransactionViewState
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignature
 
 class TransactionListAdapter(
   private val onTransactionClickedListener: (TransactionSignature) -> Unit,

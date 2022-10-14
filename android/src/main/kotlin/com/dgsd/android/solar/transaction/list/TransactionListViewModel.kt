@@ -12,7 +12,7 @@ import com.dgsd.android.solar.flow.MutableEventFlow
 import com.dgsd.android.solar.flow.asEventFlow
 import com.dgsd.android.solar.model.TransactionOrSignature
 import com.dgsd.android.solar.repository.SolanaApiRepository
-import com.dgsd.ksol.model.TransactionSignature
+import com.dgsd.ksol.core.model.TransactionSignature
 import kotlinx.coroutines.flow.*
 
 class TransactionListViewModel(

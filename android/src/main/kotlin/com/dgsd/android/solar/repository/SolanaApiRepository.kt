@@ -4,7 +4,7 @@ import com.dgsd.android.solar.cache.CacheStrategy
 import com.dgsd.android.solar.common.model.Resource
 import com.dgsd.android.solar.model.LamportsWithTimestamp
 import com.dgsd.android.solar.model.TransactionOrSignature
-import com.dgsd.ksol.model.*
+import com.dgsd.ksol.core.model.*
 import kotlinx.coroutines.flow.Flow
 import java.io.Closeable
 

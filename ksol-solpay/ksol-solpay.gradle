@@ -10,6 +10,9 @@ repositories {
 
 dependencies {
     implementation projects.lib
+    implementation projects.ksolCore
+
+    api libs.okhttp
 
     kapt libs.moshi.codegen
     implementation libs.moshi.moshi
@@ -60,7 +63,7 @@ jacocoTestReport {
 
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: '**/jsonrpc/types/**')
+            fileTree(dir: it, exclude: '**/solpay/api/**')
         }))
     }
 }

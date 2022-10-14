@@ -1,8 +1,7 @@
 package com.dgsd.ksol.keygen
 
-import com.dgsd.ksol.model.KeyPair
-import com.dgsd.ksol.model.PrivateKey
-import com.dgsd.ksol.model.PublicKey
+import com.dgsd.ksol.core.model.PrivateKey
+import com.dgsd.ksol.core.model.PublicKey
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
