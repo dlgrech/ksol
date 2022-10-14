@@ -1,1 +1,1 @@
-./gradlew --quiet ":cli:installDist" && cli/build/install/cli/bin/cli "$@"
+./gradlew --quiet ":ksol-cli:installDist" && ksol-cli/build/install/ksol-cli/bin/ksol-cli "$@"

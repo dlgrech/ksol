@@ -1,8 +1,8 @@
 rootProject.name = "ksol"
 
-include ":cli"
-include ":lib"
+include ":ksol-cli"
 include ":ksol-solpay"
+include ":lib"
 include ":android"
 
 enableFeaturePreview("VERSION_CATALOGS")
