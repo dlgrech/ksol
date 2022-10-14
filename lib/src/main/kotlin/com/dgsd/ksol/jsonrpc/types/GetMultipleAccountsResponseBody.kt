@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetMultipleAccountsResponseBody(
-    @Json(name = "value") val value: List<AccountInfoResponse?>,
+  @Json(name = "value") val value: List<AccountInfoResponse?>,
 )

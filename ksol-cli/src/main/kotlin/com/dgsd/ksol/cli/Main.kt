@@ -9,21 +9,21 @@ import kotlinx.coroutines.supervisorScope
 import kotlin.system.exitProcess
 
 fun main(arguments: Array<String>) {
-    runBlocking {
-        supervisorScope {
-            try {
-                CliCommand()
-                    .subcommands(
-                        RpcCommand.create(),
-                        KeygenCommand.create(),
-                        SendCommand()
-                    )
-                    .main(arguments)
-            } catch (ex: Exception) {
-                ex.printStackTrace()
-            }
-        }
+  runBlocking {
+    supervisorScope {
+      try {
+        CliCommand()
+          .subcommands(
+            RpcCommand.create(),
+            KeygenCommand.create(),
+            SendCommand()
+          )
+          .main(arguments)
+      } catch (ex: Exception) {
+        ex.printStackTrace()
+      }
     }
+  }
 
-    exitProcess(0)
+  exitProcess(0)
 }

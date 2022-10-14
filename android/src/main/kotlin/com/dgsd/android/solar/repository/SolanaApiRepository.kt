@@ -8,7 +8,7 @@ import com.dgsd.ksol.core.model.*
 import kotlinx.coroutines.flow.Flow
 import java.io.Closeable
 
-interface SolanaApiRepository: Closeable {
+interface SolanaApiRepository : Closeable {
 
   fun getBalance(
     cacheStrategy: CacheStrategy = CacheStrategy.CACHE_IF_PRESENT,

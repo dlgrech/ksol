@@ -76,10 +76,12 @@ class RestoreAccountSelectAddressFragment :
     private val onClickListener: (CandidateAccount) -> Unit,
   ) : RecyclerView.ViewHolder(view) {
 
-    private val shimmerSuggestedWalletTitle = view.requireViewById<View>(R.id.shimmer_suggested_wallet)
+    private val shimmerSuggestedWalletTitle =
+      view.requireViewById<View>(R.id.shimmer_suggested_wallet)
     private val shimmerAccountKey = view.requireViewById<View>(R.id.shimmer_account_key)
     private val shimmerAmount = view.requireViewById<View>(R.id.shimmer_amount)
-    private val shimmerUseThisAccountButton = view.requireViewById<View>(R.id.shimmer_use_this_account)
+    private val shimmerUseThisAccountButton =
+      view.requireViewById<View>(R.id.shimmer_use_this_account)
 
     private val suggestedWalletTitle = view.requireViewById<View>(R.id.suggested_wallet)
     private val accountKey = view.requireViewById<TextView>(R.id.account_key)

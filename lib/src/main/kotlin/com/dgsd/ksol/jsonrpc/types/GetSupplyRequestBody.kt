@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetSupplyRequestBody(
-    @Json(name = "commitment") val commitment: String,
-    @Json(name = "excludeNonCirculatingAccountsList") val excludeNonCirculatingAccountsList: Boolean
+  @Json(name = "commitment") val commitment: String,
+  @Json(name = "excludeNonCirculatingAccountsList") val excludeNonCirculatingAccountsList: Boolean
 )

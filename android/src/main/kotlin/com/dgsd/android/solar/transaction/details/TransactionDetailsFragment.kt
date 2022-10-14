@@ -196,9 +196,9 @@ class TransactionDetailsFragment : Fragment(R.layout.frag_transaction_details) {
 
       arrayOf(
         writerBadge,
-          signerBadge,
-          feePayerBadge,
-          programBadge,
+        signerBadge,
+        feePayerBadge,
+        programBadge,
       ).forEach {
         it.roundedCorners(it.context.dpToPx(8))
       }

@@ -5,7 +5,7 @@ package com.dgsd.android.solar.common.model
  */
 data class SensitiveString(val sensitiveValue: String) {
 
-    override fun toString(): String {
-        return "[redacted]"
-    }
+  override fun toString(): String {
+    return "[redacted]"
+  }
 }

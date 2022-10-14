@@ -17,7 +17,7 @@ class GenerateSeedCommand : CliktCommand(
     val keyPair = KeyFactory.createKeyPairFromSeed(seed)
     echo(
       "publicKey: ${keyPair.publicKey.toBase58String()} " +
-          "/ privateKey: ${keyPair.privateKey.toBase58String()}"
+        "/ privateKey: ${keyPair.privateKey.toBase58String()}"
     )
   }
 }

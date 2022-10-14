@@ -6,15 +6,15 @@ import com.github.ajalt.clikt.core.requireObject
 import kotlinx.coroutines.runBlocking
 
 class GetAccountInfoCommand() : CliktCommand(
-    name = "getAccountInfo"
+  name = "getAccountInfo"
 ) {
 
-    private val api by requireObject<SolanaApi>()
+  private val api by requireObject<SolanaApi>()
 
-    private val account by accountArgument()
-    private val commitment by commitmentOption()
+  private val account by accountArgument()
+  private val commitment by commitmentOption()
 
-    override fun run() = runBlocking {
-        echo(api.getAccountInfo(account, commitment))
-    }
+  override fun run() = runBlocking {
+    echo(api.getAccountInfo(account, commitment))
+  }
 }

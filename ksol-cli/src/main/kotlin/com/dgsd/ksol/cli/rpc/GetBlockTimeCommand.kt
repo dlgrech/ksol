@@ -8,16 +8,16 @@ import com.github.ajalt.clikt.parameters.types.long
 import kotlinx.coroutines.runBlocking
 
 class GetBlockTimeCommand() : CliktCommand(
-    name = "getBlockTime"
+  name = "getBlockTime"
 ) {
 
-    private val api by requireObject<SolanaApi>()
+  private val api by requireObject<SolanaApi>()
 
-    private val slotNumber by argument(
-        name = "SLOT_NUMBER"
-    ).long()
+  private val slotNumber by argument(
+    name = "SLOT_NUMBER"
+  ).long()
 
-    override fun run() = runBlocking {
-        echo(api.getBlockTime(slotNumber))
-    }
+  override fun run() = runBlocking {
+    echo(api.getBlockTime(slotNumber))
+  }
 }

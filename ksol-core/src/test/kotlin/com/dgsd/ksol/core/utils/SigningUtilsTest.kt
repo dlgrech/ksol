@@ -10,7 +10,7 @@ class SigningUtilsTest {
 
 
   @Test
-  fun isValidSignature_whenValid_returnsTrue()  {
+  fun isValidSignature_whenValid_returnsTrue() {
     val keyPair = KeyPair(
       publicKey = PublicKey.fromBase58("HYvJjCgo4yoyxJD8oanc18vsi4aqEMwtz2wkrj26kH7e"),
       privateKey = PrivateKey.fromBase58(

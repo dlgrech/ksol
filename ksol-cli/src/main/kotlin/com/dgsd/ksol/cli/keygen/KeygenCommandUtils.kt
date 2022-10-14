@@ -10,16 +10,16 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.option
 
 fun CliktCommand.passPhraseOption(): OptionDelegate<String> {
-    return option("--passphrase").default("")
+  return option("--passphrase").default("")
 }
 
 fun CliktCommand.mnemonicArgument(): ArgumentDelegate<List<String>> {
-    return argument(
-        name = "MNEMONIC",
-        help = "12 or 24 words used to generate a keypair"
-    ).multiple(required = true).validate {
-        kotlin.require(it.size == 12 || it.size == 24) {
-            "MMnemonic must be 12 or 24 words"
-        }
+  return argument(
+    name = "MNEMONIC",
+    help = "12 or 24 words used to generate a keypair"
+  ).multiple(required = true).validate {
+    kotlin.require(it.size == 12 || it.size == 24) {
+      "MMnemonic must be 12 or 24 words"
     }
+  }
 }

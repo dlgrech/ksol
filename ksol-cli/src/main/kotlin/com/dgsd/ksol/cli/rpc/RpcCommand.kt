@@ -10,45 +10,47 @@ import java.time.Duration
 private val NETWORKING_TIMEOUT = Duration.ofSeconds(60L)
 
 class RpcCommand private constructor() : CliktCommand(
-    name = "rpc",
-    help = "Execute Solana JSON RPC methods"
+  name = "rpc",
+  help = "Execute Solana JSON RPC methods"
 ) {
 
-    private val cluster by clusterOption()
+  private val cluster by clusterOption()
 
-    override fun run() {
-        val api = SolanaApi(cluster, OkHttpClient.Builder()
-            .connectTimeout(NETWORKING_TIMEOUT)
-            .readTimeout(NETWORKING_TIMEOUT)
-            .build())
+  override fun run() {
+    val api = SolanaApi(
+      cluster, OkHttpClient.Builder()
+        .connectTimeout(NETWORKING_TIMEOUT)
+        .readTimeout(NETWORKING_TIMEOUT)
+        .build()
+    )
 
-        currentContext.obj = api
+    currentContext.obj = api
+  }
+
+  companion object {
+
+    fun create(): RpcCommand {
+      return RpcCommand()
+        .subcommands(
+          AccountSubscribeCommand(),
+          GetAccountInfoCommand(),
+          GetBalanceCommand(),
+          GetBlockHeightCommand(),
+          GetBlockTimeCommand(),
+          GetLargestAccountsCommand(),
+          GetMinimumBalanceForRentExemptionCommand(),
+          GetMultipleAccountsCommand(),
+          GetProgramAccountsCommand(),
+          GetRecentBlockhashCommand(),
+          GetSignaturesForAddressCommand(),
+          GetSignatureStatusesCommand(),
+          GetSupplyCommand(),
+          GetTransactionCommand(),
+          GetTransactionCountCommand(),
+          RequestAirdropCommand(),
+          SendTransactionCommand(),
+          SignatureSubscribeCommand(),
+        )
     }
-
-    companion object {
-
-        fun create(): RpcCommand {
-            return RpcCommand()
-                .subcommands(
-                    AccountSubscribeCommand(),
-                    GetAccountInfoCommand(),
-                    GetBalanceCommand(),
-                    GetBlockHeightCommand(),
-                    GetBlockTimeCommand(),
-                    GetLargestAccountsCommand(),
-                    GetMinimumBalanceForRentExemptionCommand(),
-                    GetMultipleAccountsCommand(),
-                    GetProgramAccountsCommand(),
-                    GetRecentBlockhashCommand(),
-                    GetSignaturesForAddressCommand(),
-                    GetSignatureStatusesCommand(),
-                    GetSupplyCommand(),
-                    GetTransactionCommand(),
-                    GetTransactionCountCommand(),
-                    RequestAirdropCommand(),
-                    SendTransactionCommand(),
-                    SignatureSubscribeCommand(),
-                )
-        }
-    }
+  }
 }

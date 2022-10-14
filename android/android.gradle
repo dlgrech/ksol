@@ -57,7 +57,7 @@ dependencies {
     implementation libs.coil.svg
     implementation libs.process.phoenix
     implementation libs.solana.digital.assets.link
-    implementation (libs.solana.mobile.wallet.adapter) {
+    implementation(libs.solana.mobile.wallet.adapter) {
         exclude group: 'org.slf4j', module: 'slf4j-android'
     }
 

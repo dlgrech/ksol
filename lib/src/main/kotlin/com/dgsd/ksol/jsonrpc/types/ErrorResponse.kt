@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class ErrorResponse(
-    @Json(name = "code") val code: Int,
-    @Json(name = "message") val message: String,
+  @Json(name = "code") val code: Int,
+  @Json(name = "message") val message: String,
 )

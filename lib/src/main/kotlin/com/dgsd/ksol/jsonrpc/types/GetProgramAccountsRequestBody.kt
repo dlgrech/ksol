@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetProgramAccountsRequestBody(
-    @Json(name = "commitment") val commitment: String,
-    @Json(name = "encoding") val encoding: String,
-    @Json(name = "withContext") val withContext: Boolean,
+  @Json(name = "commitment") val commitment: String,
+  @Json(name = "encoding") val encoding: String,
+  @Json(name = "withContext") val withContext: Boolean,
 )

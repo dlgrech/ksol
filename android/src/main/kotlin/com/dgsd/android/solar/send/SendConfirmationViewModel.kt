@@ -42,7 +42,7 @@ class SendConfirmationViewModel(
   fun onStart() {
     subscriptionJob = onEach(subscriptionHandle.observe()) { update ->
       takingTooLongJob?.cancel()
-      
+
       val isFinalized =
         (update as? TransactionSignatureStatus.Confirmed)?.commitment == Commitment.CONFIRMED
       _statusText.value =

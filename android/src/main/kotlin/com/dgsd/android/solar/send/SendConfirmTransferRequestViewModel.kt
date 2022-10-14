@@ -23,8 +23,8 @@ import com.dgsd.android.solar.session.model.KeyPairSession
 import com.dgsd.ksol.core.model.KeyPair
 import com.dgsd.ksol.core.model.Lamports
 import com.dgsd.ksol.core.model.TransactionSignature
-import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import com.dgsd.ksol.core.utils.solToLamports
+import com.dgsd.ksol.solpay.model.SolPayTransferRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged

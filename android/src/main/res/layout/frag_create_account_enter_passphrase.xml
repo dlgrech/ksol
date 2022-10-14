@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             style="@style/SolarToolbar"
             app:navigationIcon="@drawable/ic_baseline_close_24"
-            app:title="@string/create_account_enter_passphrase_screen_title"/>
+            app:title="@string/create_account_enter_passphrase_screen_title" />
 
         <Space
             android:layout_width="match_parent"

@@ -25,56 +25,56 @@ import org.koin.dsl.onClose
 
 internal object SessionScopedModule {
 
-    fun create(): Module {
-        return module {
-            scope<Session> {
-                scopedWithClose<SolanaApi> {
-                    SolanaApi(
-                        cluster = get<ClusterManager>().activeCluster.value,
-                        okHttpClient = get()
-                    )
-                }
-
-                scopedWithClose<SolPay> {
-                    SolPay(
-                        okHttpClient = get(),
-                        solanaApi = getScoped(),
-                    )
-                }
-
-                scopedWithClose<BalanceCache> {
-                    BalanceMemoryCache()
-                }
-
-                scopedWithClose<TransactionCache> {
-                    TransactionInMemoryCache()
-                }
-
-                scopedWithClose<TransactionSignaturesCache> {
-                    TransactionSignaturesInMemoryCache()
-                }
-
-                scopedWithClose<SolanaApiRepository> {
-                    SolanaApiRepositoryImpl(
-                        coroutineScope = getScoped(),
-                        session = getScoped(),
-                        solanaApi = getScoped(),
-                        balanceCache = getScoped(),
-                        transactionCache = getScoped(),
-                        transactionSignaturesCache = getScoped(),
-                    )
-                }
-
-                scoped<CoroutineScope> {
-                    GlobalScope + Dispatchers.Main.immediate
-                } onClose { it?.cancel() }
-
-                scopedOf(::TransactionViewStateFactory)
-
-                scopedWithClose {
-                    get<SessionManager>().activeSession.value as WalletSession
-                }
-            }
+  fun create(): Module {
+    return module {
+      scope<Session> {
+        scopedWithClose<SolanaApi> {
+          SolanaApi(
+            cluster = get<ClusterManager>().activeCluster.value,
+            okHttpClient = get()
+          )
         }
+
+        scopedWithClose<SolPay> {
+          SolPay(
+            okHttpClient = get(),
+            solanaApi = getScoped(),
+          )
+        }
+
+        scopedWithClose<BalanceCache> {
+          BalanceMemoryCache()
+        }
+
+        scopedWithClose<TransactionCache> {
+          TransactionInMemoryCache()
+        }
+
+        scopedWithClose<TransactionSignaturesCache> {
+          TransactionSignaturesInMemoryCache()
+        }
+
+        scopedWithClose<SolanaApiRepository> {
+          SolanaApiRepositoryImpl(
+            coroutineScope = getScoped(),
+            session = getScoped(),
+            solanaApi = getScoped(),
+            balanceCache = getScoped(),
+            transactionCache = getScoped(),
+            transactionSignaturesCache = getScoped(),
+          )
+        }
+
+        scoped<CoroutineScope> {
+          GlobalScope + Dispatchers.Main.immediate
+        } onClose { it?.cancel() }
+
+        scopedOf(::TransactionViewStateFactory)
+
+        scopedWithClose {
+          get<SessionManager>().activeSession.value as WalletSession
+        }
+      }
     }
+  }
 }

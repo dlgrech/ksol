@@ -1,5 +1,5 @@
-
 <resources>
+
     <style name="Theme.Solar" parent="Base.Theme.Solar">
         <item name="android:windowBackground">@color/md_theme_dark_background</item>
 

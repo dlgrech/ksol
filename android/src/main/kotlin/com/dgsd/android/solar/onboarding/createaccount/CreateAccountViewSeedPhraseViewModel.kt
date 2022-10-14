@@ -58,6 +58,6 @@ class CreateAccountViewSeedPhraseViewModel(
   fun onCopyButtonClicked() {
     val seedPhrase = checkNotNull(seedPhrase.value)
     systemClipboard.copy(seedPhrase.joinToString(" "))
-      _showSeedPhraseCopiedSuccess.call()
+    _showSeedPhraseCopiedSuccess.call()
   }
 }

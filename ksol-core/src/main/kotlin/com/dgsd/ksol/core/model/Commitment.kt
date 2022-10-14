@@ -5,9 +5,9 @@ package com.dgsd.ksol.core.model
  */
 enum class Commitment {
 
-    FINALIZED,
+  FINALIZED,
 
-    CONFIRMED,
+  CONFIRMED,
 
-    PROCESSED,
+  PROCESSED,
 }

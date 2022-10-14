@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface ClusterManager {
 
-    val activeCluster: StateFlow<Cluster>
+  val activeCluster: StateFlow<Cluster>
 
-    fun setCluster(cluster: Cluster)
+  fun setCluster(cluster: Cluster)
 }

@@ -100,79 +100,79 @@ fun <K, V> Flow<Resource<V>>.withCache(
   key: K,
   cache: Cache<K, V>
 ): Flow<Resource<V>> {
-    return onEachSuccess { cache.set(key, it) }
+  return onEachSuccess { cache.set(key, it) }
 }
 
 fun <K, V> executeWithCache(
-    cacheKey: K,
-    cacheStrategy: CacheStrategy,
-    cache: Cache<K, V>,
-    networkFlowProvider: () -> Flow<Resource<V>>
+  cacheKey: K,
+  cacheStrategy: CacheStrategy,
+  cache: Cache<K, V>,
+  networkFlowProvider: () -> Flow<Resource<V>>
 ): Flow<Resource<V>> {
-    return when (cacheStrategy) {
-        CacheStrategy.CACHE_ONLY -> {
-            cache.asResourceFlow(cacheKey)
-        }
-
-        CacheStrategy.NETWORK_ONLY -> {
-            networkFlowProvider.invoke().withCache(cacheKey, cache)
-        }
-
-        CacheStrategy.CACHE_IF_PRESENT -> {
-            cache.get(cacheKey).flatMapLatest { cacheEntry ->
-                if (cacheEntry != null) {
-                    flowOf(Resource.Success(cacheEntry.cacheData))
-                } else {
-                    executeWithCache(
-                        cacheKey,
-                        CacheStrategy.NETWORK_ONLY,
-                        cache,
-                        networkFlowProvider
-                    )
-                }
-            }.onStart { emit(Resource.Loading(null)) }
-        }
-
-        CacheStrategy.CACHE_AND_NETWORK -> {
-            val networkFlow = executeWithCache(
-                cacheKey,
-                CacheStrategy.NETWORK_ONLY,
-                cache,
-                networkFlowProvider
-            )
-
-            val cacheFlow = cache
-                .get(cacheKey)
-                .mapNotNull { cacheEntry ->
-                    if (cacheEntry == null) {
-                        null
-                    } else {
-                        Resource.Success(cacheEntry.cacheData) as Resource<V>
-                    }
-                }.onStart { emit(Resource.Loading(null)) }
-
-            return combine(cacheFlow, networkFlow) { cacheResource, networkResource ->
-                when (networkResource) {
-                    is Resource.Error<*> -> {
-                        if (networkResource.data != null) {
-                            networkResource
-                        } else {
-                            Resource.Error(networkResource.error, cacheResource.dataOrNull())
-                        }
-                    }
-                    is Resource.Success<*> -> {
-                        cacheResource
-                    }
-                    is Resource.Loading<*> -> {
-                        // If we have no data with the Loading state, use our cache
-                        if (networkResource.data != null) {
-                            networkResource
-                        } else {
-                            cacheResource
-                        }
-                    }
-                }
-            }
-        }
+  return when (cacheStrategy) {
+    CacheStrategy.CACHE_ONLY -> {
+      cache.asResourceFlow(cacheKey)
     }
+
+    CacheStrategy.NETWORK_ONLY -> {
+      networkFlowProvider.invoke().withCache(cacheKey, cache)
+    }
+
+    CacheStrategy.CACHE_IF_PRESENT -> {
+      cache.get(cacheKey).flatMapLatest { cacheEntry ->
+        if (cacheEntry != null) {
+          flowOf(Resource.Success(cacheEntry.cacheData))
+        } else {
+          executeWithCache(
+            cacheKey,
+            CacheStrategy.NETWORK_ONLY,
+            cache,
+            networkFlowProvider
+          )
+        }
+      }.onStart { emit(Resource.Loading(null)) }
+    }
+
+    CacheStrategy.CACHE_AND_NETWORK -> {
+      val networkFlow = executeWithCache(
+        cacheKey,
+        CacheStrategy.NETWORK_ONLY,
+        cache,
+        networkFlowProvider
+      )
+
+      val cacheFlow = cache
+        .get(cacheKey)
+        .mapNotNull { cacheEntry ->
+          if (cacheEntry == null) {
+            null
+          } else {
+            Resource.Success(cacheEntry.cacheData) as Resource<V>
+          }
+        }.onStart { emit(Resource.Loading(null)) }
+
+      return combine(cacheFlow, networkFlow) { cacheResource, networkResource ->
+        when (networkResource) {
+          is Resource.Error<*> -> {
+            if (networkResource.data != null) {
+              networkResource
+            } else {
+              Resource.Error(networkResource.error, cacheResource.dataOrNull())
+            }
+          }
+          is Resource.Success<*> -> {
+            cacheResource
+          }
+          is Resource.Loading<*> -> {
+            // If we have no data with the Loading state, use our cache
+            if (networkResource.data != null) {
+              networkResource
+            } else {
+              cacheResource
+            }
+          }
+        }
+      }
+    }
+  }
 }

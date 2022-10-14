@@ -5,6 +5,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetTransactionRequestBody(
-    @Json(name = "commitment") val commitment: String,
-    @Json(name = "encoding") val encoding: String
+  @Json(name = "commitment") val commitment: String,
+  @Json(name = "encoding") val encoding: String
 )

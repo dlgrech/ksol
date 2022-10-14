@@ -9,7 +9,7 @@ sealed interface CandidateAccount {
 
   data class Empty(
     override val accountIndex: Int,
-  ): CandidateAccount
+  ) : CandidateAccount
 
   data class Loading(
     override val accountIndex: Int,

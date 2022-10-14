@@ -50,7 +50,8 @@ class PublicKeyFormatter(
   }
 
   companion object {
-    private val TESTNET_FAUCET = PublicKey.fromBase58("4ETf86tK7b4W72f27kNLJLgRWi9UfJjgH4koHGUXMFtn")
+    private val TESTNET_FAUCET =
+      PublicKey.fromBase58("4ETf86tK7b4W72f27kNLJLgRWi9UfJjgH4koHGUXMFtn")
     private val DEVNET_FAUCET = PublicKey.fromBase58("9B5XszUGdMaxCZ7uSQhPzdks5ZQSmWxrmzCSvtJ6Ns6g")
   }
 }

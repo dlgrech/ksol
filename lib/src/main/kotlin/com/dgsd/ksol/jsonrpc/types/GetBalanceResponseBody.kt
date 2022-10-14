@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetBalanceResponseBody(
-    @Json(name = "value") val value: Long,
+  @Json(name = "value") val value: Long,
 )

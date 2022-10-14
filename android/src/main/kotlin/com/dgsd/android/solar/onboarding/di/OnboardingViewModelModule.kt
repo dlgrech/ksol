@@ -10,8 +10,8 @@ import com.dgsd.android.solar.onboarding.createaccount.CreateAccountCoordinator
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountEnterPassphraseViewModel
 import com.dgsd.android.solar.onboarding.createaccount.CreateAccountViewSeedPhraseViewModel
 import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountCoordinator
-import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountSelectAddressViewModel
 import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountFromSeedPhraseViewModel
+import com.dgsd.android.solar.onboarding.restoreaccount.RestoreAccountSelectAddressViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
@@ -19,28 +19,28 @@ import org.koin.dsl.module
 
 object OnboardingViewModelModule {
 
-    fun create(): Module {
-        return module {
-            viewModelOf(::OnboardingCoordinator)
+  fun create(): Module {
+    return module {
+      viewModelOf(::OnboardingCoordinator)
 
-            viewModelOf(::CreateAccountCoordinator)
-            viewModelOf(::CreateAccountEnterPassphraseViewModel)
-            viewModelOf(::CreateAccountViewSeedPhraseViewModel)
-            viewModelOf(::CreateAccountConfirmationViewModel)
+      viewModelOf(::CreateAccountCoordinator)
+      viewModelOf(::CreateAccountEnterPassphraseViewModel)
+      viewModelOf(::CreateAccountViewSeedPhraseViewModel)
+      viewModelOf(::CreateAccountConfirmationViewModel)
 
-            viewModelOf(::RestoreAccountCoordinator)
-            viewModelOf(::RestoreAccountFromSeedPhraseViewModel)
-            viewModel {
-                RestoreAccountSelectAddressViewModel(
-                    errorMessageFactory = get(),
-                    solanaApi = getScoped(),
-                    seedInfo = get(),
-                )
-            }
+      viewModelOf(::RestoreAccountCoordinator)
+      viewModelOf(::RestoreAccountFromSeedPhraseViewModel)
+      viewModel {
+        RestoreAccountSelectAddressViewModel(
+          errorMessageFactory = get(),
+          solanaApi = getScoped(),
+          seedInfo = get(),
+        )
+      }
 
-            viewModelOf(::SetupAppLockCoordinator)
-            viewModelOf(::SetupAppLockEnterPinViewModel)
-            viewModelOf(::SetupAppLockConfirmPinViewModel)
-        }
+      viewModelOf(::SetupAppLockCoordinator)
+      viewModelOf(::SetupAppLockEnterPinViewModel)
+      viewModelOf(::SetupAppLockConfirmPinViewModel)
     }
+  }
 }

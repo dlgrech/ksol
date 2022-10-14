@@ -17,29 +17,29 @@ import java.io.Closeable
 /**
  * Returns an object of type [T] scoped to the currently active [Session]
  */
-inline fun <reified T: Any> Scope.getScoped(
-    qualifier: Qualifier? = null,
-    noinline parameters: ParametersDefinition? = null
+inline fun <reified T : Any> Scope.getScoped(
+  qualifier: Qualifier? = null,
+  noinline parameters: ParametersDefinition? = null
 ): T {
-    return getCurrentSessionScope(get()).get(qualifier, parameters)
+  return getCurrentSessionScope(get()).get(qualifier, parameters)
 }
 
 inline fun <reified T> ScopeDSL.scopedWithClose(
-    qualifier: Qualifier? = null,
-    noinline definition: Definition<T>
+  qualifier: Qualifier? = null,
+  noinline definition: Definition<T>
 ): KoinDefinition<T> {
-    return scoped(qualifier, definition) onClose { if (it is Closeable) it.close() }
+  return scoped(qualifier, definition) onClose { if (it is Closeable) it.close() }
 }
 
 inline fun <reified T : Any> ComponentCallbacks.injectScoped(
-    qualifier: Qualifier? = null,
-    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
-    noinline parameters: ParametersDefinition? = null,
+  qualifier: Qualifier? = null,
+  mode: LazyThreadSafetyMode = LazyThreadSafetyMode.SYNCHRONIZED,
+  noinline parameters: ParametersDefinition? = null,
 ) = lazy(mode) {
-    getCurrentSessionScope(get()).get<T>(qualifier, parameters)
+  getCurrentSessionScope(get()).get<T>(qualifier, parameters)
 }
 
 fun getCurrentSessionScope(sessionManager: SessionManager): Scope {
-    val currentSession = sessionManager.activeSession.value
-    return getKoin().getOrCreateScope<Session>(currentSession.sessionId)
+  val currentSession = sessionManager.activeSession.value
+  return getKoin().getOrCreateScope<Session>(currentSession.sessionId)
 }

@@ -18,56 +18,56 @@ import org.koin.dsl.module
 
 internal object ViewModelModule {
 
-    fun create(): Module {
-        return module {
-            viewModelOf(::SettingsViewModel)
-            viewModelOf(::AppEntryLockScreenViewModel)
+  fun create(): Module {
+    return module {
+      viewModelOf(::SettingsViewModel)
+      viewModelOf(::AppEntryLockScreenViewModel)
 
-            viewModel {
-                AppCoordinator(
-                    application = get(),
-                    sessionManager = get(),
-                    appLockManager = get(),
-                    scenarioFactory = get(),
-                    solPayLazy = lazy { getScoped() }
-                )
-            }
+      viewModel {
+        AppCoordinator(
+          application = get(),
+          sessionManager = get(),
+          appLockManager = get(),
+          scenarioFactory = get(),
+          solPayLazy = lazy { getScoped() }
+        )
+      }
 
-            viewModel {
-                TransactionListViewModel(
-                    errorMessageFactory = get(),
-                    solanaApiRepository = getScoped(),
-                    transactionViewStateFactory = getScoped(),
-                )
-            }
-            viewModel {
-                TransactionDetailsViewModel(
-                    session = getScoped(),
-                    application = get(),
-                    publicKeyFormatter = get(),
-                    errorMessageFactory = get(),
-                    solanaApiRepository = getScoped(),
-                    systemClipboard = get(),
-                    transactionViewStateFactory = getScoped(),
-                    transactionSignature = get(),
-                )
-            }
-            viewModel {
-                HomeViewModel(
-                    application = get(),
-                    systemClipboard = get(),
-                    errorMessageFactory = get(),
-                    publicKeyFormatter = get(),
-                    transactionViewStateFactory = getScoped(),
-                    solanaApiRepository = getScoped(),
-                    solPay = getScoped(),
-                )
-            }
+      viewModel {
+        TransactionListViewModel(
+          errorMessageFactory = get(),
+          solanaApiRepository = getScoped(),
+          transactionViewStateFactory = getScoped(),
+        )
+      }
+      viewModel {
+        TransactionDetailsViewModel(
+          session = getScoped(),
+          application = get(),
+          publicKeyFormatter = get(),
+          errorMessageFactory = get(),
+          solanaApiRepository = getScoped(),
+          systemClipboard = get(),
+          transactionViewStateFactory = getScoped(),
+          transactionSignature = get(),
+        )
+      }
+      viewModel {
+        HomeViewModel(
+          application = get(),
+          systemClipboard = get(),
+          errorMessageFactory = get(),
+          publicKeyFormatter = get(),
+          transactionViewStateFactory = getScoped(),
+          solanaApiRepository = getScoped(),
+          solPay = getScoped(),
+        )
+      }
 
-            includes(OnboardingViewModelModule.create())
-            includes(ReceiveViewModelModule.create())
-            includes(SendViewModelModule.create())
-            includes(MobileWalletAdapterViewModelModule.create())
-        }
+      includes(OnboardingViewModelModule.create())
+      includes(ReceiveViewModelModule.create())
+      includes(SendViewModelModule.create())
+      includes(MobileWalletAdapterViewModelModule.create())
     }
+  }
 }

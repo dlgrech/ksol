@@ -5,8 +5,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetSignaturesForAddressRequestBody(
-    @Json(name = "commitment") val commitment: String,
-    @Json(name = "limit") val limit: Int,
-    @Json(name = "before") val beforeTransactionSignature: String?,
-    @Json(name = "until") val untilTransactionSignature: String?,
+  @Json(name = "commitment") val commitment: String,
+  @Json(name = "limit") val limit: Int,
+  @Json(name = "before") val beforeTransactionSignature: String?,
+  @Json(name = "until") val untilTransactionSignature: String?,
 )

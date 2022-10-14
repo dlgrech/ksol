@@ -6,14 +6,14 @@ import com.github.ajalt.clikt.core.requireObject
 import kotlinx.coroutines.runBlocking
 
 class GetSupplyCommand() : CliktCommand(
-    name = "getSupply"
+  name = "getSupply"
 ) {
 
-    private val api by requireObject<SolanaApi>()
+  private val api by requireObject<SolanaApi>()
 
-    private val commitment by commitmentOption()
+  private val commitment by commitmentOption()
 
-    override fun run() = runBlocking {
-        echo(api.getSupply(commitment))
-    }
+  override fun run() = runBlocking {
+    echo(api.getSupply(commitment))
+  }
 }

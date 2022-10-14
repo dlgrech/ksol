@@ -36,7 +36,7 @@ class TransactionListFragment : Fragment(R.layout.frag_transaction_list) {
     }
 
     val adapter = TransactionListAdapter(
-      onTransactionClickedListener =  { viewModel.onTransactionClicked(it) },
+      onTransactionClickedListener = { viewModel.onTransactionClicked(it) },
       onLoadMoreClickedListener = { viewModel.loadNextPage() }
     )
 

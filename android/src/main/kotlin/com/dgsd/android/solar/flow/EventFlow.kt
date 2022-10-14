@@ -14,33 +14,33 @@ typealias SimpleEventFlow = EventFlow<Unit>
 typealias SimpleMutableEventFlow = MutableEventFlow<Unit>
 
 fun SimpleMutableEventFlow(): SimpleMutableEventFlow {
-    return MutableEventFlow()
+  return MutableEventFlow()
 }
 
 fun SimpleMutableEventFlow.call() {
-    tryEmit(Unit)
+  tryEmit(Unit)
 }
 
 @Suppress("FunctionName")
 fun <T> MutableEventFlow(): MutableEventFlow<T> {
-    return MutableSharedFlow(
-        replay = 0,
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.SUSPEND
-    )
+  return MutableSharedFlow(
+    replay = 0,
+    extraBufferCapacity = 1,
+    onBufferOverflow = BufferOverflow.SUSPEND
+  )
 }
 
 fun <T> MutableEventFlow<T>.asEventFlow(): EventFlow<T> {
-    return this
+  return this
 }
 
 fun <T> Flow<T>.asEventFlow(scope: CoroutineScope): EventFlow<T> {
-    val source = this
-    val event = MutableEventFlow<T>()
-    scope.launch {
-        source.collect {
-            event.emit(it)
-        }
+  val source = this
+  val event = MutableEventFlow<T>()
+  scope.launch {
+    source.collect {
+      event.emit(it)
     }
-    return event
+  }
+  return event
 }

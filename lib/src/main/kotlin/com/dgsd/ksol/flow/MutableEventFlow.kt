@@ -14,9 +14,9 @@ internal typealias MutableEventFlow<T> = MutableSharedFlow<T>
  * Factory for creating [MutableEventFlow] instances
  */
 internal fun <T> MutableEventFlow(): MutableEventFlow<T> {
-    return MutableSharedFlow(
-        replay = 0,
-        extraBufferCapacity = 1,
-        onBufferOverflow = BufferOverflow.SUSPEND
-    )
+  return MutableSharedFlow(
+    replay = 0,
+    extraBufferCapacity = 1,
+    onBufferOverflow = BufferOverflow.SUSPEND
+  )
 }

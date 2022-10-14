@@ -5,5 +5,5 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 internal data class GetAccountInfoResponseBody(
-    @Json(name = "value") val value: AccountInfoResponse?,
+  @Json(name = "value") val value: AccountInfoResponse?,
 )

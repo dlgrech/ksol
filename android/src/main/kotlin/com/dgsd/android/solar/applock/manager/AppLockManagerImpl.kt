@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.dgsd.android.solar.common.model.SensitiveString
 import java.time.Clock
-import java.time.Duration
 import java.util.concurrent.TimeUnit
 
 private const val PREF_CODE_APP_LOCK_CODE = "app_lock_code"

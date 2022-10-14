@@ -77,7 +77,7 @@ class RestoreAccountFromSeedPhraseViewModel(
           throw UserFacingException(application.getString(R.string.error_invalid_seed_phrase_length))
         } else {
           val validWords = KeyFactory.getValidMnemonicWords().toSet()
-          val invalidWords = seedPhrase.filter { it !in  validWords}
+          val invalidWords = seedPhrase.filter { it !in validWords }
 
           if (invalidWords.isEmpty()) {
             val passPhrase = inputtedPassword.value

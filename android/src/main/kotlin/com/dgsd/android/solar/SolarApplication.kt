@@ -11,25 +11,25 @@ import org.koin.core.context.startKoin
 
 class SolarApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        startKoin {
-            if (BuildConfig.DEBUG) {
-                androidLogger()
-            }
+    startKoin {
+      if (BuildConfig.DEBUG) {
+        androidLogger()
+      }
 
-            androidContext(this@SolarApplication)
+      androidContext(this@SolarApplication)
 
-            modules(
-                AppModule.create(),
-                SessionScopedModule.create(),
-                ViewModelModule.create(),
-            )
-        }
-
-        if (BuildConfig.DEBUG) {
-            StrictMode.enableDefaults()
-        }
+      modules(
+        AppModule.create(),
+        SessionScopedModule.create(),
+        ViewModelModule.create(),
+      )
     }
+
+    if (BuildConfig.DEBUG) {
+      StrictMode.enableDefaults()
+    }
+  }
 }

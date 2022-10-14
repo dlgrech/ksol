@@ -14,36 +14,36 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RestoreAccountContainerFragment : Fragment(R.layout.view_fragment_container) {
 
-    private val onboardingCoordinator by parentViewModel<OnboardingCoordinator>()
-    private val coordinator by viewModel<RestoreAccountCoordinator>()
+  private val onboardingCoordinator by parentViewModel<OnboardingCoordinator>()
+  private val coordinator by viewModel<RestoreAccountCoordinator>()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
 
-        onEach(coordinator.destination, ::onDestinationChanged)
+    onEach(coordinator.destination, ::onDestinationChanged)
 
-        onEach(coordinator.continueWithFlow) { (seedInfo, selectedWallet) ->
-            onboardingCoordinator.navigateToSetupAppLock(seedInfo, selectedWallet)
-        }
-
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            coordinator.onCreate()
-        }
+    onEach(coordinator.continueWithFlow) { (seedInfo, selectedWallet) ->
+      onboardingCoordinator.navigateToSetupAppLock(seedInfo, selectedWallet)
     }
 
-    private fun onDestinationChanged(destination: Destination) {
-        val fragment = when (destination) {
-            Destination.EnterSeedPhrase -> RestoreAccountFromSeedPhraseFragment()
-            Destination.SelectAccount -> RestoreAccountSelectAddressFragment()
-        }
+    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+      coordinator.onCreate()
+    }
+  }
 
-        childFragmentManager.navigate(R.id.fragment_container, fragment)
+  private fun onDestinationChanged(destination: Destination) {
+    val fragment = when (destination) {
+      Destination.EnterSeedPhrase -> RestoreAccountFromSeedPhraseFragment()
+      Destination.SelectAccount -> RestoreAccountSelectAddressFragment()
     }
 
-    companion object {
+    childFragmentManager.navigate(R.id.fragment_container, fragment)
+  }
 
-        fun newInstance(): RestoreAccountContainerFragment {
-            return RestoreAccountContainerFragment()
-        }
+  companion object {
+
+    fun newInstance(): RestoreAccountContainerFragment {
+      return RestoreAccountContainerFragment()
     }
+  }
 }
