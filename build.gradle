@@ -17,3 +17,20 @@ allprojects {
         mavenCentral()
     }
 }
+
+configure(subprojects) { project ->
+    repositories {
+        mavenCentral()
+    }
+
+    if (project.name != "android") {
+        apply plugin: 'org.jetbrains.kotlin.jvm'
+
+        if (project.name != "ksol-cli") {
+            apply plugin: 'org.jetbrains.dokka'
+            apply from: "${rootProject.projectDir}/buildscripts/test_config.gradle"
+        }
+
+        apply from: "${rootProject.projectDir}/buildscripts/compile_versions.gradle"
+    }
+}
