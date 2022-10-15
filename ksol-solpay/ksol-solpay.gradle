@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation projects.lib
+    implementation projects.ksolRpc
     implementation projects.ksolCore
 
     api libs.okhttp

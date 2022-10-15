@@ -3,8 +3,8 @@ rootProject.name = "ksol"
 include ":ksol-cli"
 include ":ksol-core"
 include ":ksol-keygen"
+include ":ksol-rpc"
 include ":ksol-solpay"
-include ":lib"
 include ":android"
 
 enableFeaturePreview("VERSION_CATALOGS")

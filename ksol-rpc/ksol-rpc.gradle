@@ -18,9 +18,6 @@ dependencies {
     kapt libs.moshi.codegen
     implementation libs.moshi.moshi
 
-    implementation libs.bitcoinj
-    implementation libs.tweetnacl
-
     implementation libs.slf4j.noop
 
     testImplementation libs.junit

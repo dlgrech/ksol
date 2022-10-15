@@ -34,7 +34,8 @@ application {
 }
 
 dependencies {
-    implementation projects.lib
     implementation projects.ksolCore
+    implementation projects.ksolKeygen
+    implementation projects.ksolRpc
     implementation libs.clikt
 }
