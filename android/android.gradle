@@ -40,6 +40,7 @@ android {
 dependencies {
     implementation projects.lib
     implementation projects.ksolCore
+    implementation projects.ksolKeygen
     implementation projects.ksolSolpay
 
     implementation libs.appcompat
