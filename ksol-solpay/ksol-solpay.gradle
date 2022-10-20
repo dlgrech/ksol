@@ -2,6 +2,11 @@ plugins {
     id 'kotlin-kapt'
 }
 
+publish_library(
+        'ksol-solpay',
+        'Provides functionality for generating, parsing and retrieving SolPay codes and urls'
+)
+
 dependencies {
     implementation projects.ksolRpc
     implementation projects.ksolCore

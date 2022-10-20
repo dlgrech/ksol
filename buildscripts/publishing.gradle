@@ -1,0 +1,65 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group = 'io.github.dlgrech'
+version = '1.0.0'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+ext.publish_library = { artifactName, artifactDescription ->
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                artifactId = artifactName
+                from components.java
+
+                pom {
+                    name = artifactName
+                    description = artifactDescription
+
+                    url = 'https://github.com/dlgrech/ksol'
+
+                    licenses {
+                        license {
+                            name = 'Apache License 2.0'
+                            url = 'https://github.com/dlgrech/ksol/blob/main/LICENSE'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'dlgrech'
+                            name = 'Daniel Grech'
+                            email = 'dlgrech91@gmail.com'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:git://github.com/dlgrech/ksol.git'
+                        developerConnection = 'scm:git:ssh://github.com/dlgrech/ksol.git'
+                        url = 'https://github.com/dlgrech/ksol'
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                credentials {
+                    username = "$NEXUS_USERNAME"
+                    password = "$NEXUS_PASSWORD"
+                }
+
+                name = "MavenCentral"
+                url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.mavenJava
+    }
+
+}

@@ -1,3 +1,8 @@
+publish_library(
+        'ksol-core',
+        'Provides core models and serialization for interacting with the Solana Blockchain'
+)
+
 dependencies {
     implementation libs.bitcoinj
     implementation libs.tweetnacl
