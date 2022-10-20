@@ -174,9 +174,7 @@ internal class SolanaApiRepositoryImpl(
   ): Flow<Resource<TransactionSignature>> {
     return resourceFlowOf {
       val keyPair = KeyPair(session.publicKey, privateKey)
-      println("HERE: about to sign")
       val signedTransaction = LocalTransactions.sign(localTransaction, keyPair)
-      println("HERE: SIGNED!")
       send(signedTransaction)
     }
   }
@@ -251,9 +249,7 @@ internal class SolanaApiRepositoryImpl(
   }
 
   private suspend fun send(signedTransaction: LocalTransaction): TransactionSignature {
-    println("HERE: about to send")
     val signature = solanaApi.sendTransaction(signedTransaction)
-    println("HERE: SENT: $signature")
     balanceCache.clear()
     transactionSignaturesCache.clear()
     return signature

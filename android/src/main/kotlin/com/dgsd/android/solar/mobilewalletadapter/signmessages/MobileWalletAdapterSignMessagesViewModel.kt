@@ -71,7 +71,6 @@ class MobileWalletAdapterSignMessagesViewModel(
     }
 
     onEach(signMessagesResourceConsumer.error.filterNotNull()) {
-      println("HERE: FUCK!")
       it.printStackTrace()
       signMessagesRequest.completeWithDecline()
     }
