@@ -57,3 +57,8 @@ solana-mobile-wallet-adapter = "com.solanamobile:mobile-wallet-adapter-walletlib
 solana-digital-assets-link = "com.solanamobile:digital-asset-links-android:1.0.0"
 
 process-phoenix = "com.jakewharton:process-phoenix:2.1.2"
+
+ksol-core = "io.github.dlgrech:ksol-core:1.0.0"
+ksol-solpay = "io.github.dlgrech:ksol-solpay:1.0.0"
+ksol-rpc = "io.github.dlgrech:ksol-rpc:1.0.0"
+ksol-keygen = "io.github.dlgrech:ksol-keygen:1.0.0"

@@ -38,10 +38,10 @@ android {
 }
 
 dependencies {
-    implementation projects.ksolRpc
-    implementation projects.ksolCore
-    implementation projects.ksolKeygen
-    implementation projects.ksolSolpay
+    implementation libs.ksol.core
+    implementation libs.ksol.solpay
+    implementation libs.ksol.rpc
+    implementation libs.ksol.keygen
 
     implementation libs.appcompat
     implementation libs.androidx.fragment.ktx
@@ -61,8 +61,6 @@ dependencies {
     implementation(libs.solana.mobile.wallet.adapter) {
         exclude group: 'org.slf4j', module: 'slf4j-android'
     }
-
-//    debugImplementation libs.leakcanary
 
     testImplementation libs.android.junit
 }
