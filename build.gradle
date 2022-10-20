@@ -7,7 +7,6 @@ buildscript {
     dependencies {
         classpath libs.gradle.kotlin
         classpath libs.kotlin.dokka
-        classpath libs.android.tools
     }
 }
 
@@ -23,15 +22,13 @@ configure(subprojects) { project ->
         mavenCentral()
     }
 
-    if (project.name != "android") {
-        apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'org.jetbrains.kotlin.jvm'
 
-        if (project.name != "ksol-cli") {
-            apply plugin: 'org.jetbrains.dokka'
-            apply from: "${rootProject.projectDir}/buildscripts/test_config.gradle"
-            apply from: "${rootProject.projectDir}/buildscripts/publishing.gradle"
-        }
-
-        apply from: "${rootProject.projectDir}/buildscripts/compile_versions.gradle"
+    if (project.name != "ksol-cli") {
+        apply plugin: 'org.jetbrains.dokka'
+        apply from: "${rootProject.projectDir}/buildscripts/test_config.gradle"
+        apply from: "${rootProject.projectDir}/buildscripts/publishing.gradle"
     }
+
+    apply from: "${rootProject.projectDir}/buildscripts/compile_versions.gradle"
 }

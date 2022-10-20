@@ -24,41 +24,5 @@ tweetnacl = "org.purejava:tweetnacl-java:1.1.2"
 slf4j-noop = "org.slf4j:slf4j-nop:1.7.32"
 
 junit = "org.junit.jupiter:junit-jupiter-engine:5.8.1"
-android-junit = "junit:junit:4.13.2"
 
 clikt = "com.github.ajalt.clikt:clikt:3.3.0"
-
-android-tools = "com.android.tools.build:gradle:7.2.1"
-
-appcompat = "androidx.appcompat:appcompat:1.4.1"
-
-androidx-security = "androidx.security:security-crypto:1.0.0"
-androidx-biometrics = "androidx.biometric:biometric:1.2.0-alpha04"
-androidx-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.0"
-androidx-lifecycle-process = "androidx.lifecycle:lifecycle-process:2.5.1"
-androidx-swiperefresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-
-google-material = "com.google.android.material:material:1.6.1"
-
-koin-android = "io.insert-koin:koin-android:3.2.0"
-
-shimmer-android = "com.facebook.shimmer:shimmer:0.5.0"
-
-leakcanary = "com.squareup.leakcanary:leakcanary-android:2.9.1"
-
-zxing-android = "com.journeyapps:zxing-android-embedded:4.3.0"
-
-lottie = "com.airbnb.android:lottie:5.2.0"
-
-coil = "io.coil-kt:coil:2.1.0"
-coil-svg = "io.coil-kt:coil-svg:2.1.0"
-
-solana-mobile-wallet-adapter = "com.solanamobile:mobile-wallet-adapter-walletlib:0.9.0"
-solana-digital-assets-link = "com.solanamobile:digital-asset-links-android:1.0.0"
-
-process-phoenix = "com.jakewharton:process-phoenix:2.1.2"
-
-ksol-core = "io.github.dlgrech:ksol-core:1.0.0"
-ksol-solpay = "io.github.dlgrech:ksol-solpay:1.0.0"
-ksol-rpc = "io.github.dlgrech:ksol-rpc:1.0.0"
-ksol-keygen = "io.github.dlgrech:ksol-keygen:1.0.0"

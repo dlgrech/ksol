@@ -5,7 +5,6 @@ include ":ksol-core"
 include ":ksol-keygen"
 include ":ksol-rpc"
 include ":ksol-solpay"
-include ":android"
 
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
