@@ -15,12 +15,27 @@ The goal of the library is to provide everything that is needed to integrate wit
 
 ### Structure
 
-The repository is structured into 4 high-level gradle modules:
+The repository is structured into some high-level gradle modules:
 
-- `lib`: Provides the core functionality of the library. 
-  - The [`SolanaApi`](https://github.com/dlgrech/ksol/blob/main/lib/src/main/kotlin/com/dgsd/ksol/SolanaApi.kt) interface provides all the high-level functionality of the JSON RPC.
-- `solpay`: High-level library for working with SolPay urls. 
-  - The [`SolPay`](https://github.com/dlgrech/ksol/blob/main/solpay/src/main/kotlin/com/dgsd/ksol/solpay/SolPay.kt) interface provides an entry point to all Solpay-related functionality.
-- `cli`: A Kotlin command line app for using the functionality of the core library. 
-  - This could be used as a (pointless) replacement for the standard [Solana CLI tools](https://docs.solana.com/cli). 
-  - The [built in commands](https://github.com/dlgrech/ksol/tree/main/cli/src/main/kotlin/com/dgsd/ksol/cli) also offer a good look at how to use the library. The [SendCommand](https://github.com/dlgrech/ksol/blob/main/cli/src/main/kotlin/com/dgsd/ksol/cli/send/SendCommand.kt), for example, shows creating, signing and sending a transaction as well as listening for finalization.
+- `ksol-core`: Provides common models and functionality. Depended on by other ksol modules
+- `ksol-keygen`: Utilities for generating keypairs and dealing with seed phrases
+- `ksol-rpc`: A coroutines based wrapper around the Solana JSON-RPC and subscriptions API
+  - The [`SolanaApi`](https://github.com/dlgrech/ksol/blob/main/ksol-rpc/src/main/kotlin/com/dgsd/ksol/SolanaApi.kt) interface provides all the high-level functionality of the JSON RPC.
+- `ksol-solpay`: High-level library for working with SolPay urls.
+  - The [`SolPay`](https://github.com/dlgrech/ksol/blob/main/ksol-solpay/src/main/kotlin/com/dgsd/ksol/solpay/SolPay.kt) interface provides an entry point to all Solpay-related functionality.
+- `ksol-cli`: A Kotlin command line app for using the functionality of the core library.
+  - This could be used as a (pointless) replacement for the standard [Solana CLI tools](https://docs.solana.com/cli).
+  - The [built in commands](https://github.com/dlgrech/ksol/tree/main/ksol-cli/src/main/kotlin/com/dgsd/ksol/cli) also offer a good look at how to use the library. The [SendCommand](https://github.com/dlgrech/ksol/blob/main/ksol-cli/src/main/kotlin/com/dgsd/ksol/cli/send/SendCommand.kt), for example, shows creating, signing and sending a transaction as well as listening for finalization.
+
+### Dependencies
+
+Different functionality is split into different dependencies.
+
+You can find the latest version of each library [here](https://search.maven.org/search?q=io.github.dlgrech)
+
+```
+implementation "io.github.dlgrech:ksol-core:<LATEST-VERSION>"
+implementation "io.github.dlgrech:ksol-solpay:<LATEST-VERSION>"
+implementation "io.github.dlgrech:ksol-rpc:<LATEST-VERSION>"
+implementation "io.github.dlgrech:ksol-keygen:<LATEST-VERSION>"
+```
