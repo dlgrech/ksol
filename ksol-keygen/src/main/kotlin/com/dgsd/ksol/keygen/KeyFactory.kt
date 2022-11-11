@@ -54,7 +54,7 @@ object KeyFactory {
   suspend fun createKeyPairFromMnemonic(
     words: List<String>,
     passPhrase: String = "",
-    accountIndex: Int = 0,
+    accountIndex: Int? = null,
   ): KeyPair = withContext(Dispatchers.IO) {
     val seed = createSeedFromMnemonic(words, passPhrase)
     val derivationPath = DerivationPath.solanaBip44(accountIndex)
@@ -96,13 +96,16 @@ object KeyFactory {
     seed: ByteArray,
     derivationPath: DerivationPath,
   ): KeyPair {
-    val masterAddress = createAddressFromSeed(seed)
-    val purposeAddress = createChildAddress(masterAddress, derivationPath.purpose)
-    val coinTypeAddress = createChildAddress(purposeAddress, derivationPath.coinType)
-    val accountTypeAddress = createChildAddress(coinTypeAddress, derivationPath.account)
-    val changeAddress = createChildAddress(accountTypeAddress, derivationPath.change)
+    var address = createAddressFromSeed(seed)
+    address = createChildAddress(address, derivationPath.purpose)
+    address = createChildAddress(address, derivationPath.coinType)
 
-    return createKeyPairFromSeed(changeAddress.secretKey)
+    if (derivationPath.account != null) {
+      address = createChildAddress(address, derivationPath.account)
+      address = createChildAddress(address, derivationPath.change)
+    }
+
+    return createKeyPairFromSeed(address.secretKey)
   }
 
   private fun createAddressFromSeed(seed: ByteArray): DerivationAddress {

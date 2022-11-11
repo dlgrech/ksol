@@ -26,10 +26,10 @@ internal data class DerivationPath private constructor(
    *
    * This can be used in the same fashion as a user having multiple bank accounts
    */
-  val account: Int,
+  val account: Int?,
 
   /**
-   * Constant 0 (for addresses that should be publicly accessible), or 1, for addresses that should be kept internal
+   * Constant 0 (for addresses that should be publicly accessible), or 1, for addresses that should be kept internal.
    */
   val change: Int,
 ) {
@@ -37,9 +37,11 @@ internal data class DerivationPath private constructor(
   companion object {
 
     /**
-     * Create a `DerivationPath` representing a Solana Bip44 address
+     * Create a `DerivationPath` representing a Solana Bip44 child address at a given account index.
+     *
+     * If no account index is given, the base Solana derivation path will be used
      */
-    fun solanaBip44(accountIndex: Int): DerivationPath {
+    fun solanaBip44(accountIndex: Int?): DerivationPath {
       return DerivationPath(
         purpose = BIP44_PURPOSE,
         coinType = SOLANA_COIN_TYPE,

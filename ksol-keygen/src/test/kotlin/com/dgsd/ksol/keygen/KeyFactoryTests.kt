@@ -63,6 +63,11 @@ class KeyFactoryTests {
   @TestFactory
   fun testFactory_createKeyPairFromMnemonic() = listOf(
     Triple(
+      null,
+      "BAsnycHCGXVpS9yG76HsBb4v92sot5VuYan8urAgg4hP",
+      "498C53ijHD85EeHXkb9hR2i6uvmwKig9vaPXy8NPPuRhHDZtF1Cgz2EYtqkgzq28cCvtmcBnw8yMvqWpGzRiWXub"
+    ),
+    Triple(
       0,
       "EUbPPkMVnHLzSzLQrZtTvaUSP9QQx2c1cCWoPyfGbWm3",
       "2259sJ4Hv8wiEvki391UCkwubGpLJuVUk7ccrar8povQdK3LrZAGtJQ8V2FADXXycLYFJpabLygzwb1w8bvsV3hP"
