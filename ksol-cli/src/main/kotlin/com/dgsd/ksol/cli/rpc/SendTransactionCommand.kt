@@ -46,7 +46,7 @@ class SendTransactionCommand() : CliktCommand(
 
     echo(
       api.sendTransaction(
-        LocalTransactions.createTransferTransaction(
+        LocalTransactions.createSignedTransferTransaction(
           sender = keyPair,
           recipient = toAccount,
           lamports = lamports,

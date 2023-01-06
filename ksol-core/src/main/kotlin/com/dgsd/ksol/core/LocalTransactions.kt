@@ -14,17 +14,17 @@ import com.dgsd.ksol.core.utils.SigningUtils
 object LocalTransactions {
 
   /**
-   * Creates a [LocalTransactions] that will transfer `lamports` from `sender` to `recipient`
+   * Creates an unsigned [LocalTransaction] that will transfer `lamports` from `sender` to `recipient`
    */
-  fun createTransferTransaction(
-    sender: KeyPair,
+  fun createUnsignedTransferTransaction(
+    sender: PublicKey,
     recipient: PublicKey,
     lamports: Lamports,
     memo: String?,
     recentBlockhash: PublicKey,
   ): LocalTransaction {
     val transferInstruction = SystemProgram.transfer(
-      sender.publicKey,
+      sender,
       recipient,
       lamports
     )
@@ -37,7 +37,7 @@ object LocalTransactions {
 
     val accountKeys = listOfNotNull(
       TransactionAccountMetadata(
-        sender.publicKey,
+        sender,
         isSigner = true,
         isWritable = true,
         isFeePayer = true
@@ -75,11 +75,32 @@ object LocalTransactions {
       listOfNotNull(memoInstruction, transferInstruction)
     )
 
-    val serializedMessage = LocalTransactionSerialization.serialize(message)
-    val signatureBytes = SigningUtils.sign(serializedMessage, sender.privateKey)
-    val signatures = listOf(EncodingUtils.encodeBase58(signatureBytes))
+    val signatures = listOf(
+      EncodingUtils.encodeBase58(LocalTransactionSerialization.createEmptyTransactionSignature())
+    )
 
     return LocalTransaction(signatures, message)
+  }
+
+  /**
+   * Creates a [LocalTransaction] that will transfer `lamports` from `sender` to `recipient`
+   */
+  fun createSignedTransferTransaction(
+    sender: KeyPair,
+    recipient: PublicKey,
+    lamports: Lamports,
+    memo: String?,
+    recentBlockhash: PublicKey,
+  ): LocalTransaction {
+    val unsignedTransaction = createUnsignedTransferTransaction(
+      sender = sender.publicKey,
+      recipient = recipient,
+      lamports = lamports,
+      memo = memo,
+      recentBlockhash = recentBlockhash
+    )
+
+    return sign(unsignedTransaction, sender)
   }
 
   /**

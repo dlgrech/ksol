@@ -56,7 +56,7 @@ class SendCommand : CliktCommand(
     echo("Sending from: ${keyPair.publicKey}")
 
     val transactionSignature = api.sendTransaction(
-      LocalTransactions.createTransferTransaction(
+      LocalTransactions.createSignedTransferTransaction(
         sender = keyPair,
         recipient = toAccount,
         lamports = lamports,

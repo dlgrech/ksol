@@ -170,6 +170,10 @@ internal object LocalTransactionSerialization {
     )
   }
 
+  fun createEmptyTransactionSignature(): ByteArray {
+    return ByteArray(TRANSACTION_SIGNATURE_LENGTH)
+  }
+
   private class CompiledTransactionInstruction(
     val programIdIndex: Byte,
     val keyIndiciesLength: ByteArray,
