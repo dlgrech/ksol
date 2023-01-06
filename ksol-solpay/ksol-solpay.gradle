@@ -9,7 +9,7 @@ publish_library(
 
 dependencies {
     implementation projects.ksolRpc
-    implementation projects.ksolCore
+    api projects.ksolCore
 
     api libs.okhttp
 

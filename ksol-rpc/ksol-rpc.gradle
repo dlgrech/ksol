@@ -8,7 +8,7 @@ publish_library(
 )
 
 dependencies {
-    implementation projects.ksolCore
+    api projects.ksolCore
 
     api libs.kotlin.coroutines.coroutines
     api libs.okhttp
