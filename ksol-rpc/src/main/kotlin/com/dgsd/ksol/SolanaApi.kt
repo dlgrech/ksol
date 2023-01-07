@@ -117,9 +117,23 @@ interface SolanaApi {
    *
    * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash">json-rpc API</a>
    */
+  @Deprecated(
+    message = "This method has been deprecated in the Solana JSON RPC",
+    replaceWith = ReplaceWith("getLatestBlockhash"),
+  )
   suspend fun getRecentBlockhash(
     commitment: Commitment = Commitment.FINALIZED,
   ): RecentBlockhashResult
+
+  /**
+  * Returns the latest blockhash
+  *
+  * @see <a href="https://docs.solana.com/developing/clients/jsonrpc-api#getlatestblockhash">json-rpc API</a>
+  */
+  suspend fun getLatestBlockhash(
+    commitment: Commitment = Commitment.FINALIZED,
+    minContextSlot: Long? = null
+  ): LatestBlockhashResult
 
   /**
    * Returns confirmed signatures for transactions involving an address backwards in time from the provided

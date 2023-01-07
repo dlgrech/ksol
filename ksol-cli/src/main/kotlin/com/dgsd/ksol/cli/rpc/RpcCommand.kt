@@ -42,6 +42,7 @@ class RpcCommand private constructor() : CliktCommand(
           GetMultipleAccountsCommand(),
           GetProgramAccountsCommand(),
           GetRecentBlockhashCommand(),
+          GetLatestBlockhashCommand(),
           GetSignaturesForAddressCommand(),
           GetSignatureStatusesCommand(),
           GetSupplyCommand(),

@@ -105,7 +105,7 @@ internal class SolPayImpl(
     return copy(
       transaction = transaction.copy(
         message = transaction.message.copy(
-          recentBlockhash = PublicKey.fromBase58(solanaApi.getRecentBlockhash().blockhash)
+          recentBlockhash = PublicKey.fromBase58(solanaApi.getLatestBlockhash().blockhash)
         )
       )
     )

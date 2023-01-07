@@ -47,7 +47,7 @@ class SendCommand : CliktCommand(
 
     val api = SolanaApi(cluster, httpClient)
 
-    val recentBlockhash = api.getRecentBlockhash().blockhash
+    val recentBlockhash = api.getLatestBlockhash().blockhash
 
     echo("Using recent blockhash: $recentBlockhash")
 

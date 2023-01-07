@@ -19,6 +19,7 @@ internal object SolanaJsonRpcConstants {
     const val GET_MULTIPLE_ACCOUNTS = "getMultipleAccounts"
     const val GET_PROGRAM_ACCOUNTS = "getProgramAccounts"
     const val GET_RECENT_BLOCKHASH = "getRecentBlockhash"
+    const val GET_LATEST_BLOCKHASH = "getLatestBlockhash"
     const val GET_SIGNATURES_FOR_ADDRESS = "getSignaturesForAddress"
     const val GET_SIGNATURE_STATUSES = "getSignatureStatuses"
     const val GET_SUPPLY = "getSupply"

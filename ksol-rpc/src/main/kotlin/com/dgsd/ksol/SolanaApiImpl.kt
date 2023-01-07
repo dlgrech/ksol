@@ -184,6 +184,26 @@ internal class SolanaApiImpl(
     )
   }
 
+  override suspend fun getLatestBlockhash(
+    commitment: Commitment,
+    minContextSlot: Long?
+  ): LatestBlockhashResult {
+    val request = RpcRequestFactory.create(
+      SolanaJsonRpcConstants.Methods.GET_LATEST_BLOCKHASH,
+      GetLatestBlockhashRequestBody(
+        commitment = CommitmentFactory.toRpcValue(commitment),
+        minContextSlot = minContextSlot,
+      )
+    )
+
+    val response = executeRequest<GetLatestBlockhashResponseBody>(request)
+
+    return LatestBlockhashResult(
+      response.value.blockhash,
+      response.value.lastValidBlockHeight
+    )
+  }
+
   override suspend fun getSignaturesForAddress(
     accountKey: PublicKey,
     limit: Int,
