@@ -33,7 +33,11 @@ internal object TransactionRequestTransactionInfoFactory {
 
       val feePayer = message.accountKeys.singleOrNull { it.isFeePayer }
       checkNotNull(feePayer) { "Missing fee payer!" }
-      check(feePayer.publicKey == signingWalletAddress) { "Invalid fee payer" }
+
+      val isExpectedToBeSigned = message.accountKeys.singleOrNull {
+        it.publicKey == signingWalletAddress
+      }?.isSigner == true
+      check(isExpectedToBeSigned) { "Signing wallet is not listed as a signer" }
 
       signatures.forEachIndexed { index, _ ->
         val accountKey = message.accountKeys[index].publicKey
